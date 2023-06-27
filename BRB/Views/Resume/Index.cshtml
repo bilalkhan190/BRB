@@ -1,0 +1,63 @@
+﻿<input type="hidden" id="hdfUserId" value="@HttpContextAccessor.HttpContext.Session.GetString("_userId")" />
+<input type="hidden" id="hdfLastSectionCompletedId" value="@HttpContextAccessor.HttpContext.Session.GetString("_lastSectionCompletedId")" />
+<input type="hidden" id="hdfLastSelectedVisitedId" value="@HttpContextAccessor.HttpContext.Session.GetString("_lastSectionVisitedId")" />
+<div class="row">
+    <div class="col-md-10 offset-sm-1">
+        <h1 class="mt-4">Welcome to the Best Resume Builder!</h1>
+        <p>
+            <strong>
+                This program is designed to help you create a dynamic resume in a very detailed process
+                that is easy to use. As you go through each section of the program, your information
+                will be saved for you to re-enter the program if you need more information to complete
+                it at a later time. Once you hit the GENERATE button below, however, you cannot make any
+                changes to any of the sections. Please note that you must visit and mark every section
+                as complete before being able to generate your resume.
+            </strong>
+        </p>
+        <p>
+            Not every person will have all of these sections on their resume. If you are uncertain on
+            whether to include information or not, please use the
+            <button type="button" class="btn btn-outline-secondary btn-sm"
+                    data-bs-container="body" data-bs-toggle="popover" data-bs-placement="bottom"
+                    data-bs-content="Additional information about sections and fields will display just like this."
+                    data-bs-original-title>
+                ?
+            </button>
+            icon on each page to get more information. There are examples of each completed section of a
+            resume on each page also by clicking the Example button.
+        </p>
+        <p>
+            Once you've completed each section, select your desired font below and click the GENERATE
+            button to complete your resume! Of course, once you receive your resume you can change the
+            font, but these are the three most commonly recognized resume text formats.
+        </p>
+        <p>Now click on the <a href="#">Contact Info</a> section to begin writing your resume!</p>
+        <hr>
+        <p>
+            To finalize the development of your resume, please choose which font you would like to have
+            the resume formatted in and then click "Generate":
+        </p>
+        <fieldset class="form-group mb-2">
+            <legend>Resume Font</legend>
+            <div class="form-check ps-0">
+                <label class="form-check-label">
+                    <input name="Font" type="radio" checked> Arial
+                </label>
+            </div>
+            <div class="form-check ps-0">
+                <label class="form-check-label">
+                    <input name="Font" type="radio"> Calibri
+                </label>
+            </div>
+            <div class="form-check ps-0">
+                <label class="form-check-label">
+                    <input name="Font" type="radio"> Times New Roman
+                </label>
+            </div>
+        </fieldset>
+        <button type="button" class="btn btn-primary custombtn w-auto">Generate Resume</button>
+    </div>
+</div>
+@section Scripts{
+    <script src="~/scripts/home/home.js"></script>
+}

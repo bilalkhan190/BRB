@@ -1,0 +1,179 @@
+﻿<div class="formWrapper">
+    <h1>
+        Computer and Technical Skills <button type="button" class="btn btn-outline-primary btn-sm"
+                                              data-bs-toggle="modal" data-bs-target="#ExperienceModal">
+            ?
+        </button>
+    </h1>
+    <button type="button" class="mb-2 btn btn-outline-primary btn-sm" data-bs-toggle="modal"
+            data-bs-target="#modalExample">
+        Example
+    </button>
+    <form  id="TechnicalSkillForm" class="needs-validation" novalidate>
+        <input type="hidden" id="hdfLastSectionVisitedId" value="60" />
+        <input type="hidden" id="hdfTechnicalSkillId" />
+    <div class="row">
+        <div class="col-md-4">
+            <label>What computer programs in Microsoft are you proficient in?</label>
+            <div class="mt-2">
+                <div class="custom-checkbox custom-control">
+                    <input type="checkbox"
+                           id="Microsoft Word" name="Msword" class="custom-control-input"><label class="custom-control-label" for="Microsoft Word">Microsoft Word</label>
+                </div>
+                <div class="custom-checkbox custom-control">
+                    <input type="checkbox"
+                           id="Microsoft Excel" name="Msexcel" class="custom-control-input"><label class="custom-control-label" for="Microsoft Excel">Microsoft Excel</label>
+                </div>
+                <div class="custom-checkbox custom-control">
+                    <input type="checkbox"
+                           id="Microsoft Power Point" name="MspowerPoint" class="custom-control-input"><label class="custom-control-label" for="Microsoft Power Point">
+                        Microsoft Power
+                        Point
+                    </label>
+                </div>
+                <div class="custom-checkbox custom-control">
+                    <input type="checkbox"
+                           id="Microsoft Outlook Express" name="Msoutlook" class="custom-control-input"><label class="custom-control-label" for="Microsoft Outlook Express">
+                        Microsoft
+                        Outlook Express
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <label>What computer programs in Macintosh are you proficient in?</label>
+            <div class="mt-2">
+                <div class="custom-checkbox custom-control">
+                    <input type="checkbox"
+                           id="Macintosh Pages" name="MacPages" class="custom-control-input"><label class="custom-control-label" for="Macintosh Pages">Macintosh Pages</label>
+                </div>
+                <div class="custom-checkbox custom-control">
+                    <input type="checkbox"
+                           id="Macintosh Numbers" name="MacNumbers" class="custom-control-input"><label class="custom-control-label" for="Macintosh Numbers">
+                        Macintosh
+                        Numbers
+                    </label>
+                </div>
+                <div class="custom-checkbox custom-control">
+                    <input type="checkbox"
+                           id="Macintosh Keynote" name="MacKeynote" class="custom-control-input"><label class="custom-control-label" for="Macintosh Keynote">
+                        Macintosh
+                        Keynote
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <label>
+                What other standard creative or word processing computer programs are you
+                proficient in?
+            </label>
+            <div class="mt-2">
+                <div class="custom-checkbox custom-control">
+                    <input type="checkbox"
+                           id="Adobe Acrobat" name="AdobeAcrobat" class="custom-control-input"><label class="custom-control-label" for="Adobe Acrobat">Adobe Acrobat</label>
+                </div>
+                <div class="custom-checkbox custom-control">
+                    <input type="checkbox"
+                           id="Adobe Publisher" name="AdobePublisher" class="custom-control-input"><label class="custom-control-label" for="Adobe Publisher">Adobe Publisher</label>
+                </div>
+                <div class="custom-checkbox custom-control">
+                    <input type="checkbox"
+                           id="Adobe Illustrator" name="AdobeIllustrator" class="custom-control-input"><label class="custom-control-label" for="Adobe Illustrator">
+                        Adobe
+                        Illustrator
+                    </label>
+                </div>
+                <div class="custom-checkbox custom-control">
+                    <input type="checkbox"
+                           id="Adobe Photoshop" name="AdobePhotoshop" class="custom-control-input"><label class="custom-control-label" for="Adobe Photoshop">Adobe Photoshop</label>
+                </div>
+                <div class="custom-checkbox custom-control">
+                    <input type="checkbox" id="Google Suite" name="GoogleSuite"
+                           class="custom-control-input"><label class="custom-control-label"
+                                                               for="Google Suite">Google Suite</label>
+                </div>
+                <div class="custom-checkbox custom-control">
+                    <input type="checkbox" id="Google Docs" name="GoogleDocs"
+                           class="custom-control-input"><label class="custom-control-label"
+                                                               for="Google Docs">Google Docs</label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div class="form-group mt-2">
+                <label for="other" class="mb-2">
+                    What other programs have you learned
+                    in your education that would be applicable to the career you want to pursue?
+                </label><input name="Other" id="otherSkill" type="text" class="form-control" value="">
+            </div>
+        </div>
+    </div>
+    <hr>
+    
+        <div class="form-check">
+            <label class="form-check-label">
+                <input type="checkbox" id="ckbIsComplete" name="IsComplete"
+                       class="form-check-input"> I am finished with this section
+            </label>
+        </div>
+        <div class="formbtn-Wrapper">
+            <button type="button" id="btnSaveAndContinue" class="btn btn-primary custombtn w-auto">
+                Save and
+                Continue
+            </button>
+        </div>
+    </form>
+</div>
+<div class="modal fade" id="modalExample" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <h1><strong>Computer Skills</strong></h1>
+                <p>Microsoft Word, Excel, PowerPoint, Google Docs, Tumblr, Foursquare</p>
+                <h1>COMPUTER SKILLS</h1>
+                <p>Macintosh Pages, Numbers, and Notes, Google Suite</p>
+                <h1><strong>Technological Skills</strong></h1>
+                <p>Microsoft Word, Excel, PowerPoint, C++, Javascript</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary custombtn w-auto"
+                        data-bs-dismiss="modal">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="ExperienceModal" role="dialog" tabindex="-1">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <p>
+                    Being able to take ‘red eye’ out of your friends’ pics in Photoshop doesn’t make it relevant to
+                    the job – unless it’s a photography one- so think about that before you include it for certain
+                    employers. Graphic arts/design/architecture candidates need to list ALL relevant programs for
+                    the job. Ditto for CIS, engineering, or other technical fields. Evaluate what you include based
+                    on the job description and the company.
+                </p>
+                <p>
+                    And those of you who are in journalism and broadcasting have another whole set of programs to
+                    make sure and include. Social media networking (Facebook® and Linked In® and blogging etc.)
+                    could also be important to include depending on the position. Bottom line is if you would use
+                    those skills/programs at the job, include them!
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary custombtn w-auto"
+                        data-bs-dismiss="modal">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script src="~/scripts/technicalskill/technicalskill.js"></script>
+}

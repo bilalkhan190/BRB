@@ -1,0 +1,250 @@
+﻿
+@using BusinessObjects.Models.MetaData;
+@using Newtonsoft.Json;
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="~/theme/assets/style/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="~/theme/assets/js/index.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-2 relate p-0">
+                <div class="sidebar">
+                    <!-- <div class="sideBar-overlap"></div> -->
+                    <div class="logo">
+                        <img src="~/theme/assets/images/logo.png" alt="">
+                        <a href="../Views/Resume/Index.cshtml"></a>
+                    </div>
+                    @{
+                        var sessionData = JsonConvert.DeserializeObject<UserSessionData>(HttpContextAccessor.HttpContext.Session.GetString("_userData"));
+
+                    }
+                   
+                    @if (sessionData.UserId != 0 && sessionData != null)
+                    {
+                        <ul class="nav">
+                            <li class="nav-item">
+                                <a href="@Url.Action("ContactInfo","Resume")" class="nav-link">
+                                    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24"
+                                     class="cr-sidebar__nav-item-icon " height="1em" width="1em"
+                                     xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z">
+                                        </path>
+                                    </svg>
+                                    <span>Contact Info</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="@Url.Action("Objective","Resume")" class="nav-link">
+                                    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24"
+                                     class="cr-sidebar__nav-item-icon " height="1em" width="1em"
+                                     xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z">
+                                        </path>
+                                    </svg>
+                                    <span>Objective</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="@Url.Action("Education","Resume")" class="nav-link">
+                                    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24"
+                                     class="cr-sidebar__nav-item-icon " height="1em" width="1em"
+                                     xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z">
+                                        </path>
+                                    </svg>
+                                    <span>Education</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="@Url.Action("OverseasStudy","Resume")" class="nav-link">
+                                    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24"
+                                     class="cr-sidebar__nav-item-icon " height="1em" width="1em"
+                                     xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z">
+                                        </path>
+                                    </svg>
+                                    <span>Overseas Study</span>
+                                </a>
+                            </li>
+                          @*  <li class="nav-item">
+                                <a href="@Url.Action("WorkExperience","Resume")" class="nav-link">
+                                    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24"
+                                     class="cr-sidebar__nav-item-icon " height="1em" width="1em"
+                                     xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z">
+                                        </path>
+                                    </svg>
+                                    <span>Work Experience</span>
+                                </a>
+                            </li>*@
+                            <li class="nav-item">
+                                <a href="@Url.Action("Military","Resume")" class="nav-link">
+                                    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24"
+                                     class="cr-sidebar__nav-item-icon " height="1em" width="1em"
+                                     xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z">
+                                        </path>
+                                    </svg>
+                                    <span>Military</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="@Url.Action("Organizations","Resume")" class="nav-link">
+                                    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24"
+                                     class="cr-sidebar__nav-item-icon " height="1em" width="1em"
+                                     xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z">
+                                        </path>
+                                    </svg>
+                                    <span>Organizations</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="@Url.Action("CommunityService","Resume")" class="nav-link">
+                                    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24"
+                                     class="cr-sidebar__nav-item-icon " height="1em" width="1em"
+                                     xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z">
+                                        </path>
+                                    </svg>
+                                    <span>Community Service</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="@Url.Action("Certifications","Resume")" class="nav-link">
+                                    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24"
+                                     class="cr-sidebar__nav-item-icon " height="1em" width="1em"
+                                     xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z">
+                                        </path>
+                                    </svg>
+                                    <span>Licenses, Certifications, and Affiliations</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="@Url.Action("ComputerAndTechnicalSkills","Resume")" class="nav-link">
+                                    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24"
+                                     class="cr-sidebar__nav-item-icon " height="1em" width="1em"
+                                     xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z">
+                                        </path>
+                                    </svg>
+                                    <span>Computer and Technical Skills</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="@Url.Action("LanguagesSkills","Resume")" class="nav-link">
+                                    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24"
+                                     class="cr-sidebar__nav-item-icon " height="1em" width="1em"
+                                     xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z">
+                                        </path>
+                                    </svg>
+                                    <span>Language Skills</span>
+                                </a>
+                            </li>
+                        </ul>
+                    }
+                   
+                </div>
+            </div>
+            <div class="col-md-10">
+                <div class="topHeader">
+                    <a href="#">Best Resume Builder 2.1</a>
+                    <div class="col align-self-center">
+                        <h4 style="color:white;">@HttpContextAccessor.HttpContext.Session.GetString("_userName")</h4>
+                    </div>
+                </div>
+           
+                <div class="row">
+                        @RenderBody()
+                </div>
+               
+            </div>
+        </div>
+    </div>
+   @* <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>*@
+
+    <footer>
+        <p class="mt-4"><a href="#">www.successfulimpressions.net</a></p>
+        <p>"Best Resume Builder" is a registered trademark of Successful Impressions LLC.</p>
+        <p>Copyright © 2019 SUCCESSFUL IMPRESSIONS LLC All rights reserved.</p>
+    </footer>
+   
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.20/lodash.min.js" integrity="sha512-90vH1Z83AJY9DmlWa8WkjkV79yfS2n2Oxhsi2dZbIv0nC4E6m5AbH8Nh156kkM7JePmqD6tcZsfad1ueoaovww==" crossorigin="anonymous"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+    @*@await RenderSectionAsync("_ValidationScriptsPartial", required: true)*@
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+   
+    <script src="~/theme/assets/js/notify.min.js"></script>
+    <script>
+        (function () {
+            'use strict'
+            var forms = document.querySelectorAll('.needs-validation')
+            Array.prototype.slice.call(forms)
+            Array.prototype.slice.call(forms)
+                .forEach(function (form) {
+                    form.addEventListener('submit', function (event) {
+                        if (!form.checkValidity()) {
+                            event.preventDefault()
+                            event.stopPropagation()
+
+                        } else {
+                            let clickedButton = $(form).find('button[data-item]').attr('data-item');
+                            switch (clickedButton) {
+                                case "contactForm":
+                                    SubmitContactForm();
+                                    break;
+                                case "objectiveForm":
+                                    alert('objectiveForm button clicked')
+
+                            }
+                        }
+                        form.classList.add('was-validated')
+                    }, false)
+                })
+        })()
+
+
+        function covertArrayKeyIntoCamelCase(arr){
+
+           return arr.map(el => _.mapKeys(el, (val, key) => _.camelCase(key)));
+        }
+
+        //$('.nav-link').click(function(){
+        //    //$.ajax({
+        //    //    url: '/Resume/CreateResumeProfile',
+        //    //    type: 'post',
+        //    //    data: { UserId: userId, LastSectionVisitedId: lastSelectedVisitedId, LastSectionCompletedId: lastSectionCompletedId },
+        //    //    success: function (response) {
+
+        //    //    },
+        //    //    error: function (err) { }
+        //    //});
+        //})
+    </script>
+</body>
+</html>

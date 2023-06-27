@@ -1,0 +1,185 @@
+﻿<div class="formWrapper">
+    <h1>Objective or Professional Summary <button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#SummaryModal">?</button></h1>
+    <button type="button" class="mb-2 btn btn-outline-primary btn-sm" data-bs-toggle="modal"
+            data-bs-target="#modalExample">
+        Example
+    </button>
+    <p>
+        If you have more than five years of professional work experience, you could consider
+        creating a 'Professional Summary' instead of an 'Objective'. Please note the number of years
+        you have had professional work experience:
+    </p>
+    <form class="needs-validation" id="objectiveForm" novalidate>
+        <input id="hdfLastSectionVisitedId" name="LastSectionVisitedId" value="20" type="hidden" />
+        <input id="hdfobjectiveSummaryId" name="ObjectiveSummaryId" type="hidden" />
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="State">Objective Type</label>
+                    <select name="ObjectiveType" class="form-control">
+                        <option value="" selected=""></option>
+                        <option value="Objective">Objective</option>
+                        <option value="Professional Summary">Professional Summary</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="State">Experience</label>
+                    <select id="ddlExperienceOfYears" name="YearsOfExperienceId" class="form-control" required>
+                        @*<option value="" selected=""></option>
+                        <option value="0-5 years">0-5 years</option>
+                        <option value="6-10 years">6-10 years</option>
+                        <option value="10+ years">10+ years</option>*@
+                    </select>
+                </div>
+            </div>
+        </div>
+        <h1>Skills</h1>
+        <p>
+            What skills do you have that would be most useful for the job or industry that you are
+            pursuing?
+        </p>
+        <p class="danger-text">
+            Choose 2-3 skills you have for use in your Objective statement or
+            Professional Summary and that you can elaborate on in your Work Experience and/or
+            Organization Experience sections.
+        </p>
+        <div class="checkbox-wrap">
+            <label for="exampleCheckbox" class="">Checkboxes</label>
+            <div class="row ">
+               
+                <div class="col-sm-3 cb-row">
+                    
+                    
+            </div>
+            <div class="form-group mt-2">
+                <label for="State">
+                    What type of position are you using this resume for
+                    currently?
+                </label>
+                    <select id="ddlPositionType" name="PositionTypeId" class="form-control" required>
+                    
+                </select>
+            </div>
+            <div class="form-group mt-2">
+                <label for="State">
+                    What type of company or industry are you using this resume for
+                    currently?
+                </label>
+                    <input name="CurrentCompanyType" id="CurrentCompanyType" type="text" class="form-control" value="" required>
+            </div>
+                <div class="form-group mt-2">
+                    <label for="FieldsOfExperience">
+                        What Fields you are experienced in?
+                    </label>
+                    <input name="FieldsOfExperience" id="FieldsOfExperience" type="text" class="form-control" value="" required>
+                </div>
+            <div class="form-group mt-2">
+                <label for="State">
+                    What types of positive changes do you want to make for a
+                    company?
+                </label>
+                    <select name="ChangeTypeId" id="ddlChangeTypeList" class="form-control" required>
+                </select>
+            </div>
+        </div>
+        <div class="form-check">
+            <label class="form-check-label">
+                <input type="checkbox"
+                           class="form-check-input" id="ckbIsComplete"  name="IsComplete"> I am finished with this section
+            </label>
+        </div>
+        <div class="formbtn-Wrapper">
+            <button type="button" id="btnSaveObjectives" class="btn btn-primary custombtn w-auto">
+                Save and
+                Continue
+            </button>
+        </div>
+    </form>
+</div>
+<div class="modal fade" id="SummaryModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <p>
+                    Hiring personnel know that your Objective is ‘to get a job’ or ‘further my career opportunities’
+                    – what they really want to know is, “what’s in it for ME” the employer to invite you to
+                    interview? What skills are the employer looking for that you have? What position are you
+                    applying for specifically?
+                </p>
+                <p>
+                    Employers know why you are sending them a resume but an Objective or Professional
+                    (Executive,Managerial etc.) Summary tells them a few reasons to keep reading and find out more
+                    about the skills you listed; where did you get them and what impact did you make with them?
+                </p>
+                <p>
+                    Another way to show what skills make you ‘stand out’ as a candidate is to put a Professional
+                    Summary. Don’t put both an Objective AND a Professional Summary. In most cases, a Professional
+                    Summary will be for candidates who have been in more than one position
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary custombtn w-auto"
+                        data-bs-dismiss="modal">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalExample" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <h1>Objective</h1>
+                <p>
+                    To maximize productivity and revenue as a sales representative in a retail company by using my
+                    communication, organization, and customer service skills.
+                </p>
+                <h1>Professional Summary</h1>
+                <p>
+                    Corporate manager with over ten years of experience in sports marketing, sales, product branding,
+                    client partnership, and business development, with skills to enable ABC Organization to exceed
+                    marketing and business growth goals.
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary custombtn w-auto"
+                        data-bs-dismiss="modal">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="Schoo" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <h1>Objective</h1>
+                <p>
+                    To maximize productivity and revenue as a sales representative in a retail company by using my
+                    communication, organization, and customer service skills.
+                </p>
+                <h1>Professional Summary</h1>
+                <p>
+                    Corporate manager with over ten years of experience in sports marketing, sales, product branding,
+                    client partnership, and business development, with skills to enable ABC Organization to exceed
+                    marketing and business growth goals.
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary custombtn w-auto"
+                        data-bs-dismiss="modal">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script src="~/scripts/objectivesummary/objectivesummary.js"></script>
+}

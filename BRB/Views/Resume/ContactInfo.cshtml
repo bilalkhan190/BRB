@@ -1,0 +1,207 @@
+﻿<div class="formWrapper">
+    <h1>Contact Information</h1>
+    <button type="button" class="mb-2 btn btn-outline-primary btn-sm" data-bs-toggle="modal"
+            data-bs-target="#modalExample">
+        Example
+    </button>
+    <form class="needs-validation" id="contactForm" novalidate>
+        <div class="row">
+            <input id="hdfLastSectionVisitedId" name="LastSectionVisitedId" value="15" type="hidden" />
+            <input id="hdfcontactInfoId" name="ContactInfoId"  type="hidden" />
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="validationCustom01">First Name</label>
+                    <input type="text" class="form-control" maxlength="50" id="validationCustom01"
+                           name="FirstName" required>
+                </div>
+                <div class="form-group">
+                    <label for="validationCustom02">Last Name</label>
+                    <input type="text" class="form-control" maxlength="50" id="validationCustom02" name="LastName"
+                           required>
+                </div>
+                <div class="form-group">
+                    <label for="phone" class="">
+                        Cell Phone (preferred) or Home
+                        Phone
+                        <button type="button" class="btn btn-outline-primary btn-sm"
+                                data-bs-toggle="modal" data-bs-target="#PhoneModal">
+                            ?
+                        </button>
+                    </label>
+                    <input name="Phone" id="phone" maxlength="10" placeholder="xxx-xxx-xxxx" type="text"
+                           class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">
+                        Email
+                        <button type="button"  class="btn btn-outline-primary btn-sm"
+                                data-bs-toggle="modal" data-bs-target="#EmailModal">
+                            ?
+                        </button>
+                    </label>
+                    <input type="email" class="form-control" id="email" name="Email" required>
+                </div>
+
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="Address">Address</label>
+                    <input name="Address1" id="Address" maxlength="50" type="text" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <input name="Address2" id="Address" maxlength="50" type="text" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="City" class="">City</label>
+                    <input name="City" id="City" type="text" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="State" class="">State</label>
+                    <select name="StateAbbr" id="selectform" class="form-control" required>
+                        <option value="" selected=""></option>
+                        <option value="Armed Forces Americas&nbsp;(except Canada)">
+                            Armed Forces
+                            Americas&nbsp;(except Canada)
+                        </option>
+                        <option value="Armed Forces">Armed Forces</option>
+                        <option value="Alaska">Alaska</option>
+                        <option value="Alabama">Alabama</option>
+                        <option value="Arkansas">Arkansas</option>
+                        <option value="American Samoa">American Samoa</option>
+                        <option value="Arizona">Arizona</option>
+                        <option value="California">California</option>
+                        <option value="Colorado">Colorado</option>
+                        <option value="Connecticut">Connecticut</option>
+                        <option value="District of Columbia">District of Columbia</option>
+                        <option value="Delaware">Delaware</option>
+                        <option value="Florida">Florida</option>
+                        <option value="Federated States of Micronesia">
+                            Federated States of
+                            Micronesia
+                        </option>
+                        <option value="Georgia">Georgia</option>
+                        <option value="Guam">Guam</option>
+                        <option value="Hawaii">Hawaii</option>
+                        <option value="Iowa">Iowa</option>
+                        <option value="Idaho">Idaho</option>
+                        <option value="Illinois">Illinois</option>
+                        <option value="Indiana">Indiana</option>
+                        <option value="Kansas">Kansas</option>
+                        <option value="Kentucky">Kentucky</option>
+                        <option value="Louisiana">Louisiana</option>
+                        <option value="Massachusetts">Massachusetts</option>
+                        <option value="Maryland">Maryland</option>
+                        <option value="Maine">Maine</option>
+                        <option value="Marshall Islands">Marshall Islands</option>
+                        <option value="Michigan">Michigan</option>
+                        <option value="Minnesota">Minnesota</option>
+                        <option value="Missouri">Missouri</option>
+                        <option value="Northern Mariana Islands">Northern Mariana Islands</option>
+                        <option value="Mississippi">Mississippi</option>
+                        <option value="Montana">Montana</option>
+                        <option value="North Carolina">North Carolina</option>
+                        <option value="North Dakota">North Dakota</option>
+                        <option value="Nebraska">Nebraska</option>
+                        <option value="New Hampshire">New Hampshire</option>
+                        <option value="New Jersey">New Jersey</option>
+                        <option value="New Mexico">New Mexico</option>
+                        <option value="Nevada">Nevada</option>
+                        <option value="New York">New York</option>
+                        <option value="Ohio">Ohio</option>
+                        <option value="Oklahoma">Oklahoma</option>
+                        <option value="Oregon">Oregon</option>
+                        <option value="Pennsylvania">Pennsylvania</option>
+                        <option value="Puerto Rico">Puerto Rico</option>
+                        <option value="Palau">Palau</option>
+                        <option value="Rhode Island">Rhode Island</option>
+                        <option value="South Carolina">South Carolina</option>
+                        <option value="South Dakota">South Dakota</option>
+                        <option value="Tennessee">Tennessee</option>
+                        <option value="Texas">Texas</option>
+                        <option value="Utah">Utah</option>
+                        <option value="Virginia">Virginia</option>
+                        <option value="Virgin Islands">Virgin Islands</option>
+                        <option value="Vermont">Vermont</option>
+                        <option value="Washington">Washington</option>
+                        <option value="Wisconsin">Wisconsin</option>
+                        <option value="West Virginia">West Virginia</option>
+                        <option value="Wyoming">Wyoming</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="Code" class="">Zip Code</label>
+                    <input name="ZipCode" id="Code" maxlength="5" type="text" class="form-control" required>
+                </div>
+            </div>
+        </div>
+        <div class="form-check">
+            <label class="form-check-label">
+                <input name="IsComplete" type="checkbox"
+                       class="form-check-input"> I am finished with this section
+            </label>
+        </div>
+        <div class="formbtn-Wrapper">
+            <button type="button" data-item="contactForm" id="btnSaveContactInfo" class="btn btn-primary custombtn w-auto">
+                Save and
+                Continue
+            </button>
+        </div>
+    </form>
+</div>
+ <div class="modal fade" id="PhoneModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <p>A phone number is next (one phone number, not 2 or 3 numbers….). Best choices are your cell
+                        number
+                        if you are applying externally and your work phone number if you are applying internally -that
+                        way
+                        you can control the messages and when you retrieve them.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary custombtn w-auto"
+                        data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="EmailModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <p>If you have a really creative email address, your resume is not the time to have
+                        ‘chrisrockerdude@aol.com’ shared with the world. First name (first initial).last name  whatever
+                        search engine you want to use is the best format. Again, if you are applying internally, use
+                        your work email address to show the manager that you already work there.
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary custombtn w-auto"
+                        data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalExample" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="text-center modal-body">
+                    <p>Bob Smith</p>
+                    <p>123 N. First Street</p>
+                    <p>New Town, State 00000</p>
+                    <p>(555) 555-1212</p>
+                    <p>Bob.smith@searchengine.com </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary custombtn w-auto"
+                        data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    @section Scripts{
+    <script src="~/scripts/contactinfo/contactinfo.js"></script>
+
+    }

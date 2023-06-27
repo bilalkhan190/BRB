@@ -1,0 +1,1455 @@
+﻿<div class="formWrapper">
+    <h1>
+        Licenses, Certificates, and Professional Affiliations <button type="button"
+                                                                      class="btn btn-outline-primary btn-sm" data-bs-toggle="modal"
+                                                                      data-bs-target="#ExperienceModal">
+            ?
+        </button>
+    </h1>
+    <button type="button" class="mb-2 btn btn-outline-primary btn-sm" data-bs-toggle="modal"
+            data-bs-target="#modalExample">
+        Example
+    </button>
+
+    <div class="mb-3 form-check">
+        <label class="form-check-label">
+            <input type="checkbox" id="cbSectionNotApply"
+                   class="form-check-input"> This section does not apply to me.
+        </label>
+    </div>
+
+    <div class="row" id="mainDiv">
+        <div class="col-md-4">
+            <h1>Licenses</h1>
+            <p>
+                What licenses have you received that are applicable to the career you are
+                pursuing?<br>(ie: Real Estate License)
+            </p>
+            <p class="danger-text" id="noLicense">
+                <em>
+                    You currently have no licenses listed. Click the Add button
+                    to add one.
+                </em>
+            </p>
+            <div id="divLicenseCard">
+                <div class="row">
+
+                </div>
+            </div>
+            <button type="button" class="btn btn-primary custombtn w-auto mt-2" data-bs-toggle="modal"
+                    data-bs-target="#licenseModal">
+                Add a License
+            </button>
+        </div>
+        <div class="col-md-4">
+            <h1>Certifications</h1>
+            <p>What certificates have you received that are applicable to the career you are pursuing?<br>(ie: Education Specialization License-Reading Certification)</p>
+            <p id="noCertificate" class="danger-text"><em>You currently have no certifications listed. Click the Add button to add one.</em></p>
+            <div id="divCertificateCard">
+                <div class="row">
+                </div>
+            </div>
+            <button type="button" class="btn btn-primary custombtn w-auto mt-2" data-bs-toggle="modal"
+                    data-bs-target="#CertificateModal">
+                Add a Certification
+            </button>
+        </div>
+        <div class="col-md-4">
+            <h1>Professional Affiliations</h1>
+            <p>What professional or pre-professional national or state organizations are you an ACTIVE member in? (American Marketing Association (post-grad chapter), PRSSA National Association of Realtors, etc.) Enter the name of the most recent organization you have been affiliated with.</p>
+            <p class="danger-text" id="noAffilation"><em>You currently have no affiliations listed. Click the Add button to add one.</em></p>
+             <div id="divAffilateCard">
+                <div class="row">
+                </div>
+            </div>
+            <button type="button"  class="btn btn-primary btn-sm custombtn w-auto mt-2" data-bs-toggle="modal"
+                    data-bs-target="#AffilationModal">
+                Add an Affiliation
+            </button>
+        </div>
+    </div>
+
+
+    <hr>
+    <form id="professionalForm" class="needs-validation" novalidate>
+         <input type="hidden" value="55" id="hdfLastSectionVisitedId" />
+                    <input type="hidden" value="" id="hdfProfessionalId" />
+        <div class="form-check">
+            <label class="form-check-label">
+                <input type="checkbox" name="IsComplete" id="cbIsComplete"
+                       class="form-check-input"> I am finished with this section
+            </label>
+        </div>
+        <div class="formbtn-Wrapper">
+            <button type="button" id="btnSaveAndContinue" class="btn btn-primary custombtn w-auto">
+                Save and
+                Continue
+            </button>
+        </div>
+    </form>
+</div>
+<div class="modal fade" id="AffilationModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <form action="/action_page.php" class="needs-validation" novalidate>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group mb-2">
+                                <label for="validationCustom01">Organization</label>
+                                <input type="text" class="form-control" id="txtAffiliationName"
+                                       name="AffiliationName" required>
+                            </div>
+                            <div class="form-group mb-2">
+                                <label for="City" class="">City</label>
+                                <input name="City" id="txtAffilationCity" type="text" class="form-control" required>
+                            </div>
+                            <div class="form-group mb-2">
+                                <label for="t" class="">State</label>
+                                <select name="StateAbbr" id="txtAffilationStateAbbr" class="form-control ddl_State">
+                                   
+                                </select>
+                            </div>
+                            <div class="form-group mb-2">
+                                <label for="received" class="">Date Started</label>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            <select name="StartedMonth" id="txtAffilationStartedMonth"
+                                                    class="form-control" required>
+                                                <option value="" selected=""></option>
+                                                <option value="January">January</option>
+                                                <option value="February">February</option>
+                                                <option value="March">March</option>
+                                                <option value="April">April</option>
+                                                <option value="May">May</option>
+                                                <option value="June">June</option>
+                                                <option value="July">July</option>
+                                                <option value="August">August</option>
+                                                <option value="September">September</option>
+                                                <option value="October">October</option>
+                                                <option value="November">November</option>
+                                                <option value="December">December</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            <select name="StartedYear" id="txtAffilationStartedYear"
+                                                    class="form-control" required>
+                                                <option value="" selected=""></option>
+                                                <option value="2073">2073</option>
+                                                <option value="2072">2072</option>
+                                                <option value="2071">2071</option>
+                                                <option value="2070">2070</option>
+                                                <option value="2069">2069</option>
+                                                <option value="2068">2068</option>
+                                                <option value="2067">2067</option>
+                                                <option value="2066">2066</option>
+                                                <option value="2065">2065</option>
+                                                <option value="2064">2064</option>
+                                                <option value="2063">2063</option>
+                                                <option value="2062">2062</option>
+                                                <option value="2061">2061</option>
+                                                <option value="2060">2060</option>
+                                                <option value="2059">2059</option>
+                                                <option value="2058">2058</option>
+                                                <option value="2057">2057</option>
+                                                <option value="2056">2056</option>
+                                                <option value="2055">2055</option>
+                                                <option value="2054">2054</option>
+                                                <option value="2053">2053</option>
+                                                <option value="2052">2052</option>
+                                                <option value="2051">2051</option>
+                                                <option value="2050">2050</option>
+                                                <option value="2049">2049</option>
+                                                <option value="2048">2048</option>
+                                                <option value="2047">2047</option>
+                                                <option value="2046">2046</option>
+                                                <option value="2045">2045</option>
+                                                <option value="2044">2044</option>
+                                                <option value="2043">2043</option>
+                                                <option value="2042">2042</option>
+                                                <option value="2041">2041</option>
+                                                <option value="2040">2040</option>
+                                                <option value="2039">2039</option>
+                                                <option value="2038">2038</option>
+                                                <option value="2037">2037</option>
+                                                <option value="2036">2036</option>
+                                                <option value="2035">2035</option>
+                                                <option value="2034">2034</option>
+                                                <option value="2033">2033</option>
+                                                <option value="2032">2032</option>
+                                                <option value="2031">2031</option>
+                                                <option value="2030">2030</option>
+                                                <option value="2029">2029</option>
+                                                <option value="2028">2028</option>
+                                                <option value="2027">2027</option>
+                                                <option value="2026">2026</option>
+                                                <option value="2025">2025</option>
+                                                <option value="2024">2024</option>
+                                                <option value="2023">2023</option>
+                                                <option value="2022">2022</option>
+                                                <option value="2021">2021</option>
+                                                <option value="2020">2020</option>
+                                                <option value="2019">2019</option>
+                                                <option value="2018">2018</option>
+                                                <option value="2017">2017</option>
+                                                <option value="2016">2016</option>
+                                                <option value="2015">2015</option>
+                                                <option value="2014">2014</option>
+                                                <option value="2013">2013</option>
+                                                <option value="2012">2012</option>
+                                                <option value="2011">2011</option>
+                                                <option value="2010">2010</option>
+                                                <option value="2009">2009</option>
+                                                <option value="2008">2008</option>
+                                                <option value="2007">2007</option>
+                                                <option value="2006">2006</option>
+                                                <option value="2005">2005</option>
+                                                <option value="2004">2004</option>
+                                                <option value="2003">2003</option>
+                                                <option value="2002">2002</option>
+                                                <option value="2001">2001</option>
+                                                <option value="2000">2000</option>
+                                                <option value="1999">1999</option>
+                                                <option value="1998">1998</option>
+                                                <option value="1997">1997</option>
+                                                <option value="1996">1996</option>
+                                                <option value="1995">1995</option>
+                                                <option value="1994">1994</option>
+                                                <option value="1993">1993</option>
+                                                <option value="1992">1992</option>
+                                                <option value="1991">1991</option>
+                                                <option value="1990">1990</option>
+                                                <option value="1989">1989</option>
+                                                <option value="1988">1988</option>
+                                                <option value="1987">1987</option>
+                                                <option value="1986">1986</option>
+                                                <option value="1985">1985</option>
+                                                <option value="1984">1984</option>
+                                                <option value="1983">1983</option>
+                                                <option value="1982">1982</option>
+                                                <option value="1981">1981</option>
+                                                <option value="1980">1980</option>
+                                                <option value="1979">1979</option>
+                                                <option value="1978">1978</option>
+                                                <option value="1977">1977</option>
+                                                <option value="1976">1976</option>
+                                                <option value="1975">1975</option>
+                                                <option value="1974">1974</option>
+                                                <option value="1973">1973</option>
+                                                <option value="1972">1972</option>
+                                                <option value="1971">1971</option>
+                                                <option value="1970">1970</option>
+                                                <option value="1969">1969</option>
+                                                <option value="1968">1968</option>
+                                                <option value="1967">1967</option>
+                                                <option value="1966">1966</option>
+                                                <option value="1965">1965</option>
+                                                <option value="1964">1964</option>
+                                                <option value="1963">1963</option>
+                                                <option value="1962">1962</option>
+                                                <option value="1961">1961</option>
+                                                <option value="1960">1960</option>
+                                                <option value="1959">1959</option>
+                                                <option value="1958">1958</option>
+                                                <option value="1957">1957</option>
+                                                <option value="1956">1956</option>
+                                                <option value="1955">1955</option>
+                                                <option value="1954">1954</option>
+                                                <option value="1953">1953</option>
+                                                <option value="1952">1952</option>
+                                                <option value="1951">1951</option>
+                                                <option value="1950">1950</option>
+                                                <option value="1949">1949</option>
+                                                <option value="1948">1948</option>
+                                                <option value="1947">1947</option>
+                                                <option value="1946">1946</option>
+                                                <option value="1945">1945</option>
+                                                <option value="1944">1944</option>
+                                                <option value="1943">1943</option>
+                                                <option value="1942">1942</option>
+                                                <option value="1941">1941</option>
+                                                <option value="1940">1940</option>
+                                                <option value="1939">1939</option>
+                                                <option value="1938">1938</option>
+                                                <option value="1937">1937</option>
+                                                <option value="1936">1936</option>
+                                                <option value="1935">1935</option>
+                                                <option value="1934">1934</option>
+                                                <option value="1933">1933</option>
+                                                <option value="1932">1932</option>
+                                                <option value="1931">1931</option>
+                                                <option value="1930">1930</option>
+                                                <option value="1929">1929</option>
+                                                <option value="1928">1928</option>
+                                                <option value="1927">1927</option>
+                                                <option value="1926">1926</option>
+                                                <option value="1925">1925</option>
+                                                <option value="1924">1924</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-check">
+                                        <label class="form-check-label">
+                                            <input id="cbAffilationCurrentlyIn" name="customSwitch" label="Currently In"
+                                                   type="checkbox" class="form-check-input"> Currently In
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group mb-2">
+                                <label for="received" class="" id="labelAffilationEndedDate">Date Ended</label>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            <select name="EndedMonth" id="txtAffilationEndedMonth"
+                                                    class="form-control" required>
+                                                <option value="" selected=""></option>
+                                                <option value="January">January</option>
+                                                <option value="February">February</option>
+                                                <option value="March">March</option>
+                                                <option value="April">April</option>
+                                                <option value="May">May</option>
+                                                <option value="June">June</option>
+                                                <option value="July">July</option>
+                                                <option value="August">August</option>
+                                                <option value="September">September</option>
+                                                <option value="October">October</option>
+                                                <option value="November">November</option>
+                                                <option value="December">December</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            <select name="EndedYear" id="txtAffilationEndedYear" class="form-control">
+                                                <option value="" selected=""></option>
+                                                <option value="2073">2073</option>
+                                                <option value="2072">2072</option>
+                                                <option value="2071">2071</option>
+                                                <option value="2070">2070</option>
+                                                <option value="2069">2069</option>
+                                                <option value="2068">2068</option>
+                                                <option value="2067">2067</option>
+                                                <option value="2066">2066</option>
+                                                <option value="2065">2065</option>
+                                                <option value="2064">2064</option>
+                                                <option value="2063">2063</option>
+                                                <option value="2062">2062</option>
+                                                <option value="2061">2061</option>
+                                                <option value="2060">2060</option>
+                                                <option value="2059">2059</option>
+                                                <option value="2058">2058</option>
+                                                <option value="2057">2057</option>
+                                                <option value="2056">2056</option>
+                                                <option value="2055">2055</option>
+                                                <option value="2054">2054</option>
+                                                <option value="2053">2053</option>
+                                                <option value="2052">2052</option>
+                                                <option value="2051">2051</option>
+                                                <option value="2050">2050</option>
+                                                <option value="2049">2049</option>
+                                                <option value="2048">2048</option>
+                                                <option value="2047">2047</option>
+                                                <option value="2046">2046</option>
+                                                <option value="2045">2045</option>
+                                                <option value="2044">2044</option>
+                                                <option value="2043">2043</option>
+                                                <option value="2042">2042</option>
+                                                <option value="2041">2041</option>
+                                                <option value="2040">2040</option>
+                                                <option value="2039">2039</option>
+                                                <option value="2038">2038</option>
+                                                <option value="2037">2037</option>
+                                                <option value="2036">2036</option>
+                                                <option value="2035">2035</option>
+                                                <option value="2034">2034</option>
+                                                <option value="2033">2033</option>
+                                                <option value="2032">2032</option>
+                                                <option value="2031">2031</option>
+                                                <option value="2030">2030</option>
+                                                <option value="2029">2029</option>
+                                                <option value="2028">2028</option>
+                                                <option value="2027">2027</option>
+                                                <option value="2026">2026</option>
+                                                <option value="2025">2025</option>
+                                                <option value="2024">2024</option>
+                                                <option value="2023">2023</option>
+                                                <option value="2022">2022</option>
+                                                <option value="2021">2021</option>
+                                                <option value="2020">2020</option>
+                                                <option value="2019">2019</option>
+                                                <option value="2018">2018</option>
+                                                <option value="2017">2017</option>
+                                                <option value="2016">2016</option>
+                                                <option value="2015">2015</option>
+                                                <option value="2014">2014</option>
+                                                <option value="2013">2013</option>
+                                                <option value="2012">2012</option>
+                                                <option value="2011">2011</option>
+                                                <option value="2010">2010</option>
+                                                <option value="2009">2009</option>
+                                                <option value="2008">2008</option>
+                                                <option value="2007">2007</option>
+                                                <option value="2006">2006</option>
+                                                <option value="2005">2005</option>
+                                                <option value="2004">2004</option>
+                                                <option value="2003">2003</option>
+                                                <option value="2002">2002</option>
+                                                <option value="2001">2001</option>
+                                                <option value="2000">2000</option>
+                                                <option value="1999">1999</option>
+                                                <option value="1998">1998</option>
+                                                <option value="1997">1997</option>
+                                                <option value="1996">1996</option>
+                                                <option value="1995">1995</option>
+                                                <option value="1994">1994</option>
+                                                <option value="1993">1993</option>
+                                                <option value="1992">1992</option>
+                                                <option value="1991">1991</option>
+                                                <option value="1990">1990</option>
+                                                <option value="1989">1989</option>
+                                                <option value="1988">1988</option>
+                                                <option value="1987">1987</option>
+                                                <option value="1986">1986</option>
+                                                <option value="1985">1985</option>
+                                                <option value="1984">1984</option>
+                                                <option value="1983">1983</option>
+                                                <option value="1982">1982</option>
+                                                <option value="1981">1981</option>
+                                                <option value="1980">1980</option>
+                                                <option value="1979">1979</option>
+                                                <option value="1978">1978</option>
+                                                <option value="1977">1977</option>
+                                                <option value="1976">1976</option>
+                                                <option value="1975">1975</option>
+                                                <option value="1974">1974</option>
+                                                <option value="1973">1973</option>
+                                                <option value="1972">1972</option>
+                                                <option value="1971">1971</option>
+                                                <option value="1970">1970</option>
+                                                <option value="1969">1969</option>
+                                                <option value="1968">1968</option>
+                                                <option value="1967">1967</option>
+                                                <option value="1966">1966</option>
+                                                <option value="1965">1965</option>
+                                                <option value="1964">1964</option>
+                                                <option value="1963">1963</option>
+                                                <option value="1962">1962</option>
+                                                <option value="1961">1961</option>
+                                                <option value="1960">1960</option>
+                                                <option value="1959">1959</option>
+                                                <option value="1958">1958</option>
+                                                <option value="1957">1957</option>
+                                                <option value="1956">1956</option>
+                                                <option value="1955">1955</option>
+                                                <option value="1954">1954</option>
+                                                <option value="1953">1953</option>
+                                                <option value="1952">1952</option>
+                                                <option value="1951">1951</option>
+                                                <option value="1950">1950</option>
+                                                <option value="1949">1949</option>
+                                                <option value="1948">1948</option>
+                                                <option value="1947">1947</option>
+                                                <option value="1946">1946</option>
+                                                <option value="1945">1945</option>
+                                                <option value="1944">1944</option>
+                                                <option value="1943">1943</option>
+                                                <option value="1942">1942</option>
+                                                <option value="1941">1941</option>
+                                                <option value="1940">1940</option>
+                                                <option value="1939">1939</option>
+                                                <option value="1938">1938</option>
+                                                <option value="1937">1937</option>
+                                                <option value="1936">1936</option>
+                                                <option value="1935">1935</option>
+                                                <option value="1934">1934</option>
+                                                <option value="1933">1933</option>
+                                                <option value="1932">1932</option>
+                                                <option value="1931">1931</option>
+                                                <option value="1930">1930</option>
+                                                <option value="1929">1929</option>
+                                                <option value="1928">1928</option>
+                                                <option value="1927">1927</option>
+                                                <option value="1926">1926</option>
+                                                <option value="1925">1925</option>
+                                                <option value="1924">1924</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary custombtn w-auto"
+                        data-bs-dismiss="modal">
+                    Close
+                </button>
+                <button type="button" id="btnSaveAffilation" class="btn btn-secondary custombtn w-auto">Save</button>
+            </div>
+        </div>
+    </div>
+
+</div>
+<div class="modal fade" id="modalExample" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="d-flex justify-content-between">
+                    <span class="reg-span">Professional Licenses</span>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <span class="tiny-span">
+                        State Electrician Tech
+                        License
+                    </span><span class="tiny-span">Old Town, State</span><span class="tiny-span">
+                        Expires
+                        May 2050
+                    </span>
+                </div><br>
+                <div class="d-flex justify-content-between"><span class="reg-span">Certifications</span></div>
+                <ul>
+                    <li>
+                        <div class="d-flex justify-content-between">
+                            <span class="tiny-span">
+                                PC Upgrading
+                                Certificate
+                            </span><span class="tiny-span">July 2009</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="d-flex justify-content-between">
+                            <span class="tiny-span">
+                                Mac 2007 Training and
+                                Certification
+                            </span><span class="tiny-span">April 2007</span>
+                        </div>
+                    </li>
+                </ul><br>
+                <div class="d-flex justify-content-between">
+                    <span class="reg-span">Professional Affiliations</span>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <span class="tiny-span">
+                        <strong>
+                            Food Handlers State
+                            Organization
+                        </strong>
+                    </span><span class="tiny-span">Old Town, State</span><span class="tiny-span">July 2010 - Present</span>
+                </div>
+                <ul>
+                    <li><span class="tiny-span">Scheduled speakers for monthly meetings with 25 members.</span></li>
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary custombtn w-auto"
+                        data-bs-dismiss="modal">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="ExperienceModal" role="dialog" tabindex="-1">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <p>
+                    Again, not every resume will have this content. Consider whether the affiliation, license, or
+                    certification is relevant to the position you are applying for. Although a real estate license
+                    would be important for someone in that industry as well as development, construction, or city
+                    planning, the relevance for a teaching position would be less important – unless the instruction
+                    provided to students was going to be in that area!
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary custombtn w-auto"
+                        data-bs-dismiss="modal">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="licenseModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <form id="licenseForm" class="needs-validation" novalidate>
+                    <input id="hdfLicenseId" type="hidden"/>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group mb-2">
+                                <label for="validationCustom01">License Title</label>
+                                <input type="text" class="form-control" id="txtlicenseTitle"
+                                       name="Title" required>
+                            </div>
+
+                            <div class="form-group mb-2">
+                                <label for="t" class="">State</label>
+                                <select name="StateAbbr" id="ddllicenseState" class="form-control ddl_State">
+                                   
+                                </select>
+                            </div>
+                            <div class="form-group mb-2">
+                                <label for="received" class="">Date Started</label>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            <select name="ReceivedMonth" id="ddllicenseReceivedMonth"
+                                                    class="form-control" required>
+                                                <option value="" selected=""></option>
+                                                <option value="January">January</option>
+                                                <option value="February">February</option>
+                                                <option value="March">March</option>
+                                                <option value="April">April</option>
+                                                <option value="May">May</option>
+                                                <option value="June">June</option>
+                                                <option value="July">July</option>
+                                                <option value="August">August</option>
+                                                <option value="September">September</option>
+                                                <option value="October">October</option>
+                                                <option value="November">November</option>
+                                                <option value="December">December</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            <select name="ReceivedYear" id="ddllicenseReceivedYear"
+                                                    class="form-control" required>
+                                                <option value="" selected=""></option>
+                                                <option value="2073">2073</option>
+                                                <option value="2072">2072</option>
+                                                <option value="2071">2071</option>
+                                                <option value="2070">2070</option>
+                                                <option value="2069">2069</option>
+                                                <option value="2068">2068</option>
+                                                <option value="2067">2067</option>
+                                                <option value="2066">2066</option>
+                                                <option value="2065">2065</option>
+                                                <option value="2064">2064</option>
+                                                <option value="2063">2063</option>
+                                                <option value="2062">2062</option>
+                                                <option value="2061">2061</option>
+                                                <option value="2060">2060</option>
+                                                <option value="2059">2059</option>
+                                                <option value="2058">2058</option>
+                                                <option value="2057">2057</option>
+                                                <option value="2056">2056</option>
+                                                <option value="2055">2055</option>
+                                                <option value="2054">2054</option>
+                                                <option value="2053">2053</option>
+                                                <option value="2052">2052</option>
+                                                <option value="2051">2051</option>
+                                                <option value="2050">2050</option>
+                                                <option value="2049">2049</option>
+                                                <option value="2048">2048</option>
+                                                <option value="2047">2047</option>
+                                                <option value="2046">2046</option>
+                                                <option value="2045">2045</option>
+                                                <option value="2044">2044</option>
+                                                <option value="2043">2043</option>
+                                                <option value="2042">2042</option>
+                                                <option value="2041">2041</option>
+                                                <option value="2040">2040</option>
+                                                <option value="2039">2039</option>
+                                                <option value="2038">2038</option>
+                                                <option value="2037">2037</option>
+                                                <option value="2036">2036</option>
+                                                <option value="2035">2035</option>
+                                                <option value="2034">2034</option>
+                                                <option value="2033">2033</option>
+                                                <option value="2032">2032</option>
+                                                <option value="2031">2031</option>
+                                                <option value="2030">2030</option>
+                                                <option value="2029">2029</option>
+                                                <option value="2028">2028</option>
+                                                <option value="2027">2027</option>
+                                                <option value="2026">2026</option>
+                                                <option value="2025">2025</option>
+                                                <option value="2024">2024</option>
+                                                <option value="2023">2023</option>
+                                                <option value="2022">2022</option>
+                                                <option value="2021">2021</option>
+                                                <option value="2020">2020</option>
+                                                <option value="2019">2019</option>
+                                                <option value="2018">2018</option>
+                                                <option value="2017">2017</option>
+                                                <option value="2016">2016</option>
+                                                <option value="2015">2015</option>
+                                                <option value="2014">2014</option>
+                                                <option value="2013">2013</option>
+                                                <option value="2012">2012</option>
+                                                <option value="2011">2011</option>
+                                                <option value="2010">2010</option>
+                                                <option value="2009">2009</option>
+                                                <option value="2008">2008</option>
+                                                <option value="2007">2007</option>
+                                                <option value="2006">2006</option>
+                                                <option value="2005">2005</option>
+                                                <option value="2004">2004</option>
+                                                <option value="2003">2003</option>
+                                                <option value="2002">2002</option>
+                                                <option value="2001">2001</option>
+                                                <option value="2000">2000</option>
+                                                <option value="1999">1999</option>
+                                                <option value="1998">1998</option>
+                                                <option value="1997">1997</option>
+                                                <option value="1996">1996</option>
+                                                <option value="1995">1995</option>
+                                                <option value="1994">1994</option>
+                                                <option value="1993">1993</option>
+                                                <option value="1992">1992</option>
+                                                <option value="1991">1991</option>
+                                                <option value="1990">1990</option>
+                                                <option value="1989">1989</option>
+                                                <option value="1988">1988</option>
+                                                <option value="1987">1987</option>
+                                                <option value="1986">1986</option>
+                                                <option value="1985">1985</option>
+                                                <option value="1984">1984</option>
+                                                <option value="1983">1983</option>
+                                                <option value="1982">1982</option>
+                                                <option value="1981">1981</option>
+                                                <option value="1980">1980</option>
+                                                <option value="1979">1979</option>
+                                                <option value="1978">1978</option>
+                                                <option value="1977">1977</option>
+                                                <option value="1976">1976</option>
+                                                <option value="1975">1975</option>
+                                                <option value="1974">1974</option>
+                                                <option value="1973">1973</option>
+                                                <option value="1972">1972</option>
+                                                <option value="1971">1971</option>
+                                                <option value="1970">1970</option>
+                                                <option value="1969">1969</option>
+                                                <option value="1968">1968</option>
+                                                <option value="1967">1967</option>
+                                                <option value="1966">1966</option>
+                                                <option value="1965">1965</option>
+                                                <option value="1964">1964</option>
+                                                <option value="1963">1963</option>
+                                                <option value="1962">1962</option>
+                                                <option value="1961">1961</option>
+                                                <option value="1960">1960</option>
+                                                <option value="1959">1959</option>
+                                                <option value="1958">1958</option>
+                                                <option value="1957">1957</option>
+                                                <option value="1956">1956</option>
+                                                <option value="1955">1955</option>
+                                                <option value="1954">1954</option>
+                                                <option value="1953">1953</option>
+                                                <option value="1952">1952</option>
+                                                <option value="1951">1951</option>
+                                                <option value="1950">1950</option>
+                                                <option value="1949">1949</option>
+                                                <option value="1948">1948</option>
+                                                <option value="1947">1947</option>
+                                                <option value="1946">1946</option>
+                                                <option value="1945">1945</option>
+                                                <option value="1944">1944</option>
+                                                <option value="1943">1943</option>
+                                                <option value="1942">1942</option>
+                                                <option value="1941">1941</option>
+                                                <option value="1940">1940</option>
+                                                <option value="1939">1939</option>
+                                                <option value="1938">1938</option>
+                                                <option value="1937">1937</option>
+                                                <option value="1936">1936</option>
+                                                <option value="1935">1935</option>
+                                                <option value="1934">1934</option>
+                                                <option value="1933">1933</option>
+                                                <option value="1932">1932</option>
+                                                <option value="1931">1931</option>
+                                                <option value="1930">1930</option>
+                                                <option value="1929">1929</option>
+                                                <option value="1928">1928</option>
+                                                <option value="1927">1927</option>
+                                                <option value="1926">1926</option>
+                                                <option value="1925">1925</option>
+                                                <option value="1924">1924</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary custombtn w-auto"
+                        data-bs-dismiss="modal">
+                    Close
+                </button>
+                <button type="button" id="btnSaveLicense" class="btn btn-secondary custombtn w-auto">Save</button>
+            </div>
+        </div>
+    </div>
+
+</div>
+<div class="modal fade" id="CertificateModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <form action="/action_page.php" class="needs-validation" novalidate>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group mb-2">
+                                <label for="validationCustom01">Certificate Title</label>
+                                <input type="text" class="form-control" id="txtCertificateTitle"
+                                       name="Title" required>
+                            </div>
+
+                            <div class="form-group mb-2">
+                                <label for="t" class="">State of Certification</label>
+                                <select name="StateAbbr" id="ddlCertificateState" class="form-control ddl_State">
+                                   
+                                </select>
+                            </div>
+                            <div class="form-group mb-2">
+                                <label for="received" class="">Date Started</label>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            <select name="ReceivedMonth" id="ddlCertificateReceivedMonth"
+                                                    class="form-control" required>
+                                                <option value="" selected=""></option>
+                                                <option value="January">January</option>
+                                                <option value="February">February</option>
+                                                <option value="March">March</option>
+                                                <option value="April">April</option>
+                                                <option value="May">May</option>
+                                                <option value="June">June</option>
+                                                <option value="July">July</option>
+                                                <option value="August">August</option>
+                                                <option value="September">September</option>
+                                                <option value="October">October</option>
+                                                <option value="November">November</option>
+                                                <option value="December">December</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            <select name="ReceivedYear" id="ddlCertificateReceivedYear"
+                                                    class="form-control" required>
+                                                <option value="" selected=""></option>
+                                                <option value="2073">2073</option>
+                                                <option value="2072">2072</option>
+                                                <option value="2071">2071</option>
+                                                <option value="2070">2070</option>
+                                                <option value="2069">2069</option>
+                                                <option value="2068">2068</option>
+                                                <option value="2067">2067</option>
+                                                <option value="2066">2066</option>
+                                                <option value="2065">2065</option>
+                                                <option value="2064">2064</option>
+                                                <option value="2063">2063</option>
+                                                <option value="2062">2062</option>
+                                                <option value="2061">2061</option>
+                                                <option value="2060">2060</option>
+                                                <option value="2059">2059</option>
+                                                <option value="2058">2058</option>
+                                                <option value="2057">2057</option>
+                                                <option value="2056">2056</option>
+                                                <option value="2055">2055</option>
+                                                <option value="2054">2054</option>
+                                                <option value="2053">2053</option>
+                                                <option value="2052">2052</option>
+                                                <option value="2051">2051</option>
+                                                <option value="2050">2050</option>
+                                                <option value="2049">2049</option>
+                                                <option value="2048">2048</option>
+                                                <option value="2047">2047</option>
+                                                <option value="2046">2046</option>
+                                                <option value="2045">2045</option>
+                                                <option value="2044">2044</option>
+                                                <option value="2043">2043</option>
+                                                <option value="2042">2042</option>
+                                                <option value="2041">2041</option>
+                                                <option value="2040">2040</option>
+                                                <option value="2039">2039</option>
+                                                <option value="2038">2038</option>
+                                                <option value="2037">2037</option>
+                                                <option value="2036">2036</option>
+                                                <option value="2035">2035</option>
+                                                <option value="2034">2034</option>
+                                                <option value="2033">2033</option>
+                                                <option value="2032">2032</option>
+                                                <option value="2031">2031</option>
+                                                <option value="2030">2030</option>
+                                                <option value="2029">2029</option>
+                                                <option value="2028">2028</option>
+                                                <option value="2027">2027</option>
+                                                <option value="2026">2026</option>
+                                                <option value="2025">2025</option>
+                                                <option value="2024">2024</option>
+                                                <option value="2023">2023</option>
+                                                <option value="2022">2022</option>
+                                                <option value="2021">2021</option>
+                                                <option value="2020">2020</option>
+                                                <option value="2019">2019</option>
+                                                <option value="2018">2018</option>
+                                                <option value="2017">2017</option>
+                                                <option value="2016">2016</option>
+                                                <option value="2015">2015</option>
+                                                <option value="2014">2014</option>
+                                                <option value="2013">2013</option>
+                                                <option value="2012">2012</option>
+                                                <option value="2011">2011</option>
+                                                <option value="2010">2010</option>
+                                                <option value="2009">2009</option>
+                                                <option value="2008">2008</option>
+                                                <option value="2007">2007</option>
+                                                <option value="2006">2006</option>
+                                                <option value="2005">2005</option>
+                                                <option value="2004">2004</option>
+                                                <option value="2003">2003</option>
+                                                <option value="2002">2002</option>
+                                                <option value="2001">2001</option>
+                                                <option value="2000">2000</option>
+                                                <option value="1999">1999</option>
+                                                <option value="1998">1998</option>
+                                                <option value="1997">1997</option>
+                                                <option value="1996">1996</option>
+                                                <option value="1995">1995</option>
+                                                <option value="1994">1994</option>
+                                                <option value="1993">1993</option>
+                                                <option value="1992">1992</option>
+                                                <option value="1991">1991</option>
+                                                <option value="1990">1990</option>
+                                                <option value="1989">1989</option>
+                                                <option value="1988">1988</option>
+                                                <option value="1987">1987</option>
+                                                <option value="1986">1986</option>
+                                                <option value="1985">1985</option>
+                                                <option value="1984">1984</option>
+                                                <option value="1983">1983</option>
+                                                <option value="1982">1982</option>
+                                                <option value="1981">1981</option>
+                                                <option value="1980">1980</option>
+                                                <option value="1979">1979</option>
+                                                <option value="1978">1978</option>
+                                                <option value="1977">1977</option>
+                                                <option value="1976">1976</option>
+                                                <option value="1975">1975</option>
+                                                <option value="1974">1974</option>
+                                                <option value="1973">1973</option>
+                                                <option value="1972">1972</option>
+                                                <option value="1971">1971</option>
+                                                <option value="1970">1970</option>
+                                                <option value="1969">1969</option>
+                                                <option value="1968">1968</option>
+                                                <option value="1967">1967</option>
+                                                <option value="1966">1966</option>
+                                                <option value="1965">1965</option>
+                                                <option value="1964">1964</option>
+                                                <option value="1963">1963</option>
+                                                <option value="1962">1962</option>
+                                                <option value="1961">1961</option>
+                                                <option value="1960">1960</option>
+                                                <option value="1959">1959</option>
+                                                <option value="1958">1958</option>
+                                                <option value="1957">1957</option>
+                                                <option value="1956">1956</option>
+                                                <option value="1955">1955</option>
+                                                <option value="1954">1954</option>
+                                                <option value="1953">1953</option>
+                                                <option value="1952">1952</option>
+                                                <option value="1951">1951</option>
+                                                <option value="1950">1950</option>
+                                                <option value="1949">1949</option>
+                                                <option value="1948">1948</option>
+                                                <option value="1947">1947</option>
+                                                <option value="1946">1946</option>
+                                                <option value="1945">1945</option>
+                                                <option value="1944">1944</option>
+                                                <option value="1943">1943</option>
+                                                <option value="1942">1942</option>
+                                                <option value="1941">1941</option>
+                                                <option value="1940">1940</option>
+                                                <option value="1939">1939</option>
+                                                <option value="1938">1938</option>
+                                                <option value="1937">1937</option>
+                                                <option value="1936">1936</option>
+                                                <option value="1935">1935</option>
+                                                <option value="1934">1934</option>
+                                                <option value="1933">1933</option>
+                                                <option value="1932">1932</option>
+                                                <option value="1931">1931</option>
+                                                <option value="1930">1930</option>
+                                                <option value="1929">1929</option>
+                                                <option value="1928">1928</option>
+                                                <option value="1927">1927</option>
+                                                <option value="1926">1926</option>
+                                                <option value="1925">1925</option>
+                                                <option value="1924">1924</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary custombtn w-auto"
+                        data-bs-dismiss="modal">
+                    Close
+                </button>
+                <button type="button" id="btnSaveCertificate" class="btn btn-secondary custombtn w-auto">Save</button>
+            </div>
+        </div>
+    </div>
+
+</div>
+<div class="modal fade" id="PositionModel" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <form class="needs-validation" novalidate>
+                    <input type="hidden" id="hdfVolunteerExperienceId" />
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group mb-2">
+                                <label for="validationCustom01">Title</label>
+                                <input type="text" class="form-control" id="txtpositionTitle"
+                                       name="Title" required>
+                            </div>
+                            <div class="form-group mb-2">
+                                <label for="received" class="">Date Started</label>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            <select name="StartedMonth" id="ddlPositionStartedMonth"
+                                                    class="form-control" required>
+                                                <option value="" selected=""></option>
+                                                <option value="January">January</option>
+                                                <option value="February">February</option>
+                                                <option value="March">March</option>
+                                                <option value="April">April</option>
+                                                <option value="May">May</option>
+                                                <option value="June">June</option>
+                                                <option value="July">July</option>
+                                                <option value="August">August</option>
+                                                <option value="September">September</option>
+                                                <option value="October">October</option>
+                                                <option value="November">November</option>
+                                                <option value="December">December</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            <select name="StartedYear" id="ddlPositionStartedYear"
+                                                    class="form-control" required>
+                                                <option value="" selected=""></option>
+                                                <option value="2073">2073</option>
+                                                <option value="2072">2072</option>
+                                                <option value="2071">2071</option>
+                                                <option value="2070">2070</option>
+                                                <option value="2069">2069</option>
+                                                <option value="2068">2068</option>
+                                                <option value="2067">2067</option>
+                                                <option value="2066">2066</option>
+                                                <option value="2065">2065</option>
+                                                <option value="2064">2064</option>
+                                                <option value="2063">2063</option>
+                                                <option value="2062">2062</option>
+                                                <option value="2061">2061</option>
+                                                <option value="2060">2060</option>
+                                                <option value="2059">2059</option>
+                                                <option value="2058">2058</option>
+                                                <option value="2057">2057</option>
+                                                <option value="2056">2056</option>
+                                                <option value="2055">2055</option>
+                                                <option value="2054">2054</option>
+                                                <option value="2053">2053</option>
+                                                <option value="2052">2052</option>
+                                                <option value="2051">2051</option>
+                                                <option value="2050">2050</option>
+                                                <option value="2049">2049</option>
+                                                <option value="2048">2048</option>
+                                                <option value="2047">2047</option>
+                                                <option value="2046">2046</option>
+                                                <option value="2045">2045</option>
+                                                <option value="2044">2044</option>
+                                                <option value="2043">2043</option>
+                                                <option value="2042">2042</option>
+                                                <option value="2041">2041</option>
+                                                <option value="2040">2040</option>
+                                                <option value="2039">2039</option>
+                                                <option value="2038">2038</option>
+                                                <option value="2037">2037</option>
+                                                <option value="2036">2036</option>
+                                                <option value="2035">2035</option>
+                                                <option value="2034">2034</option>
+                                                <option value="2033">2033</option>
+                                                <option value="2032">2032</option>
+                                                <option value="2031">2031</option>
+                                                <option value="2030">2030</option>
+                                                <option value="2029">2029</option>
+                                                <option value="2028">2028</option>
+                                                <option value="2027">2027</option>
+                                                <option value="2026">2026</option>
+                                                <option value="2025">2025</option>
+                                                <option value="2024">2024</option>
+                                                <option value="2023">2023</option>
+                                                <option value="2022">2022</option>
+                                                <option value="2021">2021</option>
+                                                <option value="2020">2020</option>
+                                                <option value="2019">2019</option>
+                                                <option value="2018">2018</option>
+                                                <option value="2017">2017</option>
+                                                <option value="2016">2016</option>
+                                                <option value="2015">2015</option>
+                                                <option value="2014">2014</option>
+                                                <option value="2013">2013</option>
+                                                <option value="2012">2012</option>
+                                                <option value="2011">2011</option>
+                                                <option value="2010">2010</option>
+                                                <option value="2009">2009</option>
+                                                <option value="2008">2008</option>
+                                                <option value="2007">2007</option>
+                                                <option value="2006">2006</option>
+                                                <option value="2005">2005</option>
+                                                <option value="2004">2004</option>
+                                                <option value="2003">2003</option>
+                                                <option value="2002">2002</option>
+                                                <option value="2001">2001</option>
+                                                <option value="2000">2000</option>
+                                                <option value="1999">1999</option>
+                                                <option value="1998">1998</option>
+                                                <option value="1997">1997</option>
+                                                <option value="1996">1996</option>
+                                                <option value="1995">1995</option>
+                                                <option value="1994">1994</option>
+                                                <option value="1993">1993</option>
+                                                <option value="1992">1992</option>
+                                                <option value="1991">1991</option>
+                                                <option value="1990">1990</option>
+                                                <option value="1989">1989</option>
+                                                <option value="1988">1988</option>
+                                                <option value="1987">1987</option>
+                                                <option value="1986">1986</option>
+                                                <option value="1985">1985</option>
+                                                <option value="1984">1984</option>
+                                                <option value="1983">1983</option>
+                                                <option value="1982">1982</option>
+                                                <option value="1981">1981</option>
+                                                <option value="1980">1980</option>
+                                                <option value="1979">1979</option>
+                                                <option value="1978">1978</option>
+                                                <option value="1977">1977</option>
+                                                <option value="1976">1976</option>
+                                                <option value="1975">1975</option>
+                                                <option value="1974">1974</option>
+                                                <option value="1973">1973</option>
+                                                <option value="1972">1972</option>
+                                                <option value="1971">1971</option>
+                                                <option value="1970">1970</option>
+                                                <option value="1969">1969</option>
+                                                <option value="1968">1968</option>
+                                                <option value="1967">1967</option>
+                                                <option value="1966">1966</option>
+                                                <option value="1965">1965</option>
+                                                <option value="1964">1964</option>
+                                                <option value="1963">1963</option>
+                                                <option value="1962">1962</option>
+                                                <option value="1961">1961</option>
+                                                <option value="1960">1960</option>
+                                                <option value="1959">1959</option>
+                                                <option value="1958">1958</option>
+                                                <option value="1957">1957</option>
+                                                <option value="1956">1956</option>
+                                                <option value="1955">1955</option>
+                                                <option value="1954">1954</option>
+                                                <option value="1953">1953</option>
+                                                <option value="1952">1952</option>
+                                                <option value="1951">1951</option>
+                                                <option value="1950">1950</option>
+                                                <option value="1949">1949</option>
+                                                <option value="1948">1948</option>
+                                                <option value="1947">1947</option>
+                                                <option value="1946">1946</option>
+                                                <option value="1945">1945</option>
+                                                <option value="1944">1944</option>
+                                                <option value="1943">1943</option>
+                                                <option value="1942">1942</option>
+                                                <option value="1941">1941</option>
+                                                <option value="1940">1940</option>
+                                                <option value="1939">1939</option>
+                                                <option value="1938">1938</option>
+                                                <option value="1937">1937</option>
+                                                <option value="1936">1936</option>
+                                                <option value="1935">1935</option>
+                                                <option value="1934">1934</option>
+                                                <option value="1933">1933</option>
+                                                <option value="1932">1932</option>
+                                                <option value="1931">1931</option>
+                                                <option value="1930">1930</option>
+                                                <option value="1929">1929</option>
+                                                <option value="1928">1928</option>
+                                                <option value="1927">1927</option>
+                                                <option value="1926">1926</option>
+                                                <option value="1925">1925</option>
+                                                <option value="1924">1924</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-check">
+                                        <label class="form-check-label">
+                                            <input id="cbPositionCurrentlyIn" name="customSwitch" label="Currently In"
+                                                   type="checkbox" class="form-check-input"> Currently In
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group mb-2">
+                                <label for="received" id="LabelEndedPositionDate" class="">Date Ended</label>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            <select name="EndedMonth" id="ddlPositionEndedMonth"
+                                                    class="form-control" required>
+                                                <option value="" selected=""></option>
+                                                <option value="January">January</option>
+                                                <option value="February">February</option>
+                                                <option value="March">March</option>
+                                                <option value="April">April</option>
+                                                <option value="May">May</option>
+                                                <option value="June">June</option>
+                                                <option value="July">July</option>
+                                                <option value="August">August</option>
+                                                <option value="September">September</option>
+                                                <option value="October">October</option>
+                                                <option value="November">November</option>
+                                                <option value="December">December</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            <select name="EndedYear" id="ddlPositionEndedYear" class="form-control">
+                                                <option value="" selected=""></option>
+                                                <option value="2073">2073</option>
+                                                <option value="2072">2072</option>
+                                                <option value="2071">2071</option>
+                                                <option value="2070">2070</option>
+                                                <option value="2069">2069</option>
+                                                <option value="2068">2068</option>
+                                                <option value="2067">2067</option>
+                                                <option value="2066">2066</option>
+                                                <option value="2065">2065</option>
+                                                <option value="2064">2064</option>
+                                                <option value="2063">2063</option>
+                                                <option value="2062">2062</option>
+                                                <option value="2061">2061</option>
+                                                <option value="2060">2060</option>
+                                                <option value="2059">2059</option>
+                                                <option value="2058">2058</option>
+                                                <option value="2057">2057</option>
+                                                <option value="2056">2056</option>
+                                                <option value="2055">2055</option>
+                                                <option value="2054">2054</option>
+                                                <option value="2053">2053</option>
+                                                <option value="2052">2052</option>
+                                                <option value="2051">2051</option>
+                                                <option value="2050">2050</option>
+                                                <option value="2049">2049</option>
+                                                <option value="2048">2048</option>
+                                                <option value="2047">2047</option>
+                                                <option value="2046">2046</option>
+                                                <option value="2045">2045</option>
+                                                <option value="2044">2044</option>
+                                                <option value="2043">2043</option>
+                                                <option value="2042">2042</option>
+                                                <option value="2041">2041</option>
+                                                <option value="2040">2040</option>
+                                                <option value="2039">2039</option>
+                                                <option value="2038">2038</option>
+                                                <option value="2037">2037</option>
+                                                <option value="2036">2036</option>
+                                                <option value="2035">2035</option>
+                                                <option value="2034">2034</option>
+                                                <option value="2033">2033</option>
+                                                <option value="2032">2032</option>
+                                                <option value="2031">2031</option>
+                                                <option value="2030">2030</option>
+                                                <option value="2029">2029</option>
+                                                <option value="2028">2028</option>
+                                                <option value="2027">2027</option>
+                                                <option value="2026">2026</option>
+                                                <option value="2025">2025</option>
+                                                <option value="2024">2024</option>
+                                                <option value="2023">2023</option>
+                                                <option value="2022">2022</option>
+                                                <option value="2021">2021</option>
+                                                <option value="2020">2020</option>
+                                                <option value="2019">2019</option>
+                                                <option value="2018">2018</option>
+                                                <option value="2017">2017</option>
+                                                <option value="2016">2016</option>
+                                                <option value="2015">2015</option>
+                                                <option value="2014">2014</option>
+                                                <option value="2013">2013</option>
+                                                <option value="2012">2012</option>
+                                                <option value="2011">2011</option>
+                                                <option value="2010">2010</option>
+                                                <option value="2009">2009</option>
+                                                <option value="2008">2008</option>
+                                                <option value="2007">2007</option>
+                                                <option value="2006">2006</option>
+                                                <option value="2005">2005</option>
+                                                <option value="2004">2004</option>
+                                                <option value="2003">2003</option>
+                                                <option value="2002">2002</option>
+                                                <option value="2001">2001</option>
+                                                <option value="2000">2000</option>
+                                                <option value="1999">1999</option>
+                                                <option value="1998">1998</option>
+                                                <option value="1997">1997</option>
+                                                <option value="1996">1996</option>
+                                                <option value="1995">1995</option>
+                                                <option value="1994">1994</option>
+                                                <option value="1993">1993</option>
+                                                <option value="1992">1992</option>
+                                                <option value="1991">1991</option>
+                                                <option value="1990">1990</option>
+                                                <option value="1989">1989</option>
+                                                <option value="1988">1988</option>
+                                                <option value="1987">1987</option>
+                                                <option value="1986">1986</option>
+                                                <option value="1985">1985</option>
+                                                <option value="1984">1984</option>
+                                                <option value="1983">1983</option>
+                                                <option value="1982">1982</option>
+                                                <option value="1981">1981</option>
+                                                <option value="1980">1980</option>
+                                                <option value="1979">1979</option>
+                                                <option value="1978">1978</option>
+                                                <option value="1977">1977</option>
+                                                <option value="1976">1976</option>
+                                                <option value="1975">1975</option>
+                                                <option value="1974">1974</option>
+                                                <option value="1973">1973</option>
+                                                <option value="1972">1972</option>
+                                                <option value="1971">1971</option>
+                                                <option value="1970">1970</option>
+                                                <option value="1969">1969</option>
+                                                <option value="1968">1968</option>
+                                                <option value="1967">1967</option>
+                                                <option value="1966">1966</option>
+                                                <option value="1965">1965</option>
+                                                <option value="1964">1964</option>
+                                                <option value="1963">1963</option>
+                                                <option value="1962">1962</option>
+                                                <option value="1961">1961</option>
+                                                <option value="1960">1960</option>
+                                                <option value="1959">1959</option>
+                                                <option value="1958">1958</option>
+                                                <option value="1957">1957</option>
+                                                <option value="1956">1956</option>
+                                                <option value="1955">1955</option>
+                                                <option value="1954">1954</option>
+                                                <option value="1953">1953</option>
+                                                <option value="1952">1952</option>
+                                                <option value="1951">1951</option>
+                                                <option value="1950">1950</option>
+                                                <option value="1949">1949</option>
+                                                <option value="1948">1948</option>
+                                                <option value="1947">1947</option>
+                                                <option value="1946">1946</option>
+                                                <option value="1945">1945</option>
+                                                <option value="1944">1944</option>
+                                                <option value="1943">1943</option>
+                                                <option value="1942">1942</option>
+                                                <option value="1941">1941</option>
+                                                <option value="1940">1940</option>
+                                                <option value="1939">1939</option>
+                                                <option value="1938">1938</option>
+                                                <option value="1937">1937</option>
+                                                <option value="1936">1936</option>
+                                                <option value="1935">1935</option>
+                                                <option value="1934">1934</option>
+                                                <option value="1933">1933</option>
+                                                <option value="1932">1932</option>
+                                                <option value="1931">1931</option>
+                                                <option value="1930">1930</option>
+                                                <option value="1929">1929</option>
+                                                <option value="1928">1928</option>
+                                                <option value="1927">1927</option>
+                                                <option value="1926">1926</option>
+                                                <option value="1925">1925</option>
+                                                <option value="1924">1924</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group mb-2">
+                                <legend>Top three primary responsibilities</legend>
+                                <div class="form-group mb-2">
+                                    <label for="t" class="">Responsibility #1</label>
+                                    <input name="Responsibility1" id="txtResponsibility1" type="text" class="form-control" value="">
+                                </div>
+                                <div class="form-group mb-2">
+                                    <label for="t" class="">Responsibility #2</label>
+                                    <input name="Responsibility2" id="txtResponsibility2" type="text" class="form-control" value="">
+                                </div>
+                                <div class="form-group mb-2">
+                                    <label for="t" class="">Responsibility #3</label>
+                                    <input name="Responsibility3" id="txtResponsibility3" type="text" class="form-control" value="">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="t" class="">
+                                    Other information that makes this
+                                    experience unique
+                                </label><input name="OtherInfo" id="txtOtherInfo" type="text" class="form-control"
+                                               value="">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class=" btn btn-secondary custombtn w-auto"
+                        data-bs-dismiss="modal">
+                    Close
+                </button>
+                <button type="button" id="btnAddPosition" class="btn btn-secondary custombtn w-auto">Save</button>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+@section Scripts{
+ @*   @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }*@
+    <script src="~/scripts/professionalskills/professionalskills.js"></script>
+}
