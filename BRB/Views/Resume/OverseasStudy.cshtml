@@ -1,40 +1,37 @@
 ﻿<div class="formWrapper">
-    <h1>Overseas Studies</h1>
-    <button type="button" class="mb-2 btn btn-outline-primary btn-sm" data-bs-toggle="modal"
-            data-bs-target="#modalExample">
-        Example
-    </button>
+    <form class="needs-validation formSpace" novalidate>
+        <h1>Overseas Studies</h1>
+        <button type="button" class="btn custombtn customBtn-light w-auto ms-2" data-bs-toggle="modal"
+                data-bs-target="#modalExample">
+            Example
+        </button>
 
-    <div class="mb-3 form-check">
-        <label class="form-check-label">
-            <input type="checkbox" id="cbNotApply"
-                   class="form-check-input"> This section does not apply to me.
-        </label>
-    </div>
+        <div class="custom-checkbox custom-control mt-2 mb-2">
+            <input type="checkbox" class="custom-control-input" id="sectionCheckBox">
+            <label class="custom-control-label" for="sectionCheckBox">
+                This section does not apply to me.
+            </label>
+        </div>
 
-    <p>
-        If you have traveled to study in your major specialization or in the language of that area,
-        include location, main areas of class content, dates of enrollment, and other information
-        which contributed to your experience (for example: staying with a family that did not use
-        English as their primary language.)
-    </p>
-    <p class="danger-text">
-        <i>
-            You currently have no Overseas Studies listed. Click the Add button below to add
-            one.
-        </i>
-    </p>
-    <div id="DivSection">
-
-    </div>
-    <button type="button" class="btn btn-primary btn-sm custombtn w-auto mt-2" data-bs-toggle="modal"
-            data-bs-target="#SummaryModal">
-        Add an Overseas Study Experience
-    </button>
-
-    <hr>
-    <form class="needs-validation" novalidate>
-        <div class="form-check">
+        <p>
+            If you have traveled to study in your major specialization or in the language of that area,
+            include location, main areas of class content, dates of enrollment, and other information
+            which contributed to your experience (for example: staying with a family that did not use
+            English as their primary language.)
+        </p>
+        <p class="danger-text">
+            <i>
+                You currently have no Overseas Studies listed. Click the Add button below to add
+                one.
+            </i>
+        </p>
+        <div id="DivSection" class="mb-2">
+        </div>
+        <button type="button" class="btn btn-primary btn-sm custombtn w-auto mt-2 py-2" data-bs-toggle="modal"
+                data-bs-target="#SummaryModal">
+            Add an Overseas Study Experience
+        </button>
+        <div class="form-check mt-3">
             <label class="form-check-label">
                 <input type="checkbox" id="cbkFinished"
                        class="form-check-input"> I am finished with this section
@@ -51,18 +48,18 @@
 <div class="modal fade" id="SummaryModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-body">
-                <form id="OverseasForm" class="needs-validation" novalidate>
+            <div class="modal-body formWrapper">
+                <form id="OverseasForm" class="needs-validation formSpace py-0" novalidate>
                     <input type="hidden" name="OverseasStudyId" id="hdfOverseasStudyId" />
                     <input type="hidden" name="LastSectionVisitedId" id="hdfLastSectionVisitedId" value="30" />
                     <div class="row">
                         <div class="col-md-12">
-                            <div class="form-group mb-2">
+                            <div class="form-group">
                                 <label for="validationCustom01">College/University</label>
                                 <input type="text" class="form-control" id="txtcollegeName"
                                        name="CollegeName" required>
                             </div>
-                            <div class="form-group mb-2">
+                            <div class="form-group">
                                 <label for="City" class="">City</label>
                                 <input name="City" id="City" type="text" class="form-control" required>
                             </div>
@@ -72,26 +69,31 @@
                                         id="ddlCountry" class="form-control">
                                 </select>
                             </div>
-                            <div class="form-group mb-2">
+                            <div class="form-group">
                                 <label for="received" class="">Date Started</label>
                                 <div class="row">
+                                    <div class="col-12">
                                     <input class="form-control" id="txtStartDate" name="StartedDate" type="date" required />
+                                    </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col">
-                                    <div class="form-check">
-                                        <label class="form-check-label">
-                                            <input id="exampleCustomSwitch" name="customSwitch" label="Currently In"
-                                                   type="checkbox" class="form-check-input"> Currently In
+                                    <div class="custom-checkbox custom-control mb-2">
+                                        <input id="exampleCustomSwitch" name="customSwitch" label="Currently In"
+                                               type="checkbox" class="custom-control-input">
+                                        <label class="custom-control-label" for="exampleCustomSwitch">
+                                           Currently In
                                         </label>
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-group mb-2">
+                            <div class="form-group">
                                 <label for="received" class="">Date Ended</label>
                                 <div class="row">
+                                    <div class="col-12">
                                     <input class="form-control" id="txtEndDate" name="EndedDate" type="date" />
+                                </div>
                                 </div>
                             </div>
 
@@ -115,11 +117,11 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" id="btnClose" class="btn btn-secondary custombtn w-auto"
+                <button type="button" id="btnClose" class="btn btn-secondary modalClose w-auto"
                         data-bs-dismiss="modal">
                     Close
                 </button>
-                <button type="button" id="btnSaveOverseasStudy" class="btn btn-secondary custombtn w-auto ">Save</button>
+                <button type="button" id="btnSaveOverseasStudy" class="btn btn-secondary custombtn w-auto">Save</button>
             </div>
         </div>
     </div>

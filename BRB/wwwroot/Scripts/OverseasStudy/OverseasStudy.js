@@ -91,7 +91,7 @@ $('#btnSaveOverseasStudy').click(function () {
 
 
 $(document).on('change', 'input[type="radio"]', function () {
-    let input = "<input type='text' name='LivingSituationOther' class='form-control mt-2' required id='txtLivingSituationOther'/>";
+    let input = "<input type='text' name='LivingSituationOther' class='form-control mt-2 mb-2' required id='txtLivingSituationOther'/>";
     if (this.value == 3) {
         $('#cbDiv').after(input);
     } else {
@@ -174,24 +174,25 @@ function LoadData() {
     $("#DivSection").html("");
     $.each(overseasArray, function (index, value) {
         let html = ` 
-                <div class="card ml-4 col-md-4"> 
+                <div class="card col-md-12 p-0 mb-3 cardWrapper"> 
                     <div class="card-body">
                        <div class="row">
                             <div class="col-md-8">
                                 <span class="card-text">
-                                    <p>${value.collegeName}</p>
+                                    <h5 class="title-text">${value.collegeName}</h5>
                                     <p class="text-muted">${value.startedDate}-${value.endDate}</p>
                                 </span>
                             </div>
                             <div class="col-md-4">
-                                <button type="button"  class="btn btn-outline-danger">
+                            <div class="card-Btn">
+                                <button type="button"  class="btn custombtn w-auto ms-2">
                                     <svg stroke="currentColor" fill="currentColor" stroke-width="0"
                                          viewBox="0 0 24 24" height="1em" width="1em"
                                          xmlns="http://www.w3.org/2000/svg">
                                         <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z">
                                         </path>
                                     </svg>
-                                </button><button type="button" id="btnEditOverseas" data-item='${value.overseasStudyId}' data-edit='${index}' class="btn btn-outline-primary">
+                                </button><button type="button" id="btnEditOverseas" data-item='${value.overseasStudyId}' data-edit='${index}' class="btn custombtn customBtn-light w-auto ms-1">
                                     <svg stroke="currentColor" fill="currentColor" stroke-width="0"
                                          viewBox="0 0 24 24" height="1em" width="1em"
                                          xmlns="http://www.w3.org/2000/svg">
@@ -199,6 +200,7 @@ function LoadData() {
                                         </path>
                                     </svg>
                                 </button>
+                                </div>
                             </div>
                         </div>
                       </div>

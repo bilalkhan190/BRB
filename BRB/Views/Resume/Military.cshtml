@@ -1,37 +1,39 @@
 ﻿<div class="formWrapper">
+    <div class="formSpace pb-0">
     <h1>Military Experience</h1>
-    <div class="mb-3 form-check">
-        <label class="form-check-label">
-            <input type="checkbox" id="cbSectionNotApply"
-                   class="form-check-input"> This section does not apply to me.
+    <div class="custom-checkbox custom-control mt-2 mb-2">
+        <input type="checkbox" id="cbSectionNotApply"
+               class="custom-control-input">
+        <label class="custom-control-label" for="cbSectionNotApply">
+          This section does not apply to me.
         </label>
     </div>
-     <form id="mainForm">
+    </div>
+    <form id="mainForm" class="needs-validation formSpace">
+          
          <input type="hidden" value="40" id="hdfLastSectionVisitedId"/>
          <input type="hidden" value="" id="hdfMilitaryExperienceId"/>
-    <hr>
-   
-    <div class="row">
+     <div class="row">
         <div class="col-sm-6">
-            <div ="form-group mb-2">
-                    <label foclassr="t" class="mb-2">Military Branch</label>
+                <div class="form-group">
+                    <label foclassr="t">Military Branch</label>
                 <input name="Branch" id="txtBranch" type="text" class="form-control" value="">
             </div>
-            <div class="form-group mb-2">
-                <label for="t" class="mb-2">
+            <div class="form-group">
+                <label for="t">
                     Primary City
                     Stationed
                 </label>
                 <input name="City" id="txtCity" type="text" class="form-control"
                        value="">
             </div>
-            <div class="form-group mb-2">
-                <label for="t" class="mb-2">Country</label>
+            <div class="form-group">
+                <label for="t">Country</label>
                 <select name="CountryId" id="ddlCountry" class="form-control">
                 </select>
             </div>
-            <div class="form-group mb-2">
-                <label for="received" class="mb-2">Date Started</label>
+            <div class="form-group mb-0">
+                <label for="received">Date Started</label>
                 <div class="row">
                     <div class="col-6">
                         <div class="form-group">
@@ -54,7 +56,7 @@
                         </div>
                     </div>
                     <div class="col-6">
-                        <div class="form-group mb-2">
+                        <div class="form-group">
                             <select name="StartedYear" id="txtStartedYear"
                                     class="form-control">
                                 <option value="" selected=""></option>
@@ -215,10 +217,11 @@
             </div>
             <div class="row">
                 <div class="col">
-                    <div class="form-check mb-2">
-                        <label class="form-check-label">
-                            <input id="cbCurrentlyIn"  label="Currently In"
-                                   type="checkbox" class="form-check-input"> Currently In
+                        <div class="custom-checkbox custom-control mb-2">
+                            <input id="cbCurrentlyIn" label="Currently In"
+                                   type="checkbox" class="custom-control-input">
+                            <label class="custom-control-label" for="cbCurrentlyIn">
+                  Currently In
                         </label>
                     </div>
                 </div>
@@ -228,7 +231,7 @@
             </div>
             <div class="row">
                 <div class="col-6">
-                    <div class="mt-2 form-group mb-2">
+                    <div class="mt-2 form-group">
                         <select name="EndedMonth" id="ddlEndedMonth"
                                 class="form-control">
                             <option value="" selected=""></option>
@@ -249,7 +252,7 @@
                     </div>
                 </div>
                 <div class="col-6">
-                    <div class="mt-2 form-group mb-2">
+                    <div class="mt-2 form-group">
                         <select name="EndedYear" id="ddlEndedYear"
                                 class="form-control">
                             <option value="" selected=""></option>
@@ -408,7 +411,7 @@
                     </div>
                 </div>
             </div>
-            <div class="form-group mb-2">
+            <div class="form-group">
                 <label for="t" class="">Rank</label><input name="Rank" id="txtRank"
                                                            type="text" class="form-control" value="">
             </div>
@@ -426,14 +429,13 @@
                 Add a Military
                 Position
             </button>
-            <div class="card-body" id="divEditSection">
+                <div class="card-body mt-3 MilitaryBox" id="divEditSection">
                 <div class="row">
                 </div>
             </div>
         </div>
     </div>
   
-    <hr>
     <div class="row">
         <div class="col-md-12">
             <div class="form-check">
@@ -456,17 +458,17 @@
 <div class="modal fade" id="SummaryModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-body">
-                <form class="needs-validation" novalidate>
+            <div class="modal-body formWrapper">
+                <form class="needs-validation formSpace py-0" novalidate>
                     <input type="hidden" id="hdfMilitaryPositionId"/>
                     <div class="row">
                         <div class="col-md-12">
-                            <div class="form-group mb-2">
+                            <div class="form-group">
                                 <label for="validationCustom01">Title</label>
                                 <input type="text" class="form-control" id="txtTitle"
                                        name="Title" required>
                             </div>
-                            <div class="form-group mb-2">
+                            <div class="form-group mb-0">
                                 <label for="received" class="">Date Started</label>
                                 <div class="row">
                                     <div class="col-6">
@@ -652,16 +654,17 @@
 
                             <div class="row">
                                 <div class="col">
-                                    <div class="form-check">
-                                        <label class="form-check-label">
-                                            <input id="cbPositionCurrentlyIn" name="customSwitch" label="Currently In"
-                                                   type="checkbox" class="form-check-input"> Currently In
+                                    <div class="custom-checkbox custom-control mb-2">
+                                        <input id="cbPositionCurrentlyIn" name="customSwitch" label="Currently In"
+                                               type="checkbox" class="custom-control-input">
+                                        <label class="custom-control-label" for="cbPositionCurrentlyIn">
+                                           Currently In
                                         </label>
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="form-group mb-2">
+                            <div class="form-group mb-0">
                                 <label for="received" id="LabelEndedPositionDate" class="">Date Ended</label>
                                 <div class="row">
                                     <div class="col-6">
@@ -844,24 +847,24 @@
                                 </div>
                             </div>
 
-                            <div class="form-group mb-2">
+                            <div class="form-group">
                                 <label for="t" class="">
                                     Specialized training relevant to the
                                     industry you are in or are going into
                                 </label><input name="MainTraining" id="txtMainTraining" type="text"
                                                class="form-control" value="">
                             </div>
-                            <div class="form-group mb-2">
+                            <div class="form-group">
                                 <legend>Top three primary responsibilities</legend>
-                                <div class="form-group mb-2">
+                                <div class="form-group">
                                     <label for="t" class="">Responsibility #1</label>
                                     <input name="Responsibility1" id="txtResponsibility1" type="text" class="form-control" value="">
                                 </div>
-                                <div class="form-group mb-2">
+                                <div class="form-group">
                                     <label for="t" class="">Responsibility #2</label>
                                     <input name="Responsibility2" id="txtResponsibility2" type="text" class="form-control" value="">
                                 </div>
-                                <div class="form-group mb-2">
+                                <div class="form-group">
                                     <label for="t" class="">Responsibility #3</label>
                                     <input name="Responsibility3" id="txtResponsibility3" type="text" class="form-control" value="">
                                 </div>
@@ -879,7 +882,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class=" btn btn-secondary custombtn w-auto"
+                <button type="button" class="btn btn-secondary modalClose w-auto"
                         data-bs-dismiss="modal">
                     Close
                 </button>
