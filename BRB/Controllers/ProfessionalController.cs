@@ -41,15 +41,27 @@ namespace BRB.Controllers
                 resumeProfileData.LastSectionCompletedId = professionalViewModel.IsComplete == true ? professionalViewModel.LastSectionVisitedId : 0;
                 _resumeService.UpdateResumeMaster(resumeProfileData);
 
+                var proData = _dbContext.Professionals.FirstOrDefault(x => x.ResumeId == sessionData.ResumeId);
+                if(proData != null) {
+                    _dbContext.Professionals.Remove(proData);
+                    _dbContext.SaveChanges();
+                }
+                
                 Professional professionalMaster = new Professional();
                 professionalMaster.ResumeId = sessionData.ResumeId;
                 professionalMaster.CreatedDate = DateTime.Today;
                 professionalMaster.IsOptOut = false;
                 professionalMaster.IsComplete = professionalViewModel.IsComplete;
-            var masterData =  _professionalService.AddProfessionalMaster(professionalMaster);
+               var masterData =  _professionalService.AddProfessionalMaster(professionalMaster);
 
                 if (professionalViewModel.Licenses.Count > 0)
                 {
+                    var RangeRecords = _dbContext.Licenses.Where(x => x.ProfessionalId == masterData.ProfessionalId).ToList();
+                    if(RangeRecords.Count > 0)
+                    {
+                        _dbContext.Licenses.RemoveRange(RangeRecords);
+                        _dbContext.SaveChanges();
+                    }
                     foreach (var license in professionalViewModel.Licenses)
                     {
                         license.ProfessionalId = masterData.ProfessionalId;
@@ -59,6 +71,12 @@ namespace BRB.Controllers
                 }
                 if (professionalViewModel.Certificates.Count > 0)
                 {
+                    var RangeRecords = _dbContext.Certificates.Where(x => x.ProfessionalId == masterData.ProfessionalId).ToList();
+                    if (RangeRecords.Count > 0)
+                    {
+                        _dbContext.Certificates.RemoveRange(RangeRecords);
+                        _dbContext.SaveChanges();
+                    }
                     foreach (var certificate in professionalViewModel.Certificates)
                     {
                         certificate.ProfessionalId = masterData.ProfessionalId;
@@ -67,6 +85,12 @@ namespace BRB.Controllers
                 }
                 if (professionalViewModel.Affiliations.Count > 0)
                 {
+                    var RangeRecords = _dbContext.Affiliations.Where(x => x.ProfessionalId == masterData.ProfessionalId).ToList();
+                    if (RangeRecords.Count > 0)
+                    {
+                        _dbContext.Affiliations.RemoveRange(RangeRecords);
+                        _dbContext.SaveChanges();
+                    }
                     foreach (var affilation in professionalViewModel.Affiliations)
                     {
                         affilation.ProfessionalId = masterData.ProfessionalId;
