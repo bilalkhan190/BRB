@@ -57,6 +57,7 @@ namespace BRB.Controllers
            {
             AjaxResponse ajaxResponse = new AjaxResponse();
             ajaxResponse.Success = true;
+            ajaxResponse.Redirect = "/Resume/CommunityService";
             var sessionData = JsonSerializer.Deserialize<UserSessionData>(HttpContext.Session.GetString("_userData"));
             Resume resumeProfileData = new Resume();
             resumeProfileData.ResumeId = sessionData.ResumeId;
@@ -70,7 +71,6 @@ namespace BRB.Controllers
             orgExperience.CreatedDate = DateTime.Today;
             orgExperience.IsOptOut = false;
             orgExperience.IsComplete = false;
-          
             using (var transection = _dbContext.Database.BeginTransaction())
             {
                 try
