@@ -21,4 +21,11 @@ namespace BusinessObjects.Models.MetaData
 
         public List<OrgPosition> orgPositions { get; set; } = new List<OrgPosition>();
     }
+
+    public class VolunteerViewObject
+    {
+        public VolunteerOrg VolunteerOrg { get; set; }
+
+        public List<VolunteerPosition> VolunteerPositions { get; set; } = new List<VolunteerPosition>();
+    }
 }

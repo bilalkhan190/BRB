@@ -12,6 +12,7 @@ function getFormData() {
         url: '/organization/GetData',
         type: 'get',
         success: function (response) {
+            console.log()
             $.each(response.data, function (index, value) {
                 organizationArr.push(value.organization)
                 for (var i = 0; i < value.orgPositions.length; i++) {
@@ -56,7 +57,7 @@ $('#cbPositionCurrentlyIn').click(function () {
 
 
 $('#btnSaveOrganization').click(function () {
-    let orginazation = {
+    let organization = {
         OrgExperienceId: $('#hdfOrgExperienceId').val(),
         OrganizationId: $('#hdfOrganizationId').val(),
         OrgName: $('#txtOrgName').val(),
@@ -68,10 +69,10 @@ $('#btnSaveOrganization').click(function () {
         EndedYear: $('#ddlEndedYear').val(),
     };
     if (localStorage.getItem("org-index") == null) {
-        organizationArr.push(language);
+        organizationArr.push(organization);
     }
     else {
-        organizationArr[parseInt(localStorage.getItem("org-index"))] = orginazation;
+        organizationArr[parseInt(localStorage.getItem("org-index"))] = organization;
         localStorage.clear();
     }
     LoadCards();
@@ -93,7 +94,7 @@ $(document).on('click', '#btnAddPosition', function () {
         OtherInfo: $('#txtOtherInfo').val(),
     };
     if (localStorage.getItem("pos-index") == null) {
-        positionArray.push(language);
+        positionArray.push(position);
     }
     else {
         positionArray[parseInt(localStorage.getItem("pos-index"))] = position;
@@ -106,6 +107,7 @@ $(document).on('click', '#btnAddPosition', function () {
 $('#btnSaveAndContinue').click(function () {
     obj = {
         OrgExperienceId: $('#hdfOrgExperienceId').val(),
+        LastSectionVisitedId: $('#hdfLastSectionVisitedId').val(),
         OrgPositions: positionArray,
         Organizations: organizationArr,
         IsComplete: $('#cbIsComplete').val($('#cbIsComplete').is(':checked'))[0].checked
@@ -225,6 +227,7 @@ function LoadCards() {
 $(document).on('click', '#btnEditOrg', function () {
     var response = organizationArr[$(this).attr('org-index')];
     localStorage.setItem("org-index", $(this).attr('org-index'));
+    console.log(response)
     $('#hdfOrgExperienceId').val(response.orgExperienceId)
     $('#hdfOrganizationId').val(response.organizationId)
     $('#txtOrgName').val(response.orgName)
