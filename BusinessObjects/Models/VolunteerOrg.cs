@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BusinessObjects.Models;
 
@@ -14,6 +15,7 @@ public partial class VolunteerOrg
     public string? City { get; set; }
 
     public string? StateAbbr { get; set; }
+    [NotMapped]
     public string? StateName { get; set; }
 
     public string? StartedMonth { get; set; }

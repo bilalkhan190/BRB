@@ -38,14 +38,33 @@ $('#btnSaveLicense').click(function () {
         ReceivedMonth: $('#ddllicenseReceivedMonth').val(),
         ReceivedYear: $('#ddllicenseReceivedYear').val(),
     };
-    let html = ` 
+    if (localStorage.getItem("edit-license") === null) {
+        licenseArray.push(license);
+       
+    }
+    else {
+        let index = localStorage.getItem("edit-license");
+        licenseArray[index] = license;
+        localStorage.clear();
+    }
+   
+    LoadCards();
+});
+
+
+
+function LoadCards() {
+    $('#divLicenseCard div.row-cstm').html('');
+    $.each(licenseArray, function (index, value) {
+        console.log(value);
+        let html = ` 
                   <div class="card ml-4 "> 
                     <div class="card-body">
                        <div class="row">
                            <div class="col-md-10">
                                 <span class="card-text">
-                                    <p>${$('#txtlicenseTitle').val()}</p>
-                                    <p class="text-muted"> ${$('#ddllicenseReceivedMonth').val()} -  ${$('#ddllicenseReceivedYear').val()} </p>
+                                    <p>${value.Title}</p>
+                                    <p class="text-muted"> ${value.ReceivedYear} -  ${value.ReceivedMonth} </p>
                                 </span>
                             </div>
                             <div class="col-md-2">
@@ -57,7 +76,7 @@ $('#btnSaveLicense').click(function () {
                                         </path>
                                     </svg>
                                 </button>
-                                <button type="button" id="btnEditLicense" data-item='' class="btn btn-outline-primary">
+                                <button type="button" id="btnEditLicense" class="btnEditLicense" data-item='${index}' class="btn btn-outline-primary">
                                     <svg stroke="currentColor" fill="currentColor" stroke-width="0"
                                          viewBox="0 0 24 24" height="1em" width="1em"
                                          xmlns="http://www.w3.org/2000/svg">
@@ -68,31 +87,25 @@ $('#btnSaveLicense').click(function () {
                                 </button>
 
                             </div>
-</div></div></div>
-  `
-    $('#noLicense').hide();
-    $('#divLicenseCard div.row').append(html);
-    licenseArray.push(license);
-    console.log(licenseArray);
-});
+</div></div></div> `;
+        $('#noLicense').hide();
+        $('#divLicenseCard div.row-cstm').append(html);
+    })
 
-
-$('#btnSaveCertificate').click(function () {
-    let certificate = {
-        Title: $('#txtCertificateTitle').val(),
-        StateAbbr: $('#ddlCertificateState').val(),
-        ReceivedMonth: $('#ddlCertificateReceivedMonth').val(),
-        ReceivedYear: $('#ddlCertificateReceivedYear').val(),
-    };
-
-    let html = `
+  
+}
+function LoadCertCards() {
+    $('#divCertificateCard div.row-cstm').html('');
+    $.each(certificateArray, function (index, value) {
+        console.log(value);
+        let html = `
                 <div class="card ml-4 "> 
                     <div class="card-body">
                        <div class="row">
                                 <div class="col-md-10">
                                 <span class="card-text">
-                                    <p>${$('#txtCertificateTitle').val()}</p>
-                                    <p class="text-muted"> ${$('#ddlCertificateReceivedMonth').val() } -  ${$('#ddlCertificateReceivedYear').val()} </p>
+                                    <p>${value.Title}</p>
+                                    <p class="text-muted"> ${value.ReceivedMonth} -  ${value.ReceivedYear} </p>
                                 </span>
                             </div>
                             <div class="col-md-2">
@@ -104,7 +117,7 @@ $('#btnSaveCertificate').click(function () {
                                         </path>
                                     </svg>
                                 </button>
-                                <button type="button" id="btnEditLicense" data-item='' class="btn btn-outline-primary">
+                                <button type="button" class="btnEditCertificate" data-item='${index}' class="btn btn-outline-primary">
                                     <svg stroke="currentColor" fill="currentColor" stroke-width="0"
                                          viewBox="0 0 24 24" height="1em" width="1em"
                                          xmlns="http://www.w3.org/2000/svg">
@@ -117,31 +130,24 @@ $('#btnSaveCertificate').click(function () {
                             </div>
 </div></div></div>
   `
-    $('#noCertificate').hide();
-    $('#divCertificateCard div.row').append(html);
-    certificateArray.push(certificate)
-    console.log(certificateArray);
-});
+        $('#noCertificate').hide();
+        $('#divCertificateCard div.row-cstm').append(html);
+    })
 
-$('#btnSaveAffilation').click(function () {
-    let affilation = {
-        AffiliationName: $('#txtAffiliationName').val(),
-        City: $('#txtAffilationCity').val(),
-        StateAbbr: $('#txtAffilationStateAbbr').val(),
-        StartedMonth: $('#txtAffilationStartedMonth').val(),
-        StartedYear: $('#txtAffilationStartedYear').val(),
-        EndedMonth: $('#txtAffilationEndedMonth').val(),
-        EndedYear: $('#txtAffilationEndedYear').val(),
-    };
 
-    let html = `
+}
+
+function LoadaffCards() {
+    $('#divAffilateCard div.row-cstm').html('');
+    $.each(affilationArray, function (index, affilation) {
+        let html = `
                 <div class="card ml-4 "> 
                     <div class="card-body">
                        <div class="row">
                                 <div class="col-md-10">
                                 <span class="card-text">
                                     <p>${affilation.AffiliationName}</p>
-                                    <p id="HasEndDate" class="text-muted">${affilation.StartedMonth} ${affilation.StartedYear} - ${affilation.EndedMonth} ${affilation.EndedYear } </p>
+                                    <p id="HasEndDate" class="text-muted">${affilation.StartedMonth} ${affilation.StartedYear} - ${affilation.EndedMonth} ${affilation.EndedYear} </p>
                                 </span>
                                 <span>
                                  <p id="noPosition" class="danger-text"><em>You currently have no positions listed. Either add a position to the organization or delete the organization.</em></p>
@@ -160,7 +166,7 @@ $('#btnSaveAffilation').click(function () {
                                         </path>
                                     </svg>
                                 </button>
-                                <button type="button" id="btnEditAffilation" data-item='' class="btn btn-outline-primary">
+                                <button type="button" id="btnEditAffilation" class="btnEditAffilation" data-item='${index}' class="btn btn-outline-primary">
                                     <svg stroke="currentColor" fill="currentColor" stroke-width="0"
                                          viewBox="0 0 24 24" height="1em" width="1em"
                                          xmlns="http://www.w3.org/2000/svg">
@@ -173,10 +179,88 @@ $('#btnSaveAffilation').click(function () {
                     </div>
                 </div>
   `
-    $('#noAffilation').hide();
-    $('#divAffilateCard div.row').append(html);
-    affilationArray.push(affilation)
-    console.log(affilationArray);
+        $('#noAffilation').hide();
+        $('#divAffilateCard div.row-cstm').append(html);
+    })
+}
+
+$(document).on("click", ".btnEditLicense", function () {
+    let index = $(this).attr("data-item");    
+    let editRecord = licenseArray[index];
+    $('#txtlicenseTitle').val(editRecord.Title),
+        $('#ddllicenseState').val(editRecord.StateAbbr),
+        $('#ddllicenseReceivedMonth').val(editRecord.ReceivedMonth),
+        $('#ddllicenseReceivedYear').val(editRecord.ReceivedYear),
+        localStorage.setItem("edit-license", index);
+    $("#licenseModal").modal("show");
+})
+
+
+$(document).on("click", ".btnEditCertificate", function () {
+    let index = $(this).attr("data-item");
+    let editRecord = certificateArray[index];
+    $('#txtCertificateTitle').val(editRecord.Title),
+        $('#ddlCertificateState').val(editRecord.StateAbbr),
+        $('#ddlCertificateReceivedMonth').val(editRecord.ReceivedMonth),
+        $('#ddlCertificateReceivedYear').val(editRecord.ReceivedYear),
+    localStorage.setItem("edit-cert", index);
+    $("#CertificateModal").modal("show");
+})
+
+$(document).on("click", ".btnEditAffilation", function () {
+    let index = $(this).attr("data-item");
+    let editRecord = affilationArray[index];
+    $('#txtAffiliationName').val(editRecord.AffiliationName),
+        $('#txtAffilationCity').val(editRecord.City),
+        $('#txtAffilationStateAbbr').val(editRecord.StateAbbr),
+        $('#txtAffilationStartedMonth').val(editRecord.StartedMonth),
+        $('#txtAffilationStartedYear').val(editRecord.StartedYear),
+        $('#txtAffilationEndedMonth').val(editRecord.EndedMonth),
+        $('#txtAffilationEndedYear').val(editRecord.EndedYear),
+      localStorage.setItem("edit-aff", index);
+    $("#AffilationModal").modal("show");
+})
+
+$('#btnSaveCertificate').click(function () {
+    let certificate = {
+        Title: $('#txtCertificateTitle').val(),
+        StateAbbr: $('#ddlCertificateState').val(),
+        ReceivedMonth: $('#ddlCertificateReceivedMonth').val(),
+        ReceivedYear: $('#ddlCertificateReceivedYear').val(),
+    };
+    if (localStorage.getItem("edit-cert") === null) {
+        certificateArray.push(certificate)
+    }
+    else {
+        let index = localStorage.getItem("edit-cert");
+        certificateArray[index] = certificate;
+        localStorage.clear();
+    }
+   
+
+    LoadCertCards();
+});
+
+$('#btnSaveAffilation').click(function () {
+    let affilation = {
+        AffiliationName: $('#txtAffiliationName').val(),
+        City: $('#txtAffilationCity').val(),
+        StateAbbr: $('#txtAffilationStateAbbr').val(),
+        StartedMonth: $('#txtAffilationStartedMonth').val(),
+        StartedYear: $('#txtAffilationStartedYear').val(),
+        EndedMonth: $('#txtAffilationEndedMonth').val(),
+        EndedYear: $('#txtAffilationEndedYear').val(),
+    };
+    if (localStorage.getItem("edit-aff") === null) {
+        affilationArray.push(affilation)
+    }
+    else {
+        let index = localStorage.getItem("edit-aff");
+        affilationArray[index] = affilation;
+        localStorage.clear();
+    }
+
+    LoadaffCards();
 });
 
 function LoadDropdowns() {
