@@ -126,31 +126,23 @@ $('#btnAddPosition').click(function () {
 
     positionArray = positionArray.map(el => _.mapKeys(el, (val, key) => _.camelCase(key)));
     $.each(positionArray, function (index, value) {
-        let html = ` <div class="col-md-10">
-                                <span class="card-text">
-                                    <p>${value.title}</p>
-                                    <p class="text-muted"  id="messageCurrentlyNotIn">${value.startedMonth} ${value.startedYear} - ${value.endedMonth} ${value.endedYear} </p>
-                                    <p class="text-muted" id="messageCurrentlyIn">${value.startedMonth} ${value.startedYear} - Current </p>
-                                    <p class="text-muted">Training Completed: ${value.mainTraining}</p>
-                                </span>
-                            </div>
-                            <div class="col-md-2">
-                                <button type="button" id="btnDelete"  data-item='${value.militaryPositionId}' data-edit=${index} class="btn btn-outline-danger">
         let html = ` <div class="col-md-12 positionInnerBox">
                                 <span class="card-text row pt-3">
                                 <div class="col-md-8">
-                                    <h5>${value.title}</h5>
+                                    <p class="text-muted"  id="messageCurrentlyNotIn">${value.startedMonth} ${value.startedYear} - ${value.endedMonth} ${value.endedYear} </p>
+                                    <p class="text-muted" id="messageCurrentlyIn">${value.startedMonth} ${value.startedYear} - Current </p>
+                                    <p class="text-muted">Training Completed: ${value.mainTraining}</p>
                                     </div>
                                     <div class="col-md-4">
                                     <div class="card-Btn">
-                                <button type="button"  class="btn custombtn w-auto ms-2">
+                               <button type="button" id="btnDelete"  data-item='${value.militaryPositionId}' data-edit=${index} class="btn custombtn btn-outline-danger">
                                     <svg stroke="currentColor" fill="currentColor" stroke-width="0"
                                          viewBox="0 0 24 24" height="1em" width="1em"
                                          xmlns="http://www.w3.org/2000/svg">
                                         <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z">
                                         </path>
                                     </svg>
-                                </button><button type="button" id="btnEditCollege" data-item='${value.militaryPositionId}' data-edit=${index} class="btn custombtn customBtn-light w-auto ms-1">
+                                </button><button type="button" id="btnEditMilitary" data-item='${value.militaryPositionId}' data-edit=${index} class="btn custombtn customBtn-light w-auto ms-1">
                                     <svg stroke="currentColor" fill="currentColor" stroke-width="0"
                                          viewBox="0 0 24 24" height="1em" width="1em"
                                          xmlns="http://www.w3.org/2000/svg">
@@ -207,36 +199,28 @@ function loadData(response) {
     LoadCards();
 }
 
-            let html = ` <div class="col-md-12">
-                                <span class="card-text row pt-3">
-                                <div class="col-md-8">
-                                    <h5>${value.title}</h5>
-                                    </div>
-                                    <div class="col-md-4">
-                                     <div class="card-Btn">
-                                <button type="button"  class="btn custombtn w-auto ms-2">
+         
 
 function LoadCards() {
     $('#divEditSection div.row').html("")
     $.each(positionArray, function (index,value) {
-        let html = ` <div class="col-md-10">
-                                <span class="card-text">
-                                    <p>${value.title}</p>
+        let html = ` <div class="col-md-12 positionInnerBox">
+                                <span class="card-text row pt-3">
+                                <div class="col-md-8">
                                     <p class="text-muted"  id="messageCurrentlyNotIn">${value.startedMonth} ${value.startedYear} - ${value.endedMonth} ${value.endedYear} </p>
                                     <p class="text-muted" id="messageCurrentlyIn">${value.startedMonth} ${value.startedYear} - Current </p>
                                     <p class="text-muted">Training Completed: ${value.mainTraining}</p>
-                                </span>
-                            </div>
-                            <div class="col-md-2">
-                                <button type="button" id="btnDelete" data-item='${value.militaryPositionId}' data-edit=${index}  class="btn btn-outline-danger">
+                                    </div>
+                                    <div class="col-md-4">
+                                    <div class="card-Btn">
+                               <button type="button" id="btnDelete"  data-item='${value.militaryPositionId}' data-edit=${index} class="btn custombtn btn-outline-danger">
                                     <svg stroke="currentColor" fill="currentColor" stroke-width="0"
                                          viewBox="0 0 24 24" height="1em" width="1em"
                                          xmlns="http://www.w3.org/2000/svg">
                                         <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z">
                                         </path>
                                     </svg>
-                                </button><button type="button" id="btnEditMilitary" data-item='${value.militaryPositionId}' data-edit=${index} class="btn btn-outline-primary">
-                                </button><button type="button" id="btnEditCollege" data-item='${value.militaryPositionId}' data-edit=${index} class="btn custombtn customBtn-light w-auto ms-1">
+                                </button><button type="button" id="btnEditMilitary" data-item='${value.militaryPositionId}' data-edit=${index} class="btn custombtn customBtn-light w-auto ms-1">
                                     <svg stroke="currentColor" fill="currentColor" stroke-width="0"
                                          viewBox="0 0 24 24" height="1em" width="1em"
                                          xmlns="http://www.w3.org/2000/svg">
@@ -246,10 +230,6 @@ function LoadCards() {
                                 </button>
                                 </div>
                                 </div>
-                                    <p class="text-muted"  id="messageCurrentlyNotIn">${value.startedMonth} ${value.startedYear} - ${value.endedMonth} ${value.endedYear} </p>
-                                    <p class="text-muted" id="messageCurrentlyIn">${value.startedMonth} ${value.startedYear} - Current </p>
-                                    <p class="text-muted">Training Completed: ${value.mainTraining}</p>
-                                </span>
                             </div>`
         $('#divEditSection div.row').append(html)
         if (value.endedMonth == null && value.endedYear == null) {
