@@ -12,13 +12,25 @@ function getFormData() {
         url: '/organization/GetData',
         type: 'get',
         success: function (response) {
-            console.log()
-            $.each(response.data, function (index, value) {
-                organizationArr.push(value.organization)
-                for (var i = 0; i < value.orgPositions.length; i++) {
-                    positionArray.push(value.orgPositions[i]);
-                }
-            });
+            console.log(response.data)
+            if (response.data.length > 0) {
+                $.each(response.data, function (index, value) {
+                    organizationArr.push(value.organization)
+                    if (value.orgPositions.length > 0) {
+                        for (var i = 0; i < value.orgPositions.length; i++) {
+                            positionArray.push(value.orgPositions[i]);
+                        }
+                    }
+                   
+                });
+            }
+           
+            if (organizationArr.length > 0) {
+                $('#hdfOrgExperienceId').val(organizationArr[0].orgExperienceId)
+            } else {
+                $('#hdfOrgExperienceId').val(response.data.orgExperienceId);
+            }
+
             LoadCards()
         },
         error: function (err) {
@@ -162,7 +174,7 @@ function LoadCards() {
                             </button>
                             </div>
                             <div class="col-md-2">
-                                <button type="button"  class="btn btn-outline-danger">
+                                <button type="button" id="btnDeleteOrg" data-item='${value.organizationId}' org-index="${index}" class="btn btn-outline-danger">
                                     <svg stroke="currentColor" fill="currentColor" stroke-width="0"
                                          viewBox="0 0 24 24" height="1em" width="1em"
                                          xmlns="http://www.w3.org/2000/svg">
@@ -198,7 +210,7 @@ function LoadCards() {
                                 </span>
                             </div>
                             <div class="col-md-2">
-                                <button type="button"  class="btn btn-outline-danger">
+                                <button type="button" id="btnDeletePosition" data-item='${value.orgPositionId}' pos-index='${index}' class="btn btn-outline-danger">
                                     <svg stroke="currentColor" fill="currentColor" stroke-width="0"
                                          viewBox="0 0 24 24" height="1em" width="1em"
                                          xmlns="http://www.w3.org/2000/svg">
@@ -243,9 +255,9 @@ $(document).on('click', '#btnEditOrg', function () {
 $(document).on('click', '#btnEditPosition', function () {
     var response = positionArray[$(this).attr('pos-index')];
     console.log(response)
-        localStorage.setItem("pos-index", $(this).attr('pos-index'));
-        $('#hdfOrganizationId').val(response.organizationId),
-            $('#hdfOrgPositionId').val(response.orgPositionId),
+    localStorage.setItem("pos-index", $(this).attr('pos-index'));
+    $('#hdfOrganizationId').val(response.organizationId),
+        $('#hdfOrgPositionId').val(response.orgPositionId),
         $('#txtTitle').val(response.title),
         $('#ddlPositionStartedMonth').val(response.startedMonth),
         $('#ddlPositionStartedYear').val(response.startedYear),
@@ -256,4 +268,41 @@ $(document).on('click', '#btnEditPosition', function () {
         $('#txtResponsibility3').val(response.responsibility3),
         $('#txtOtherInfo').val(response.otherInfo),
         $('#PositionModel').modal('show');
-})
+});
+
+
+$(document).on('click', '#btnDeleteOrg', function () {
+
+    localStorage.setItem("org-index", $(this).attr('org-index'));
+    let id = $(this).attr('data-item')
+    $.ajax({
+        url: '/Organization/delete?id=' + id,
+        type: 'post',
+        success: function (response) {
+            let index = parseInt(localStorage.getItem("org-index"));
+            organizationArr.splice(index, 1);
+            LoadCards();
+        },
+        error: function (err) {
+
+        }
+    })
+});
+
+$(document).on('click', '#btnDeletePosition', function () {
+
+    localStorage.setItem("pos-index", $(this).attr('pos-index'));
+    let id = $(this).attr('data-item')
+    $.ajax({
+        url: '/Organization/delete?positionId=' + id,
+        type: 'post',
+        success: function (response) {
+            let index = parseInt(localStorage.getItem("pos-index"));
+            positionArray.splice(index, 1);
+            LoadCards();
+        },
+        error: function (err) {
+
+        }
+    });
+});

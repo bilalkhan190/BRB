@@ -116,9 +116,25 @@ namespace BRB.Controllers
             var record = _overseasStudyService.GetLivingSituationList();
             if (record.Count > 0)
             {
-                ajaxResponse.Data = record;
+                ajaxResponse.Data = record.OrderByDescending(x => x.LivingSituationId);
             }
             return Json(ajaxResponse);
-        } 
+        }
+
+        [HttpPost]
+
+        public IActionResult Delete(int id)
+        {
+            AjaxResponse ajaxResponse = new AjaxResponse();
+            ajaxResponse.Success = false;
+            var record = _dbContext.OverseasStudies.FirstOrDefault(x => x.OverseasStudyId == id);
+            if (record != null)
+            {
+                _dbContext.OverseasStudies.Remove(record);
+                _dbContext.SaveChanges();
+                ajaxResponse.Success = true;
+            }
+           return Json(ajaxResponse);
+        }
     }
 }
