@@ -345,6 +345,13 @@ select {
 
 button.btn.btn-secondary.modalClose {
     background: #727272;
+    transition: .3s;
+}
+
+button.btn.btn-secondary.modalClose:hover {
+    background: transparent;
+    color: #727272;
+    border-color: #727272;
 }
 
 .modal-footer .btn.custombtn {

@@ -98,7 +98,8 @@ function LoadCards() {
                                                            <div class="card-body">
                                                     <div class="row"> 
                                                     <div class="col-md-12">
-                                               <span class="card-text row">
+                                               <span class="card-text">
+                                               <div class="row">
                                                <div class="col-md-6">
                                                     <h5 class="title-text">${value.collegeName}</h5>
                                                      <p class="text-muted">${value.collegeCity}</p>
@@ -121,6 +122,7 @@ function LoadCards() {
                                                        </path>
                                                     </svg>
                                              </button>
+                                                    </div>
                                                     </div>
                                                     </div>
                                                    
@@ -180,7 +182,8 @@ function LoadCards() {
                                                             </span>
                                                         </div>
                                                         <div class="col-md-2">
-                                                            <button type="button" id="btnDeleteHonor" data-item='${value.academicHonorId}' acad-edit=${index} class="btn btn-outline-danger">
+                                                        <div class="card-Btn">
+                                                            <button type="button" id="btnDeleteHonor" data-item='${value.academicHonorId}' acad-edit=${index} class="btn custombtn w-auto ms-2">
                                                                 <svg stroke="currentColor" fill="currentColor" stroke-width="0"
                                                                      viewBox="0 0 24 24" height="1em" width="1em"
                                                                      xmlns="http://www.w3.org/2000/svg">
@@ -195,13 +198,16 @@ function LoadCards() {
                                                                     </path>
                                                                 </svg>
                                                             </button>
+                                                            </div>
                                                         </div>
                                                          </div>
                                                      </div>
                                                  </div>`
         $('#DivAcademicHonor').append(html)
     });
-
+    if (acadmicHonorArray != null && acadmicHonorArray.length > 3) {
+        $("#DivAcademicHonor").addClass("BoxHeight");
+    }
     $('#divAcademicScholarship').html("")
     acadmicScholarshipArray = covertArrayKeyIntoCamelCase(acadmicScholarshipArray)
     $.each(acadmicScholarshipArray, function (index, value) {
@@ -217,8 +223,7 @@ function LoadCards() {
                                                         </div>
                                                         <div class="col-md-2">
                                                         <div class="card-Btn">
-                                                            <button type="button"  class="btn custombtn w-auto ms-2">
-                                                            <button type="button" id="btnDeleteAcademicScholarship"  data-item='${value.academicScholarshipId}' sch-edit=${index}  class="btn btn-outline-danger">
+                                                            <button type="button" id="btnDeleteAcademicScholarship"  data-item='${value.academicScholarshipId}' sch-edit=${index}  class="btn custombtn w-auto ms-2">
                                                                 <svg stroke="currentColor" fill="currentColor" stroke-width="0"
                                                                      viewBox="0 0 24 24" height="1em" width="1em"
                                                                      xmlns="http://www.w3.org/2000/svg">
@@ -239,7 +244,9 @@ function LoadCards() {
                                                  </div>`
         $('#divAcademicScholarship').append(html)
     });  
-     
+    if (acadmicScholarshipArray != null && acadmicScholarshipArray.length > 3) {
+        $("#divAcademicScholarship").addClass("BoxHeight");
+    }
     
 }
     

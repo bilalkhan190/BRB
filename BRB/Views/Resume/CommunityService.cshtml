@@ -26,17 +26,17 @@
         ACTIVE member in? (Big Brothers, Big Sisters, Relay for Life, United Way, etc.)
     </p>
     <p>What organization have you been most recently involved in?</p>
-    <p class="danger-text">
+    <p class="danger-text m-0">
         <i>
             You currently have no volunteer organizations listed. Click the Add button to add
             one.
         </i>
     </p>
      <div id="divEditSection">
-        <div class="row">
+        <div class="row mx-auto">
         </div>
     </div>
-    <button type="button" class="btn btn-primary btn-sm custombtn w-auto py-2" data-bs-toggle="modal"
+    <button type="button" class="btn btn-primary btn-sm custombtn w-auto py-2 mt-3" data-bs-toggle="modal"
             data-bs-target="#SummaryModal">
         Add a Volunteer Organization
     </button>
@@ -501,7 +501,7 @@
                 </ul>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary custombtn w-auto"
+                <button type="button" class="btn btn-secondary modalClose w-auto"
                         data-bs-dismiss="modal">
                     Close
                 </button>
@@ -528,7 +528,7 @@
                 </p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary custombtn w-auto"
+                <button type="button" class="btn btn-secondary modalClose w-auto"
                         data-bs-dismiss="modal">
                     Close
                 </button>
@@ -539,17 +539,17 @@
 <div class="modal fade" id="PositionModel" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-body">
-                <form class="needs-validation" novalidate>
+            <div class="modal-body formWrapper">
+                <form class="needs-validation formSpace p-0" novalidate>
                     <input type="hidden" id="hdfVolunteerPositionId" />
                     <div class="row">
                         <div class="col-md-12">
-                            <div class="form-group mb-2">
+                            <div class="form-group">
                                 <label for="validationCustom01">Title</label>
                                 <input type="text" class="form-control" id="txtTitle"
                                        name="Title" required>
                             </div>
-                            <div class="form-group mb-2">
+                            <div class="form-group mb-0">
                                 <label for="received" class="">Date Started</label>
                                 <div class="row">
                                     <div class="col-6">
@@ -735,16 +735,17 @@
 
                             <div class="row">
                                 <div class="col">
-                                    <div class="form-check">
-                                        <label class="form-check-label">
-                                            <input id="cbPositionCurrentlyIn" name="customSwitch" label="Currently In"
-                                                   type="checkbox" class="form-check-input"> Currently In
+                                    <div class="custom-checkbox custom-control mb-2">
+                                        <input id="cbPositionCurrentlyIn" name="customSwitch" label="Currently In"
+                                               type="checkbox" class="custom-control-input">
+                                        <label class="custom-control-label" for="cbPositionCurrentlyIn">
+                                             Currently In
                                         </label>
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="form-group mb-2">
+                            <div class="form-group mb-0">
                                 <label for="received" id="LabelEndedPositionDate" class="">Date Ended</label>
                                 <div class="row">
                                     <div class="col-6">
@@ -926,17 +927,17 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-group mb-2">
+                            <div class="form-group mb-0">
                                 <legend>Top three primary responsibilities</legend>
-                                <div class="form-group mb-2">
+                                <div class="form-group">
                                     <label for="t" class="">Responsibility #1</label>
                                     <input name="Responsibility1" id="txtResponsibility1" type="text" class="form-control" value="">
                                 </div>
-                                <div class="form-group mb-2">
+                                <div class="form-group">
                                     <label for="t" class="">Responsibility #2</label>
                                     <input name="Responsibility2" id="txtResponsibility2" type="text" class="form-control" value="">
                                 </div>
-                                <div class="form-group mb-2">
+                                <div class="form-group">
                                     <label for="t" class="">Responsibility #3</label>
                                     <input name="Responsibility3" id="txtResponsibility3" type="text" class="form-control" value="">
                                 </div>
@@ -954,7 +955,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class=" btn btn-secondary custombtn w-auto"
+                <button type="button" class="btn btn-secondary modalClose w-auto"
                         data-bs-dismiss="modal">
                     Close
                 </button>
