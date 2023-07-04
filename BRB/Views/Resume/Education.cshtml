@@ -2,11 +2,13 @@
 
 <div class="formWrapper">
     <form class="needs-validation formSpace" novalidate>
+        <div class="alignContent">
         <h1>Education</h1>
         <button type="button" class="btn custombtn customBtn-light w-auto ms-2" data-bs-toggle="modal"
                 data-bs-target="#modalExample">
             Example
         </button>
+        </div>
         <p class="danger-text" id="collegeErrMessage">
             <i> You currently have no schools listed. Click the Add button below to add one.</i>
         </p>
@@ -22,10 +24,11 @@
             education you have completed and/or you have not entered your third year of post-high school
             education.
         </p>
-        <div class="form-check">
-            <label class="form-check-label">
-                <input type="checkbox"
-                       class="form-check-input" id="cbkIsComplete" name="IsComplete"> I am finished with this section
+        <div class="custom-checkbox custom-control mt-2 mb-2">
+            <input type="checkbox"
+                   class="custom-control-input" id="cbkIsComplete" name="IsComplete">
+            <label class="custom-control-label" for="cbkIsComplete">
+                 I am finished with this section
             </label>
         </div>
         <div class="formbtn-Wrapper">
@@ -40,11 +43,11 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-body formWrapper">
-                <form id="CollageForm" class="needs-validation formSpace" novalidate>
+                <form id="CollageForm" class="needs-validation formSpace p-0" novalidate>
                     <input type="hidden" name="CollegeId" id="hdfCollegeId" />
                     <input type="hidden" name="LastSectionVisitedId" id="hdfLastSectionVisitedId" value="25" />
-                    <div class="row">
-                        <div class="col-md-12">
+                    <div class="row mx-auto">
+                        <div class="col-md-12 p-0">
                             <div class="form-group">
                                 <label for="validationCustom01">Collage Name</label>
                                 <input type="text" class="form-control" id="txtCollegeName" name="CollegeName"
@@ -191,7 +194,7 @@
          <div class="modal-dialog" role="document">
         <div class="modal-content">
                 <div class="modal-body formWrapper">
-                <form id="formAcademicScholarship" class="needs-validation formSpace py-0">
+                <form id="formAcademicScholarship" class="needs-validation formSpace p-0">
                 <div class="form-group">
                       <input type="hidden" id="hdfAcademicScholarshipId"/>
                     <label for="t" class="">Academic Scholarship</label>
@@ -405,7 +408,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-body formWrapper">
-                <form id="formAcademicHonor" class="needs-validation formSpace py-0">
+                <form id="formAcademicHonor" class="needs-validation formSpace p-0">
                     <div class="form-group">
                         <input type="hidden" id="hdfAcademicHonorId"/>
                         <label for="t" class="">Academic Honor</label>

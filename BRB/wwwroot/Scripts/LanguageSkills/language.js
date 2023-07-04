@@ -97,24 +97,24 @@ function LoadCards() {
     console.log(languageArray)
     $.each(languageArray, function (index, value) {
         let html = ` 
-                <div class="card ml-4 col-md-4"> 
+                <div class="card p-0 mt-2 mb-2 cardWrapper"> 
                     <div class="card-body">
                        <div class="row">
-                            <div class="col-md-8">
-                                <span class="card-text">
-                                    <p>${value.languageName}</p>
-                                    <p class="text-muted">${value.languageAbilityDesc}</p>
-                                </span>
-                            </div>
-                            <div class="col-md-4">
-                                <button type="button"  class="btn btn-outline-danger">
+                            <div class="col-md-12">
+                                <span class="card-text row">
+                                <div class="col-md-6">
+                                    <h5 class="title-text">${value.languageName}</h5>
+                                    </div>
+                                     <div class="col-md-6">
+                                              <div class="card-Btn">
+                                <button type="button"  class="btn custombtn w-auto ms-2">
                                     <svg stroke="currentColor" fill="currentColor" stroke-width="0"
                                          viewBox="0 0 24 24" height="1em" width="1em"
                                          xmlns="http://www.w3.org/2000/svg">
                                         <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z">
                                         </path>
                                     </svg>
-                                </button><button type="button" id="btnEditLangauge" data-item='${value.languageId}' data-edit='${index}' class="btn btn-outline-primary">
+                                </button><button type="button" id="btnEditLangauge" data-item='${value.languageId}' data-edit='${index}' class="btn custombtn customBtn-light w-auto ms-1">
                                     <svg stroke="currentColor" fill="currentColor" stroke-width="0"
                                          viewBox="0 0 24 24" height="1em" width="1em"
                                          xmlns="http://www.w3.org/2000/svg">
@@ -122,6 +122,13 @@ function LoadCards() {
                                         </path>
                                     </svg>
                                 </button>
+                                </div>
+                                </div>
+                                    <p class="text-muted">${value.languageAbilityDesc}</p>
+                                </span>
+                            </div>
+                            <div class="col-md-4">
+                  
                             </div>
                         </div>
                       </div>

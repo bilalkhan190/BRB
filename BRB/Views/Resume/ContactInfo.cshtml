@@ -1,11 +1,13 @@
 ﻿<div class="formWrapper">
 
     <form class="needs-validation formSpace" id="contactForm" novalidate>
+        <div class="alignContent">
         <h1>Contact Information</h1>
         <button type="button" class="btn custombtn customBtn-light w-auto ms-2" data-bs-toggle="modal"
                 data-bs-target="#modalExample">
             Example
         </button>
+        </div>
         <div class="row mt-3">
             <input id="hdfLastSectionVisitedId" name="LastSectionVisitedId" value="15" type="hidden" />
             <input id="hdfcontactInfoId" name="ContactInfoId"  type="hidden" />
@@ -146,10 +148,11 @@
                 </div>
             </div>
         </div>
-        <div class="form-check">
-            <label class="form-check-label">
-                <input name="IsComplete" type="checkbox"
-                       class="form-check-input"> I am finished with this section
+        <div class="custom-checkbox custom-control mb-2">
+            <input name="IsComplete" type="checkbox" id="customCheckBox"
+                   class="custom-control-input">
+            <label class="custom-control-label" for="customCheckBox">
+         I am finished with this section
             </label>
         </div>
         <div class="formbtn-Wrapper">

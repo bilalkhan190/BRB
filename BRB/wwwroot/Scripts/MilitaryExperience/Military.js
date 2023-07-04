@@ -27,6 +27,7 @@ $(document).ready(function () {
         }
     })
 
+
 });
 
 $('#cbCurrentlyIn').click(function () {
@@ -125,16 +126,13 @@ $('#btnAddPosition').click(function () {
 
     positionArray = positionArray.map(el => _.mapKeys(el, (val, key) => _.camelCase(key)));
     $.each(positionArray, function (index, value) {
-        let html = ` <div class="col-md-8">
-                                <span class="card-text">
+        let html = ` <div class="col-md-12 positionInnerBox">
+                                <span class="card-text row pt-3">
+                                <div class="col-md-8">
                                     <h5>${value.title}</h5>
-                                    <p class="text-muted"  id="messageCurrentlyNotIn">${value.startedMonth} ${value.startedYear} - ${value.endedMonth} ${value.endedYear} </p>
-                                    <p class="text-muted" id="messageCurrentlyIn">${value.startedMonth} ${value.startedYear} - Current </p>
-                                    <p class="text-muted">Training Completed: ${value.mainTraining}</p>
-                                </span>
-                            </div>
-                            <div class="col-md-4">
-                            <div class="card-Btn">
+                                    </div>
+                                    <div class="col-md-4">
+                                    <div class="card-Btn">
                                 <button type="button"  class="btn custombtn w-auto ms-2">
                                     <svg stroke="currentColor" fill="currentColor" stroke-width="0"
                                          viewBox="0 0 24 24" height="1em" width="1em"
@@ -151,6 +149,11 @@ $('#btnAddPosition').click(function () {
                                     </svg>
                                 </button>
                                 </div>
+                                </div>
+                                    <p class="text-muted"  id="messageCurrentlyNotIn">${value.startedMonth} ${value.startedYear} - ${value.endedMonth} ${value.endedYear} </p>
+                                    <p class="text-muted" id="messageCurrentlyIn">${value.startedMonth} ${value.startedYear} - Current </p>
+                                    <p class="text-muted">Training Completed: ${value.mainTraining}</p>
+                                </span>
                             </div>`
         $('#divEditSection div.row').append(html)
         if (value.endedMonth == null && value.endedYear == null) {
@@ -158,8 +161,11 @@ $('#btnAddPosition').click(function () {
         } else {
             $('#messageCurrentlyIn').hide();
         }
-
+        
     });
+    if (positionArray != null && positionArray.length > 3) {
+        $("#divEditSection").addClass("BoxHeight");
+    }
     $('#divEditSection').show();
 });
 
@@ -188,16 +194,13 @@ function loadData(response) {
         $.each(response.data.militaryPositions, function (index, value) {
             positionArray.push(response.data.militaryPositions[index])
 
-            let html = ` <div class="col-md-8">
-                                <span class="card-text">
+            let html = ` <div class="col-md-12">
+                                <span class="card-text row pt-3">
+                                <div class="col-md-8">
                                     <h5>${value.title}</h5>
-                                    <p class="text-muted"  id="messageCurrentlyNotIn">${value.startedMonth} ${value.startedYear} - ${value.endedMonth} ${value.endedYear} </p>
-                                    <p class="text-muted" id="messageCurrentlyIn">${value.startedMonth} ${value.startedYear} - Current </p>
-                                    <p class="text-muted">Training Completed: ${value.mainTraining}</p>
-                                </span>
-                            </div>
-                            <div class="col-md-4">
-                            <div class="card-Btn">
+                                    </div>
+                                    <div class="col-md-4">
+                                     <div class="card-Btn">
                                 <button type="button"  class="btn custombtn w-auto ms-2">
                                     <svg stroke="currentColor" fill="currentColor" stroke-width="0"
                                          viewBox="0 0 24 24" height="1em" width="1em"
@@ -214,6 +217,11 @@ function loadData(response) {
                                     </svg>
                                 </button>
                                 </div>
+                                </div>
+                                    <p class="text-muted"  id="messageCurrentlyNotIn">${value.startedMonth} ${value.startedYear} - ${value.endedMonth} ${value.endedYear} </p>
+                                    <p class="text-muted" id="messageCurrentlyIn">${value.startedMonth} ${value.startedYear} - Current </p>
+                                    <p class="text-muted">Training Completed: ${value.mainTraining}</p>
+                                </span>
                             </div>`
             $('#divEditSection div.row').append(html)
             if (value.endedMonth == null && value.endedYear == null) {

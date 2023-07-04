@@ -98,8 +98,11 @@ function LoadCards() {
                                                            <div class="card-body">
                                                     <div class="row"> 
                                                     <div class="col-md-12">
-                                               <span class="card-text">
+                                               <span class="card-text row">
+                                               <div class="col-md-6">
                                                     <h5 class="title-text">${value.collegeName}</h5>
+                                                    </div>
+                                                    <div class="col-md-6">
                                                     <div class="card-Btn">
                                                         <button type="button"  class="btn custombtn w-auto ms-2">
                                                     <svg stroke="currentColor" fill="currentColor" stroke-width="0"
@@ -116,6 +119,7 @@ function LoadCards() {
                                                        </path>
                                                     </svg>
                                              </button>
+                                                    </div>
                                                     </div>
                                                     <p class="text-muted">${value.collegeCity}</p>
                                                     <p class="text-muted">GPA: ${value.gpa}</p>
