@@ -78,13 +78,13 @@ $('#btnCollageSave').click(function () {
             Gpa: $('#Gpa').val(), IncludeGpa: $('#cbkIncludeGpa').is(':checked'), IsComplete: $('#cbkIsComplete').is(":checked")
         }
         if (localStorage.getItem("col-index") == null) {
-            collegeArray.push(position);
+            collegeArray.push(college);
         }
         else {
             collegeArray[parseInt(localStorage.getItem("col-index"))] = college;
             localStorage.clear();
         }
-        $('.collegeModal').modal('toggle');
+      
         LoadCards();
     }
       
@@ -158,7 +158,21 @@ function LoadCards() {
                                                </span>
                                            </div>
                                             <div class="col-md-2">
-                                            
+                                                <button type="button" id="btnDeleteCollege" data-item='${value.collegeId}' data-edit=${index}  class="btn btn-outline-danger">
+                                                    <svg stroke="currentColor" fill="currentColor" stroke-width="0"
+                                                         viewBox="0 0 24 24" height="1em" width="1em"
+                                                         xmlns="http://www.w3.org/2000/svg">
+                                                        <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z">
+                                                      </path>
+                                                  </svg>
+                                              </button><button type="button" id="btnEditCollege" data-item='${value.collegeId}' data-edit=${index} class="btn btn-outline-primary">
+                                                  <svg stroke="currentColor" fill="currentColor" stroke-width="0"
+                                                        viewBox="0 0 24 24" height="1em" width="1em"
+                                                        xmlns="http://www.w3.org/2000/svg">
+                                                       <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z">
+                                                       </path>
+                                                    </svg>
+                                             </button>
                                            </div>
                                         </div>
                                         </div>
@@ -181,8 +195,7 @@ function LoadCards() {
                                                             </span>
                                                         </div>
                                                         <div class="col-md-2">
-                                                        <div class="card-Btn">
-                                                            <button type="button"  class="btn custombtn w-auto ms-2">
+                                                            <button type="button" id="btnDeleteHonor" data-item='${value.academicHonorId}' acad-edit=${index} class="btn btn-outline-danger">
                                                                 <svg stroke="currentColor" fill="currentColor" stroke-width="0"
                                                                      viewBox="0 0 24 24" height="1em" width="1em"
                                                                      xmlns="http://www.w3.org/2000/svg">
@@ -220,6 +233,7 @@ function LoadCards() {
                                                         <div class="col-md-2">
                                                         <div class="card-Btn">
                                                             <button type="button"  class="btn custombtn w-auto ms-2">
+                                                            <button type="button" id="btnDeleteAcademicScholarship"  data-item='${value.academicScholarshipId}' sch-edit=${index}  class="btn btn-outline-danger">
                                                                 <svg stroke="currentColor" fill="currentColor" stroke-width="0"
                                                                      viewBox="0 0 24 24" height="1em" width="1em"
                                                                      xmlns="http://www.w3.org/2000/svg">
@@ -427,9 +441,6 @@ function FillDropdowns() {
 }
 
 
-
-
-
 $('#btnSaveHonor').click(function () {
     let acadmicHonor = {
         CollegeId: $('#hdfCollegeId').val(),
@@ -448,7 +459,7 @@ $('#btnSaveHonor').click(function () {
     
     LoadCards();
     ResetHonor();
-    $('#HonorModal').modal('toggle');
+   
 });
 
 $('#btnSaveScholarship').click(function () {
@@ -469,7 +480,7 @@ $('#btnSaveScholarship').click(function () {
     }
    LoadCards()
     ResetScholarship();
-    $('#ScholarshipModal').modal('toggle');
+ 
 });
 
 
@@ -518,3 +529,60 @@ function ResetScholarship() {
     $('#txtScholarshipStartedMonth').val("");
     $('#txtScholarshipStartedYear').val("")
 }
+
+$(document).on('click', '#btnDeleteCollege', function () {
+
+    localStorage.setItem("col-index", $(this).attr('data-edit'));
+    let id = $(this).attr('data-item')
+    $.ajax({
+        url: '/Education/DeleteCollege?id=' + id,
+        type: 'post',
+        success: function (response) {
+            console.log(collegeArray)
+            let index = parseInt(localStorage.getItem("col-index"));
+            collegeArray.splice(index, 1);
+            LoadCards();
+        },
+        error: function (err) {
+
+        }
+    })
+});
+
+$(document).on('click', '#btnDeleteHonor', function () {
+
+    localStorage.setItem("acad-index", $(this).attr('acad-edit'));
+    let id = $(this).attr('data-item')
+    $.ajax({
+        url: '/Education/DeleteCollege?academicId=' + id,
+        type: 'post',
+        success: function (response) {
+            console.log(acadmicHonorArray)
+            let index = parseInt(localStorage.getItem("acad-index"));
+            acadmicHonorArray.splice(index, 1);
+            console.log(acadmicHonorArray)
+            LoadCards();
+        },
+        error: function (err) {
+
+        }
+    });
+});
+
+$(document).on('click', '#btnDeleteAcademicScholarship', function () {
+
+    localStorage.setItem("sch-index", $(this).attr('sch-edit'));
+    let id = $(this).attr('data-item')
+    $.ajax({
+        url: '/Education/DeleteCollege?scholarshipid=' + id,
+        type: 'post',
+        success: function (response) {
+            let index = parseInt(localStorage.getItem("sch-index"));
+            acadmicScholarshipArray.splice(index, 1);
+            LoadCards();
+        },
+        error: function (err) {
+
+        }
+    });
+});

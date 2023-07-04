@@ -147,5 +147,21 @@ namespace BRB.Controllers
             }
             return Json(response);
         }
+
+        [HttpPost]
+
+        public IActionResult Delete(int id)
+        {
+            AjaxResponse ajaxResponse = new AjaxResponse();
+            ajaxResponse.Success = false;
+            var record = _dbContext.MilitaryPositions.FirstOrDefault(x => x.MilitaryPositionId == id);
+            if (record != null)
+            {
+                _dbContext.MilitaryPositions.Remove(record);
+                _dbContext.SaveChanges();
+                ajaxResponse.Success = true;
+            }
+            return Json(ajaxResponse);
+        }
     }
 }

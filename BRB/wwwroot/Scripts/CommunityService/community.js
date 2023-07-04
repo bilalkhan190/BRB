@@ -51,6 +51,7 @@ function LoadDropdowns() {
 
 $('#btnSaveOrganization').click(function () {
     let orginazation = {
+        VolunteerOrgId : $('#hdfVolunteerOrgId').val(),
         VolunteerOrg1: $('#txtOrgName').val(),
         City: $('#txtCity').val(),
         StateAbbr: $('#ddlStateAbbr').val(),
@@ -77,13 +78,22 @@ function getFormData() {
         url: '/CommunityService/GetData',
         type: 'get',
         success: function (response) {
-            console.log(response.data)
-            $.each(response.data, function (index, value) {
-                organizationArr.push(response.data[index].volunteerOrg)
-                for (var i = 0; i < response.data[index].volunteerPositions.length; i++) {
-                    positionArray.push(response.data[index].volunteerPositions[i]);
-                }
-            });
+            if (response.data.length > 0) {
+                $.each(response.data, function (index, value) {
+                    organizationArr.push(response.data[index].volunteerOrg)
+                    if (response.data[index].volunteerPositions.length > 0) {
+                        for (var i = 0; i < response.data[index].volunteerPositions.length; i++) {
+                            positionArray.push(response.data[index].volunteerPositions[i]);
+                        }
+                    }
+                   
+                });
+            }
+            if (organizationArr.length > 0) {
+                $('#hdfVolunteerExperienceId').val(organizationArr[0].volunteerExperienceId)
+            } else {
+                $('#hdfVolunteerExperienceId').val(response.data.volunteerExperienceId)
+            }
             LoadCards()
         },
         error: function (err) {
@@ -161,7 +171,7 @@ function LoadCards() {
                             </button>
                             </div>
                             <div class="col-md-2">
-                                <button type="button" id="btnDelete" class="btn btn-outline-danger">
+                                <button type="button" id="btnDeleteOrg" data-item='${value.volunteerOrgId}' org-index=${index}   class="btn btn-outline-danger">
                                     <svg stroke="currentColor" fill="currentColor" stroke-width="0"
                                          viewBox="0 0 24 24" height="1em" width="1em"
                                          xmlns="http://www.w3.org/2000/svg">
@@ -200,7 +210,7 @@ function LoadCards() {
                                 </span>
                             </div>
                             <div class="col-md-2">
-                                <button type="button"  class="btn btn-outline-danger">
+                                <button type="button" id="btnDeletePosition" data-item='${value.volunteerPositionId}' pos-index=${index} class="btn btn-outline-danger">
                                     <svg stroke="currentColor" fill="currentColor" stroke-width="0"
                                          viewBox="0 0 24 24" height="1em" width="1em"
                                          xmlns="http://www.w3.org/2000/svg">
@@ -228,7 +238,8 @@ function LoadCards() {
 $(document).on('click', '#btnEditOrg', function () {
     var response = organizationArr[$(this).attr('org-index')];
     localStorage.setItem("org-index", $(this).attr('org-index'));
-    $('#txtOrgName').val(response.volunteerOrg1),
+        $('#hdfVolunteerOrgId').val(response.volunteerOrgId),
+        $('#txtOrgName').val(response.volunteerOrg1),
         $('#txtCity').val(response.city),
         $('#ddlStateAbbr').val(response.stateAbbr),
         $('#ddlStartedMonth').val(response.startedMonth),
@@ -242,7 +253,6 @@ $(document).on('click', '#btnEditPosition', function () {
     var response = positionArray[$(this).attr('pos-index')];
     localStorage.setItem("pos-index", $(this).attr('pos-index'));
         $('#hdfVolunteerPositionId').val(response.volunteerPositionId),
-        $('#hdfVolunteerOrgId').val(response.volunteerOrg1),
         $('#txtTitle').val(response.title),
         $('#ddlPositionStartedMonth').val(response.startedMonth),
         $('#ddlPositionStartedYear').val(response.startedYear),
@@ -256,19 +266,39 @@ $(document).on('click', '#btnEditPosition', function () {
 });
 
 
-$(document).on('click', '#btnDelete', function () {
+
+$(document).on('click', '#btnDeleteOrg', function () {
 
     localStorage.setItem("org-index", $(this).attr('org-index'));
+    let id = $(this).attr('data-item')
     $.ajax({
-        url: '',
-        type: '',
-        data: ,
+        url: '/CommunityService/delete?id=' + id,
+        type: 'post',
         success: function (response) {
-            let index = parseInt(localStorage.getItem("pos-index"));
-
+            let index = parseInt(localStorage.getItem("org-index"));
+            organizationArr.splice(index, 1);
+            LoadCards();
         },
         error: function (err) {
 
         }
     })
+});
+
+$(document).on('click', '#btnDeletePosition', function () {
+
+    localStorage.setItem("pos-index", $(this).attr('pos-index'));
+    let id = $(this).attr('data-item')
+    $.ajax({
+        url: '/CommunityService/delete?positionId=' + id,
+        type: 'post',
+        success: function (response) {
+            let index = parseInt(localStorage.getItem("pos-index"));
+            positionArray.splice(index, 1);
+            LoadCards();
+        },
+        error: function (err) {
+
+        }
+    });
 });

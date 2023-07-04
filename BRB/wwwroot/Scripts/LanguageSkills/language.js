@@ -33,7 +33,6 @@ $('#btnSaveLanguage').click(function () {
         languageArray[parseInt(localStorage.getItem("pos-index"))] = language;
         localStorage.clear();
     }
-    $('#LanguageModal').modal('toggle');
     LoadCards();
     //fill the array of position record and display the recorded data in div
   
@@ -100,6 +99,14 @@ function LoadCards() {
                 <div class="card p-0 mt-2 mb-2 cardWrapper"> 
                     <div class="card-body">
                        <div class="row">
+                            <div class="col-md-8">
+                                <span class="card-text">
+                                    <p>${value.languageName}</p>
+                                    <p class="text-muted">${value.languageAbilityDesc}</p>
+                                </span>
+                            </div>
+                            <div class="col-md-4">
+                                <button type="button" id="btnDeleteLanguage" data-item='${value.languageId}' data-edit='${index}' class="btn btn-outline-danger">
                             <div class="col-md-12">
                                 <span class="card-text row">
                                 <div class="col-md-6">
@@ -139,3 +146,21 @@ function LoadCards() {
     });
     
 }
+
+$(document).on('click', '#btnDeleteLanguage', function () {
+
+    localStorage.setItem("lan-index", $(this).attr('data-edit'));
+    let id = $(this).attr('data-item')
+    $.ajax({
+        url: '/Language/DeleteRecord?id=' + id,
+        type: 'post',
+        success: function (response) {
+            let index = parseInt(localStorage.getItem("lan-index"));
+            languageArray.splice(index, 1);
+            LoadCards();
+        },
+        error: function (err) {
+
+        }
+    });
+});

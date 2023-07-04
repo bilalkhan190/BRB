@@ -160,7 +160,7 @@ $('#btnSaveAndContinue').click(function () {
         data: data,
         success: function (response)
         {
-            loadData();
+            LoadData();
             if (response.redirect != null) {
                 window.location.href = response.redirect
             }
@@ -184,6 +184,8 @@ function LoadData() {
                                 </span>
                             </div>
                             <div class="col-md-4">
+                                <button type="button"  id="btnDeleteOverseas" data-item='${value.overseasStudyId}' data-edit='${index}'  class="btn btn-outline-danger">
+                                    <svg stroke="currentColor"  fill="currentColor" stroke-width="0"
                             <div class="card-Btn">
                                 <button type="button"  class="btn custombtn w-auto ms-2">
                                     <svg stroke="currentColor" fill="currentColor" stroke-width="0"
@@ -208,3 +210,21 @@ function LoadData() {
         $("#DivSection").append(html);
     });
 }
+
+$(document).on('click', '#btnDeleteOverseas', function () {
+
+    localStorage.setItem("over-index", $(this).attr('data-edit'));
+    let id = $(this).attr('data-item')
+    $.ajax({
+        url: '/OverseasStudy/Delete?id=' + id,
+        type: 'post',
+        success: function (response) {
+            let index = parseInt(localStorage.getItem("over-index"));
+            overseasArray.splice(index, 1);
+            LoadData();
+        },
+        error: function (err) {
+
+        }
+    });
+});

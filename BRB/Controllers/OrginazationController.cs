@@ -31,14 +31,23 @@ namespace BRB.Controllers
             var ids = JsonSerializer.Deserialize<TableIdentities>(sessionData.Ids);
             List<OrganizationViewObject> ListOfObjs = new List<OrganizationViewObject>();
             var record = _dbContext.Organizations.Where(x => x.OrgExperienceId == ids.orgExperienceId).ToList();
-            foreach (var o in record)
+            if (record.Count > 0)
             {
-                OrganizationViewObject viewObject = new OrganizationViewObject();
-                viewObject.Organization = o;
-                viewObject.orgPositions = GetOrgPositions(o.OrganizationId);
-                ListOfObjs.Add(viewObject);
+                foreach (var o in record)
+                {
+                    OrganizationViewObject viewObject = new OrganizationViewObject();
+                    viewObject.Organization = o;
+                    viewObject.OrgExperienceId = ids.orgExperienceId;
+                    viewObject.orgPositions = GetOrgPositions(o.OrganizationId);
+                    ListOfObjs.Add(viewObject);
+                }
+                ajaxResponse.Data = ListOfObjs;
             }
-            ajaxResponse.Data = ListOfObjs;
+            else
+            {
+                ajaxResponse.Data = _dbContext.OrgExperiences.FirstOrDefault(x => x.ResumeId == sessionData.ResumeId);
+            }
+
             return Json(ajaxResponse);
 
 
@@ -69,14 +78,16 @@ namespace BRB.Controllers
             OrgExperience orgExperience = new OrgExperience();
             orgExperience.ResumeId = sessionData.ResumeId;
             orgExperience.CreatedDate = DateTime.Today;
+            orgExperience.LastModDate = DateTime.Today;
             orgExperience.IsOptOut = false;
-            orgExperience.IsComplete = false;
+            orgExperience.IsComplete = organizationViewModel.IsComplete;
             using (var transection = _dbContext.Database.BeginTransaction())
             {
                 try
                 {
                     if (organizationViewModel.OrgExperienceId > 0)
                     {
+                        orgExperience.OrgExperienceId = organizationViewModel.OrgExperienceId;
                         _dbContext.OrgExperiences.Update(orgExperience);
                         _dbContext.SaveChanges();
                     }
@@ -132,6 +143,40 @@ namespace BRB.Controllers
             }
         
            
+            return Json(ajaxResponse);
+        }
+
+        [HttpPost]
+        public IActionResult Delete(int id, int positionId)
+        {
+            AjaxResponse ajaxResponse = new AjaxResponse();
+
+            if (id > 0 && positionId == 0 )
+            {
+                var record = _dbContext.Organizations.FirstOrDefault(c => c.OrganizationId == id);
+                if (record != null)
+                {
+                    var positoinData = _dbContext.OrgPositions.Where(c => c.OrganizationId == record.OrganizationId).ToList();
+                  
+
+                    if (positoinData.Count > 0)
+                    {
+                        _dbContext.OrgPositions.RemoveRange(positoinData);
+                        _dbContext.SaveChanges();
+
+                    }
+                    _dbContext.Organizations.Remove(record);
+                    _dbContext.SaveChanges();
+                    ajaxResponse.Success = true;
+                }
+
+            }
+            if (positionId > 0)
+            {
+                var position = _dbContext.OrgPositions.FirstOrDefault(c => c.OrgPositionId == positionId);
+                _dbContext.OrgPositions.Remove(position);
+                _dbContext.SaveChanges();
+            }
             return Json(ajaxResponse);
         }
     }
