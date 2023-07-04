@@ -17,6 +17,7 @@ namespace BusinessObjects.Helper
         public MapperConfig()
         {
             CreateMap<CollageViewModel, College>();
+            CreateMap<UserProfile, UserProfileViewModel>();
             CreateMap<College, CollageViewModel>();
             CreateMap<ContactInfoViewModel, ContactInfo>();
             CreateMap<ObjectiveSummeryViewModel, ObjectiveSummary>();

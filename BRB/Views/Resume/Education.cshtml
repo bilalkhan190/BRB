@@ -9,12 +9,12 @@
             Example
         </button>
         </div>
-        <p class="danger-text" id="collegeErrMessage">
+        <p class="danger-text m-0" id="collegeErrMessage">
             <i> You currently have no schools listed. Click the Add button below to add one.</i>
         </p>
         <div class="card-body" id="divEditSection">
         </div>
-        <button type="button" class="btn btn-primary btn-sm custombtn w-auto py-2" data-bs-toggle="modal"
+        <button type="button" class="btn btn-primary btn-sm custombtn w-auto py-2 mt-3" data-bs-toggle="modal"
                 data-bs-target="#SummaryModal">
             Add a School
         </button>
@@ -54,15 +54,22 @@
                                        required>
                                         <span asp-validation-for="CollegeName" class="text-danger"></span>
                             </div>
-                            <div class="form-group">
-                                <label for="City" class="">City</label>
-                                <input name="CollegeCity" id="CollegeCity" type="text" class="form-control" required>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="City" class="">City</label>
+                                        <input name="CollegeCity" id="CollegeCity" type="text" class="form-control" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="State" class="">State</label>
+                                        <select name="CollegeStateAbbr" id="ddlState" class="form-control" required>
+                                        </select>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <label for="State" class="">State</label>
-                                <select name="CollegeStateAbbr" id="ddlState" class="form-control" required>
-                                </select>
-                            </div>
+
                             <div class="form-group">
                                 <label for="received" class="">Graduation Date</label>
                                 <div class="row">

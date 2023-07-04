@@ -1,4 +1,5 @@
-﻿using BusinessObjects.Helper;
+﻿using AutoMapper;
+using BusinessObjects.Helper;
 using BusinessObjects.Models;
 using BusinessObjects.Models.DTOs;
 using BusinessObjects.Models.MetaData;
@@ -16,12 +17,14 @@ namespace BRB.Controllers
         private readonly IUserProfileService _userProfileService;
         private readonly IResumeService _resumeService;
         public const string SessionKeyUserData = "_userData";
+        private readonly IMapper _mapper;
        
 
-        public AccountController(IUserProfileService userProfileService, IResumeService resumeService)
+        public AccountController(IUserProfileService userProfileService, IResumeService resumeService, IMapper mapper)
         {
             _userProfileService = userProfileService;
             _resumeService = resumeService;
+            _mapper = mapper;
         }
         public IActionResult Index()
         {
@@ -40,14 +43,26 @@ namespace BRB.Controllers
         {
             AjaxResponse ajaxResponse = new AjaxResponse();
             ajaxResponse.Success = false;
-            ajaxResponse.Message = "Form is not subbmited";
-                if (userProfileViewModel != null)
+            ajaxResponse.Message = "Unable to create User";
+            if (userProfileViewModel != null)
+            {
+                using (Wh4lprodContext _context = new Wh4lprodContext())
                 {
-                    _userProfileService.AddData(userProfileViewModel);
-                    ajaxResponse.Success = true;
-                    ajaxResponse.Message = "User Has been Created Successfully!";
+                    var model = _mapper.Map<UserProfile>(userProfileViewModel);
+                    if (model != null)
+                    {
+                        _context.UserProfiles.Add(model);
+                        _context.SaveChanges();
+                        ajaxResponse.Success = true;
+                        ajaxResponse.Message = "User Has been Created Successfully!";
+                    }
+                   
                 }
-            return Json(ajaxResponse);
+              
+
+            }
+            return RedirectToAction("Index");
+
         }
 
         [HttpPost]
@@ -138,5 +153,13 @@ namespace BRB.Controllers
             return Json(ajaxResponse);
 
         }
+
+        public IActionResult LogOut()
+        {
+
+            HttpContext.Session.Remove(SessionKeyUserData);
+            return RedirectToAction("Index");
+        }
+
     }
 }

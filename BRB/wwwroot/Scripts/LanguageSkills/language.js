@@ -133,7 +133,9 @@ function LoadCards() {
         $('#emptyListMessage').hide();
         $('#divEditSection').append(html);
     });
-    
+    if (languageArray != null && languageArray.length > 3) {
+        $("#divEditSection").addClass("BoxHeight");
+    }
 }
 
 $(document).on('click', '#btnDeleteLanguage', function () {

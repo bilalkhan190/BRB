@@ -94,7 +94,7 @@ function LoadCards() {
     $('#divEditSection').html("")
     collegeArray = covertArrayKeyIntoCamelCase(collegeArray)
     $.each(collegeArray, function (index, value) {
-        let html = `<div class="card ml-4 mt-4 mb-4 cardWrapper"> 
+        let html = `<div class="card ml-4 mt-4 cardWrapper"> 
                                                            <div class="card-body">
                                                     <div class="row"> 
                                                     <div class="col-md-12">

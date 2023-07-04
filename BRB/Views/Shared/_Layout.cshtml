@@ -30,7 +30,8 @@
                     <div class="topHeader">
                         <div class="row align-items-center">
                             <div class="col-md-12 text-end">
-                                <ul class="navbar-nav">
+                                <a href="@Url.Action("LogOut","Account")" class="btn btn-primary custombtn w-auto mt-2" style="font-size: 12px;padding: 7px 9px;border-radius: 8px;"> Log Out</a>
+                                @*<ul class="navbar-nav">
                                     <li class="dropdown nav-item">
                                         <a href="#" class="dropdown-toggle nav-link" id="dropdownMenuButton1">
                                             @HttpContextAccessor.HttpContext.Session.GetString("_userName")
@@ -40,7 +41,7 @@
                                         </div>
                                     </li>
 
-                                </ul>
+                                </ul>*@
                                 @*<h4 style="color:white;">@HttpContextAccessor.HttpContext.Session.GetString("_userName")</h4>*@
                             </div>
 

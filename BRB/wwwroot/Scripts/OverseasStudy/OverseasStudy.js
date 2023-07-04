@@ -184,10 +184,8 @@ function LoadData() {
                                 </span>
                             </div>
                             <div class="col-md-4">
-                                <button type="button"  id="btnDeleteOverseas" data-item='${value.overseasStudyId}' data-edit='${index}'  class="btn btn-outline-danger">
-                                    <svg stroke="currentColor"  fill="currentColor" stroke-width="0"
                             <div class="card-Btn">
-                                <button type="button"  class="btn custombtn w-auto ms-2">
+                                <button type="button"  class="btn custombtn w-auto ms-2" id="btnDeleteOverseas" data-item='${value.overseasStudyId}' data-edit='${index}'>
                                     <svg stroke="currentColor" fill="currentColor" stroke-width="0"
                                          viewBox="0 0 24 24" height="1em" width="1em"
                                          xmlns="http://www.w3.org/2000/svg">
@@ -209,6 +207,9 @@ function LoadData() {
                 </div>`
         $("#DivSection").append(html);
     });
+    if (overseasArray != null && overseasArray.length > 3) {
+        $("#DivSection").addClass("BoxHeight");
+    }
 }
 
 $(document).on('click', '#btnDeleteOverseas', function () {

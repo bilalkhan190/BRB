@@ -92,6 +92,7 @@ $('#btnSaveOrganization').click(function () {
 });
 
 $(document).on('click', '#btnAddPosition', function () {
+  
     let position = {
         OrganizationId: $('#hdfOrganizationId').val(),
         OrgPositionId: $('#hdfOrgPositionId').val(),
@@ -159,66 +160,55 @@ function LoadCards() {
     $('#divEditSection div.row').html("")
     organizationArr = covertArrayKeyIntoCamelCase(organizationArr)
     $.each(organizationArr, function (index, value) {
-        let html = ` <div class="col-md-10">
-                                <span class="card-text">
-                                    <p>${value.orgName}</p>
-                                    <p class="text-muted">${value.startedMonth} ${value.startedYear} - ${value.endedMonth} ${value.endedYear} </p>
-                                    <p class="text-muted"> ${value.city}</p>
-                                </span>
-                                <div id="positionDiv">
-                <div class="row"></div>
+        let html = `<div class="card col-md-12 p-0 mb-3 cardWrapper mt-3">
+    <div class="card-body">
+        <div class="row mx-auto">
+            <div class="col-md-12 p-0">
+                <span class="card-text">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h5 class="title-text">${value.orgName}</h5>
+                            <p class="text-muted">
+                                ${value.startedMonth} ${value.startedYear} - ${value.endedMonth}
+                                ${value.endedYear}
+                            </p>
+                            <p class="text-muted">${value.city}</p>
                         </div>
-                         <button type="button" class="btn btn-primary btn-sm custombtn w-auto mt-2" data-bs-toggle="modal"
-                                    data-bs-target="#PositionModel">
-                                Add an Position of ${value.orgName}
-                            </button>
-                            </div>
-                            <div class="col-md-2">
-                                <button type="button" id="btnDeleteOrg" data-item='${value.organizationId}' org-index="${index}" class="btn btn-outline-danger">
-        let html = ` <div class="card col-md-12 p-0 mb-3 cardWrapper mt-3">
-                        <div class="card-body">
-                        <div class="row mx-auto">
-                             <div class="col-md-12 p-0">
-                                <span class="card-text row">
-                                <div class="col-md-6">
-                                    <h5 class="title-text">${value.orgName}</h5>
-                                    </div>
-                                     <div class="col-md-6">
-                                     <div class="card-Btn">
-                                        <button type="button"  class="btn custombtn w-auto ms-2">
-                                    <svg stroke="currentColor" fill="currentColor" stroke-width="0"
-                                         viewBox="0 0 24 24" height="1em" width="1em"
-                                         xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z">
+                        <div class="col-md-6">
+                            <div class="card-Btn">
+                                <button type="button" class="btn custombtn w-auto ms-2" id="btnDeleteOrg"
+                                    data-item="${value.organizationId}" org-index="${index}">
+                                    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24"
+                                        height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z">
                                         </path>
                                     </svg>
                                 </button>
-                                <button type="button" id="btnEditOrg" data-item='${value.organizationId}' org-index="${index}" class="btn custombtn customBtn-light w-auto ms-1">
-                                    <svg stroke="currentColor" fill="currentColor" stroke-width="0"
-                                         viewBox="0 0 24 24" height="1em" width="1em"
-                                         xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z">
+                                <button type="button" id="btnEditOrg" data-item="${value.organizationId}"
+                                    org-index="${index}" class="btn custombtn customBtn-light w-auto ms-1">
+                                    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24"
+                                        height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z">
                                         </path>
                                     </svg>
-                                   
                                 </button>
-                                    </div>
-                                    </div>
-                                    <p class="text-muted">${value.startedMonth} ${value.startedYear} - ${value.endedMonth} ${value.endedYear} </p>
-                                    <p class="text-muted"> ${value.city}</p>
-                                </span>
-                                <div id="positionDiv">
-                            <div class="row mx-auto"></div>
-                        </div>
-                         <button type="button" class="btn btn-primary btn-sm custombtn w-auto mt-3 py-2" data-bs-toggle="modal"
-                                    data-bs-target="#PositionModel">
-                                Add an Position of ${value.orgName}
-                            </button>
                             </div>
-                        </div>
                         </div>
                     </div>
-               
+                </span>
+            </div>
+             <div id="positionDiv"></div>
+        <button type="button" class="btn btn-primary btn-sm custombtn w-auto mt-2" data-bs-toggle="modal"
+            data-bs-target="#PositionModel">
+            Add an Position of ${value.orgName}
+        </button>
+        </div>
+       
+    </div>
+</div>
+      
          `
         $('#divEditSection div.row').append(html)
     });
@@ -226,20 +216,19 @@ function LoadCards() {
     $('#positionDiv div.row').html("");
     positionArray = covertArrayKeyIntoCamelCase(positionArray)
     $.each(positionArray, function (index, value) {
-        let html = `<div class="card p-0 mt-3"> 
+        let html = `<div class="card col-md-12 p-0 mb-3 cardWrapper mt-3"> 
                     <div class="card-body">
                        <div class="row mx-auto">
-                        <div class="col-md-8 p-0">
+                        <div class="col-md-12 p-0">
                                 <span class="card-text">
-                                    <h5 class="title-text">${value.title}</h5>
+                                <div class="row">
+                                <div class="col-md-6">
+                                <h5 class="title-text">${value.title}</h5>
                                     <p class="text-muted">${value.startedMonth} ${value.endedMonth} - ${value.endedMonth} ${value.endedYear}</p>
-                                </span>
-                            </div>
-                            <div class="col-md-2">
-                                <button type="button" id="btnDeletePosition" data-item='${value.orgPositionId}' pos-index='${index}' class="btn btn-outline-danger">
-                            <div class="col-md-4 p-0">
-                            <div class="card-Btn">
-                                <button type="button"  class="btn custombtn w-auto ms-2">
+                                </div>
+                                  <div class="col-md-6">
+                                    <div class="card-Btn">
+                                <button type="button"  class="btn custombtn w-auto ms-2" id="btnDeletePosition" data-item='${value.orgPositionId}' pos-index='${index}'>
                                     <svg stroke="currentColor" fill="currentColor" stroke-width="0"
                                          viewBox="0 0 24 24" height="1em" width="1em"
                                          xmlns="http://www.w3.org/2000/svg">
@@ -247,7 +236,7 @@ function LoadCards() {
                                         </path>
                                     </svg>
                                 </button>
-                                <button type="button" id="btnEditPosition" data-item='${value.orgPositionId}' pos-index='${index}' class="btn custombtn customBtn-light w-auto">
+                                <button type="button" id="btnEditPosition" data-item='${value.orgPositionId}' pos-index='${index}' class="btn custombtn customBtn-light w-auto ms-1">
                                     <svg stroke="currentColor" fill="currentColor" stroke-width="0"
                                          viewBox="0 0 24 24" height="1em" width="1em"
                                          xmlns="http://www.w3.org/2000/svg">
@@ -257,12 +246,20 @@ function LoadCards() {
                                    
                                 </button>
                                 </div>
+                                  </div>
+                                </div>
+                                    
+                                </span>
                             </div>
-                        </div>
                     </div>
                 </div>`
-        $('#positionDiv div.row').append(html)
+     
+        $('#positionDiv').append(html)
     });
+
+    if (positionArray != null && positionArray.length > 3) {
+        $("#positionDiv").addClass("BoxHeight");
+    }
 }
 
 

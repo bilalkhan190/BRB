@@ -684,7 +684,6 @@ ul.navbar-nav .dropdown-menu {
 }
 
 .BoxHeight {
-    height: 100%;
     max-height: 470px;
     overflow: auto;
 }
