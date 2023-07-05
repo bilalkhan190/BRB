@@ -522,14 +522,19 @@ ul.navbar-nav .dropdown-menu {
     font-size: 16px;
 }
 
-    .formWrapper form.formSpace label input.form-check-input {
-        padding: 7px;
-    }
+.formWrapper form.formSpace label.error {
+    color: #ff0000;
+    padding-top: 3px;
+}
 
-        .formWrapper form.formSpace label input.form-check-input:checked {
-            background-color: #10B6B3;
-            border-color: #10B6B3;
-        }
+.formWrapper form.formSpace label input.form-check-input {
+    padding: 7px;
+}
+
+.formWrapper form.formSpace label input.form-check-input:checked {
+    background-color: #10B6B3;
+    border-color: #10B6B3;
+}
 
 .custom-checkbox.custom-control label.custom-control-label {
     font-weight: normal;
