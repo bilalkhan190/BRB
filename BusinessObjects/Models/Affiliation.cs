@@ -15,6 +15,7 @@ public partial class Affiliation
     public string? City { get; set; }
 
     public string? StateAbbr { get; set; }
+    [NotMapped]
     public string? StateName { get; set; }
 
     public string? StartedMonth { get; set; }

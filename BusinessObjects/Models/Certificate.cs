@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BusinessObjects.Models;
 
@@ -12,6 +13,7 @@ public partial class Certificate
     public string? Title { get; set; }
 
     public string? StateAbbr { get; set; }
+    [NotMapped]
     public string? StateName { get; set; }
 
     public string? ReceivedMonth { get; set; }

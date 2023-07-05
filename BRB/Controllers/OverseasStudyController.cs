@@ -95,6 +95,19 @@ namespace BRB.Controllers
             return Json(ajaxResponse);  
         }
 
+        public IActionResult GetMasterData()
+        {
+            AjaxResponse ajaxResponse = new AjaxResponse();
+            ajaxResponse.Data = null;
+            var sessionData = JsonSerializer.Deserialize<UserSessionData>(HttpContext.Session.GetString("_userData"));
+            var ids = JsonSerializer.Deserialize<TableIdentities>(sessionData.Ids);
+            var record = _dbContext.OverseasExperiences.FirstOrDefault(x => x.OverseasExperienceId == ids.overseasExpId);
+            if (record != null)
+            {
+                ajaxResponse.Data = record;
+            }
+            return Json(ajaxResponse);
+        }
         public IActionResult GetDataById()
         {
             AjaxResponse ajaxResponse = new AjaxResponse();
@@ -122,7 +135,6 @@ namespace BRB.Controllers
         }
 
         [HttpPost]
-
         public IActionResult Delete(int id)
         {
             AjaxResponse ajaxResponse = new AjaxResponse();

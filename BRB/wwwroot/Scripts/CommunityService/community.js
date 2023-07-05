@@ -27,6 +27,18 @@ $('#cbPositionCurrentlyIn').click(function () {
 
 $(document).ready(function () {
     LoadDropdowns();
+    $.ajax({
+        url: '/CommunityService/GetMasterdata',
+        type: 'get',
+        success: function (response) {
+            $('#hdfVolunteerExperienceId').val(response.data.volunteerExperienceId);
+            $('.isoptOut').prop("checked", response.data.isOptOut).trigger('change');
+           
+        },
+        error: function (err) {
+
+        }
+    });
     getFormData();
     LoadCards();
 });

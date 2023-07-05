@@ -7,6 +7,7 @@ using BusinessObjects.Services.interfaces;
 using Castle.Core.Resource;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
+using Newtonsoft.Json;
 using StoredProcedureEFCore;
 using System.Data;
 using System.Security.Claims;
@@ -53,8 +54,9 @@ namespace BRB.Controllers
 
         public IActionResult GenerateResume()
         {
+            var sessionData = JsonConvert.DeserializeObject<UserSessionData>(HttpContext.Session.GetString("_userData"));
             ResumeGenerateModel model = new ResumeGenerateModel();
-            var ds = SqlHelper.GetDataSet("Data Source=A2NWPLSK14SQL-v02.shr.prod.iad2.secureserver.net;Initial Catalog=WH4LProd;User Id=brbdbuser; Password=brb!!!***;;Encrypt=False;TrustServerCertificate=True", "SP_GetResume", CommandType.StoredProcedure, new SqlParameter("ResumeId", 1));
+            var ds = SqlHelper.GetDataSet("Data Source=A2NWPLSK14SQL-v02.shr.prod.iad2.secureserver.net;Initial Catalog=WH4LProd;User Id=brbdbuser; Password=brb!!!***;;Encrypt=False;TrustServerCertificate=True", "SP_GetResume", CommandType.StoredProcedure, new SqlParameter("ResumeId", sessionData.ResumeId));
 
             if (ds.Tables.Count >= 15)
             {
@@ -81,6 +83,7 @@ namespace BRB.Controllers
                 model.TechnicalSkill = ds.Tables[20].ToList_<TechnicalSkill>().FirstOrDefault();
                 model.LanguageSkill = ds.Tables[21].ToList_<LanguageSkill>().FirstOrDefault();
                 model.Languages = ds.Tables[22].ToList_<Language>();
+                model.UserProfile = ds.Tables[23].ToList_<UserProfile>().FirstOrDefault();
             }
 
             return View("ResumePdf",model);

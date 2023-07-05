@@ -39,6 +39,17 @@ $(document).ready(function () {
         }
     });
 
+    $.ajax({
+        url: '/OverseasStudy/GetMasterdata',
+        type: 'get',
+        success: function (response) {
+            $('#hdfOverseasExperienceId').val(response.data.overseasExperienceId);
+            $('.isoptOut').prop("checked", response.data.isOptOut).trigger('change');
+        },
+        error: function (err) {
+
+        }
+    });
     /*LoadData();*/
 
     //get submitted data
@@ -54,7 +65,7 @@ $(document).ready(function () {
         error: function (err) {
 
         }
-    })
+    });
 
 
     GenerateRadio();
@@ -99,19 +110,19 @@ $(document).on('change', 'input[type="radio"]', function () {
     }
 });
 
-$('#cbNotApply').click(function () {
-    if (this.checked) {
-        alert('checked')
-        $('#cbkFinished').attr("disabled", true);
-        $('#btnSaveAndContinue').attr("disabled", true);
-    }
-    else {
-        alert('not checked')
-        $('#cbkFinished').prop('disabled', false);
-        $('#btnSaveAndContinue').prop('disabled', false);
-    }
+//$('#cbNotApply').click(function () {
+//    if (this.checked) {
+//        alert('checked')
+//        $('#cbkFinished').attr("disabled", true);
+//        $('#btnSaveAndContinue').attr("disabled", true);
+//    }
+//    else {
+//        alert('not checked')
+//        $('#cbkFinished').prop('disabled', false);
+//        $('#btnSaveAndContinue').prop('disabled', false);
+//    }
   
-});
+//});
 
 $('#btnClose').click(function () {
     ResetForm();

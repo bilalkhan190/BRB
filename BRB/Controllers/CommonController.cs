@@ -49,32 +49,48 @@ namespace BRB.Controllers
             return Json(ajaxResponse);
         }
 
+        [HttpPost]
         public IActionResult IsOptOut(int recordId , int sectionId,bool status)
         {
-            AjaxResponse ajaxResponse = new AjaxResponse(); 
+            AjaxResponse ajaxResponse = new AjaxResponse();
+            ajaxResponse.Success = false;
             switch (sectionId)
             {
                
                 case 30:
                     var overseasRecord = _dbContext.OverseasExperiences.FirstOrDefault(x => x.OverseasExperienceId == recordId);
-                    overseasRecord.IsOptOut = status;
-                    _dbContext.OverseasExperiences.Update(overseasRecord);
-                    _dbContext.SaveChanges();
-                    ajaxResponse.Data = overseasRecord;
+                    if (overseasRecord != null)
+                    {
+                        overseasRecord.IsOptOut = status;
+                        _dbContext.OverseasExperiences.Update(overseasRecord);
+                        _dbContext.SaveChanges();
+                        ajaxResponse.Data = overseasRecord;
+                        ajaxResponse.Success = true;
+                    }
                     break;
                 case 40:
                     var miltaryRecord = _dbContext.MilitaryExperiences.FirstOrDefault(x => x.MilitaryExperienceId == recordId);
-                    miltaryRecord.IsOptOut = status;
-                    _dbContext.MilitaryExperiences.Update(miltaryRecord);
-                    _dbContext.SaveChanges();
-                    ajaxResponse.Data = miltaryRecord;
+                    if (miltaryRecord != null)
+                    {
+                        miltaryRecord.IsOptOut = status;
+                        _dbContext.MilitaryExperiences.Update(miltaryRecord);
+                        _dbContext.SaveChanges();
+                        ajaxResponse.Data = miltaryRecord;
+                        ajaxResponse.Success = true;
+                    }
+                  
                     break;
                 case 45:
                     var organization = _dbContext.OrgExperiences.FirstOrDefault(x => x.OrgExperienceId == recordId);
-                    organization.IsOptOut = status;
-                    _dbContext.OrgExperiences.Update(organization);
-                    _dbContext.SaveChanges();
-                    ajaxResponse.Data = organization;
+                    if (organization != null)
+                    {
+                        organization.IsOptOut = status;
+                        _dbContext.OrgExperiences.Update(organization);
+                        _dbContext.SaveChanges();
+                        ajaxResponse.Data = organization;
+                        ajaxResponse.Success = true;
+                    }
+                   
                     break;
                 case 50:
                     var communityService = _dbContext.VolunteerExperiences.FirstOrDefault(x => x.VolunteerExperienceId == recordId);
@@ -82,6 +98,7 @@ namespace BRB.Controllers
                     _dbContext.VolunteerExperiences.Update(communityService);
                     _dbContext.SaveChanges();
                     ajaxResponse.Data = communityService;
+                    ajaxResponse.Success = true;
                     break;
                 case 55:
                     var Professional = _dbContext.Professionals.FirstOrDefault(x => x.ProfessionalId == recordId);
@@ -89,6 +106,7 @@ namespace BRB.Controllers
                     _dbContext.Professionals.Update(Professional);
                     _dbContext.SaveChanges();
                     ajaxResponse.Data = Professional;
+                    ajaxResponse.Success = true;
                     break;
                 case 65:
                     var language = _dbContext.LanguageSkills.FirstOrDefault(x => x.LanguageSkillId == recordId);
@@ -96,6 +114,7 @@ namespace BRB.Controllers
                     _dbContext.LanguageSkills.Update(language);
                     _dbContext.SaveChanges();
                     ajaxResponse.Data= language;
+                    ajaxResponse.Success = true;
                     break;
 
             }

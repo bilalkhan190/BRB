@@ -16,11 +16,12 @@
         </div>
         <div class="custom-checkbox custom-control mt-2 mb-2">
             <input type="checkbox"
-                   class="custom-control-input" id="cbSectionNotApply">
+                   class="custom-control-input isoptOut" id="cbSectionNotApply">
             <label class="custom-control-label" for="cbSectionNotApply">
             This section does not apply to me.
         </label>
     </div>
+        <div id="isOptSection">
     <p>
         What organizations have you volunteered a significant number of hours for or are you an
         ACTIVE member in? (Big Brothers, Big Sisters, Relay for Life, United Way, etc.)
@@ -41,7 +42,9 @@
         Add a Volunteer Organization
     </button>
     </div>
-        <form class="needs-validation formSpace" novalidate>
+        <form class="needs-validation formSpace px-0" novalidate>
+            <input type="hidden" value="50" id="hdfLastSectionVisitedId" />
+            <input type="hidden" value="" class="masterid" id="hdfVolunteerExperienceId" />
             <div class="custom-checkbox custom-control mb-2">
                 <input type="checkbox" id="cbIsComplete"
                        class="custom-control-input">
@@ -56,15 +59,14 @@
             </button>
         </div>
     </form>
-
+    </div>
 </div>
 <div class="modal fade" id="SummaryModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-body formWrapper">
                 <form class="needs-validation formSpace py-0" novalidate>
-                    <input type="hidden" value="50" id="hdfLastSectionVisitedId" />
-                    <input type="hidden" value="" id="hdfVolunteerExperienceId" />
+               
                     <input type="hidden" value="" id="hdfVolunteerOrgId" />
                     <div class="row">
                         <div class="col-md-12 p-0">

@@ -56,18 +56,14 @@ namespace BusinessObjects.Services
                                 LastModDate = l.LastModDate,
                              }).ToList();
 
-
-
-
-
             var languageSkills = (from langSkill in _dbContext.LanguageSkills
-                                  
                                   where langSkill.ResumeId == resumeId
                                   select new LanguageViewModel
                                   {
                                       LanguageSkillId = langSkill.LanguageSkillId,
                                       ResumeId = langSkill.ResumeId,
                                       IsComplete = langSkill.IsComplete,
+                                      IsOptOut = langSkill.IsOptOut,
                                       Languages = languages
                                   }).FirstOrDefault();
             return languageSkills;

@@ -47,6 +47,20 @@ namespace BRB.Controllers
 
 
         }
+
+        public IActionResult GetMasterData()
+        {
+            AjaxResponse ajaxResponse = new AjaxResponse();
+            var sessionData = JsonSerializer.Deserialize<UserSessionData>(HttpContext.Session.GetString("_userData"));
+            var ids = JsonSerializer.Deserialize<TableIdentities>(sessionData.Ids);
+            var record = _dbContext.VolunteerExperiences.FirstOrDefault(x => x.VolunteerExperienceId == ids.volunteerId);
+            if (record != null)
+            {
+                ajaxResponse.Data = record;
+            }
+            return Json(ajaxResponse);
+        }
+
         private List<VolunteerPosition> GetOrgPositions(int orgId)
         {
             return _dbContext.VolunteerPositions.Where(x => x.VolunteerOrgId == orgId).ToList();
