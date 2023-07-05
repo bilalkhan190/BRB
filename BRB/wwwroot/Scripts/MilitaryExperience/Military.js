@@ -66,7 +66,6 @@ $(document).on('click', '#cbPositionCurrentlyIn', function () {
 
 $(document).on('click', '#btnAddOrContinue', function () {
     //let isCompleted = $('#cbIsComplete').val($('#cbIsComplete').is(':checked'))[0].checked;
-
     let masterData = {
         MilitaryExperienceId: $('#hdfMilitaryExperienceId').val(),
         LastSectionVisitedId: $('#hdfLastSectionVisitedId').val(),
@@ -101,35 +100,37 @@ $(document).on('click', '#btnAddOrContinue', function () {
 });
 
 $('#btnAddPosition').click(function () {
-    let position = {
-        MilitaryPositionId: $('#hdfMilitaryPositionId').val(),
-        Title: $('#txtTitle').val(),
-        StartedMonth: $('#ddlPositionStartedMonth').val(),
-        StartedYear: $('#ddlPositionStartedYear').val(),
-        EndedMonth: $('#ddlPositionEndedMonth').val(),
-        EndedYear: $('#ddlPositionEndedYear').val(),
-        MainTraining: $('#txtMainTraining').val(),
-        Responsibility1: $('#txtResponsibility1').val(),
-        Responsibility2: $('#txtResponsibility2').val(),
-        Responsibility3: $('#txtResponsibility3').val(),
-        OtherInfo: $('#txtOtherInfo').val(),
-    };
-    if (localStorage.getItem("pos-index") == null) {
-        positionArray.push(position);
-    }
-    else {
-        positionArray[parseInt(localStorage.getItem("pos-index"))] = position;
-        localStorage.clear();
-    }
-   
-    //fill the array of position record and display the recorded data in div
+    $('#militaryPositionForm').validate();
+    if ($('#militaryPositionForm').valid()) {
+        let position = {
+            MilitaryPositionId: $('#hdfMilitaryPositionId').val(),
+            Title: $('#txtTitle').val(),
+            StartedMonth: $('#ddlPositionStartedMonth').val(),
+            StartedYear: $('#ddlPositionStartedYear').val(),
+            EndedMonth: $('#ddlPositionEndedMonth').val(),
+            EndedYear: $('#ddlPositionEndedYear').val(),
+            MainTraining: $('#txtMainTraining').val(),
+            Responsibility1: $('#txtResponsibility1').val(),
+            Responsibility2: $('#txtResponsibility2').val(),
+            Responsibility3: $('#txtResponsibility3').val(),
+            OtherInfo: $('#txtOtherInfo').val(),
+        };
+        if (localStorage.getItem("pos-index") == null) {
+            positionArray.push(position);
+        }
+        else {
+            positionArray[parseInt(localStorage.getItem("pos-index"))] = position;
+            localStorage.clear();
+        }
 
-    $('#divEditSection div.row').html('');
+        //fill the array of position record and display the recorded data in div
+
+        $('#divEditSection div.row').html('');
 
 
-    positionArray = positionArray.map(el => _.mapKeys(el, (val, key) => _.camelCase(key)));
-    $.each(positionArray, function (index, value) {
-        let html = ` <div class="col-md-12 positionInnerBox">
+        positionArray = positionArray.map(el => _.mapKeys(el, (val, key) => _.camelCase(key)));
+        $.each(positionArray, function (index, value) {
+            let html = ` <div class="col-md-12 positionInnerBox">
                                 <span class="card-text row pt-3">
                                 <div class="col-md-8">
                                     <p class="text-muted"  id="messageCurrentlyNotIn">${value.startedMonth} ${value.startedYear} - ${value.endedMonth} ${value.endedYear} </p>
@@ -160,18 +161,20 @@ $('#btnAddPosition').click(function () {
                                     <p class="text-muted">Training Completed: ${value.mainTraining}</p>
                                 </span>
                             </div>`
-        $('#divEditSection div.row').append(html)
-        if (value.endedMonth == null && value.endedYear == null) {
-            $('#messageCurrentlyNotIn').hide();
-        } else {
-            $('#messageCurrentlyIn').hide();
+            $('#divEditSection div.row').append(html)
+            if (value.endedMonth == null && value.endedYear == null) {
+                $('#messageCurrentlyNotIn').hide();
+            } else {
+                $('#messageCurrentlyIn').hide();
+            }
+
+        });
+        if (positionArray != null && positionArray.length > 3) {
+            $("#divEditSection").addClass("BoxHeight");
         }
-        
-    });
-    if (positionArray != null && positionArray.length > 3) {
-        $("#divEditSection").addClass("BoxHeight");
+      
     }
-    $('#divEditSection').show();
+    
 });
 
 function loadData(response) {

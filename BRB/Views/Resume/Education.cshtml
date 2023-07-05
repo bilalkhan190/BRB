@@ -206,7 +206,7 @@
                 <div class="form-group">
                       <input type="hidden" id="hdfAcademicScholarshipId"/>
                     <label for="t" class="">Academic Scholarship</label>
-                        <input class="form-control" name="ScholarshipName" id="txtScholarshipName" />
+                        <input class="form-control" name="ScholarshipName" id="txtScholarshipName" required />
                 </div>
                 <div class="form-group mb-0">
                     <label for="received" class="">Date Received</label>
@@ -214,8 +214,8 @@
                             <div class="col-6">
                                 <div class="form-group">
                                     <select name="StartedMonth" id="txtScholarshipStartedMonth"
-                                            class="form-control">
-                                        <option value="" selected=""></option>
+                                            class="form-control" required>
+                                        <option value="" selected="">--Select Month--</option>
                                         <option value="January">January</option>
                                         <option value="February">February</option>
                                         <option value="March">March</option>
@@ -234,8 +234,8 @@
                             <div class="col-6">
                                 <div class="form-group mb-2">
                                     <select name="StartedYear" id="txtScholarshipStartedYear"
-                                            class="form-control">
-                                        <option value="" selected=""></option>
+                                            class="form-control" required>
+                                        <option value="" selected="">--Select Year--</option>
                                         <option value="2073">2073</option>
                                         <option value="2072">2072</option>
                                         <option value="2071">2071</option>
@@ -393,7 +393,7 @@
                 </div>
                 <div class="form-group">
                     <label for="t" class="">Criteria</label><input name="ScholarshipCriteria" id="txtScholarshipCriteria" type="text"
-                                                                   class="form-control" value="">
+                                                                       class="form-control" value="" required>
                 </div>
                 </form>
             </div>
@@ -429,8 +429,8 @@
                             <div class="col-6">
                                 <div class="form-group">
                                     <select name="StartedMonth" id="txtStartedMonth"
-                                            class="form-control">
-                                        <option value="" selected=""></option>
+                                            class="form-control" required >
+                                        <option value="" selected="">--Select Month</option>
                                         <option value="January">January</option>
                                         <option value="February">February</option>
                                         <option value="March">March</option>
@@ -449,8 +449,8 @@
                             <div class="col-6">
                                 <div class="form-group mb-2">
                                     <select name="StartedYear" id="txtStartedYear"
-                                            class="form-control">
-                                        <option value="" selected=""></option>
+                                            class="form-control" required>
+                                        <option value="" selected="">Select Year</option>
                                         <option value="2073">2073</option>
                                         <option value="2072">2072</option>
                                         <option value="2071">2071</option>

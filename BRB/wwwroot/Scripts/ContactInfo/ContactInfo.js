@@ -1,4 +1,18 @@
 ﻿$(document).ready(function () {
+    $('#ddlStateAbbr').html("");
+    $('#ddlStateAbbr').append('<option value="" selected><b>Select State</b></option>')
+    $.ajax({
+        url: '/Common/GetStateList',
+        type: 'get',
+        success: function (response) {
+            $.each(response.data, function (index, value) {
+                $('#ddlStateAbbr').append(`<option value="${value.stateAbbr}"><b> ${value.stateName} </b></option>`);
+            })
+        },
+        error: function (err) {
+            alert(err)
+        }
+    });
     $.ajax({
         url: '/ContactInfo/GetAllContactInfo' ,
         type: 'GET',

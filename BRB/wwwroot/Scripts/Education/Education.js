@@ -434,45 +434,51 @@ function FillDropdowns() {
 
 
 $('#btnSaveHonor').click(function () {
-    let acadmicHonor = {
-        CollegeId: $('#hdfCollegeId').val(),
-        AcademicHonorId: $('#hdfAcademicHonorId').val(),
-        HonorName: $('#txtAcademicHonor').val(),
-        HonorMonth: $('#txtStartedMonth').val(),
-        HonorYear: $('#txtStartedYear').val()
-    };
-    if (localStorage.getItem("acad-index") == null) {
-        acadmicHonorArray.push(acadmicHonor);
+    $('#formAcademicHonor').validate();
+    if ($('#formAcademicHonor').valid()) {
+        let acadmicHonor = {
+            CollegeId: $('#hdfCollegeId').val(),
+            AcademicHonorId: $('#hdfAcademicHonorId').val(),
+            HonorName: $('#txtAcademicHonor').val(),
+            HonorMonth: $('#txtStartedMonth').val(),
+            HonorYear: $('#txtStartedYear').val()
+        };
+        if (localStorage.getItem("acad-index") == null) {
+            acadmicHonorArray.push(acadmicHonor);
+        }
+        else {
+            acadmicHonorArray[parseInt(localStorage.getItem("acad-index"))] = acadmicHonor;
+            localStorage.clear();
+        }
+
+        LoadCards();
+        ResetHonor();
     }
-    else {
-        acadmicHonorArray[parseInt(localStorage.getItem("acad-index"))] = acadmicHonor;
-        localStorage.clear();
-    }
-    
-    LoadCards();
-    ResetHonor();
+   
    
 });
 
 $('#btnSaveScholarship').click(function () {
-    let acadmicScholarship = {
-        CollegeId: $('#hdfCollegeId').val(),
-        AcademicScholarshipId: $('#hdfAcademicScholarshipId').val(),
-        ScholarshipName: $('#txtScholarshipName').val(),
-        ScholarshipCriteria: $('#txtScholarshipCriteria').val(),
-        ScholarshipMonth: $('#txtScholarshipStartedMonth').val(),
-        ScholarshipYear: $('#txtScholarshipStartedYear').val()
-    };
-    if (localStorage.getItem("sch-index") == null) {
-        acadmicScholarshipArray.push(acadmicScholarship);
+    $('#formAcademicScholarship').validate();
+    if ($('#formAcademicScholarship').valid()) {
+        let acadmicScholarship = {
+            CollegeId: $('#hdfCollegeId').val(),
+            AcademicScholarshipId: $('#hdfAcademicScholarshipId').val(),
+            ScholarshipName: $('#txtScholarshipName').val(),
+            ScholarshipCriteria: $('#txtScholarshipCriteria').val(),
+            ScholarshipMonth: $('#txtScholarshipStartedMonth').val(),
+            ScholarshipYear: $('#txtScholarshipStartedYear').val()
+        };
+        if (localStorage.getItem("sch-index") == null) {
+            acadmicScholarshipArray.push(acadmicScholarship);
+        }
+        else {
+            acadmicScholarshipArray[parseInt(localStorage.getItem("sch-index"))] = acadmicScholarship;
+            localStorage.clear();
+        }
+        LoadCards()
+        ResetScholarship();
     }
-    else {
-        acadmicScholarshipArray[parseInt(localStorage.getItem("sch-index"))] = acadmicScholarship;
-        localStorage.clear();
-    }
-   LoadCards()
-    ResetScholarship();
- 
 });
 
 

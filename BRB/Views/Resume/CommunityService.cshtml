@@ -65,8 +65,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-body formWrapper">
-                <form class="needs-validation formSpace py-0" novalidate>
-               
+                <form id="orgForm" class="needs-validation formSpace py-0" novalidate>
                     <input type="hidden" value="" id="hdfVolunteerOrgId" />
                     <div class="row">
                         <div class="col-md-12 p-0">
@@ -91,7 +90,7 @@
                                         <div class="form-group">
                                             <select name="StartedMonth" id="ddlStartedMonth"
                                                     class="form-control" required>
-                                                <option value="" selected=""></option>
+                                                <option value="" selected="">--Select Month--</option>
                                                 <option value="January">January</option>
                                                 <option value="February">February</option>
                                                 <option value="March">March</option>
@@ -111,7 +110,7 @@
                                         <div class="form-group">
                                             <select name="StartedYear" id="ddlStartedYear"
                                                     class="form-control" required>
-                                                <option value="" selected=""></option>
+                                                <option value="" selected="">--Select Year--</option>
                                                 <option value="2073">2073</option>
                                                 <option value="2072">2072</option>
                                                 <option value="2071">2071</option>
@@ -287,7 +286,7 @@
                                         <div class="form-group">
                                             <select name="EndedMonth" id="ddlEndedMonth"
                                                     class="form-control" required>
-                                                <option value="" selected=""></option>
+                                                <option value="" selected="">--Select Month--</option>
                                                 <option value="January">January</option>
                                                 <option value="February">February</option>
                                                 <option value="March">March</option>
@@ -305,8 +304,8 @@
                                     </div>
                                     <div class="col-6">
                                         <div class="form-group">
-                                            <select name="EndedYear" id="ddlEndedYear" class="form-control">
-                                                <option value="" selected=""></option>
+                                            <select name="EndedYear" id="ddlEndedYear" class="form-control" required>
+                                                <option value="" selected="">--Select Year--</option>
                                                 <option value="2073">2073</option>
                                                 <option value="2072">2072</option>
                                                 <option value="2071">2071</option>
@@ -542,7 +541,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-body formWrapper">
-                <form class="needs-validation formSpace p-0" novalidate>
+                <form id="orgPositionForm" class="needs-validation formSpace p-0" novalidate>
                     <input type="hidden" id="hdfVolunteerPositionId" />
                     <div class="row">
                         <div class="col-md-12">
@@ -772,8 +771,8 @@
                                     </div>
                                     <div class="col-6">
                                         <div class="form-group">
-                                            <select name="EndedYear" id="ddlPositionEndedYear" class="form-control">
-                                                <option value="" selected=""></option>
+                                            <select name="EndedYear" id="ddlPositionEndedYear" class="form-control" required>
+                                                <option value="" selected="">--Select Year--</option>
                                                 <option value="2073">2073</option>
                                                 <option value="2072">2072</option>
                                                 <option value="2071">2071</option>
@@ -933,15 +932,15 @@
                                 <legend>Top three primary responsibilities</legend>
                                 <div class="form-group">
                                     <label for="t" class="">Responsibility #1</label>
-                                    <input name="Responsibility1" id="txtResponsibility1" type="text" class="form-control" value="">
+                                    <input name="Responsibility1" id="txtResponsibility1" type="text" class="form-control" value="" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="t" class="">Responsibility #2</label>
-                                    <input name="Responsibility2" id="txtResponsibility2" type="text" class="form-control" value="">
+                                    <input name="Responsibility2" id="txtResponsibility2" type="text" class="form-control" value="" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="t" class="">Responsibility #3</label>
-                                    <input name="Responsibility3" id="txtResponsibility3" type="text" class="form-control" value="">
+                                    <input name="Responsibility3" id="txtResponsibility3" type="text" class="form-control" value="" required>
                                 </div>
                             </div>
 

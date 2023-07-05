@@ -20,7 +20,7 @@
         <div class="col-sm-6">
                 <div class="form-group">
                     <label foclassr="t">Military Branch</label>
-                <input name="Branch" id="txtBranch" type="text" class="form-control" value="">
+                <input name="Branch" id="txtBranch" type="text" class="form-control" value="" required>
             </div>
             <div class="form-group">
                 <label for="t">
@@ -28,11 +28,11 @@
                     Stationed
                 </label>
                 <input name="City" id="txtCity" type="text" class="form-control"
-                       value="">
+                               value="" required>
             </div>
             <div class="form-group">
                 <label for="t">Country</label>
-                <select name="CountryId" id="ddlCountry" class="form-control">
+                        <select name="CountryId" id="ddlCountry" class="form-control" required>
                 </select>
             </div>
             <div class="form-group mb-0">
@@ -41,8 +41,8 @@
                     <div class="col-6">
                         <div class="form-group">
                             <select name="StartedMonth" id="txtStartedMonth"
-                                    class="form-control">
-                                <option value="" selected=""></option>
+                                            class="form-control" required>
+                                <option value="" selected="">--Select Month--</option>
                                 <option value="January">January</option>
                                 <option value="February">February</option>
                                 <option value="March">March</option>
@@ -61,8 +61,8 @@
                     <div class="col-6">
                         <div class="form-group">
                             <select name="StartedYear" id="txtStartedYear"
-                                    class="form-control">
-                                <option value="" selected=""></option>
+                                            class="form-control" required>
+                                <option value="" selected="">--Select Year--</option>
                                 <option value="2073">2073</option>
                                 <option value="2072">2072</option>
                                 <option value="2071">2071</option>
@@ -236,8 +236,8 @@
                 <div class="col-6">
                     <div class="mt-2 form-group">
                         <select name="EndedMonth" id="ddlEndedMonth"
-                                class="form-control">
-                            <option value="" selected=""></option>
+                                        class="form-control" required>
+                            <option value="" selected="">--Select Month--</option>
                             <option value=""></option>
                             <option value="January">January</option>
                             <option value="February">February</option>
@@ -257,8 +257,8 @@
                 <div class="col-6">
                     <div class="mt-2 form-group">
                         <select name="EndedYear" id="ddlEndedYear"
-                                class="form-control">
-                            <option value="" selected=""></option>
+                                        class="form-control" required>
+                            <option value="" selected="">--Select Year--</option>
                             <option value=""></option>
                             <option value="2073">2073</option>
                             <option value="2072">2072</option>
@@ -416,7 +416,7 @@
             </div>
             <div class="form-group">
                 <label for="t" class="">Rank</label><input name="Rank" id="txtRank"
-                                                           type="text" class="form-control" value="">
+                                                                   type="text" class="form-control" value="" required>
             </div>
         </div>
         <div class="col-md-6" >
@@ -443,7 +443,7 @@
         <div class="col-md-12">
                 <div class="custom-checkbox custom-control mb-2">
                     <input type="checkbox" name="IsComplete" id="cbIsComplete"
-                               class="custom-control-input">
+                               class="custom-control-input" >
                     <label class="custom-control-label" for="cbIsComplete">
                      I am finished with this section
                 </label>
@@ -464,7 +464,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-body formWrapper">
-                <form class="needs-validation formSpace p-0" novalidate>
+                <form id="militaryPositionForm" class="needs-validation formSpace p-0" novalidate>
                     <input type="hidden" id="hdfMilitaryPositionId"/>
                     <div class="row">
                         <div class="col-md-12">
@@ -480,7 +480,7 @@
                                         <div class="form-group">
                                             <select name="StartedMonth" id="ddlPositionStartedMonth"
                                                     class="form-control" required>
-                                                <option value="" selected=""></option>
+                                                <option value="" selected="">--Select Month--</option>
                                                 <option value="January">January</option>
                                                 <option value="February">February</option>
                                                 <option value="March">March</option>
@@ -500,7 +500,7 @@
                                         <div class="form-group">
                                             <select name="StartedYear" id="ddlPositionStartedYear"
                                                     class="form-control" required>
-                                                <option value="" selected=""></option>
+                                                <option value="" selected="">--Select Year--</option>
                                                 <option value="2073">2073</option>
                                                 <option value="2072">2072</option>
                                                 <option value="2071">2071</option>
@@ -676,7 +676,7 @@
                                         <div class="form-group">
                                             <select name="EndedMonth" id="ddlPositionEndedMonth"
                                                     class="form-control" required>
-                                                <option value="" selected=""></option>
+                                                <option value="" selected="">--Select Month</option>
                                                 <option value="January">January</option>
                                                 <option value="February">February</option>
                                                 <option value="March">March</option>
@@ -695,7 +695,7 @@
                                     <div class="col-6">
                                         <div class="form-group">
                                             <select name="EndedYear" id="ddlPositionEndedYear" class="form-control">
-                                                <option value="" selected=""></option>
+                                                <option value="" selected="" required>--Select Year--</option>
                                                 <option value="2073">2073</option>
                                                 <option value="2072">2072</option>
                                                 <option value="2071">2071</option>
@@ -857,21 +857,21 @@
                                     Specialized training relevant to the
                                     industry you are in or are going into
                                 </label><input name="MainTraining" id="txtMainTraining" type="text"
-                                               class="form-control" value="">
+                                               class="form-control" value="" required>
                             </div>
                             <div class="form-group">
                                 <legend>Top three primary responsibilities</legend>
                                 <div class="form-group">
                                     <label for="t" class="">Responsibility #1</label>
-                                    <input name="Responsibility1" id="txtResponsibility1" type="text" class="form-control" value="">
+                                    <input name="Responsibility1" id="txtResponsibility1" type="text" class="form-control" value="" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="t" class="">Responsibility #2</label>
-                                    <input name="Responsibility2" id="txtResponsibility2" type="text" class="form-control" value="">
+                                    <input name="Responsibility2" id="txtResponsibility2" type="text" class="form-control" value="" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="t" class="">Responsibility #3</label>
-                                    <input name="Responsibility3" id="txtResponsibility3" type="text" class="form-control" value="">
+                                    <input name="Responsibility3" id="txtResponsibility3" type="text" class="form-control" value="" required>
                                 </div>
                             </div>
 
@@ -880,7 +880,7 @@
                                     Other information that makes this
                                     experience unique
                                 </label><input name="OtherInfo" id="txtOtherInfo" type="text" class="form-control"
-                                               value="">
+                                               value="" required>
                             </div>
                         </div>
                     </div>
