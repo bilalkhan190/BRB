@@ -68,6 +68,7 @@ namespace BusinessObjects.Services
                                       LanguageSkillId = langSkill.LanguageSkillId,
                                       ResumeId = langSkill.ResumeId,
                                       IsComplete = langSkill.IsComplete,
+                                      IsOptOut = langSkill.IsOptOut,
                                       Languages = languages
                                   }).FirstOrDefault();
             return languageSkills;

@@ -267,17 +267,33 @@
            return arr.map(el => _.mapKeys(el, (val, key) => _.camelCase(key)));
         }
 
-        //$('.nav-link').click(function(){
-        //    //$.ajax({
-        //    //    url: '/Resume/CreateResumeProfile',
-        //    //    type: 'post',
-        //    //    data: { UserId: userId, LastSectionVisitedId: lastSelectedVisitedId, LastSectionCompletedId: lastSectionCompletedId },
-        //    //    success: function (response) {
-
-        //    //    },
-        //    //    error: function (err) { }
-        //    //});
-        //})
+      $(document).on('change','.isoptOut',function(){
+          let masterId = $(document).find('.masterid').val();
+            let sectionId = $('#hdfLastSectionVisitedId').val();
+            let status = $(this).is(":checked")
+            $.ajax({
+                url: `/common/IsOptOut?recordId=${masterId}&sectionId=${sectionId}&status=${status}`,
+                type:'POST',
+                success:function(response)
+                {
+                    if(response.success)
+                    {
+                        console.log(response.success)
+                                 console.log(response.data.isOptOut)
+                        if(!response.data.isOptOut)
+                        {
+                            $('#isOptSection').show();
+                        }else
+                        {
+                            $('#isOptSection').hide();
+                        }
+                       
+                    }
+                },
+                error:function(err){}
+            })
+          
+      })
     </script>
 </body>
 </html>

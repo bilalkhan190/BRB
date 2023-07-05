@@ -65,9 +65,11 @@ function LoadData() {
         type: 'GET',
         success: function (response) {
             $('#hdfLanguageSkillId').val(response.data.languageSkillId);
-            if (response.data.isComplete) {
-                $("#cbIsComplete").val(response.data.isComplete).prop("checked",true)
-            }
+            //if (response.data.isOptOut) {
+            //    $('.isoptOut').prop("checked",true)
+            //}
+           
+                $("#cbIsComplete").prop("checked", response.data.isComplete)
             if (response.data.languages.length > 0) {
                 $.each(response.data.languages, function (index, value) {
                     languageArray.push(value)

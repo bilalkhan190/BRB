@@ -49,9 +49,11 @@ namespace BRB.Controllers
             return Json(ajaxResponse);
         }
 
+        [HttpPost]
         public IActionResult IsOptOut(int recordId , int sectionId,bool status)
         {
-            AjaxResponse ajaxResponse = new AjaxResponse(); 
+            AjaxResponse ajaxResponse = new AjaxResponse();
+            ajaxResponse.Success = false;
             switch (sectionId)
             {
                
@@ -96,6 +98,7 @@ namespace BRB.Controllers
                     _dbContext.LanguageSkills.Update(language);
                     _dbContext.SaveChanges();
                     ajaxResponse.Data= language;
+                    ajaxResponse.Success = true;
                     break;
 
             }
