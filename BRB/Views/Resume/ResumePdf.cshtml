@@ -3,63 +3,79 @@
 }
 @model BusinessObjects.Models.MetaData.ResumeGenerateModel
 
+<style>
+    table tr th, td {
+        padding:10px;
+        border:1px solid #000;
+    }
+</style>
 <div class="resumeWrapper" style="padding: 40px;font-family:sans-serif;">
-    <div style="text-align:center;">
+    <div>
         @if (Model.UserProfile != null)
         {
-            <h1 style="margin:0;">@Model.UserProfile.FirstName @Model.UserProfile.LastName</h1>
-            <p style="margin:0;">
+            <h1 style="margin:0;text-transform: uppercase;">
+                @Model.UserProfile.FirstName <span style="font-weight: 100;color: #a3a3a3;"> @Model.UserProfile.LastName </span>
+            </h1>
+            <p style="margin:0;display: inline-block;border-right: 1px solid #000;padding-right: 5px;line-height: 20px;margin-bottom: 5px;">
+                <span style="color: #a3a3a3;">Address: </span>
                 @Model.UserProfile.Address1
             </p>
-            <p style="margin:0;">@Model.UserProfile.City, @Model.UserProfile.StateAbbr @Model.UserProfile.ZipCode</p>
+            <p style="margin:0;display: inline-block;line-height: 20px;margin-bottom: 5px;">
+                <span style="color: #a3a3a3;">Email: </span>
+                @Model.UserProfile.UserName</p>
+                <div>
+                <p style="margin:0;display: inline-block;border-right: 1px solid #000;padding-right: 5px;line-height: 20px;margin-bottom: 5px;">
+                    <span style="color: #a3a3a3;">City: </span>
+                @Model.UserProfile.City  </p>
+                <p style="margin:0;display: inline-block;border-right: 1px solid #000;padding-right: 5px;line-height: 20px;margin-bottom: 5px;">
+                    <span style="color: #a3a3a3;">State: </span>
+                @Model.UserProfile.StateAbbr</p>
+                <p style="margin:0;display:inline-block;margin-bottom: 5px;">
+                    <span style="color: #a3a3a3;">ZipCode: </span>
+                @Model.UserProfile.ZipCode</p>
+            </div>
             <p style="margin:0;">
+                <span style="color: #a3a3a3;">phone: </span>
                 @Model.UserProfile.Phone
             </p>
-            <p style="margin:0;">@Model.UserProfile.UserName</p>
+         
         }
 
     </div>
     <div>
         <p>
-            <b>Objective:</b>
-            <span style="padding-left:10px;"> To utilize my acting, adapting, and administering skills to secure a part-time job in a matech co organization to increase revenue.</span>
+            <span style="display: block;font-weight: 700;padding-bottom: 10px;background: #dbdbdb;padding-top: 10px;padding-left: 10px;font-size: 20px;margin-bottom: 16px;">Objective:</span>
+            <span> To utilize my acting, adapting, and administering skills to secure a part-time job in a matech co organization to increase revenue.</span>
         </p>
-        <p><b>Education:</b></p>
+        <p style="padding-bottom: 10px;background: #dbdbdb;padding-top: 10px;padding-left: 10px;font-size: 20px;margin-bottom: 16px;"><b>Education:</b></p>
         @foreach (var c in Model.Colleges)
         {
-            <table style="width: 100%;text-align: left;">
-                <tr>
-                    <th>
-                        @c.CollegeName
-                    </th>
-                    <th>@c.CollegeCity</th>
-                    <th>@c.GradDate</th>
-                </tr>
-                <tr>
-                    <td>Bilal Khan</td>
-                </tr>
-                <tr>
-                    <td style="width:33.33%">
-                        @c.DegreeDesc	GPA:  @c.Gpa
-                        Specialty in @c.MajorSpecialtyDesc
-                    </td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>Minor:  @c.MinorDesc</td>
-                </tr>
-            </table>
+
+            <span style="font-weight: 700;">@c.CollegeName</span>
+            <ul>
+                <li style="padding-bottom: 5px;">
+                    @c.CollegeCity
+                </li>
+                <li style="padding-bottom: 5px;">@c.GradDate</li>
+                <li style="padding-bottom: 5px;">Bilal Khan</li>
+                <li style="padding-bottom: 5px;">
+                    @c.DegreeDesc	GPA:  @c.Gpa
+                    Specialty in @c.MajorSpecialtyDesc
+                </li>
+                <li style="padding-bottom: 5px;">Minor:  @c.MinorDesc</li>
+                <li>Certificate in @c.CertificateDesc</li>
+            </ul>
+            
 
 
-            <p style="margin:0;">Certificate in @c.CertificateDesc</p>
-            <p style="margin:0;"></p>
+        
             foreach (var a in Model.AcademicHonors)
             {
                 <p style="margin:0;">@c.HonorProgram @c.GradDate</p>
                 <div style="display:flex;align-items:center;justify-content: space-between;padding-top:10px;">
-                    <div>
+                    <span style="font-weight: 700;">
                         @a.HonorName
-                    </div>
+                    </span>
                     <div style="text-align:right;"></div>
                 </div>
             }
@@ -75,17 +91,17 @@
     @if (@Model.MilitaryExperiences != null)
     {
 
-        <b>Military Experience:</b><br />
-        <div style="display:flex;align-items:center;justify-content: space-between;">
-            <div>
-
-                <i> @Model.MilitaryExperiences.City @Model.MilitaryExperiences.Rank</i>
-            </div>
-            <div>@Model.MilitaryExperiences.Branch</div>
-            <div>@Model.MilitaryExperiences.StartedMonth @Model.MilitaryExperiences.StartedYear - @Model.MilitaryExperiences.EndedMonth @Model.MilitaryExperiences.EndedYear</div>
+        <p style="padding-bottom: 10px;background: #dbdbdb;padding-top: 10px;padding-left: 10px;font-size: 20px;margin-bottom: 16px;"><b>Military Experience:</b></p>
+        <div>
+            <ul>
+                <li><i> @Model.MilitaryExperiences.City @Model.MilitaryExperiences.Rank</i></li>
+                <li>@Model.MilitaryExperiences.Branch</li>
+                <li>@Model.MilitaryExperiences.StartedMonth @Model.MilitaryExperiences.StartedYear - @Model.MilitaryExperiences.EndedMonth @Model.MilitaryExperiences.EndedYear
+                </li>
+            </ul>
         </div>
-        <div style="display:flex;align-items:center;justify-content: space-between;">
-        <b>Military Position:</b>
+        <div>
+            <p style="padding-bottom: 10px;background: #dbdbdb;padding-top: 10px;padding-left: 10px;font-size: 20px;margin-bottom: 16px;"><b>Military Position:</b></p>
             @if (Model.MilitaryPositions.Count > 0)
             {
                 <ul>
@@ -104,26 +120,24 @@
     @if (Model.Organizations.Count > 0)
     {
         <div>
-            <b>Organization and Volunteer Experience:</b>
+            <p style="padding-bottom: 10px;background: #dbdbdb;padding-top: 10px;padding-left: 10px;font-size: 20px;margin-bottom: 16px;"><b>Organization and Volunteer Experience:</b></p>
         </div>
         @foreach (var o in Model.Organizations)
         {
-            <div style="display:flex;align-items:center;justify-content: space-between;">
-                <div>
-                    <b> @o.City</b>
-                </div>
-                <div>@o.StartedMonth @o.StartedYear, @o.StateName</div>
-                <div>@o.EndedMonth @o.EndedYear</div>
-            </div><br />
-            <b>Organization Positions</b>
+                <ul>
+                    <li>@o.City</li>
+                    <li>@o.StartedMonth @o.StartedYear, @o.StateName</li>
+                    <li>@o.EndedMonth @o.EndedYear</li>
+                </ul>
+
+            <p style="padding-bottom: 10px;background: #dbdbdb;padding-top: 10px;padding-left: 10px;font-size: 20px;margin-bottom: 16px;"><b>Organization Positions</b></p>
             @foreach (var op in Model.OrgPositions)
             {
-                <div style="display:flex;align-items:center;justify-content: space-between;">
-                    <div>
-                        <i>@op.Title</i>
-                    </div>
-                    <div>@op.StartedMonth @op.StartedYear - @op.EndedMonth @op.EndedYear</div>
-                </div>
+                <ul>
+                    <li> <i>@op.Title</i></li>
+                    <li>@op.StartedMonth @op.StartedYear - @op.EndedMonth @op.EndedYear</li>
+                 
+                </ul>
             }
 
         }
@@ -133,17 +147,18 @@
 
     @if (Model.VolunteerOrgs.Count > 0)
     {
+        <p style="padding-bottom: 10px;background: #dbdbdb;padding-top: 10px;padding-left: 10px;font-size: 20px;margin-bottom: 16px;">
         <b>Organization</b>
+        </p>
         foreach (var vo in Model.VolunteerOrgs)
         {
-            <div style="display:flex;align-items:center;justify-content: space-between;">
-                <div>
-                    <b> @vo.VolunteerOrg1</b>
-                </div>
-                <div>@vo.City, @vo.StateName</div>
-                <div>@vo.StartedMonth @vo.StartedYear - @vo.EndedMonth @vo.EndedYear</div>
-            </div>
-            <b>Volunteer Positions</b>
+            <ul>
+                <li>@vo.VolunteerOrg1</li>
+                <li>@vo.City, @vo.StateName</li>
+                <li>@vo.StartedMonth @vo.StartedYear - @vo.EndedMonth @vo.EndedYear</li>
+            </ul>
+               
+                    <p style="padding-bottom: 10px;background: #dbdbdb;padding-top: 10px;padding-left: 10px;font-size: 20px;margin-bottom: 16px;"><b>Volunteer Positions</b></p>
             <ul>
                 @foreach (var vp in Model.VolunteerPositions)
                 {
@@ -158,18 +173,16 @@
 
 
     <div>
-        <b>Licenses and Certificates:</b>
+        <p style="padding-bottom: 10px;background: #dbdbdb;padding-top: 10px;padding-left: 10px;font-size: 20px;margin-bottom: 16px;"> <b>Licenses and Certificates:</b></p>
     </div>
     @if (Model.Licenses.Count > 0)
     {
         foreach (var l in Model.Licenses)
         {
-            <div style="display:flex;align-items:center;justify-content: space-between;">
-                <div>
-                    @l.Title
-                </div>
-                <div>@l.StateName</div>
-            </div>
+            <ul style="margin-bottom:0;">
+                <li> @l.Title (@l.StateName)</li>
+            </ul>
+                   
         }
 
     }
@@ -178,54 +191,48 @@
     {
         foreach (var c in Model.Certificates)
         {
-            <div style="display:flex;align-items:center;justify-content: space-between;">
-                <div>
-                    @c.Title
-                </div>
-                <div>@c.StateName</div>
-            </div>
+            <ul style="margin-bottom:0;">
+                <li>@c.Title (@c.StateName)</li>
+            </ul>
         }
 
     }
-    <div style="padding-top:15px;">
-        <b>Professional Affiliations:</b>
-    </div>
-    <div style="display:flex;align-items:center;justify-content: space-between;">
+        <p style="padding-bottom: 10px;background: #dbdbdb;padding-top: 10px;padding-left: 10px;font-size: 20px;margin-bottom: 16px;"> <b>Professional Affiliations:</b></p>
+    <div>
         @foreach (var aff in Model.AffiliationPositions)
         {
             <div>
                 <b>@aff.Title</b>
             </div>
-            <div>@aff.StartedMonth - @aff.StartedYear</div>
-
-            <div style="display:flex;align-items:center;justify-content: space-between;">
-                <div>
-                    <i> test - titlew</i>
-                </div>
-                <div>March 2072 - March 2073</div>
-            </div>
-           
+            <ul>
+                <li>@aff.StartedMonth - @aff.StartedYear</li>
+                <li> test - titlew</li>
+                <li>March 2072 - March 2073</li>
+            </ul>
         }
-        <b>Affilation Position</b>
+        <p style="padding-bottom: 10px;background: #dbdbdb;padding-top: 10px;padding-left: 10px;font-size: 20px;margin-bottom: 16px;">
+            <b>Affilation Position</b></p>
         <ul>
             @foreach (var p in Model.AffiliationPositions)
             {
                 <li>@p.Title (@p.StartedMonth @p.StartedYear - @p.EndedMonth @p.EndedYear)</li>
             }
-        </ul><br />
+        </ul>
 
         <p>
+        <p style="padding-bottom: 10px;background: #dbdbdb;padding-top: 10px;padding-left: 10px;font-size: 20px;margin-bottom: 16px;">
             <b>Computer Skills:</b>
-            <span style="padding-left:10px;">
+            </p>
+            <span>
                 Microsoft Word, Microsoft Power Point, Macintosh Pages, Adobe Illustrator, Adobe Publisher, web developement
             </span>
         </p><br />
-        <p><b>Language Skills:</b></p>
+        <p style="padding-bottom: 10px;background: #dbdbdb;padding-top: 10px;padding-left: 10px;font-size: 20px;margin-bottom: 16px;"><b>Language Skills:</b></p>
         @if (Model.Languages.Count > 0)
         {
             foreach (var lang in Model.Languages)
             {
-                <span style="padding-left:10px;">@lang.LanguageAbilityDesc in @lang.LanguageName</span>
+                <span>@lang.LanguageAbilityDesc in @lang.LanguageName</span>
 
             }
 
