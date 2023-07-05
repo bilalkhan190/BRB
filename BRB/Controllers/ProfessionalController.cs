@@ -96,16 +96,18 @@ namespace BRB.Controllers
                     {
                         affilation.ProfessionalId = masterData.ProfessionalId;
                         affilationData = _professionalService.AddAffilation(affilation);
-                    }
-                    if (professionalViewModel.AffiliationPositions.Count > 0)
-                    {
-                        foreach (var affilationPosition in professionalViewModel.AffiliationPositions)
+
+                        if (affilation.AffiliationPositions.Count > 0)
                         {
-                             affilationPosition.AffiliationId = affilationData.AffiliationId;
-                             affilationPosition.CreatedDate = DateTime.Today;
-                            _professionalService.AddAffilationPosition(affilationPosition);
+                            foreach (var affilationPosition in affilation.AffiliationPositions)
+                            {
+                                affilationPosition.AffiliationId = affilation.AffiliationId;
+                                affilationPosition.CreatedDate = DateTime.Today;
+                                _professionalService.AddAffilationPosition(affilationPosition);
+                            }
                         }
                     }
+                   
                 }
 
 
