@@ -33,23 +33,27 @@ $(document).ready(function () {
 })
 
 $('#btnSaveLicense').click(function () {
-    let license = {
-        Title: $('#txtlicenseTitle').val(),
-        StateAbbr: $('#ddllicenseState').val(),
-        ReceivedMonth: $('#ddllicenseReceivedMonth').val(),
-        ReceivedYear: $('#ddllicenseReceivedYear').val(),
-    };
-    if (localStorage.getItem("edit-license") === null) {
-        licenseArray.push(license);
-       
-    }
-    else {
-        let index = localStorage.getItem("edit-license");
-        licenseArray[index] = license;
-        localStorage.clear();
+    $('#licenseForm').validate();
+    if ($('#licenseForm').valid()) {
+        let license = {
+            Title: $('#txtlicenseTitle').val(),
+            StateAbbr: $('#ddllicenseState').val(),
+            ReceivedMonth: $('#ddllicenseReceivedMonth').val(),
+            ReceivedYear: $('#ddllicenseReceivedYear').val(),
+        };
+        if (localStorage.getItem("edit-license") === null) {
+            licenseArray.push(license);
+
+        }
+        else {
+            let index = localStorage.getItem("edit-license");
+            licenseArray[index] = license;
+            localStorage.clear();
+        }
+
+        LoadCards();
     }
    
-    LoadCards();
 });
 
 
@@ -194,6 +198,8 @@ $(document).on("click", ".btnEditAffilation", function () {
 })
 
 $('#btnSaveCertificate').click(function () {
+    $('#certificateForm').validate();
+    if ($('#certificateForm').valid()) {
     let certificate = {
         Title: $('#txtCertificateTitle').val(),
         StateAbbr: $('#ddlCertificateState').val(),
@@ -208,27 +214,31 @@ $('#btnSaveCertificate').click(function () {
         certificateArray[index] = certificate;
         localStorage.clear();
     }
-   
+
 
     LoadCertCards();
+    } 
+   
 });
 
 $('#btnSaveAffilation').click(function () {
-    let affilation = {
-        AffiliationName: $('#txtAffiliationName').val(),
-        City: $('#txtAffilationCity').val(),
-        StateAbbr: $('#txtAffilationStateAbbr').val(),
-        StartedMonth: $('#txtAffilationStartedMonth').val(),
-        StartedYear: $('#txtAffilationStartedYear').val(),
-        EndedMonth: $('#txtAffilationEndedMonth').val(),
-        EndedYear: $('#txtAffilationEndedYear').val(),
-        AffiliationPositions: []
-    };
-   
-    if (localStorage.getItem("edit-aff") === null) {
-        affilationArray.push(affilation)
-        $('#noAffilation').hide();
-        let html = `
+    $('#affilationform').validate();
+    if ($('#affilationform').valid()) {
+        let affilation = {
+            AffiliationName: $('#txtAffiliationName').val(),
+            City: $('#txtAffilationCity').val(),
+            StateAbbr: $('#txtAffilationStateAbbr').val(),
+            StartedMonth: $('#txtAffilationStartedMonth').val(),
+            StartedYear: $('#txtAffilationStartedYear').val(),
+            EndedMonth: $('#txtAffilationEndedMonth').val(),
+            EndedYear: $('#txtAffilationEndedYear').val(),
+            AffiliationPositions: []
+        };
+
+        if (localStorage.getItem("edit-aff") === null) {
+            affilationArray.push(affilation)
+            $('#noAffilation').hide();
+            let html = `
                 <div class="card p-0 mt-2 mb-2 cardWrapper cardWrapper-aff"> 
                     <div class="card-body">
                        <div class="row">
@@ -271,24 +281,24 @@ $('#btnSaveAffilation').click(function () {
                     </div>
                 </div>
   `
-        $('#divAffilateCard div.row-cstm').append(html);
+            $('#divAffilateCard div.row-cstm').append(html);
+        }
+        else {
+            debugger;
+            let index = localStorage.getItem("edit-aff");
+            affilationArray[index] = affilation;
+            $($(".cardWrapper-aff")[index]).find(".title-text").html(affilation.AffiliationName)
+            $($(".cardWrapper-aff")[index]).find(".HasEndDate").html(`${affilation.StartedMonth} ${affilation.StartedYear} - ${affilation.EndedMonth} ${affilation.EndedYear}`);
+            $($(".cardWrapper-aff")[index]).find(".btnEditAffilation").attr("data-json", JSON.stringify(affilation));
+            localStorage.clear();
+        }
     }
-    else {
-        debugger;
-        let index = localStorage.getItem("edit-aff");
-        affilationArray[index] = affilation;
-        $($(".cardWrapper-aff")[index]).find(".title-text").html(affilation.AffiliationName)
-        $($(".cardWrapper-aff")[index]).find(".HasEndDate").html(`${affilation.StartedMonth} ${affilation.StartedYear} - ${affilation.EndedMonth} ${affilation.EndedYear}`);
-        $($(".cardWrapper-aff")[index]).find(".btnEditAffilation").attr("data-json", JSON.stringify(affilation));
-        localStorage.clear();
-    }
-
    // LoadaffCards();
 });
 
 function LoadDropdowns() {
     $('.ddl_State').html("");
-    $('.ddl_State').append('<option value="0" selected><b>Select State</b></option>')
+    $('.ddl_State').append('<option value="" selected><b>Select State</b></option>')
     $.ajax({
         url: '/Common/GetStateList',
         type: 'get',
@@ -304,23 +314,25 @@ function LoadDropdowns() {
 }
 
 $('#btnAddPosition').click(function () {
-    let position = {
-        Title: $('#txtpositionTitle').val(),
-        StartedMonth: $('#ddlPositionStartedMonth').val(),
-        StartedYear: $('#ddlPositionStartedYear').val(),
-        EndedMonth: $('#ddlPositionEndedMonth').val(),
-        EndedYear: $('#ddlPositionEndedYear').val(),
-        Responsibility1: $('#txtResponsibility1').val(),
-        Responsibility2: $('#txtResponsibility2').val(),
-        Responsibility3: $('#txtResponsibility3').val(),
-        OtherInfo: $('#txtOtherInfo').val(),
-    };
-    positionArray.push(position);
-    
-   
-    $('#noPosition').hide();
-    if (localStorage.getItem("edit-position")) {
-        let html = ` 
+    $('#positionForm').validate();
+    if ($('#positionForm').valid()) {
+        let position = {
+            Title: $('#txtpositionTitle').val(),
+            StartedMonth: $('#ddlPositionStartedMonth').val(),
+            StartedYear: $('#ddlPositionStartedYear').val(),
+            EndedMonth: $('#ddlPositionEndedMonth').val(),
+            EndedYear: $('#ddlPositionEndedYear').val(),
+            Responsibility1: $('#txtResponsibility1').val(),
+            Responsibility2: $('#txtResponsibility2').val(),
+            Responsibility3: $('#txtResponsibility3').val(),
+            OtherInfo: $('#txtOtherInfo').val(),
+        };
+        positionArray.push(position);
+
+
+        $('#noPosition').hide();
+        if (localStorage.getItem("edit-position")) {
+            let html = ` 
                     <div class="card-body">
                        <div class="row">
                         <div class="col-md-12">
@@ -364,12 +376,12 @@ $('#btnAddPosition').click(function () {
                         </div>
                     </div>
                 `
-        let id = localStorage.getItem("edit-position");
-        $("button[data-identity='" + id + "']").closest(".cardWrapper").html(html);
-        localStorage.clear();
-    }
-    else {
-        let html = `<div class="card p-0 mt-4 mb-2 cardWrapper"> 
+            let id = localStorage.getItem("edit-position");
+            $("button[data-identity='" + id + "']").closest(".cardWrapper").html(html);
+            localStorage.clear();
+        }
+        else {
+            let html = `<div class="card p-0 mt-4 mb-2 cardWrapper"> 
                     <div class="card-body">
                        <div class="row">
                         <div class="col-md-12">
@@ -413,12 +425,13 @@ $('#btnAddPosition').click(function () {
                         </div>
                     </div>
                 </div>`;
-        let id = localStorage.getItem("add-position");
-        $("button[data-item='" + id + "']").before(html);
-        //$('#noPosition').parent().append(html);
+            let id = localStorage.getItem("add-position");
+            $("button[data-item='" + id + "']").before(html);
+            //$('#noPosition').parent().append(html);
+        }
+
+        console.log(positionArray);
     }
-   
-    console.log(positionArray);
 });
 
 $(document).on('click', '#cbSectionNotApply', function () {
