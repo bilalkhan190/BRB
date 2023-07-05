@@ -3,6 +3,46 @@
     padding: 0;
     box-sizing: border-box;
 }
+.loader-overlay {
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.7);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 9999;
+}
+
+
+#preLoader {
+    z-index: 11;
+    border: 3px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 10px solid #40C2CC;
+    width: 60px;
+    height: 60px;
+    -webkit-animation: spin 1s linear infinite;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(359deg);
+    }
+}
+
+
+.loader-box {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    z-index: 9999;
+}
 
 body h1 {
     font-size: 1.5rem;

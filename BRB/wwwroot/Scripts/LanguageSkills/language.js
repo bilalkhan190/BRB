@@ -101,7 +101,6 @@ function LoadCards() {
                                 <span class="card-text">
                                     <h5 class="title-text">${value.languageName}</h5>
                                     <p class="text-muted">${value.languageAbilityDesc}</p>
-                                     <p class="text-muted">${value.languageAbilityDesc}</p>
                                 </span>
                             </div>
                             <div class="col-md-4">

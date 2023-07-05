@@ -2,14 +2,13 @@
 let lastSelectedVisitedId = $('#hdfLastSelectedVisitedId').val();
 let lastSectionCompletedId = $('#hdfLastSectionCompletedId').val();
 
-//$(document).ready(function () {
-//    $.ajax({
-//        url: '/Resume/CreateResumeProfile',
-//        type: 'post',
-//        data: { UserId: userId, LastSectionVisitedId: lastSelectedVisitedId, LastSectionCompletedId: lastSectionCompletedId },
-//        success: function (response) {
+$('#btnGenerateResume').click(function () {
+    $.ajax({
+        url: '/Resume/GenerateResume',
+        type: 'get',
+        success: function (response) {
           
-//        },
-//        error: function (err) { }
-//    });
-//})
+        },
+        error: function (err) { }
+    });
+})
