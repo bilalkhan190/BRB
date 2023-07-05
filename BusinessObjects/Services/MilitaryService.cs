@@ -54,6 +54,8 @@ namespace BusinessObjects.Services
                                                          ResumeId = me.ResumeId,
                                                          Branch = me.Branch,
                                                          City = me.City,
+                                                         IsOptOut = me.IsOptOut,
+                                                         IsComplete = me.IsComplete,
                                                          CountryId = me.CountryId,
                                                          StartedMonth = me.StartedMonth,
                                                          StartedYear = me.StartedYear,

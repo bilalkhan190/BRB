@@ -65,12 +65,9 @@ function LoadData() {
         type: 'GET',
         success: function (response) {
             $('#hdfLanguageSkillId').val(response.data.languageSkillId);
-            //if (response.data.isOptOut) {
-            //    $('.isoptOut').prop("checked",true)
-            //}
-           
+                $('.isoptOut').prop("checked", response.data.isOptOut).trigger('change')
                 $("#cbIsComplete").prop("checked", response.data.isComplete)
-            if (response.data.languages.length > 0) {
+             if (response.data.languages.length > 0) {
                 $.each(response.data.languages, function (index, value) {
                     languageArray.push(value)
                 });
@@ -95,7 +92,6 @@ $(document).on('click', '#btnEditLangauge', function () {
 function LoadCards() {
     $("#divEditSection").html("");
     languageArray = languageArray.map(el => _.mapKeys(el, (val, key) => _.camelCase(key)));
-    console.log(languageArray)
     $.each(languageArray, function (index, value) {
         let html = ` 
                 <div class="card p-0 mt-2 mb-2 cardWrapper"> 

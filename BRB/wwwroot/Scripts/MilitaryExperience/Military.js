@@ -20,6 +20,9 @@ $(document).ready(function () {
         url: '/Military/GetMilataryExperience',
         type: 'Get',
         success: function (response) {
+            console.log(response.data);
+            $('#hdfMilitaryExperienceId').val(response.data.militaryExperienceId);
+            $('.isoptOut').prop("checked", response.data.isOptOut).trigger('change');
             loadData(response)
         },
         error: function (error) {
@@ -56,10 +59,10 @@ $(document).on('click', '#cbPositionCurrentlyIn', function () {
     }
 });
 
-$(document).on('change', '#cbSectionNotApply', function () {
-    if (this.checked) $('#mainForm').hide()
-    else $('#mainForm').show()
-});
+//$(document).on('change', '#cbSectionNotApply', function () {
+//    if (this.checked) $('#mainForm').hide()
+//    else $('#mainForm').show()
+//});
 
 $(document).on('click', '#btnAddOrContinue', function () {
     //let isCompleted = $('#cbIsComplete').val($('#cbIsComplete').is(':checked'))[0].checked;

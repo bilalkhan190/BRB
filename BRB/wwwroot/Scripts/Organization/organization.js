@@ -4,6 +4,20 @@ var positionArray = []
 
 $(document).ready(function () {
     LoadDropdowns();
+
+    $.ajax({
+        url: '/organization/GetMasterData',
+        type: 'Get',
+        success: function (response) {
+            console.log(response.data);
+            $('#hdfOrgExperienceId').val(response.data.orgExperienceId);
+            $('.isoptOut').prop("checked", response.data.isOptOut).trigger('change');
+           
+        },
+        error: function (error) {
+            console.log(error)
+        }
+    })
     getFormData()
 });
 
@@ -25,11 +39,11 @@ function getFormData() {
                 });
             }
            
-            if (organizationArr.length > 0) {
-                $('#hdfOrgExperienceId').val(organizationArr[0].orgExperienceId)
-            } else {
-                $('#hdfOrgExperienceId').val(response.data.orgExperienceId);
-            }
+            //if (organizationArr.length > 0) {
+            //    $('#hdfOrgExperienceId').val(organizationArr[0].orgExperienceId)
+            //} else {
+            //    $('#hdfOrgExperienceId').val(response.data.orgExperienceId);
+            //}
 
             LoadCards()
         },
