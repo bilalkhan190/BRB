@@ -2,6 +2,7 @@
 var certificateArray = [];
 var affilationArray = [];
 var positionArray = [];
+var positionParentArray = [{key: 0, data: []}];
 $('#cbAffilationCurrentlyIn').click(function () {
             if ($(this).is(':checked')) {
                 $('#txtAffilationEndedMonth').hide();
@@ -326,7 +327,7 @@ $('#btnAddPosition').click(function () {
                 </div>`
     $('#noPosition').hide();
     $('#noPosition').parent().append(html)
-   
+    console.log(positionArray);
 });
 
 $(document).on('click', '#cbSectionNotApply', function () {
