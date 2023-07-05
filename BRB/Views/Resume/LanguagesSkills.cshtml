@@ -9,11 +9,17 @@
             <button type="button" class="btn custombtn customBtn-light w-auto ms-2" data-bs-toggle="modal"
         data-bs-target="#modalExample">Example</button>
         </div>
-        <div class="custom-checkbox custom-control mt-2 mb-2">
+      @*  <div class="custom-checkbox custom-control mt-2 mb-2">
             <input type="checkbox"
                    class="custom-control-input" id="customCheckBox">
             <label class="custom-control-label" for="customCheckBox">
              This section does not apply to me.
+            </label>
+        </div>*@
+        <div class="custom-checkbox custom-control mt-2 mb-2">
+            <input type="checkbox" class="custom-control-input" id="cbSectionNotApply">
+            <label class="custom-control-label" for="cbSectionNotApply">
+                This section does not apply to me.
             </label>
         </div>
     <h1>Your Language Skills</h1>
@@ -31,7 +37,7 @@
         <div class="custom-checkbox custom-control mb-2">
             <input type="checkbox" id="cbIsComplete"
                    class="custom-control-input">    
-            <label class="custom-control-label">
+            <label class="custom-control-label" for="cbIsComplete">
                 I am finished with this section 
             </label>
         </div>
