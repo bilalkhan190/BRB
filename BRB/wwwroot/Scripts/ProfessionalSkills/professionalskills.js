@@ -59,17 +59,18 @@ function LoadCards() {
     $.each(licenseArray, function (index, value) {
         console.log(value);
         let html = ` 
-                  <div class="card ml-4 "> 
+                  <div class="card p-0 mt-2 mb-2 cardWrapper"> 
                     <div class="card-body">
                        <div class="row">
-                           <div class="col-md-10">
+                           <div class="col-md-8">
                                 <span class="card-text">
-                                    <p>${value.Title}</p>
+                                    <h5 class="title-text">${value.Title}</h5>
                                     <p class="text-muted"> ${value.ReceivedYear} -  ${value.ReceivedMonth} </p>
                                 </span>
                             </div>
-                            <div class="col-md-2">
-                                <button type="button"  class="btn btn-outline-danger">
+                            <div class="col-md-4">
+                            <div class="card-Btn">
+                                <button type="button"  class="btn custombtn w-auto ms-2">
                                     <svg stroke="currentColor" fill="currentColor" stroke-width="0"
                                          viewBox="0 0 24 24" height="1em" width="1em"
                                          xmlns="http://www.w3.org/2000/svg">
@@ -77,7 +78,7 @@ function LoadCards() {
                                         </path>
                                     </svg>
                                 </button>
-                                <button type="button" id="btnEditLicense" class="btnEditLicense" data-item='${index}' class="btn btn-outline-primary">
+                                <button type="button" id="btnEditLicense" class="btnEditLicense btn custombtn customBtn-light w-auto ms-1" data-item='${index}'>
                                     <svg stroke="currentColor" fill="currentColor" stroke-width="0"
                                          viewBox="0 0 24 24" height="1em" width="1em"
                                          xmlns="http://www.w3.org/2000/svg">
@@ -86,31 +87,35 @@ function LoadCards() {
                                     </svg>
                                    
                                 </button>
-
+                                </div>
                             </div>
 </div></div></div> `;
         $('#noLicense').hide();
         $('#divLicenseCard div.row-cstm').append(html);
     })
 
-  
+    if (licenseArray != null && licenseArray.length > 3) {
+        $("#divLicenseCard div.row-cstm").addClass("BoxHeight");
+    }
+    $('#divEditSection').show();
 }
 function LoadCertCards() {
     $('#divCertificateCard div.row-cstm').html('');
     $.each(certificateArray, function (index, value) {
         console.log(value);
         let html = `
-                <div class="card ml-4 "> 
+                <div class="card p-0 mt-2 mb-2 cardWrapper"> 
                     <div class="card-body">
                        <div class="row">
-                                <div class="col-md-10">
+                                <div class="col-md-8">
                                 <span class="card-text">
-                                    <p>${value.Title}</p>
+                                    <h5 class="title-text">${value.Title}</h5>
                                     <p class="text-muted"> ${value.ReceivedMonth} -  ${value.ReceivedYear} </p>
                                 </span>
                             </div>
-                            <div class="col-md-2">
-                                <button type="button"  class="btn btn-outline-danger">
+                            <div class="col-md-4">
+                            <div class="card-Btn">
+                                <button type="button"  class="btn custombtn w-auto ms-2">
                                     <svg stroke="currentColor" fill="currentColor" stroke-width="0"
                                          viewBox="0 0 24 24" height="1em" width="1em"
                                          xmlns="http://www.w3.org/2000/svg">
@@ -118,7 +123,7 @@ function LoadCertCards() {
                                         </path>
                                     </svg>
                                 </button>
-                                <button type="button" class="btnEditCertificate" data-item='${index}' class="btn btn-outline-primary">
+                                <button type="button" class="btnEditCertificate btn custombtn customBtn-light w-auto ms-1" data-item='${index}'>
                                     <svg stroke="currentColor" fill="currentColor" stroke-width="0"
                                          viewBox="0 0 24 24" height="1em" width="1em"
                                          xmlns="http://www.w3.org/2000/svg">
@@ -127,14 +132,16 @@ function LoadCertCards() {
                                     </svg>
                                    
                                 </button>
-
+                                </div>
                             </div>
 </div></div></div>
   `
         $('#noCertificate').hide();
         $('#divCertificateCard div.row-cstm').append(html);
     })
-
+    if (certificateArray != null && certificateArray.length > 3) {
+        $("#divCertificateCard").addClass("BoxHeight");
+    }
 
 }
 
@@ -142,12 +149,34 @@ function LoadaffCards() {
     $('#divAffilateCard div.row-cstm').html('');
     $.each(affilationArray, function (index, affilation) {
         let html = `
-                <div class="card ml-4 "> 
+                <div class="card p-0 mt-2 mb-2 cardWrapper"> 
                     <div class="card-body">
                        <div class="row">
-                                <div class="col-md-10">
-                                <span class="card-text">
-                                    <p>${affilation.AffiliationName}</p>
+                                <div class="col-md-12">
+                                <span class="card-text row">
+                                <div class="col-md-6">
+                                    <h5 class="title-text">${affilation.AffiliationName}</h5>
+                                    </div>
+                                        <div class="col-md-6">
+                                 <div class="card-Btn">
+                                <button type="button"  class="btn custombtn w-auto ms-2">
+                                    <svg stroke="currentColor" fill="currentColor" stroke-width="0"
+                                         viewBox="0 0 24 24" height="1em" width="1em"
+                                         xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z">
+                                        </path>
+                                    </svg>
+                                </button>
+                                <button type="button" id="btnEditAffilation" class="btnEditAffilation btn custombtn customBtn-light w-auto ms-1" data-item='${index}'>
+                                    <svg stroke="currentColor" fill="currentColor" stroke-width="0"
+                                         viewBox="0 0 24 24" height="1em" width="1em"
+                                         xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z">
+                                        </path>
+                                    </svg>
+                                </button>
+                                   </div>
+                                </div>
                                     <p id="HasEndDate" class="text-muted">${affilation.StartedMonth} ${affilation.StartedYear} - ${affilation.EndedMonth} ${affilation.EndedYear} </p>
                                 </span>
                                 <span>
@@ -158,24 +187,6 @@ function LoadaffCards() {
                                 Add an Position of ${affilation.AffiliationName}
                             </button>
                             </div>
-                            <div class="col-md-2">
-                                <button type="button"  class="btn btn-outline-danger">
-                                    <svg stroke="currentColor" fill="currentColor" stroke-width="0"
-                                         viewBox="0 0 24 24" height="1em" width="1em"
-                                         xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z">
-                                        </path>
-                                    </svg>
-                                </button>
-                                <button type="button" id="btnEditAffilation" class="btnEditAffilation" data-item='${index}' class="btn btn-outline-primary">
-                                    <svg stroke="currentColor" fill="currentColor" stroke-width="0"
-                                         viewBox="0 0 24 24" height="1em" width="1em"
-                                         xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z">
-                                        </path>
-                                    </svg>
-                                </button>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -183,6 +194,9 @@ function LoadaffCards() {
         $('#noAffilation').hide();
         $('#divAffilateCard div.row-cstm').append(html);
     })
+    if (affilationArray != null && affilationArray.length > 3) {
+        $("#divAffilateCard").addClass("BoxHeight");
+    }
 }
 
 $(document).on("click", ".btnEditLicense", function () {
@@ -294,17 +308,17 @@ $('#btnAddPosition').click(function () {
         OtherInfo: $('#txtOtherInfo').val(),
     };
     positionArray.push(position);
-    let html = `<div class="card ml-4 mt-2"> 
+    let html = `<div class="card p-0 mt-4 mb-2 cardWrapper"> 
                     <div class="card-body">
                        <div class="row">
-                        <div class="col-md-10">
-                                <span class="card-text">
-                                    <p>${position.Title}</p>
-                                    <p class="text-muted">${position.StartedMonth} ${position.StartedYear} - ${position.EndedMonth} ${position.EndedMonth}</p>
-                                </span>
-                            </div>
-                            <div class="col-md-2">
-                                <button type="button"  class="btn btn-outline-danger">
+                        <div class="col-md-12">
+                                <span class="card-text row">
+                                    <div class="col-md-6">
+                                    <h5 class="title-text">${position.Title}</h5>
+                                    </div>
+                                    <div class="col-md-6">
+                                       <div class="card-Btn">
+                                <button type="button"  class="btn custombtn w-auto ms-2">
                                     <svg stroke="currentColor" fill="currentColor" stroke-width="0"
                                          viewBox="0 0 24 24" height="1em" width="1em"
                                          xmlns="http://www.w3.org/2000/svg">
@@ -312,15 +326,18 @@ $('#btnAddPosition').click(function () {
                                         </path>
                                     </svg>
                                 </button>
-                                <button type="button" id="btnEditCollege" data-item='' class="btn btn-outline-primary">
+                                <button type="button" id="btnEditCollege" data-item='' class="btn custombtn customBtn-light w-auto ms-1">
                                     <svg stroke="currentColor" fill="currentColor" stroke-width="0"
                                          viewBox="0 0 24 24" height="1em" width="1em"
                                          xmlns="http://www.w3.org/2000/svg">
                                         <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z">
                                         </path>
                                     </svg>
-                                   
                                 </button>
+                                </div>
+                                    </div>
+                                    <p class="text-muted">${position.StartedMonth} ${position.StartedYear} - ${position.EndedMonth} ${position.EndedMonth}</p>
+                                </span>
                             </div>
                         </div>
                     </div>

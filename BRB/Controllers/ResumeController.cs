@@ -83,7 +83,7 @@ namespace BRB.Controllers
                 model.Languages = ds.Tables[22].ToList_<Language>();
             }
 
-            return View(model);
+            return View("ResumePdf",model);
         }
         public IActionResult ContactInfo()
         {

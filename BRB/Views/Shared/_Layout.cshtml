@@ -8,7 +8,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+     
     <link rel="stylesheet" href="~/theme/assets/style/style.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
@@ -18,15 +18,48 @@
     <title>Document</title>
 </head>
 <body>
-    <div class="container-fluid">
+          <header>
+            <div class="container">
+                <div class="row pageLayout">
+                    <div class="col-md-2 relate p-0">
+                        <div class="logo">
+                            <img src="~/theme/assets/images/logo.png" alt="">
+                        </div>
+                    </div>
+                    <div class="col-md-10 p-0">
+                    <div class="topHeader">
+                        <div class="row align-items-center">
+                            <div class="col-md-12 text-end">
+                                <a href="@Url.Action("LogOut","Account")" class="btn btn-primary custombtn w-auto mt-2" style="font-size: 12px;padding: 7px 9px;border-radius: 8px;"> Log Out</a>
+                                @*<ul class="navbar-nav">
+                                    <li class="dropdown nav-item">
+                                        <a href="#" class="dropdown-toggle nav-link" id="dropdownMenuButton1">
+                                            @HttpContextAccessor.HttpContext.Session.GetString("_userName")
+                                        </a>
+                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                            <a class="dropdown-item" href="#">Sign Out</a>
+                                        </div>
+                                    </li>
+
+                                </ul>*@
+                                @*<h4 style="color:white;">@HttpContextAccessor.HttpContext.Session.GetString("_userName")</h4>*@
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </header>
+    <div class="container">
         <div class="row">
-            <div class="col-md-2 relate p-0">
+            <div class="col-md-3 relate p-0">
                 <div class="sidebar">
                     <!-- <div class="sideBar-overlap"></div> -->
-                    <div class="logo">
+                   @* <div class="logo">
                         <img src="~/theme/assets/images/logo.png" alt="">
                         <a href="../Views/Resume/Index.cshtml"></a>
-                    </div>
+                    </div>*@
                     @{
                         var sessionData = JsonConvert.DeserializeObject<UserSessionData>(HttpContextAccessor.HttpContext.Session.GetString("_userData"));
 
@@ -161,15 +194,15 @@
                    
                 </div>
             </div>
-            <div class="col-md-10">
-                <div class="topHeader">
+            <div class="col-md-9 pb-4">
+               @* <div class="topHeader">
                     <a href="#">Best Resume Builder 2.1</a>
                     <div class="col align-self-center">
                         <h4 style="color:white;">@HttpContextAccessor.HttpContext.Session.GetString("_userName")</h4>
                     </div>
-                </div>
+                </div>*@
            
-                <div class="row">
+                <div class="row justify-content-center h-100">
                         @RenderBody()
                 </div>
                
@@ -182,11 +215,11 @@
         </main>
     </div>*@
 
-    <footer>
+@*    <footer>
         <p class="mt-4"><a href="#">www.successfulimpressions.net</a></p>
         <p>"Best Resume Builder" is a registered trademark of Successful Impressions LLC.</p>
         <p>Copyright © 2019 SUCCESSFUL IMPRESSIONS LLC All rights reserved.</p>
-    </footer>
+    </footer>*@
    
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

@@ -1,15 +1,20 @@
 ﻿<div class="formWrapper">
-    <h1>Objective or Professional Summary <button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#SummaryModal">?</button></h1>
-    <button type="button" class="mb-2 btn btn-outline-primary btn-sm" data-bs-toggle="modal"
-            data-bs-target="#modalExample">
-        Example
-    </button>
-    <p>
-        If you have more than five years of professional work experience, you could consider
-        creating a 'Professional Summary' instead of an 'Objective'. Please note the number of years
-        you have had professional work experience:
-    </p>
-    <form class="needs-validation" id="objectiveForm" novalidate>
+
+    <form class="needs-validation formSpace" id="objectiveForm" novalidate>
+        <div class="alignContent">
+        <h1>Objective or Professional Summary 
+           </h1>
+        <button type="button" class="btn btn-outline-primary btn-sm questionBtn" data-bs-toggle="modal" data-bs-target="#SummaryModal">?</button>
+        <button type="button" class="btn custombtn customBtn-light w-auto ms-2" data-bs-toggle="modal"
+                data-bs-target="#modalExample">
+            Example
+        </button>
+        </div>
+        <p class="mt-3">
+            If you have more than five years of professional work experience, you could consider
+            creating a 'Professional Summary' instead of an 'Objective'. Please note the number of years
+            you have had professional work experience:
+        </p>
         <input id="hdfLastSectionVisitedId" name="LastSectionVisitedId" value="20" type="hidden" />
         <input id="hdfobjectiveSummaryId" name="ObjectiveSummaryId" type="hidden" />
         <div class="row">
@@ -46,12 +51,11 @@
             Organization Experience sections.
         </p>
         <div class="checkbox-wrap">
-            <label for="exampleCheckbox" class="">Checkboxes</label>
+            <h1 class="text-start mb-2">Checkboxes</h1>
             <div class="row ">
                
-                <div class="col-sm-3 cb-row">
-                    
-                    
+                <div class="col-sm-12 cb-row checkboxFields">
+                </div>
             </div>
             <div class="form-group mt-2">
                 <label for="State">
@@ -62,6 +66,7 @@
                     
                 </select>
             </div>
+            <div class="row mt-4 listForm">
             <div class="form-group mt-2">
                 <label for="State">
                     What type of company or industry are you using this resume for
@@ -84,10 +89,12 @@
                 </select>
             </div>
         </div>
-        <div class="form-check">
-            <label class="form-check-label">
-                <input type="checkbox"
-                           class="form-check-input" id="ckbIsComplete"  name="IsComplete"> I am finished with this section
+        </div>
+        <div class="custom-checkbox custom-control mb-2">
+            <input type="checkbox"
+                   class="custom-control-input" id="ckbIsComplete" name="IsComplete">
+            <label class="custom-control-label" for="ckbIsComplete">
+              I am finished with this section
             </label>
         </div>
         <div class="formbtn-Wrapper">
@@ -120,7 +127,7 @@
                 </p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary custombtn w-auto"
+                <button type="button" class="btn btn-secondary modalClose w-auto"
                         data-bs-dismiss="modal">
                     Close
                 </button>
@@ -133,12 +140,12 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-body">
-                <h1>Objective</h1>
+                <h5>Objective</h5>
                 <p>
                     To maximize productivity and revenue as a sales representative in a retail company by using my
                     communication, organization, and customer service skills.
                 </p>
-                <h1>Professional Summary</h1>
+                <h5>Professional Summary</h5>
                 <p>
                     Corporate manager with over ten years of experience in sports marketing, sales, product branding,
                     client partnership, and business development, with skills to enable ABC Organization to exceed
@@ -146,7 +153,7 @@
                 </p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary custombtn w-auto"
+                <button type="button" class="btn btn-secondary modalClose w-auto"
                         data-bs-dismiss="modal">
                     Close
                 </button>

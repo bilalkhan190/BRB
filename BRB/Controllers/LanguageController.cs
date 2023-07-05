@@ -122,5 +122,21 @@ namespace BRB.Controllers
             return Json(ajaxResponse);
         }
 
+        [HttpPost]
+
+        public IActionResult DeleteRecord(int id)
+        {
+            AjaxResponse ajaxResponse = new AjaxResponse();
+            ajaxResponse.Success = false;
+            var record = _dbContext.Languages.FirstOrDefault(x => x.LanguageId == id);
+            if (record != null)
+            {
+                _dbContext.Languages.Remove(record);
+                _dbContext.SaveChanges();
+                ajaxResponse.Success = true;
+            }
+            return Json(ajaxResponse);
+        }
+
     }
 }

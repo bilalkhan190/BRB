@@ -271,7 +271,59 @@ namespace BRB.Controllers
             return Json(ajaxResponse);
         }
 
+        [HttpPost]
+        public IActionResult DeleteCollege(int id, int academicId, int scholarshipid)
+        {
+            AjaxResponse ajaxResponse = new AjaxResponse(); 
+           
+            if (id > 0 && academicId == 0 && scholarshipid == 0)
+            {
+                var record = _dbContext.Colleges.FirstOrDefault(c => c.CollegeId == id);
+                if (record != null) {
+                    var academicRecord = _dbContext.AcademicHonors.Where(c => c.CollegeId == record.CollegeId).ToList();
+                    var scholarshipRecord = _dbContext.AcademicScholarships.Where(c => c.CollegeId == record.CollegeId).ToList();
 
+                    if (academicRecord.Count > 0)
+                    {
+                        _dbContext.AcademicHonors.RemoveRange(academicRecord);
+                        _dbContext.SaveChanges();
+
+                    }
+
+
+                    if (scholarshipRecord.Count > 0)
+                    {
+                        _dbContext.AcademicScholarships.RemoveRange(scholarshipRecord);
+                        _dbContext.SaveChanges();
+
+                    }
+
+
+                    _dbContext.Colleges.Remove(record);
+                    _dbContext.SaveChanges();
+                    ajaxResponse.Success = true;
+                }
+               
+            }
+            if (academicId > 0)
+            {
+                var academic = _dbContext.AcademicHonors.FirstOrDefault(c => c.AcademicHonorId == academicId);
+                    _dbContext.AcademicHonors.Remove(academic);
+                    _dbContext.SaveChanges();
+
+                
+            }
+            if (scholarshipid > 0)
+            {
+                var scholarship = _dbContext.AcademicScholarships.FirstOrDefault(c => c.AcademicScholarshipId == scholarshipid);
+                    _dbContext.AcademicScholarships.Remove(scholarship);
+                    _dbContext.SaveChanges();
+
+                
+            }
+
+            return Json(ajaxResponse);
+        }
 
 
         public IActionResult GetAllDegrees()

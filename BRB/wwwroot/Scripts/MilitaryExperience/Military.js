@@ -27,6 +27,7 @@ $(document).ready(function () {
         }
     })
 
+
 });
 
 $('#cbCurrentlyIn').click(function () {
@@ -125,23 +126,23 @@ $('#btnAddPosition').click(function () {
 
     positionArray = positionArray.map(el => _.mapKeys(el, (val, key) => _.camelCase(key)));
     $.each(positionArray, function (index, value) {
-        let html = ` <div class="col-md-10">
-                                <span class="card-text">
-                                    <p>${value.title}</p>
+        let html = ` <div class="col-md-12 positionInnerBox">
+                                <span class="card-text row pt-3">
+                                <div class="col-md-8">
                                     <p class="text-muted"  id="messageCurrentlyNotIn">${value.startedMonth} ${value.startedYear} - ${value.endedMonth} ${value.endedYear} </p>
                                     <p class="text-muted" id="messageCurrentlyIn">${value.startedMonth} ${value.startedYear} - Current </p>
                                     <p class="text-muted">Training Completed: ${value.mainTraining}</p>
-                                </span>
-                            </div>
-                            <div class="col-md-2">
-                                <button type="button"  class="btn btn-outline-danger">
+                                    </div>
+                                    <div class="col-md-4">
+                                    <div class="card-Btn">
+                               <button type="button" id="btnDelete"  data-item='${value.militaryPositionId}' data-edit=${index} class="btn btn-primary btn-sm custombtn w-auto">
                                     <svg stroke="currentColor" fill="currentColor" stroke-width="0"
                                          viewBox="0 0 24 24" height="1em" width="1em"
                                          xmlns="http://www.w3.org/2000/svg">
                                         <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z">
                                         </path>
                                     </svg>
-                                </button><button type="button" id="btnEditCollege" data-item='${value.militaryPositionId}' data-edit=${index} class="btn btn-outline-primary">
+                                </button><button type="button" id="btnEditMilitary" data-item='${value.militaryPositionId}' data-edit=${index} class="btn custombtn customBtn-light w-auto ms-1">
                                     <svg stroke="currentColor" fill="currentColor" stroke-width="0"
                                          viewBox="0 0 24 24" height="1em" width="1em"
                                          xmlns="http://www.w3.org/2000/svg">
@@ -149,6 +150,12 @@ $('#btnAddPosition').click(function () {
                                         </path>
                                     </svg>
                                 </button>
+                                </div>
+                                </div>
+                                    <p class="text-muted"  id="messageCurrentlyNotIn">${value.startedMonth} ${value.startedYear} - ${value.endedMonth} ${value.endedYear} </p>
+                                    <p class="text-muted" id="messageCurrentlyIn">${value.startedMonth} ${value.startedYear} - Current </p>
+                                    <p class="text-muted">Training Completed: ${value.mainTraining}</p>
+                                </span>
                             </div>`
         $('#divEditSection div.row').append(html)
         if (value.endedMonth == null && value.endedYear == null) {
@@ -156,8 +163,11 @@ $('#btnAddPosition').click(function () {
         } else {
             $('#messageCurrentlyIn').hide();
         }
-
+        
     });
+    if (positionArray != null && positionArray.length > 3) {
+        $("#divEditSection").addClass("BoxHeight");
+    }
     $('#divEditSection').show();
 });
 
@@ -182,27 +192,35 @@ function loadData(response) {
     }
     $('#divEditSection div.row').html("")
     if (response.data.militaryPositions.length > 0) {
-       
         $.each(response.data.militaryPositions, function (index, value) {
             positionArray.push(response.data.militaryPositions[index])
+        });
+    }
+    LoadCards();
+}
 
-            let html = ` <div class="col-md-10">
-                                <span class="card-text">
-                                    <p>${value.title}</p>
+         
+
+function LoadCards() {
+    $('#divEditSection div.row').html("")
+    $.each(positionArray, function (index,value) {
+        let html = ` <div class="col-md-12 positionInnerBox">
+                                <span class="card-text row pt-3">
+                                <div class="col-md-8">
                                     <p class="text-muted"  id="messageCurrentlyNotIn">${value.startedMonth} ${value.startedYear} - ${value.endedMonth} ${value.endedYear} </p>
                                     <p class="text-muted" id="messageCurrentlyIn">${value.startedMonth} ${value.startedYear} - Current </p>
                                     <p class="text-muted">Training Completed: ${value.mainTraining}</p>
-                                </span>
-                            </div>
-                            <div class="col-md-2">
-                                <button type="button"  class="btn btn-outline-danger">
+                                    </div>
+                                    <div class="col-md-4">
+                                    <div class="card-Btn">
+                               <button type="button" id="btnDelete"  data-item='${value.militaryPositionId}' data-edit=${index} class="btn btn-primary btn-sm custombtn w-auto">
                                     <svg stroke="currentColor" fill="currentColor" stroke-width="0"
                                          viewBox="0 0 24 24" height="1em" width="1em"
                                          xmlns="http://www.w3.org/2000/svg">
                                         <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z">
                                         </path>
                                     </svg>
-                                </button><button type="button" id="btnEditCollege" data-item='${value.militaryPositionId}' data-edit=${index} class="btn btn-outline-primary">
+                                </button><button type="button" id="btnEditMilitary" data-item='${value.militaryPositionId}' data-edit=${index} class="btn custombtn customBtn-light w-auto ms-1">
                                     <svg stroke="currentColor" fill="currentColor" stroke-width="0"
                                          viewBox="0 0 24 24" height="1em" width="1em"
                                          xmlns="http://www.w3.org/2000/svg">
@@ -210,48 +228,19 @@ function loadData(response) {
                                         </path>
                                     </svg>
                                 </button>
+                                </div>
+                                </div>
                             </div>`
-            $('#divEditSection div.row').append(html)
-            if (value.endedMonth == null && value.endedYear == null) {
-                $('#messageCurrentlyNotIn').hide();
-            } else {
-                $('#messageCurrentlyIn').hide();
-            }
-
-        });
-    }
+        $('#divEditSection div.row').append(html)
+        if (value.endedMonth == null && value.endedYear == null) {
+            $('#messageCurrentlyNotIn').hide();
+        } else {
+            $('#messageCurrentlyIn').hide();
+        }
+    })
+   
 }
-
-$(document).on('click', '#btnEditCollege', function () {
-    //let id = $('#btnEditCollege').attr('data-item')
-    //$.ajax({
-    //    url: '/Military/GetPositionById?id=' + id,
-    //    type: 'get',
-    //    success: function (response) {
-    //        $('#hdfMilitaryPositionId').val(response.data.militaryPositionId)
-    //        $('#txtTitle').val(response.data.title)
-    //        $('#ddlPositionStartedMonth').val(response.data.startedMonth)
-    //        $('#ddlPositionStartedYear').val(response.data.startedYear)
-    //        if (response.data.endedMonth == null && response.data.endedYear == null) {
-    //            $('#cbPositionCurrentlyIn').prop('checked', true);
-    //            $('#ddlPositionEndedMonth').hide();
-    //            $('#ddlPositionEndedYear').hide();
-    //            $('#LabelEndedPositionDate').hide();
-    //        }
-    //        $('#ddlPositionEndedMonth').val(response.data.endedMonth)
-    //        $('#ddlPositionEndedYear').val(response.data.endedYear)
-    //        $('#txtMainTraining').val(response.data.mainTraining)
-    //        $('#txtResponsibility1').val(response.data.responsibility1)
-    //        $('#txtResponsibility2').val(response.data.responsibility2)
-    //        $('#txtResponsibility3').val(response.data.responsibility3)
-    //        $('#txtOtherInfo').val(response.data.otherInfo)
-    //        $('#SummaryModal').modal('show')
-    //    },
-    //    error: function (error) {
-
-    //    }
-    //})
-
+$(document).on('click', '#btnEditMilitary', function () {
     var response = positionArray[$(this).attr('data-edit')];
     localStorage.setItem("pos-index", $(this).attr('data-edit'))
     $('#hdfMilitaryPositionId').val(response.militaryPositionId)
@@ -275,3 +264,21 @@ $(document).on('click', '#btnEditCollege', function () {
 
 });
 
+
+$(document).on('click', '#btnDelete', function () {
+
+    localStorage.setItem("mil-index", $(this).attr('data-edit'));
+    let id = $(this).attr('data-item')
+    $.ajax({
+        url: '/Military/delete?id=' + id,
+        type: 'post',
+        success: function (response) {
+            let index = parseInt(localStorage.getItem("mil-index"));
+            positionArray.splice(index, 1);
+            LoadCards();
+        },
+        error: function (err) {
+
+        }
+    });
+});

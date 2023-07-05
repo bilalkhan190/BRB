@@ -1,0 +1,273 @@
+﻿@{
+    Layout = null;
+}
+@model BusinessObjects.Models.MetaData.ResumeGenerateModel
+
+<div class="resumeWrapper" style="padding: 40px;font-family:sans-serif;">
+    <div style="text-align:center;">
+        <h1 style="margin:0;">karachi khan</h1>
+        <p style="margin:0;">
+            29/129 K-area korangi no 5 karachi
+        </p>
+        <p style="margin:0;">karachi, Armed Forces 22222</p>
+        <p style="margin:0;">
+            (316)261-2405
+        </p>
+        <p style="margin:0;">vals.bilal@gmail.com</p>
+    </div>
+    <div>
+        <p><b>Objective:</b> 
+            <span style="padding-left:10px;"> To utilize my acting, adapting, and administering skills to secure a part-time job in a matech co organization to increase revenue.</span></p>
+        <p><b>Education:</b></p>
+        @foreach (var c in Model.Colleges)
+        {
+            <table style="width: 100%;text-align: left;">
+                <tr>
+                    <th>
+                        @c.CollegeName
+                    </th>
+                    <th>@c.CollegeCity</th>
+                    <th>@c.GradDate</th>
+                </tr>
+                <tr>
+                    <td>Bilal Khan</td>
+                </tr>
+                <tr>
+                    <td style="width:33.33%">
+                       @c.DegreeDesc	GPA:  @c.Gpa
+                        Specialty in @c.MajorSpecialtyDesc
+                    </td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Minor:  @c.MinorDesc</td>
+                </tr>
+            </table>
+        
+        
+        <p style="margin:0;">Certificate in @c.CertificateDesc</p>
+        <p style="margin:0;"></p>
+        foreach (var a in Model.AcademicHonors)
+            {
+                <p style="margin:0;">@c.HonorProgram @c.GradDate</p>
+                <div style="display:flex;align-items:center;justify-content: space-between;padding-top:10px;">
+                    <div>
+                       @a.HonorName
+                    </div>
+                    <div style="text-align:right;"></div>
+                </div>
+            }
+       
+        @*<ul>
+            <li>Awarded based on abcd.</li>
+        </ul>
+        <div style="display:flex;align-items:center;justify-content: space-between;">
+            <div>
+                <b> BROOKLYN</b>
+            </div>
+            <div>BROOKLYN, Pakistan</div>
+            <div>April 2070 - March 2071</div>
+        </div>
+        <ul>
+            <li>Successfully completed courses in test classs.</li>
+            <li>asdsadsadas.</li>
+            <li>asdsadsadas.</li>
+        </ul>*@
+        }
+      @*  <div>
+            <b>Work Experience:</b>
+        </div>
+        <div style="display:flex;align-items:center;justify-content: space-between;">
+            <div>
+                <b> karachi</b>
+            </div>
+            <div>karachi, Arkansas</div>
+            <div>February 2070 - February 2072</div>
+        </div>
+        <div style="display:flex;align-items:center;justify-content: space-between;">
+            <div>
+                <i> urdu updated</i>
+            </div>
+            <div>February 2073 - March 2073</div>
+        </div>
+        <ul>
+            <li>Interact with 2 customers at a asdasd organization.</li>
+            <li>Coordinate administrative tasks including filing to maximize efficiency for 3 departments.</li>
+            <li>Manage database with information on 2 customers.</li>
+            <li>Completed training on msSql.</li>
+            <li>Awarded National Award in February 2056 for excellent performance.</li>
+            <li>Selected for special project on urdu updated.</li>
+            <li>Selected for special project on pashto update.</li>
+            <li>Used skills including urdu updated which increased revenue by $2.</li>
+            
+        </ul>
+
+        <div>*@
+          
+        </div>
+    @if (@Model.MilitaryExperiences != null)
+    {
+
+        <b>Military Experience:</b>
+        <div style="display:flex;align-items:center;justify-content: space-between;">
+            <div>
+
+            <b> @Model.MilitaryExperiences.City @Model.MilitaryExperiences.Rank </b>
+            </div>
+        <div>@Model.MilitaryExperiences.Branch</div>
+        <div>@Model.MilitaryExperiences.StartedMonth @Model.MilitaryExperiences.StartedYear - @Model.MilitaryExperiences.EndedMonth @Model.MilitaryExperiences.EndedYear</div>
+        </div>
+        <div style="display:flex;align-items:center;justify-content: space-between;">
+            @foreach (var p in Model.MilitaryPositions)
+        {
+            <div>
+                <i>@p.Title	</i>
+            </div>
+            <div>@p.StartedMonth @p.StartedYear - @p.EndedMonth @p.EndedYear</div>
+        }
+           
+        </div>
+    }
+       @* <ul>
+            <li>urdu updated.</li>
+            <li>urdu updated.</li>
+            <li>sdasdas.</li>
+            <li>asdasdasd.</li>
+            <li>asdasdasd.</li>
+        </ul>*@
+        @if (Model.Organizations.Count > 0)
+    {
+        <div>
+            <b>Organization and Volunteer Experience:</b>
+        </div>
+        @foreach (var o in Model.Organizations)
+        {
+            <div style="display:flex;align-items:center;justify-content: space-between;">
+                <div>
+                    <b> @o.City</b>
+                </div>
+                <div>@o.StartedMonth @o.StartedYear, @o.StateName</div>
+                <div>@o.EndedMonth @o.EndedYear</div>
+            </div>
+            @foreach (var op in Model.OrgPositions)
+            {
+                <div style="display:flex;align-items:center;justify-content: space-between;">
+                    <div>
+                        <i>@op.Title</i>
+                    </div>
+                    <div>@op.StartedMonth @op.StartedYear - @op.EndedMonth @op.EndedYear</div>
+                </div>
+            }
+          
+        }
+       
+    }
+        
+     @*   <ul>
+            <li>urdu updated.</li>
+            <li>urdu updated.</li>
+            <li>sdasdas.</li>
+            <li>asdasdasd.</li>
+        </ul>*@
+        @if (Model.VolunteerOrgs.Count > 0)
+    {
+        foreach (var vo in Model.VolunteerOrgs)
+        {
+            <div style="display:flex;align-items:center;justify-content: space-between;">
+                <div>
+                    <b> @vo.VolunteerOrg1</b>
+                </div>
+                <div>@vo.City, @vo.StateName</div>
+                <div>@vo.StartedMonth @vo.StartedYear - @vo.EndedMonth @vo.EndedYear</div>
+            </div>
+            foreach (var vp in Model.VolunteerPositions)
+            {
+                <div style="display:flex;align-items:center;justify-content: space-between;">
+                    <div>
+                        <i> @vp.Title</i>
+                    </div>
+                    <div>@vp.StartedMonth @vp.StartedYear - @vp.EndedMonth @vp.EndedYear</div>
+                </div>
+            }
+        }
+       
+       
+    }
+       
+      @*  <ul>
+            <li>sdasdasd.</li>
+            <li>asdasdasd.</li>
+            <li>asdasdasdasd.</li>
+            <li>334.</li>
+        </ul>*@
+
+        <div>
+            <b>Licenses and Certificates:</b>
+        </div>
+        @if (Model.Licenses.Count > 0)
+    {
+        foreach (var l in Model.Licenses)
+        {
+            <div style="display:flex;align-items:center;justify-content: space-between;">
+                <div>
+                   @l.Title
+                </div>
+                <div>@l.StateName</div>
+            </div>
+        }
+      
+    }
+
+    @if (Model.Certificates.Count > 0)
+    {
+        foreach (var c in Model.Certificates)
+        {
+            <div style="display:flex;align-items:center;justify-content: space-between;">
+                <div>
+                   @c.Title
+                </div>
+                <div>@c.StateName</div>
+            </div>
+        }
+      
+    }
+       @* <div style="padding-top:15px;">
+            <b>Professional Affiliations:</b>
+        </div>
+        <div style="display:flex;align-items:center;justify-content: space-between;">
+            <div>
+                <b> test-org</b>
+            </div>
+            <div>karachi, Armed Forces</div>
+            <div>January 2071 - February 2073</div>
+        </div>
+        <div style="display:flex;align-items:center;justify-content: space-between;">
+            <div>
+                <i> test - titlew</i>
+            </div>
+            <div>March 2072 - March 2073</div>
+        </div>
+        <ul>
+            <li>urdu.</li>
+            <li>assasda.</li>
+            <li>asasasa.</li>
+            <li>asdasdasd.</li>
+        </ul>*@
+
+        <p><b>Computer Skills:</b> 
+            <span style="padding-left:10px;">
+                Microsoft Word, Microsoft Power Point, Macintosh Pages, Adobe Illustrator, Adobe Publisher, web developement
+        </span></p>
+    <p><b>Language Skills:</b></p>
+            @if (Model.Languages.Count > 0)
+        {
+            foreach (var lang in Model.Languages)
+            {
+                 <span style="padding-left:10px;">@lang.LanguageAbilityDesc in @lang.LanguageName</span>
+            
+            }
+            
+        }
+           
+    </div>
+</div>

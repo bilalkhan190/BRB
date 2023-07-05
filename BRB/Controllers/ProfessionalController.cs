@@ -50,9 +50,10 @@ namespace BRB.Controllers
                 Professional professionalMaster = new Professional();
                 professionalMaster.ResumeId = sessionData.ResumeId;
                 professionalMaster.CreatedDate = DateTime.Today;
+                professionalMaster.LastModDate = DateTime.Today;
                 professionalMaster.IsOptOut = false;
                 professionalMaster.IsComplete = professionalViewModel.IsComplete;
-               var masterData =  _professionalService.AddProfessionalMaster(professionalMaster);
+                var masterData =  _professionalService.AddProfessionalMaster(professionalMaster);
 
                 if (professionalViewModel.Licenses.Count > 0)
                 {

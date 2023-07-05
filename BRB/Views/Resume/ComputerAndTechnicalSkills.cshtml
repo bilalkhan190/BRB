@@ -1,20 +1,23 @@
 ﻿<div class="formWrapper">
-    <h1>
-        Computer and Technical Skills <button type="button" class="btn btn-outline-primary btn-sm"
-                                              data-bs-toggle="modal" data-bs-target="#ExperienceModal">
+    <form id="TechnicalSkillForm" class="needs-validation formSpace" novalidate>
+        <div class="alignContent">
+        <h1>
+            Computer and Technical Skills 
+        </h1>
+        <button type="button" class="btn btn-outline-primary btn-sm questionBtn"
+                data-bs-toggle="modal" data-bs-target="#ExperienceModal">
             ?
         </button>
-    </h1>
-    <button type="button" class="mb-2 btn btn-outline-primary btn-sm" data-bs-toggle="modal"
-            data-bs-target="#modalExample">
-        Example
-    </button>
-    <form  id="TechnicalSkillForm" class="needs-validation" novalidate>
+        <button type="button" class="btn custombtn customBtn-light w-auto ms-2" data-bs-toggle="modal"
+                data-bs-target="#modalExample">
+            Example
+            </button>
+        </div>
         <input type="hidden" id="hdfLastSectionVisitedId" value="60" />
         <input type="hidden" id="hdfTechnicalSkillId" />
-    <div class="row">
-        <div class="col-md-4">
-            <label>What computer programs in Microsoft are you proficient in?</label>
+    <div class="row mt-3">
+        <div class="col-md-12">
+            <h2>What computer programs in Microsoft are you proficient in?</h2>
             <div class="mt-2">
                 <div class="custom-checkbox custom-control">
                     <input type="checkbox"
@@ -40,8 +43,8 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-4">
-            <label>What computer programs in Macintosh are you proficient in?</label>
+        <div class="col-md-12 mt-3">
+            <h2>What computer programs in Macintosh are you proficient in?</h2>
             <div class="mt-2">
                 <div class="custom-checkbox custom-control">
                     <input type="checkbox"
@@ -63,11 +66,11 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-4">
-            <label>
+        <div class="col-md-12 mt-3">
+            <h2>
                 What other standard creative or word processing computer programs are you
                 proficient in?
-            </label>
+            </h2>
             <div class="mt-2">
                 <div class="custom-checkbox custom-control">
                     <input type="checkbox"
@@ -104,19 +107,18 @@
     <div class="row">
         <div class="col">
             <div class="form-group mt-2">
-                <label for="other" class="mb-2">
+                <h2 for="other" class="mb-2">
                     What other programs have you learned
                     in your education that would be applicable to the career you want to pursue?
-                </label><input name="Other" id="otherSkill" type="text" class="form-control" value="">
+                </h2><input name="Other" id="otherSkill" type="text" class="form-control" value="">
             </div>
         </div>
     </div>
-    <hr>
-    
-        <div class="form-check">
-            <label class="form-check-label">
-                <input type="checkbox" id="ckbIsComplete" name="IsComplete"
-                       class="form-check-input"> I am finished with this section
+        <div class="custom-checkbox custom-control mb-2">
+            <input type="checkbox" id="ckbIsComplete" name="IsComplete"
+                   class="custom-control-input">
+            <label class="custom-control-label" for="ckbIsComplete">
+                 I am finished with this section
             </label>
         </div>
         <div class="formbtn-Wrapper">
@@ -131,15 +133,15 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-body">
-                <h1><strong>Computer Skills</strong></h1>
+                <h5>Computer Skills</h5>
                 <p>Microsoft Word, Excel, PowerPoint, Google Docs, Tumblr, Foursquare</p>
-                <h1>COMPUTER SKILLS</h1>
+                <h5>Computer Skills</h5>
                 <p>Macintosh Pages, Numbers, and Notes, Google Suite</p>
-                <h1><strong>Technological Skills</strong></h1>
+                <h5>Technological Skills</h5>
                 <p>Microsoft Word, Excel, PowerPoint, C++, Javascript</p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary custombtn w-auto"
+                <button type="button" class="btn btn-secondary modalClose w-auto"
                         data-bs-dismiss="modal">
                     Close
                 </button>
@@ -166,7 +168,7 @@
                 </p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary custombtn w-auto"
+                <button type="button" class="btn btn-secondary modalClose w-auto"
                         data-bs-dismiss="modal">
                     Close
                 </button>

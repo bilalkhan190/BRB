@@ -1,48 +1,49 @@
 ﻿<div class="formWrapper">
+    <div class="formSpace pb-0">
+        <div class="alignContent">
     <h1>
-        Organization Experience <button type="button" class="btn btn-outline-primary btn-sm"
-                                        data-bs-toggle="modal" data-bs-target="#ExperienceModal">
+            Organization Experience 
+    </h1>
+        <button type="button" class="btn btn-outline-primary btn-sm questionBtn"
+                data-bs-toggle="modal" data-bs-target="#ExperienceModal">
             ?
         </button>
-    </h1>
-    <div>
-    </div>
-    <button type="button" class="mb-2 btn btn-outline-primary btn-sm" data-bs-toggle="modal"
+    <button type="button" class="btn custombtn customBtn-light w-auto ms-3" data-bs-toggle="modal"
             data-bs-target="#modalExample">
         Example
     </button>
-
-    <div class="mb-3 form-check">
-        <label class="form-check-label">
+        </div>
+        <div class="custom-checkbox custom-control mt-2 mb-2">
             <input type="checkbox"
-                   class="form-check-input"> This section does not apply to me.
+                    id="cbSectionNotApply" class="custom-control-input">
+            <label class="custom-control-label" for="cbSectionNotApply">
+           This section does not apply to me.
         </label>
     </div>
-
     <p>
         What clubs or organizations on campus are/were you an ACTIVE member of during your college/HS
         experience? (student government, Greek Life, sports teams, Business School, Special
         Interest, 'Major Specific', honors organizations (ie: Business Honors Board), or
         language/race/gender-based organizations, etc.)
     </p>
-    <p class="danger-text">
+    <p class="danger-text m-0">
         <i>You currently have no organizations listed. Click the Add button to add one.</i>
     </p>
     <div id="divEditSection">
-        <div class="row">
+            <div class="row mx-auto">
         </div>
     </div>
-    <button type="button" class="btn btn-primary btn-sm custombtn w-auto mt-2" data-bs-toggle="modal"
+    <button type="button" class="btn btn-primary btn-sm py-2 custombtn w-auto mt-2" data-bs-toggle="modal"
             data-bs-target="#SummaryModal">
         Add an Organization
     </button>
-
-    <hr>
-    <form action="/action_page.php" class="needs-validation" novalidate>
-        <div class="form-check">
-            <label class="form-check-label">
-                <input type="checkbox" id="cbIsComplete"
-                       class="form-check-input"> I am finished with this section
+    </div>
+    <form action="/action_page.php" class="needs-validation formSpace" novalidate>
+        <div class="custom-checkbox custom-control mb-2">
+            <input type="checkbox" id="cbIsComplete"
+                   class="custom-control-input">
+            <label class="custom-control-label" for="cbIsComplete">
+               I am finished with this section
             </label>
         </div>
         <div class="formbtn-Wrapper">
@@ -56,28 +57,28 @@
 <div class="modal fade" id="SummaryModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-body">
-                <form class="needs-validation" novalidate>
+            <div class="modal-body formWrapper">
+                <form class="needs-validation formSpace py-0" novalidate>
                     <input type="hidden" value="45" id="hdfLastSectionVisitedId" />
                     <input type="hidden" value="" id="hdfOrgExperienceId" />
                     <input type="hidden" value="" id="hdfOrganizationId" />
                     <div class="row">
-                        <div class="col-md-12">
-                            <div class="form-group mb-2">
+                        <div class="col-md-12 p-0">
+                            <div class="form-group">
                                 <label for="validationCustom01">Organization</label>
                                 <input type="text" class="form-control" id="txtOrgName"
                                        name="OrgName" required>
                             </div>
-                            <div class="form-group mb-2">
+                            <div class="form-group">
                                 <label for="City" class="">City</label>
                                 <input name="City" id="txtCity" type="text" class="form-control" required>
                             </div>
-                            <div class="form-group mb-2">
+                            <div class="form-group">
                                 <label for="t" class="">State</label><select name="StateAbbr"
                                                                              id="ddlStateAbbr" class="form-control">
                                 </select>
                             </div>
-                            <div class="form-group mb-2">
+                            <div class="form-group mb-0">
                                 <label for="received" class="">Date Started</label>
                                 <div class="row">
                                     <div class="col-6">
@@ -263,16 +264,17 @@
 
                             <div class="row">
                                 <div class="col">
-                                    <div class="form-check">
-                                        <label class="form-check-label">
-                                            <input id="cbCurrentlyIn" name="CurrentlyIn" label="Currently In"
-                                                   type="checkbox" class="form-check-input"> Currently In
+                                    <div class="custom-checkbox custom-control mb-2">
+                                        <input id="cbCurrentlyIn" name="CurrentlyIn" label="Currently In"
+                                               type="checkbox" class="custom-control-input">
+                                        <label class="custom-control-label" for="cbCurrentlyIn">
+                                             Currently In
                                         </label>
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="form-group mb-2">
+                            <div class="form-group mb-0">
                                 <label for="received" id="labelEndedDate" class="">Date Ended</label>
                                 <div class="row">
                                     <div class="col-6">
@@ -459,7 +461,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary custombtn w-auto"
+                <button type="button" class="btn btn-secondary modalClose w-auto"
                         data-bs-dismiss="modal">
                     Close
                 </button>
@@ -529,7 +531,7 @@
                 </ul>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary custombtn w-auto"
+                <button type="button" class="btn btn-secondary modalClose w-auto"
                         data-bs-dismiss="modal">
                     Close
                 </button>
@@ -558,7 +560,7 @@
                 </p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary custombtn w-auto"
+                <button type="button" class="btn btn-secondary modalClose w-auto"
                         data-bs-dismiss="modal">
                     Close
                 </button>
@@ -570,17 +572,17 @@
 <div class="modal fade" id="PositionModel" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-body">
-                <form class="needs-validation" novalidate>
+            <div class="modal-body formWrapper">
+                <form class="needs-validation formSpace py-0" novalidate>
                     <input type="hidden" id="hdfOrgPositionId" />
                     <div class="row">
-                        <div class="col-md-12">
-                            <div class="form-group mb-2">
+                        <div class="col-md-12 p-0">
+                            <div class="form-group">
                                 <label for="validationCustom01">Title</label>
                                 <input type="text" class="form-control" id="txtTitle"
                                        name="Title" required>
                             </div>
-                            <div class="form-group mb-2">
+                            <div class="form-group mb-0">
                                 <label for="received" class="">Date Started</label>
                                 <div class="row">
                                     <div class="col-6">
@@ -766,17 +768,18 @@
 
                             <div class="row">
                                 <div class="col">
-                                    <div class="form-check">
-                                        <label class="form-check-label">
-                                            <input id="cbPositionCurrentlyIn" name="customSwitch" label="Currently In"
-                                                   type="checkbox" class="form-check-input"> Currently In
+                                    <div class="custom-checkbox custom-control mb-2">
+                                        <input id="cbPositionCurrentlyIn" name="customSwitch" label="Currently In"
+                                               type="checkbox" class="custom-control-input">
+                                        <label class="custom-control-label" for="cbPositionCurrentlyIn">
+                                           Currently In
                                         </label>
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="form-group mb-2">
-                                <label for="received" id="LabelEndedPositionDate" class="">Date Ended</label>
+                            <div class="form-group mb-0" id="LabelEndedPositionDate">
+                                <label for="received" class="">Date Ended</label>
                                 <div class="row">
                                     <div class="col-6">
                                         <div class="form-group">
@@ -957,17 +960,17 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-group mb-2">
+                            <div class="form-group">
                                 <legend>Top three primary responsibilities</legend>
-                                <div class="form-group mb-2">
+                                <div class="form-group">
                                     <label for="t" class="">Responsibility #1</label>
                                     <input name="Responsibility1" id="txtResponsibility1" type="text" class="form-control" value="">
                                 </div>
-                                <div class="form-group mb-2">
+                                <div class="form-group">
                                     <label for="t" class="">Responsibility #2</label>
                                     <input name="Responsibility2" id="txtResponsibility2" type="text" class="form-control" value="">
                                 </div>
-                                <div class="form-group mb-2">
+                                <div class="form-group">
                                     <label for="t" class="">Responsibility #3</label>
                                     <input name="Responsibility3" id="txtResponsibility3" type="text" class="form-control" value="">
                                 </div>
@@ -985,7 +988,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class=" btn btn-secondary custombtn w-auto"
+                <button type="button" class="btn btn-secondary modalClose w-auto"
                         data-bs-dismiss="modal">
                     Close
                 </button>
