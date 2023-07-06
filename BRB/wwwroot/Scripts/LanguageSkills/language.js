@@ -1,7 +1,7 @@
 ﻿var languageArray = [];
 $(document).ready(function () {
     $('#ddlAbility').html("");
-    $('#ddlAbility').append('<option value="0" selected><b>Select Ability</b></option>')
+    $('#ddlAbility').append('<option value="" selected><b>Select Ability</b></option>')
     $.ajax({
         url: '/Common/GetLanguageAbilityList',
         type: 'get',
@@ -19,21 +19,24 @@ $(document).ready(function () {
 }); 
 
 $('#btnSaveLanguage').click(function () {
-
-    let language = {
-        LanguageId: $('#hdfLanguageId').val(),
-        LanguageName: $('#txtLanguageName').val(),
-        LanguageAbilityId: $('#ddlAbility').val(),
-        LanguageAbilityDesc : $('#ddlAbility option:selected').text(),
-    };
-    if (localStorage.getItem("pos-index") == null) {
-        languageArray.push(language);
+    $('#languageForm').validate();
+    if ($('#languageForm').valid()) {
+        let language = {
+            LanguageId: $('#hdfLanguageId').val(),
+            LanguageName: $('#txtLanguageName').val(),
+            LanguageAbilityId: $('#ddlAbility').val(),
+            LanguageAbilityDesc: $('#ddlAbility option:selected').text(),
+        };
+        if (localStorage.getItem("pos-index") == null) {
+            languageArray.push(language);
+        }
+        else {
+            languageArray[parseInt(localStorage.getItem("pos-index"))] = language;
+            localStorage.clear();
+        }
+        LoadCards();
     }
-    else {
-        languageArray[parseInt(localStorage.getItem("pos-index"))] = language;
-        localStorage.clear();
-    }
-    LoadCards();
+   
     //fill the array of position record and display the recorded data in div
   
 });

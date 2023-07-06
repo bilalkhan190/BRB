@@ -95,7 +95,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-body formWrapper">
-                <form action="/action_page.php" class="needs-validation formSpace p-0" novalidate>
+                <form id="affilationform" class="needs-validation formSpace p-0" novalidate>
                     <div class="row mx-auto">
                         <div class="col-md-12 p-0">
                             <div class="form-group">
@@ -126,7 +126,7 @@
                                         <div class="form-group">
                                             <select name="StartedMonth" id="txtAffilationStartedMonth"
                                                     class="form-control" required>
-                                                <option value="" selected=""></option>
+                                                <option value="" selected="">--Select Month</option>
                                                 <option value="January">January</option>
                                                 <option value="February">February</option>
                                                 <option value="March">March</option>
@@ -146,7 +146,7 @@
                                         <div class="form-group">
                                             <select name="StartedYear" id="txtAffilationStartedYear"
                                                     class="form-control" required>
-                                                <option value="" selected=""></option>
+                                                <option value="" selected="">--Select Year--</option>
                                                 <option value="2073">2073</option>
                                                 <option value="2072">2072</option>
                                                 <option value="2071">2071</option>
@@ -322,7 +322,7 @@
                                         <div class="form-group">
                                             <select name="EndedMonth" id="txtAffilationEndedMonth"
                                                     class="form-control" required>
-                                                <option value="" selected=""></option>
+                                                <option value="" selected="">--Select Month--</option>
                                                 <option value="January">January</option>
                                                 <option value="February">February</option>
                                                 <option value="March">March</option>
@@ -340,8 +340,8 @@
                                     </div>
                                     <div class="col-6">
                                         <div class="form-group">
-                                            <select name="EndedYear" id="txtAffilationEndedYear" class="form-control">
-                                                <option value="" selected=""></option>
+                                            <select name="EndedYear" id="txtAffilationEndedYear" class="form-control" required>
+                                                <option value="" selected="">--Select Year--</option>
                                                 <option value="2073">2073</option>
                                                 <option value="2072">2072</option>
                                                 <option value="2071">2071</option>
@@ -608,7 +608,7 @@
 
                             <div class="form-group">
                                 <label for="t" class="">State</label>
-                                <select name="StateAbbr" id="ddllicenseState" class="form-control ddl_State">
+                                <select name="StateAbbr" id="ddllicenseState" class="form-control ddl_State" required>
                                    
                                 </select>
                             </div>
@@ -619,7 +619,7 @@
                                         <div class="form-group">
                                             <select name="ReceivedMonth" id="ddllicenseReceivedMonth"
                                                     class="form-control" required>
-                                                <option value="" selected=""></option>
+                                                <option value="" selected="">--Select Month--</option>
                                                 <option value="January">January</option>
                                                 <option value="February">February</option>
                                                 <option value="March">March</option>
@@ -639,7 +639,7 @@
                                         <div class="form-group">
                                             <select name="ReceivedYear" id="ddllicenseReceivedYear"
                                                     class="form-control" required>
-                                                <option value="" selected=""></option>
+                                                <option value="" selected="">--Select Year--</option>
                                                 <option value="2073">2073</option>
                                                 <option value="2072">2072</option>
                                                 <option value="2071">2071</option>
@@ -814,7 +814,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-body formWrapper">
-                <form action="/action_page.php" class="needs-validation formSpace py-0" novalidate>
+                <form id="certificateForm" class="needs-validation formSpace py-0" novalidate>
                     <div class="row">
                         <div class="col-md-12 p-0">
                             <div class="form-group">
@@ -825,7 +825,7 @@
 
                             <div class="form-group">
                                 <label for="t" class="">State of Certification</label>
-                                <select name="StateAbbr" id="ddlCertificateState" class="form-control ddl_State">
+                                <select name="StateAbbr" id="ddlCertificateState" class="form-control ddl_State" required>
                                    
                                 </select>
                             </div>
@@ -836,7 +836,7 @@
                                         <div class="form-group">
                                             <select name="ReceivedMonth" id="ddlCertificateReceivedMonth"
                                                     class="form-control" required>
-                                                <option value="" selected=""></option>
+                                                <option value="" selected="">--Select Month--</option>
                                                 <option value="January">January</option>
                                                 <option value="February">February</option>
                                                 <option value="March">March</option>
@@ -856,7 +856,7 @@
                                         <div class="form-group">
                                             <select name="ReceivedYear" id="ddlCertificateReceivedYear"
                                                     class="form-control" required>
-                                                <option value="" selected=""></option>
+                                                <option value="" selected="">--Select Year--</option>
                                                 <option value="2073">2073</option>
                                                 <option value="2072">2072</option>
                                                 <option value="2071">2071</option>
@@ -1031,7 +1031,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-body formWrapper">
-                <form class="needs-validation formSpace p-0" novalidate>
+                <form id="positionForm" class="needs-validation formSpace p-0" novalidate>
                     <input type="hidden" id="hdfVolunteerExperienceId" />
                     <div class="row">
                         <div class="col-md-12">
@@ -1047,7 +1047,7 @@
                                         <div class="form-group">
                                             <select name="StartedMonth" id="ddlPositionStartedMonth"
                                                     class="form-control" required>
-                                                <option value="" selected=""></option>
+                                                <option value="" selected="">--Select Month--</option>
                                                 <option value="January">January</option>
                                                 <option value="February">February</option>
                                                 <option value="March">March</option>
@@ -1067,7 +1067,7 @@
                                         <div class="form-group">
                                             <select name="StartedYear" id="ddlPositionStartedYear"
                                                     class="form-control" required>
-                                                <option value="" selected=""></option>
+                                                <option value="" selected="">--Select Year--</option>
                                                 <option value="2073">2073</option>
                                                 <option value="2072">2072</option>
                                                 <option value="2071">2071</option>
@@ -1243,7 +1243,7 @@
                                         <div class="form-group">
                                             <select name="EndedMonth" id="ddlPositionEndedMonth"
                                                     class="form-control" required>
-                                                <option value="" selected=""></option>
+                                                <option value="" selected="">--Select Month--</option>
                                                 <option value="January">January</option>
                                                 <option value="February">February</option>
                                                 <option value="March">March</option>
@@ -1261,8 +1261,8 @@
                                     </div>
                                     <div class="col-6">
                                         <div class="form-group">
-                                            <select name="EndedYear" id="ddlPositionEndedYear" class="form-control">
-                                                <option value="" selected=""></option>
+                                            <select name="EndedYear" id="ddlPositionEndedYear" class="form-control" required>
+                                                <option value="" selected="">--Select Year--</option>
                                                 <option value="2073">2073</option>
                                                 <option value="2072">2072</option>
                                                 <option value="2071">2071</option>
@@ -1422,15 +1422,15 @@
                                 <legend>Top three primary responsibilities</legend>
                                 <div class="form-group">
                                     <label for="t" class="">Responsibility #1</label>
-                                    <input name="Responsibility1" id="txtResponsibility1" type="text" class="form-control" value="">
+                                    <input name="Responsibility1" id="txtResponsibility1" type="text" class="form-control" value="" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="t" class="">Responsibility #2</label>
-                                    <input name="Responsibility2" id="txtResponsibility2" type="text" class="form-control" value="">
+                                    <input name="Responsibility2" id="txtResponsibility2" type="text" class="form-control" value="" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="t" class="">Responsibility #3</label>
-                                    <input name="Responsibility3" id="txtResponsibility3" type="text" class="form-control" value="">
+                                    <input name="Responsibility3" id="txtResponsibility3" type="text" class="form-control" value="" required>
                                 </div>
                             </div>
 

@@ -83,51 +83,58 @@ $('#cbPositionCurrentlyIn').click(function () {
 
 
 $('#btnSaveOrganization').click(function () {
-    let organization = {
-        OrgExperienceId: $('#hdfOrgExperienceId').val(),
-        OrganizationId: $('#hdfOrganizationId').val(),
-        OrgName: $('#txtOrgName').val(),
-        City: $('#txtCity').val(),
-        StateAbbr: $('#ddlStateAbbr').val(),
-        StartedMonth: $('#ddlStartedMonth').val(),
-        StartedYear: $('#ddlStartedYear').val(),
-        EndedMonth: $('#ddlEndedMonth').val(),
-        EndedYear: $('#ddlEndedYear').val(),
-    };
-    if (localStorage.getItem("org-index") == null) {
-        organizationArr.push(organization);
+    $('#orgForm').validate()
+    if ($('#orgForm').valid()) {
+        let organization = {
+            OrgExperienceId: $('#hdfOrgExperienceId').val(),
+            OrganizationId: $('#hdfOrganizationId').val(),
+            OrgName: $('#txtOrgName').val(),
+            City: $('#txtCity').val(),
+            StateAbbr: $('#ddlStateAbbr').val(),
+            StartedMonth: $('#ddlStartedMonth').val(),
+            StartedYear: $('#ddlStartedYear').val(),
+            EndedMonth: $('#ddlEndedMonth').val(),
+            EndedYear: $('#ddlEndedYear').val(),
+        };
+        if (localStorage.getItem("org-index") == null) {
+            organizationArr.push(organization);
+        }
+        else {
+            organizationArr[parseInt(localStorage.getItem("org-index"))] = organization;
+            localStorage.clear();
+        }
+        LoadCards();
     }
-    else {
-        organizationArr[parseInt(localStorage.getItem("org-index"))] = organization;
-        localStorage.clear();
-    }
-    LoadCards();
+   
 
 });
 
 $(document).on('click', '#btnAddPosition', function () {
-  
-    let position = {
-        OrganizationId: $('#hdfOrganizationId').val(),
-        OrgPositionId: $('#hdfOrgPositionId').val(),
-        Title: $('#txtTitle').val(),
-        StartedMonth: $('#ddlPositionStartedMonth').val(),
-        StartedYear: $('#ddlPositionStartedYear').val(),
-        EndedMonth: $('#ddlPositionEndedMonth').val(),
-        EndedYear: $('#ddlPositionEndedYear').val(),
-        Responsibility1: $('#txtResponsibility1').val(),
-        Responsibility2: $('#txtResponsibility2').val(),
-        Responsibility3: $('#txtResponsibility3').val(),
-        OtherInfo: $('#txtOtherInfo').val(),
-    };
-    if (localStorage.getItem("pos-index") == null) {
-        positionArray.push(position);
+    $('#orgPositionForm').validate();
+    if ($('#orgPositionForm').valid()) {
+        let position = {
+            OrganizationId: $('#hdfOrganizationId').val(),
+            OrgPositionId: $('#hdfOrgPositionId').val(),
+            Title: $('#txtTitle').val(),
+            StartedMonth: $('#ddlPositionStartedMonth').val(),
+            StartedYear: $('#ddlPositionStartedYear').val(),
+            EndedMonth: $('#ddlPositionEndedMonth').val(),
+            EndedYear: $('#ddlPositionEndedYear').val(),
+            Responsibility1: $('#txtResponsibility1').val(),
+            Responsibility2: $('#txtResponsibility2').val(),
+            Responsibility3: $('#txtResponsibility3').val(),
+            OtherInfo: $('#txtOtherInfo').val(),
+        };
+        if (localStorage.getItem("pos-index") == null) {
+            positionArray.push(position);
+        }
+        else {
+            positionArray[parseInt(localStorage.getItem("pos-index"))] = position;
+            localStorage.clear();
+        }
+        LoadCards();
     }
-    else {
-        positionArray[parseInt(localStorage.getItem("pos-index"))] = position;
-        localStorage.clear();
-    }
-    LoadCards();
+   
 });
 
 

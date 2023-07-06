@@ -32,7 +32,6 @@ namespace BRB.Controllers
             if (sessionData.ResumeId > 0)
             {
                 ContactInfoViewModel record = _contactInfoService.GetContactInfo(sessionData.ResumeId);
-                record.StateAbbr = _resumeService.GetStateNameByAbbr(record.StateAbbr);
                 if (record != null)
                 {
                     ajaxResponse.Data = record;
@@ -57,7 +56,7 @@ namespace BRB.Controllers
             ajaxResponse.Redirect = "/Resume/Objective";
 
             contactInfoViewModel.ResumeId = sessionData.ResumeId;
-            contactInfoViewModel.StateAbbr = _resumeService.GetStateAbbr(contactInfoViewModel.StateAbbr);
+            contactInfoViewModel.StateAbbr = contactInfoViewModel.StateAbbr;
             contactInfoViewModel.CreatedDate = DateTime.Today;
             contactInfoViewModel.LastModDate = DateTime.Today;
             if (contactInfoViewModel.ContactInfoId == 0)

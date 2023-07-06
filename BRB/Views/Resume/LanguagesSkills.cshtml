@@ -99,7 +99,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-body formWrapper">
-                    <form class="needs-validation formSpace p-0">
+                    <form id="languageForm" class="needs-validation formSpace p-0">
                         <input id="hdfLanguageId" type="hidden" />
                         <div class="form-group">
                             <label for="t" class="">
@@ -107,7 +107,7 @@
                                 you can speak at least conversationally?
                             </label>
                             <input name="t" id="txtLanguageName" type="text"
-                                   class="form-control" value="">
+                                   class="form-control" value="" required>
                         </div>
                         <div class="form-group">
                             <label for="ability" class="">
@@ -115,7 +115,7 @@
                                 utilize your language skills?
                             </label>
                             <select name="abilityId" id="ddlAbility"
-                                    class="form-control">
+                                    class="form-control" required>
                             </select>
                         </div>
                     </form>
