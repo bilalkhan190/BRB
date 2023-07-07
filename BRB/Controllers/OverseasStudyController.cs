@@ -101,7 +101,7 @@ namespace BRB.Controllers
             ajaxResponse.Data = null;
             var sessionData = JsonSerializer.Deserialize<UserSessionData>(HttpContext.Session.GetString("_userData"));
             var ids = JsonSerializer.Deserialize<TableIdentities>(sessionData.Ids);
-            var record = _dbContext.OverseasExperiences.FirstOrDefault(x => x.OverseasExperienceId == ids.overseasExpId);
+            var record = _dbContext.OverseasExperiences.FirstOrDefault(x => x.ResumeId == sessionData.ResumeId);
             if (record != null)
             {
                 ajaxResponse.Data = record;
@@ -114,7 +114,7 @@ namespace BRB.Controllers
             ajaxResponse.Data = null;
             var sessionData = JsonSerializer.Deserialize<UserSessionData>(HttpContext.Session.GetString("_userData"));
            var ids  = JsonSerializer.Deserialize<TableIdentities>(sessionData.Ids);
-           var record = _dbContext.OverseasStudies.Where(x => x.OverseasExperienceId == ids.overseasExpId).ToList();
+           var record = _dbContext.OverseasStudies.Where(x => x.OverseasExperienceId == sessionData.ResumeId).ToList();
             if (record != null)
             {
                 ajaxResponse.Data = record;

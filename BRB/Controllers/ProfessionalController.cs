@@ -22,6 +22,31 @@ namespace BRB.Controllers
             return View();
         }
 
+        public IActionResult GetData()
+        {
+            AjaxResponse ajaxResponse = new AjaxResponse();
+            ajaxResponse.Data = null;
+            var sessionData = JsonSerializer.Deserialize<UserSessionData>(HttpContext.Session.GetString("_userData"));
+            ProfessionalViewObject professionalObj = new ProfessionalViewObject();
+            professionalObj.ProfessionalExperience = _dbContext.Professionals.FirstOrDefault(x => x.ResumeId == sessionData.ResumeId);
+            if (professionalObj.ProfessionalExperience != null)
+            {
+                professionalObj.Licenses = _dbContext.Licenses.Where(x => x.ProfessionalId == professionalObj.ProfessionalExperience.ProfessionalId).ToList();
+                professionalObj.Certificates = _dbContext.Certificates.Where(x => x.ProfessionalId == professionalObj.ProfessionalExperience.ProfessionalId).ToList();
+                professionalObj.affilationWithPositions = _dbContext.Affiliations
+                                                            .Where(x => x.ProfessionalId == professionalObj.ProfessionalExperience.ProfessionalId)
+                                                            .ToList();
+                professionalObj.affilationWithPositions.ForEach(x => {
+                    x.AffiliationPositions = _dbContext.AffiliationPositions
+                     .Where(s => s.AffiliationId == x.AffiliationId).ToList();
+                });
+               ajaxResponse.Data = professionalObj;
+            }
+           
+           
+            return Json(ajaxResponse);
+        }
+
         [HttpPost]
         public IActionResult PostProfessionalSkillsData(ProfessionalViewModel professionalViewModel)
         {

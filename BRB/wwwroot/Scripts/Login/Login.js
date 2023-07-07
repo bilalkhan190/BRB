@@ -1,18 +1,28 @@
 ﻿
 $('#btnLogin').click(function () {
-    $.ajax({
-        url: '/Account/Login',
-        type: 'POST',
-        data: { UserName: $('#email').val(), Password: $('#pwd').val() },
-        success: function (response) {
-            //$.notify(response.message, { position: "center" });
-            window.location.href = response.redirect;
-
-        },
-        error: function (err) {
-            console.log("error on ajax request")
-        }
-    });
+    $('#loginForm').validate();
+    if ($('#loginForm').valid()) {
+        $.ajax({
+            url: '/Account/Login',
+            type: 'POST',
+            data: { UserName: $('#email').val(), Password: $('#pwd').val() },
+            success: function (response) {
+                if (response.success)
+                {
+                    swal("Login Successfull", response.message, "success");
+                    window.location.href = response.redirect;
+                } else {
+                    swal("Invalid Username or Password", response.message, "error");
+                }
+               
+               
+            },
+            error: function (err) {
+                console.log("error on ajax request")
+            }
+        });
+    } 
+   
 });
 
 $(document).ajaxSend(function (event, jqxhr, settings) {
@@ -33,4 +43,5 @@ $(document).ajaxComplete(function (event, jqxhr, settings) {
         })
     }
     $('#loader').fadeOut(250);
-})
+});
+

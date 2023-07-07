@@ -16,13 +16,13 @@
             you have had professional work experience:
         </p>
         <input id="hdfLastSectionVisitedId" name="LastSectionVisitedId" value="20" type="hidden" />
-        <input id="hdfobjectiveSummaryId" name="ObjectiveSummaryId" type="hidden" />
+        <input id="hdfobjectiveSummaryId" class="isoptOut" name="ObjectiveSummaryId" type="hidden" />
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="State">Objective Type</label>
-                    <select name="ObjectiveType" class="form-control">
-                        <option value="" selected=""></option>
+                    <select name="ObjectiveType" class="form-control" required>
+                        <option value="" selected="">--Select Objective-</option>
                         <option value="Objective">Objective</option>
                         <option value="Professional Summary">Professional Summary</option>
                     </select>
@@ -45,7 +45,7 @@
             What skills do you have that would be most useful for the job or industry that you are
             pursuing?
         </p>
-        <p class="danger-text">
+        <p id="checkboxlimitMessage" class="danger-text">
             Choose 2-3 skills you have for use in your Objective statement or
             Professional Summary and that you can elaborate on in your Work Experience and/or
             Organization Experience sections.

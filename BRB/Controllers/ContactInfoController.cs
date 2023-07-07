@@ -29,7 +29,8 @@ namespace BRB.Controllers
             var sessionData = JsonConvert.DeserializeObject<UserSessionData>(HttpContext.Session.GetString("_userData"));
             AjaxResponse ajaxResponse = new AjaxResponse();
             ajaxResponse.Data = null;
-            if (sessionData.ResumeId > 0)
+            var data = _dbContext.ContactInfos.FirstOrDefault(x => x.ResumeId == sessionData.ResumeId);
+            if (data != null)
             {
                 ContactInfoViewModel record = _contactInfoService.GetContactInfo(sessionData.ResumeId);
                 if (record != null)

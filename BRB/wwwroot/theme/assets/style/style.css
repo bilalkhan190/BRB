@@ -556,6 +556,16 @@ ul.navbar-nav .dropdown-menu {
     font-size: 16px;
 }
 
+.formWrapper form label.error {
+    color: #ff0000;
+    padding-top: 3px;
+}
+
+.formWrapper form .form-group span.error > span {
+    color: #ff0000;
+    padding-top: 5px;
+}
+
 .formWrapper form.formSpace label {
     font-weight: 400;
     color: #323232;

@@ -30,4 +30,19 @@ namespace BusinessObjects.Models.MetaData
 
         public List<VolunteerPosition> VolunteerPositions { get; set; } = new List<VolunteerPosition>();
     }
+
+    public class ProfessionalViewObject
+    {
+        public Professional ProfessionalExperience { get; set; }
+        public List<License> Licenses { get; set; } = new List<License>();
+        public List<Certificate> Certificates { get; set; } = new List<Certificate>();
+       
+        public List<Affiliation> affilationWithPositions { get; set; } = new List<Affiliation>();
+    }
+
+    //public class AffilationWithPosition
+    //{
+    //    public Affiliation Affiliation { get; set; }
+    //    public List<AffiliationPosition> AffiliationPositions { get; set; } = new List<AffiliationPosition>();
+    //}
 }

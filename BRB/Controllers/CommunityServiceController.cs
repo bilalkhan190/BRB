@@ -82,19 +82,20 @@ namespace BRB.Controllers
             VolunteerExperience volunteerExperience = new VolunteerExperience();
 
             var ids = JsonSerializer.Deserialize<TableIdentities>(sessionData.Ids);
+            var record = _dbContext.VolunteerExperiences.FirstOrDefault(x => x.ResumeId == sessionData.ResumeId);
             using (var transection = _dbContext.Database.BeginTransaction())
             {
                 try
                 {
-                    if (ids.volunteerId > 0)
+                    if (record.VolunteerExperienceId > 0)
                     {
 
 
-                        volunteerExperience.VolunteerExperienceId = ids.volunteerId;
+                        volunteerExperience.VolunteerExperienceId = record.VolunteerExperienceId;
                         volunteerExperience.ResumeId = sessionData.ResumeId;
                         volunteerExperience.CreatedDate = DateTime.Today;
                         volunteerExperience.LastModDate = DateTime.Today;
-                        volunteerExperience.IsOptOut = false;
+                        //volunteerExperience.IsOptOut = false;
                         volunteerExperience.IsComplete = communityViewModel.IsComplete;
                         _dbContext.VolunteerExperiences.Update(volunteerExperience);
                         _dbContext.SaveChanges();

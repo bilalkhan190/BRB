@@ -47,48 +47,51 @@ function LoadData() {
         url: '/TechnicalSkills/GetAllData',
         type: 'get',
         success: function (response) {
-            console.log(response.data)
-            $('#hdfTechnicalSkillId').val(response.data.technicalSkillId)
-            if (response.data.msword) {
-                $('input[name="Msword"]').prop('checked',true)
+            if (response.data) {
+                console.log(response.data != null)
+                $('#hdfTechnicalSkillId').val(response.data.technicalSkillId)
+                if (response.data.msword) {
+                    $('input[name="Msword"]').prop('checked', true)
+                }
+                if (response.data.msexcel) {
+                    $('input[name="Msexcel"]').prop('checked', true)
+                }
+                if (response.data.mspowerPoint) {
+                    $('input[name="MspowerPoint"]').prop('checked', true)
+                }
+                if (response.data.msoutlook) {
+                    $('input[name="Msoutlook"]').prop('checked', true)
+                }
+                if (response.data.macPages) {
+                    $('input[name="MacPages"]').prop('checked', true)
+                }
+                if (response.data.macNumbers) {
+                    $('input[name="MacNumbers"]').prop('checked', true)
+                }
+                if (response.data.adobeAcrobat) {
+                    $('input[name="AdobeAcrobat"]').prop('checked', true)
+                }
+                if (response.data.adobeIllustrator) {
+                    $('input[name="AdobeIllustrator"]').prop('checked', true)
+                }
+                if (response.data.adobePhotoshop) {
+                    $('input[name="AdobePhotoshop"]').prop('checked', true)
+                }
+                if (response.data.adobePublisher) {
+                    $('input[name="AdobePublisher"]').prop('checked', true)
+                }
+                if (response.data.googleDocs) {
+                    $('input[name="GoogleDocs"]').prop('checked', true)
+                }
+                if (response.data.googleSuite) {
+                    $('input[name="GoogleSuite"]').prop('checked', true)
+                }
+                if (response.data.isComplete) {
+                    $('input[name="IsComplete"]').prop('checked', true)
+                }
+                $('#otherSkill').val(response.data.otherPrograms);
             }
-            if (response.data.msexcel) {
-                $('input[name="Msexcel"]').prop('checked', true)
-            }
-            if (response.data.mspowerPoint) {
-                $('input[name="MspowerPoint"]').prop('checked', true)
-            }
-            if (response.data.msoutlook) {
-                $('input[name="Msoutlook"]').prop('checked', true)
-            }
-            if (response.data.macPages) {
-                $('input[name="MacPages"]').prop('checked', true)
-            }
-            if (response.data.macNumbers) {
-                $('input[name="MacNumbers"]').prop('checked', true)
-            }
-            if (response.data.adobeAcrobat) {
-                $('input[name="AdobeAcrobat"]').prop('checked', true)
-            }
-            if (response.data.adobeIllustrator) {
-                $('input[name="AdobeIllustrator"]').prop('checked', true)
-            }
-            if (response.data.adobePhotoshop) {
-                $('input[name="AdobePhotoshop"]').prop('checked', true)
-            }
-            if (response.data.adobePublisher) {
-                $('input[name="AdobePublisher"]').prop('checked', true)
-            }
-            if (response.data.googleDocs) {
-                $('input[name="GoogleDocs"]').prop('checked', true)
-            }
-            if (response.data.googleSuite) {
-                $('input[name="GoogleSuite"]').prop('checked', true)
-            }
-            if (response.data.isComplete) {
-                $('input[name="IsComplete"]').prop('checked', true)
-            }
-            $('#otherSkill').val(response.data.otherPrograms);
+           
         },
         error: function () {
 

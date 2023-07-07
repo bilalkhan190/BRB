@@ -1,7 +1,10 @@
-﻿using BusinessObjects.Models.DTOs;
+﻿using BusinessObjects.Models;
+using BusinessObjects.Models.DTOs;
+using BusinessObjects.Models.MetaData;
 using BusinessObjects.Services.interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Query;
+using System.Text.Json;
 
 namespace BRB.Controllers
 {
@@ -24,6 +27,7 @@ namespace BRB.Controllers
             }
             return Json(ajaxResponse);
         }
+
 
         public IActionResult GetStateList()
         {
@@ -52,12 +56,27 @@ namespace BRB.Controllers
         [HttpPost]
         public IActionResult IsOptOut(int recordId , int sectionId,bool status)
         {
+            var sessionData = JsonSerializer.Deserialize<UserSessionData>(HttpContext.Session.GetString("_userData"));
             AjaxResponse ajaxResponse = new AjaxResponse();
             ajaxResponse.Success = false;
             switch (sectionId)
             {
                
                 case 30:
+                    var record = _dbContext.OverseasExperiences.FirstOrDefault(x => x.ResumeId == sessionData.ResumeId);
+                    if (recordId == 0 || record == null)
+                    {
+                        OverseasExperience overseasExperience = new OverseasExperience();
+                        overseasExperience.IsOptOut = status;
+                        overseasExperience.ResumeId = sessionData.ResumeId;
+                        overseasExperience.CreatedDate = DateTime.Today;
+                        overseasExperience.LastModDate = DateTime.Today;
+                        overseasExperience.IsComplete = false;
+                        _dbContext.OverseasExperiences.Add(overseasExperience);
+                        _dbContext.SaveChanges();
+                        recordId = overseasExperience.OverseasExperienceId;
+                    }
+                    
                     var overseasRecord = _dbContext.OverseasExperiences.FirstOrDefault(x => x.OverseasExperienceId == recordId);
                     if (overseasRecord != null)
                     {
@@ -67,8 +86,22 @@ namespace BRB.Controllers
                         ajaxResponse.Data = overseasRecord;
                         ajaxResponse.Success = true;
                     }
+                    
                     break;
                 case 40:
+                    var militaryExperience = _dbContext.MilitaryExperiences.FirstOrDefault(x => x.ResumeId == sessionData.ResumeId);
+                    if (recordId == 0 || militaryExperience == null)
+                    {
+                        MilitaryExperience military = new MilitaryExperience();
+                        military.IsOptOut = status;
+                        military.ResumeId = sessionData.ResumeId;
+                        military.CreatedDate = DateTime.Today;
+                        military.LastModDate = DateTime.Today;
+                        military.IsComplete = false;
+                        _dbContext.MilitaryExperiences.Add(military);
+                        _dbContext.SaveChanges();
+                        recordId = military.MilitaryExperienceId;
+                    }
                     var miltaryRecord = _dbContext.MilitaryExperiences.FirstOrDefault(x => x.MilitaryExperienceId == recordId);
                     if (miltaryRecord != null)
                     {
@@ -81,6 +114,19 @@ namespace BRB.Controllers
                   
                     break;
                 case 45:
+                    var orgExperience = _dbContext.OrgExperiences.FirstOrDefault(x => x.ResumeId == sessionData.ResumeId);
+                    if (recordId == 0 || orgExperience == null)
+                    {
+                        OrgExperience org = new OrgExperience();
+                        org.IsOptOut = status;
+                        org.ResumeId = sessionData.ResumeId;
+                        org.CreatedDate = DateTime.Today;
+                        org.LastModDate = DateTime.Today;
+                        org.IsComplete = false;
+                        _dbContext.OrgExperiences.Add(org);
+                        _dbContext.SaveChanges();
+                        recordId = org.OrgExperienceId;
+                    }
                     var organization = _dbContext.OrgExperiences.FirstOrDefault(x => x.OrgExperienceId == recordId);
                     if (organization != null)
                     {
@@ -93,6 +139,19 @@ namespace BRB.Controllers
                    
                     break;
                 case 50:
+                    var volunteer = _dbContext.VolunteerExperiences.FirstOrDefault(x => x.ResumeId == sessionData.ResumeId);
+                    if (recordId == 0 || volunteer == null)
+                    {
+                        VolunteerExperience vol = new VolunteerExperience();
+                        vol.IsOptOut = status;
+                        vol.ResumeId = sessionData.ResumeId;
+                        vol.CreatedDate = DateTime.Today;
+                        vol.LastModDate = DateTime.Today;
+                        vol.IsComplete = false;
+                        _dbContext.VolunteerExperiences.Add(vol);
+                        _dbContext.SaveChanges();
+                        recordId = vol.VolunteerExperienceId;
+                    }
                     var communityService = _dbContext.VolunteerExperiences.FirstOrDefault(x => x.VolunteerExperienceId == recordId);
                     communityService.IsOptOut = status;
                     _dbContext.VolunteerExperiences.Update(communityService);
@@ -101,6 +160,19 @@ namespace BRB.Controllers
                     ajaxResponse.Success = true;
                     break;
                 case 55:
+                    var professional = _dbContext.Professionals.FirstOrDefault(x => x.ResumeId == sessionData.ResumeId);
+                    if (recordId == 0 || professional == null)
+                    {
+                        Professional pro = new Professional();
+                        pro.IsOptOut = status;
+                        pro.ResumeId = sessionData.ResumeId;
+                        pro.CreatedDate = DateTime.Today;
+                        pro.LastModDate = DateTime.Today;
+                        pro.IsComplete = false;
+                        _dbContext.Professionals.Add(pro);
+                        _dbContext.SaveChanges();
+                        recordId = pro.ProfessionalId;
+                    }
                     var Professional = _dbContext.Professionals.FirstOrDefault(x => x.ProfessionalId == recordId);
                     Professional.IsOptOut = status;
                     _dbContext.Professionals.Update(Professional);
@@ -109,8 +181,21 @@ namespace BRB.Controllers
                     ajaxResponse.Success = true;
                     break;
                 case 65:
+                    var languageObj = _dbContext.LanguageSkills.FirstOrDefault(x => x.ResumeId == sessionData.ResumeId);
+                    if (recordId == 0 || languageObj == null)
+                    {
+                        LanguageSkill ls = new LanguageSkill();
+                        ls.IsOptOut = status;
+                        ls.ResumeId = sessionData.ResumeId;
+                        ls.CreatedDate = DateTime.Today;
+                        ls.LastModDate = DateTime.Today;
+                        ls.IsComplete = false;
+                        _dbContext.LanguageSkills.Add(ls);
+                        _dbContext.SaveChanges();
+                        recordId = ls.LanguageSkillId;
+                    }
                     var language = _dbContext.LanguageSkills.FirstOrDefault(x => x.LanguageSkillId == recordId);
-                    language.IsOptOut = status;
+                     language.IsOptOut = status;
                     _dbContext.LanguageSkills.Update(language);
                     _dbContext.SaveChanges();
                     ajaxResponse.Data= language;

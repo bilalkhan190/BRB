@@ -18,42 +18,42 @@
         </div>
         <div class="col-md-6 p-0">
             <div class="formWrapper signUp-formWrapper">
-                <form class="needs-validation formSpace" asp-controller="Account" asp-action="CreateUser" novalidate>
+                <form id="signUpForm" class="needs-validation formSpace" novalidate>
                     <img src="/theme/assets/images/logo.png" />
                     <h1>Create New User Account</h1>
                     <div class="row mt-4">
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="validationCustom01">First Name</label>
-                                <input type="text" class="form-control" id="validationCustom01" asp-for="FirstName" placeholder="" required>
+                                <input type="text" class="form-control" id="validationCustom01" name="FirstName" asp-for="FirstName" placeholder="" required>
                                 <span class="field-validation-valid error" asp-validation-for="FirstName" data-valmsg-replace="true"></span>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="validationCustom02">Last Name</label>
-                                <input type="text" class="form-control" id="validationCustom02" asp-for="LastName" placeholder="" required>
+                                <input type="text" class="form-control" id="validationCustom02" name="LastName" asp-for="LastName" placeholder="" required>
                                 <span class="field-validation-valid error" asp-validation-for="LastName" data-valmsg-replace="true"></span>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="email">Email</label>
-                                <input type="email" class="form-control" id="email" asp-for="UserName" placeholder="" required>
+                                <input type="email" class="form-control" id="email" name="UserName" asp-for="UserName" placeholder="" required>
                                 <span class="field-validation-valid error" asp-validation-for="UserName" data-valmsg-replace="true"></span>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="email">Password</label>
-                                <input type="password" class="form-control" id="Password" asp-for="UserPassword" placeholder="" required>
+                                <input type="password" class="form-control" id="Password" name="UserPassword" asp-for="UserPassword" placeholder="" required>
                                 <span class="field-validation-valid error" asp-validation-for="UserPassword" data-valmsg-replace="true"></span>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="email">Re-enter Password</label>
-                                <input type="password" class="form-control" id="Password" asp-for="ConfirmPassword" placeholder=" " required>
+                                <input type="password" class="form-control" id="CPassword" asp-for="ConfirmPassword" placeholder=" " required>
                                 <span class="field-validation-valid error" asp-validation-for="ConfirmPassword" data-valmsg-replace="true"></span>
                             </div>
                         </div>
@@ -63,7 +63,7 @@
                                     Cell Phone (preferred) or Home
                                     Phone
                                 </label>
-                                <input asp-for="Phone" id="phone" maxlength="11" placeholder="xxx-xxx-xxxx"
+                                <input asp-for="Phone" id="phone" name="Phone" placeholder="xxx-xxx-xxxx"
                                        type="text" class="form-control" required>
                                 <span class="field-validation-valid error" asp-validation-for="Phone" data-valmsg-replace="true"></span>
                             </div>
@@ -71,22 +71,21 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="Address">Address</label>
-                                <input asp-for="Address1" id="Address" maxlength="50"  type="text" class="form-control" placeholder=" " required>
+                                <input asp-for="Address1" id="Address" name="Address1" type="text" class="form-control" placeholder=" " required>
                                 <span class="field-validation-valid error" asp-validation-for="Address1" data-valmsg-replace="true"></span>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="City" class="">City</label>
-                                <input asp-for="City" id="City" type="text" class="form-control" placeholder=" " required>
+                                <input asp-for="City" id="City" type="text" name="City" class="form-control" placeholder=" " required>
                                 <span class="field-validation-valid error" asp-validation-for="City" data-valmsg-replace="true"></span>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="State" class="">State</label>
-                                <select asp-for="StateAbbr" id="selectform" class="form-control" required>
-                                   <option value="Us">US</option>
+                                <select id="ddlStateAbbr" name="StateAbbr" class="form-control" required>
                                 </select>
                                 <span class="field-validation-valid error" asp-validation-for="StateAbbr" data-valmsg-replace="true"></span>
                             </div>
@@ -94,13 +93,13 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="Code" class="">Zip Code</label>
-                                <input asp-for="ZipCode" maxlength="5" id="Code" type="text" class="form-control" placeholder=" " required>
+                                <input asp-for="ZipCode" id="Code" type="text" name="ZipCode" class="form-control" placeholder=" " required>
                                 <span class="field-validation-valid error" asp-validation-for="ZipCode" data-valmsg-replace="true"></span>
                             </div>
                         </div>
                     </div>
                     <div class="formbtn-Wrapper">
-                        <button type="submit" class="btn btn-primary custombtn w-auto">Create Account</button>
+                        <button type="button" id="btnCreateUser" class="btn btn-primary custombtn w-auto">Create Account</button>
                     </div>
                 </form>
             </div>
@@ -110,7 +109,10 @@
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 <script src="~/js/site.js" asp-append-version="true"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.20/lodash.min.js" integrity="sha512-90vH1Z83AJY9DmlWa8WkjkV79yfS2n2Oxhsi2dZbIv0nC4E6m5AbH8Nh156kkM7JePmqD6tcZsfad1ueoaovww==" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.20/lodash.min.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script src="~/scripts/signup/signup.js"></script>
+
 @{
     await Html.RenderPartialAsync("_ValidationScriptsPartial");
 }

@@ -67,15 +67,18 @@ function LoadData() {
         url: '/Language/GetLanguageSkillsRecord',
         type: 'GET',
         success: function (response) {
-            $('#hdfLanguageSkillId').val(response.data.languageSkillId);
+            if (response.data != null) {
+                $('#hdfLanguageSkillId').val(response.data.languageSkillId);
                 $('.isoptOut').prop("checked", response.data.isOptOut).trigger('change')
                 $("#cbIsComplete").prop("checked", response.data.isComplete)
-             if (response.data.languages.length > 0) {
-                $.each(response.data.languages, function (index, value) {
-                    languageArray.push(value)
-                });
-                LoadCards();
+                if (response.data.languages.length > 0) {
+                    $.each(response.data.languages, function (index, value) {
+                        languageArray.push(value)
+                    });
+                    LoadCards();
+                }
             }
+           
           
         },
         error: function (error) {

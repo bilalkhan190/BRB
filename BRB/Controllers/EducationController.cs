@@ -164,7 +164,7 @@ namespace BRB.Controllers
             AjaxResponse ajaxResponse = new AjaxResponse();
             ajaxResponse.Message = "Ops record is not saved we are facing problem";
             ajaxResponse.Success = false;
-            ajaxResponse.Redirect = "/Resume/OverseasStudy";
+            ajaxResponse.Redirect = "";
             var sessionData = JsonSerializer.Deserialize<UserSessionData>(HttpContext.Session.GetString("_userData"));
             var ids = JsonSerializer.Deserialize<TableIdentities>(sessionData.Ids);
             Resume resumeProfileData = new Resume();
@@ -248,8 +248,9 @@ namespace BRB.Controllers
                                 }
                             }
                         }
-                        ajaxResponse.Redirect = "";
+                      
                         ajaxResponse.Data = educationViewModel;
+                        ajaxResponse.Redirect = "/Resume/OverseasStudy";
                     }
                     _dbContext.Resumes.Update(resumeProfileData);
                     _dbContext.SaveChanges();

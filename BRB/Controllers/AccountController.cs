@@ -28,8 +28,7 @@ namespace BRB.Controllers
         }
         public IActionResult Index()
         {
-            var sessionObj  =  new UserSessionData();
-            HttpContext.Session.SetString(SessionKeyUserData, JsonConvert.SerializeObject(sessionObj));
+           
             return View("SignIn");
         }
 
@@ -44,6 +43,7 @@ namespace BRB.Controllers
             AjaxResponse ajaxResponse = new AjaxResponse();
             ajaxResponse.Success = false;
             ajaxResponse.Message = "Unable to create User";
+            ajaxResponse.Redirect = "";
             if (userProfileViewModel != null)
             {
                 using (Wh4lprodContext _context = new Wh4lprodContext())
@@ -51,18 +51,27 @@ namespace BRB.Controllers
                     var model = _mapper.Map<UserProfile>(userProfileViewModel);
                     if (model != null)
                     {
-                        _context.UserProfiles.Add(model);
-                        _context.SaveChanges();
-                        ajaxResponse.Success = true;
-                        ajaxResponse.Message = "User Has been Created Successfully!";
+                        var userExist = _context.UserProfiles.FirstOrDefault(p => p.UserName == model.UserName);
+                        if (userExist == null)
+                        {
+                            _context.UserProfiles.Add(model);
+                            _context.SaveChanges();
+                            ajaxResponse.Success = true;
+                            ajaxResponse.Message = "User Has been Created Successfully!";
+                            ajaxResponse.Redirect = "/Account/index";
+                        }
+                        else
+                        {
+                            ajaxResponse.Success = false;
+                            ajaxResponse.Message = "username is already taken!";
+                        }
+                        
                     }
                    
                 }
-              
 
             }
-            return RedirectToAction("Index");
-
+            return Json(ajaxResponse);
         }
 
         [HttpPost]
@@ -149,6 +158,16 @@ namespace BRB.Controllers
                     }
                        
                 }
+            }
+            else
+            {
+                if (HttpContext.Session.IsAvailable)
+                {
+                    HttpContext.Session.Remove(SessionKeyUserData);
+                }
+                ajaxResponse.Success = false;
+                ajaxResponse.Message = "user not exist";
+                ajaxResponse.Redirect = "";
             }
             return Json(ajaxResponse);
 

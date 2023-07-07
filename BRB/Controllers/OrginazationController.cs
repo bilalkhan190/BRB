@@ -92,7 +92,7 @@ namespace BRB.Controllers
             orgExperience.ResumeId = sessionData.ResumeId;
             orgExperience.CreatedDate = DateTime.Today;
             orgExperience.LastModDate = DateTime.Today;
-            orgExperience.IsOptOut = false;
+            //orgExperience.IsOptOut = false;
             orgExperience.IsComplete = organizationViewModel.IsComplete;
             using (var transection = _dbContext.Database.BeginTransaction())
             {
@@ -106,8 +106,12 @@ namespace BRB.Controllers
                     }
                     else
                     {
-                        _dbContext.OrgExperiences.Add(orgExperience);
-                        _dbContext.SaveChanges();
+                        var record = _dbContext.OrgExperiences.FirstOrDefault(x => x.ResumeId == sessionData.ResumeId);
+                        if (record == null)
+                        {
+                            _dbContext.OrgExperiences.Add(orgExperience);
+                            _dbContext.SaveChanges();
+                        }
                     }
                     if (organizationViewModel.Organizations.Count > 0)
                     {

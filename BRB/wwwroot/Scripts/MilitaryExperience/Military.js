@@ -2,7 +2,7 @@
 
 $(document).ready(function () {
     $('#ddlCountry').html("");
-    $('#ddlCountry').append('<option value="0" selected><b>Select Country</b></option>')
+    $('#ddlCountry').append('<option value="" selected><b>Select Country</b></option>')
     $.ajax({
         url: '/Common/GetCountryList',
         type: 'get',
@@ -20,10 +20,13 @@ $(document).ready(function () {
         url: '/Military/GetMilataryExperience',
         type: 'Get',
         success: function (response) {
-            console.log(response.data);
-            $('#hdfMilitaryExperienceId').val(response.data.militaryExperienceId);
-            $('.isoptOut').prop("checked", response.data.isOptOut).trigger('change');
-            loadData(response)
+            if (response.data != null) {
+                console.log(response.data);
+                $('#hdfMilitaryExperienceId').val(response.data.militaryExperienceId);
+                $('.isoptOut').prop("checked", response.data.isOptOut).trigger('change');
+                loadData(response)
+            }
+          
         },
         error: function (error) {
             console.log(error)
@@ -156,13 +159,11 @@ $('#btnAddPosition').click(function () {
                                 </button>
                                 </div>
                                 </div>
-                                    <p class="text-muted"  id="messageCurrentlyNotIn">${value.startedMonth} ${value.startedYear} - ${value.endedMonth} ${value.endedYear} </p>
-                                    <p class="text-muted" id="messageCurrentlyIn">${value.startedMonth} ${value.startedYear} - Current </p>
-                                    <p class="text-muted">Training Completed: ${value.mainTraining}</p>
+                                   
                                 </span>
                             </div>`
             $('#divEditSection div.row').append(html)
-            if (value.endedMonth == null && value.endedYear == null) {
+            if (value.endedMonth == null || value.endedMonth == "" && value.endedYear == null || value.endedYear == "" ) {
                 $('#messageCurrentlyNotIn').hide();
             } else {
                 $('#messageCurrentlyIn').hide();
@@ -178,31 +179,34 @@ $('#btnAddPosition').click(function () {
 });
 
 function loadData(response) {
-    $('#hdfMilitaryExperienceId').val(response.data.militaryExperienceId);
-    $('#txtCity').val(response.data.city);
-    $('#txtBranch').val(response.data.branch);
-    $('#ddlCountry').val(response.data.countryId);
-    $('#txtStartedMonth').val(response.data.startedMonth);
-    $('#txtStartedYear').val(response.data.startedYear);
-    $('#ddlEndedMonth').val(response.data.endedMonth);
-    $('#ddlEndedYear').val(response.data.endedYear);
-    $('#txtRank').val(response.data.rank);
-    if (response.data.isComplete) {
-        $('#cbIsComplete').prop('checked', true);
+    if (response.data != null) {
+        $('#hdfMilitaryExperienceId').val(response.data.militaryExperienceId);
+        $('#txtCity').val(response.data.city);
+        $('#txtBranch').val(response.data.branch);
+        $('#ddlCountry').val(response.data.countryId);
+        $('#txtStartedMonth').val(response.data.startedMonth);
+        $('#txtStartedYear').val(response.data.startedYear);
+        $('#ddlEndedMonth').val(response.data.endedMonth);
+        $('#ddlEndedYear').val(response.data.endedYear);
+        $('#txtRank').val(response.data.rank);
+        if (response.data.isComplete) {
+            $('#cbIsComplete').prop('checked', true);
+        }
+        if (response.data.endedMonth == null && response.data.endedYear == null) {
+            //$('#cbCurrentlyIn').prop('checked', true);
+            $('#ddlEndedMonth').hide();
+            $('#ddlEndedYear').hide();
+            $('#labelEndedDate').hide();
+        }
+        $('#divEditSection div.row').html("")
+        if (response.data.militaryPositions.length > 0) {
+            $.each(response.data.militaryPositions, function (index, value) {
+                positionArray.push(response.data.militaryPositions[index])
+            });
+        }
+        LoadCards();
     }
-    if (response.data.endedMonth == null && response.data.endedYear == null) {
-        //$('#cbCurrentlyIn').prop('checked', true);
-        $('#ddlEndedMonth').hide();
-        $('#ddlEndedYear').hide();
-        $('#labelEndedDate').hide();
-    }
-    $('#divEditSection div.row').html("")
-    if (response.data.militaryPositions.length > 0) {
-        $.each(response.data.militaryPositions, function (index, value) {
-            positionArray.push(response.data.militaryPositions[index])
-        });
-    }
-    LoadCards();
+   
 }
 
          

@@ -43,8 +43,11 @@ $(document).ready(function () {
         url: '/OverseasStudy/GetMasterdata',
         type: 'get',
         success: function (response) {
-            $('#hdfOverseasExperienceId').val(response.data.overseasExperienceId);
-            $('.isoptOut').prop("checked", response.data.isOptOut).trigger('change');
+            if (response.data != null) {
+                $('#hdfOverseasExperienceId').val(response.data.overseasExperienceId);
+                $('.isoptOut').prop("checked", response.data.isOptOut).trigger('change');
+            }
+           
         },
         error: function (err) {
 
@@ -57,10 +60,13 @@ $(document).ready(function () {
         url: '/OverseasStudy/GetDataById',
         type: 'get',
         success: function (response) {
-            $.each(response.data, function (index, value) {
-                overseasArray.push(value)
-            });
-            LoadData();
+            if (response.data != null) {
+                $.each(response.data, function (index, value) {
+                    overseasArray.push(value)
+                });
+                LoadData();
+            }
+          
         },
         error: function (err) {
 
@@ -127,6 +133,19 @@ $(document).on('change', 'input[type="radio"]', function () {
 $('#btnClose').click(function () {
     ResetForm();
 });
+
+//method need to modify abhi 
+
+$('.cbCurrentlyIn').click(function () {
+    if ($(this).is(':checked')) {
+        $('.lblEndedDate').hide();
+        $('#txtEndDate').hide();
+    } else {
+        $('.lblEndedDate').show();
+        $('#txtEndDate').show();
+    }
+});
+
 
 function ResetForm() {
     $('#hdfOverseasStudyId').val('');

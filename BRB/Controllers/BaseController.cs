@@ -17,8 +17,16 @@ namespace BRB.Controllers
 
         public override void OnActionExecuting(ActionExecutingContext context)
         {
+            if (((Microsoft.AspNetCore.Mvc.Controllers.ControllerActionDescriptor)context.ActionDescriptor).ActionName == "GetStateList")
+            {
+
+                base.OnActionExecuting(context);
+            }
+            else
+            {
+
             UserSessionData sessionData = null;
-            if (HttpContext.Session.GetString("_userData") != null)
+            if (HttpContext.Session.GetString("_userData") != null ) 
             {
                 sessionData = JsonConvert.DeserializeObject<UserSessionData>(HttpContext.Session.GetString("_userData"));
             }
@@ -27,6 +35,7 @@ namespace BRB.Controllers
                 context.Result = new RedirectResult(Url.Action("Index", "Account"));
             }
             base.OnActionExecuting(context);    
+            }
         }
     }
 }

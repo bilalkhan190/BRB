@@ -18,21 +18,22 @@
         type: 'GET',
         dataType:'json',
         success: function (response) {
-            console.log(response)
-            $('input[name="FirstName"]').val(response.data.firstName);
-            $('#hdfcontactInfoId').val(response.data.contactInfoId);
-            $('input[name="LastName"]').val(response.data.lastName);
-            $('input[name="Phone"]').val(response.data.phone);
-            $('input[name="Email"]').val(response.data.email);
-            $('input[name="Address1"]').val(response.data.address1);
-            $('input[name="Address2"]').val(response.data.address2);
-            $('input[name="City"]').val(response.data.city);
-            $('select[name="StateAbbr"]').val(response.data.stateAbbr);
-            $('input[name="ZipCode"]').val(response.data.zipCode);
-            if (response.data.isComplete) {
-                $('input[name="IsComplete"]').prop('checked',true);
-            } 
-          
+            if (response.data != null) {
+                console.log(response)
+                $('input[name="FirstName"]').val(response.data.firstName);
+                $('#hdfcontactInfoId').val(response.data.contactInfoId);
+                $('input[name="LastName"]').val(response.data.lastName);
+                $('input[name="Phone"]').val(response.data.phone);
+                $('input[name="Email"]').val(response.data.email);
+                $('input[name="Address1"]').val(response.data.address1);
+                $('input[name="Address2"]').val(response.data.address2);
+                $('input[name="City"]').val(response.data.city);
+                $('select[name="StateAbbr"]').val(response.data.stateAbbr);
+                $('input[name="ZipCode"]').val(response.data.zipCode);
+                if (response.data.isComplete) {
+                    $('input[name="IsComplete"]').prop('checked', true);
+                } 
+            }
         },
         error: function (err) {
             alert('error')

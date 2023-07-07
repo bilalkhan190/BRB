@@ -9,9 +9,12 @@ $(document).ready(function () {
         url: '/organization/GetMasterData',
         type: 'Get',
         success: function (response) {
-            console.log(response.data);
-            $('#hdfOrgExperienceId').val(response.data.orgExperienceId);
-            $('.isoptOut').prop("checked", response.data.isOptOut).trigger('change');
+            if (response.data != null) {
+                console.log(response.data);
+                $('#hdfOrgExperienceId').val(response.data.orgExperienceId);
+                $('.isoptOut').prop("checked", response.data.isOptOut).trigger('change');
+            }
+           
            
         },
         error: function (error) {
@@ -27,25 +30,21 @@ function getFormData() {
         type: 'get',
         success: function (response) {
             console.log(response.data)
-            if (response.data.length > 0) {
-                $.each(response.data, function (index, value) {
-                    organizationArr.push(value.organization)
-                    if (value.orgPositions.length > 0) {
-                        for (var i = 0; i < value.orgPositions.length; i++) {
-                            positionArray.push(value.orgPositions[i]);
+            if (response.data != null) {
+                if (response.data.length > 0) {
+                    $.each(response.data, function (index, value) {
+                        organizationArr.push(value.organization)
+                        if (value.orgPositions.length > 0) {
+                            for (var i = 0; i < value.orgPositions.length; i++) {
+                                positionArray.push(value.orgPositions[i]);
+                            }
                         }
-                    }
-                   
-                });
+
+                    });
+                }
+                LoadCards()
             }
            
-            //if (organizationArr.length > 0) {
-            //    $('#hdfOrgExperienceId').val(organizationArr[0].orgExperienceId)
-            //} else {
-            //    $('#hdfOrgExperienceId').val(response.data.orgExperienceId);
-            //}
-
-            LoadCards()
         },
         error: function (err) {
 

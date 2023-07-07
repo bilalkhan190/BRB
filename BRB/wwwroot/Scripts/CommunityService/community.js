@@ -31,9 +31,10 @@ $(document).ready(function () {
         url: '/CommunityService/GetMasterdata',
         type: 'get',
         success: function (response) {
-            $('#hdfVolunteerExperienceId').val(response.data.volunteerExperienceId);
-            $('.isoptOut').prop("checked", response.data.isOptOut).trigger('change');
-           
+            if (response.data != null) {
+                $('#hdfVolunteerExperienceId').val(response.data.volunteerExperienceId);
+                $('.isoptOut').prop("checked", response.data.isOptOut).trigger('change');
+            }
         },
         error: function (err) {
 
@@ -92,23 +93,26 @@ function getFormData() {
         url: '/CommunityService/GetData',
         type: 'get',
         success: function (response) {
-            if (response.data.length > 0) {
-                $.each(response.data, function (index, value) {
-                    organizationArr.push(response.data[index].volunteerOrg)
-                    if (response.data[index].volunteerPositions.length > 0) {
-                        for (var i = 0; i < response.data[index].volunteerPositions.length; i++) {
-                            positionArray.push(response.data[index].volunteerPositions[i]);
+            if (response.data != null) {
+                if (response.data.length > 0) {
+                    $.each(response.data, function (index, value) {
+                        organizationArr.push(response.data[index].volunteerOrg)
+                        if (response.data[index].volunteerPositions.length > 0) {
+                            for (var i = 0; i < response.data[index].volunteerPositions.length; i++) {
+                                positionArray.push(response.data[index].volunteerPositions[i]);
+                            }
                         }
-                    }
-                   
-                });
+
+                    });
+                }
+                if (organizationArr.length > 0) {
+                    $('#hdfVolunteerExperienceId').val(organizationArr[0].volunteerExperienceId)
+                } else {
+                    $('#hdfVolunteerExperienceId').val(response.data.volunteerExperienceId)
+                }
+                LoadCards()
             }
-            if (organizationArr.length > 0) {
-                $('#hdfVolunteerExperienceId').val(organizationArr[0].volunteerExperienceId)
-            } else {
-                $('#hdfVolunteerExperienceId').val(response.data.volunteerExperienceId)
-            }
-            LoadCards()
+          
         },
         error: function (err) {
 
@@ -139,7 +143,6 @@ $(document).on('click', '#btnAddPosition', function () {
             positionArray[parseInt(localStorage.getItem("pos-index"))] = position;
             localStorage.clear();
         }
-        console.log(positionArray)
         LoadCards();
     }
 });
@@ -179,7 +182,7 @@ function LoadCards() {
                              <div class="col-md-6">
                                     <h5 class="title-text">${value.volunteerOrg1}</h5>
                                     <p class="text-muted">${value.startedMonth} ${value.startedYear} - ${value.endedMonth} ${value.endedYear} </p>
-                                    <p class="text-muted"> ${value.City}</p>
+                                    <p class="text-muted"> ${value.city}</p>
                             </div>
                             <div class="col-md-6">
                                 <div class="card-Btn">

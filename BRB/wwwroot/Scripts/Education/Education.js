@@ -357,7 +357,7 @@ function FillDropdowns() {
     });
 
     $('#ddlMajor').html("");
-    $('#ddlMajor').append('<option value="0" selected><b>Select Major</b></option>')
+    $('#ddlMajor').append('<option value="" selected><b>Select Major</b></option>')
     $.ajax({
         url: '/Education/GetAllMajor',
         type: 'get',
@@ -372,7 +372,7 @@ function FillDropdowns() {
     });
 
     $('#ddlMajorSpeciality').html("");
-    $('#ddlMajorSpeciality').append('<option value="0" selected><b>Select Major specilties</b></option>')
+    $('#ddlMajorSpeciality').append('<option value="" selected><b>Select Major specilties</b></option>')
     $.ajax({
         url: '/Education/GetAllMajorSpecilties',
         type: 'get',
@@ -387,7 +387,7 @@ function FillDropdowns() {
     });
 
     $('#ddlMinor').html("");
-    $('#ddlMinor').append('<option value="0" selected><b>Select Minors</b></option>')
+    $('#ddlMinor').append('<option value="" selected><b>Select Minors</b></option>')
     $.ajax({
         url: '/Education/GetAllMinors',
         type: 'get',
@@ -402,7 +402,7 @@ function FillDropdowns() {
     });
 
     $('#ddlState').html("");
-    $('#ddlState').append('<option value="0" selected><b>Select States</b></option>')
+    $('#ddlState').append('<option value="" selected><b>Select States</b></option>')
     $.ajax({
         url: '/Education/GetAllStates',
         type: 'get',
@@ -417,7 +417,7 @@ function FillDropdowns() {
     });
 
     $('#ddlOtherCertificates').html("");
-    $('#ddlOtherCertificates').append('<option value="0" selected><b>Select Certificates</b></option>')
+    $('#ddlOtherCertificates').append('<option value="" selected><b>Select Certificates</b></option>')
     $.ajax({
         url: '/Education/GetAllCertificates',
         type: 'get',
@@ -515,7 +515,7 @@ function ResetHonor() {
 function FormReset() {
     $('input[type="text"]').val("");
     $('#hdfCollegeId').val("");
-    $('select').val(0);
+    $('select').val("");
     $('input[type="date"]').val(new Date())
 }
 

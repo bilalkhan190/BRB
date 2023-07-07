@@ -10,17 +10,20 @@ function LoadData() {
         type: 'get',
         success: function (response)
         {
-            $('#hdfobjectiveSummaryId').val(response.data.objectiveSummaryId)
-            $('#ddlExperienceOfYears').val(response.data.yearsOfExperienceId)
-            $('#ddlPositionType').val(response.data.positionTypeId)
-            $('#CurrentCompanyType').val(response.data.currentCompanyType)
-            $('#ddlChangeTypeList').val(response.data.changeTypeId)
-            $('#FieldsOfExperience').val(response.data.objectivesummaryId)
-            //$('#ddlChangeTypeList').val(response.data.objectivesummaryId)
-            if (response.data.isComplete) {
-                $('#ckbIsComplete').prop('checked', true);
+            if (response.data != null) {
+                $('#hdfobjectiveSummaryId').val(response.data.objectiveSummaryId)
+                $('#ddlExperienceOfYears').val(response.data.yearsOfExperienceId)
+                $('#ddlPositionType').val(response.data.positionTypeId)
+                $('#CurrentCompanyType').val(response.data.currentCompanyType)
+                $('#ddlChangeTypeList').val(response.data.changeTypeId)
+                $('#FieldsOfExperience').val(response.data.objectivesummaryId)
+                //$('#ddlChangeTypeList').val(response.data.objectivesummaryId)
+                if (response.data.isComplete) {
+                    $('#ckbIsComplete').prop('checked', true);
+                }
+                $('#FieldsOfExperience').val(response.data.fieldsOfExperience)
             }
-            $('#FieldsOfExperience').val(response.data.fieldsOfExperience)
+            
         },
         error: function (err) { }
     });
@@ -53,13 +56,15 @@ function GenerateCheckboxes() {
     });
 }
 $(document).on('change', '.custom-control-input', function () {
-   
+   console.log('change')
     let checkboxCount = $(':checkbox:checked').length;
     if (checkboxCount == 3) {
         
         $(':checkbox:not(:checked)').prop('disabled', true);
+        $('#checkboxlimitMessage').hide();
     } else {
         $(':checkbox:not(:checked)').prop('disabled', false);
+        $('#checkboxlimitMessage').show();
     }
 
 });
@@ -94,7 +99,7 @@ $('#ckbIsComplete').click(function () {
 
 function FillDropdowns() {
     $('#ddlExperienceOfYears').html("");
-    $('#ddlExperienceOfYears').append('<option value="0" selected><b>Select years</b></option>')
+    $('#ddlExperienceOfYears').append('<option value="" selected><b>Select years</b></option>')
     $.ajax({
         url: '/ObjectiveSummary/GetExperienceYears',
         type: 'get',
@@ -109,7 +114,7 @@ function FillDropdowns() {
     });
 
     $('#ddlChangeTypeList').html("");
-    $('#ddlChangeTypeList').append('<option value="0" selected><b>Select Change Type</b></option>')
+    $('#ddlChangeTypeList').append('<option value="" selected><b>Select Change Type</b></option>')
     $.ajax({
         url: '/ObjectiveSummary/GetChangeType',
         type: 'get',
@@ -125,7 +130,7 @@ function FillDropdowns() {
 
 
     $('#ddlPositionType').html("");
-    $('#ddlPositionType').append('<option value="0" selected><b>Select position Type</b></option>')
+    $('#ddlPositionType').append('<option value="" selected><b>Select position Type</b></option>')
     $.ajax({
         url: '/ObjectiveSummary/GetPositionType',
         type: 'get',

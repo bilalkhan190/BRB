@@ -1,4 +1,5 @@
 ﻿$('#btnSaveHonor').click(function () {
+    $('#formAcademicHonor').validate();
     let obj = { CollegeId:  $('#hdfCollegeId').val() , HonorName: $('#txtAcademicHonor').val(), Date: $('#txtDateReceived').val() }
     $.ajax({
         url: '/Education/PostDataAcademicHonor',

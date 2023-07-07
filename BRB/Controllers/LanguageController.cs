@@ -73,8 +73,12 @@ namespace BRB.Controllers
                         }
                         else
                         {
-                            _dbContext.LanguageSkills.Add(languageSkill);
-                            _dbContext.SaveChanges();
+                            var record = _dbContext.LanguageSkills.FirstOrDefault(x => x.ResumeId == sessionData.ResumeId);
+                            if (record != null)
+                            {
+                                _dbContext.LanguageSkills.Add(languageSkill);
+                                _dbContext.SaveChanges();
+                            }
                         }
                         if (languageViewModel.Languages.Count > 0)
                         {
