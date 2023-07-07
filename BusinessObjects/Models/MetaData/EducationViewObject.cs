@@ -17,7 +17,7 @@ namespace BusinessObjects.Models.MetaData
 
     public class OrganizationViewObject
     {
-        public int OrgExperienceId { get; set; }
+        public OrgExperience OrgExperience { get; set; }
         public Organization Organization { get; set; }
 
         public List<OrgPosition> orgPositions { get; set; } = new List<OrgPosition>();
@@ -25,7 +25,7 @@ namespace BusinessObjects.Models.MetaData
 
     public class VolunteerViewObject
     {
-        public int VolunteerExperienceId { get; set; }
+        public VolunteerExperience VolunteerExperience { get; set; }
         public VolunteerOrg VolunteerOrg { get; set; }
 
         public List<VolunteerPosition> VolunteerPositions { get; set; } = new List<VolunteerPosition>();

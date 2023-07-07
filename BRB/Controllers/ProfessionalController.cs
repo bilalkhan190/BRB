@@ -52,6 +52,7 @@ namespace BRB.Controllers
         {
             AjaxResponse ajaxResponse = new AjaxResponse();
             ajaxResponse.Success = true;
+            ajaxResponse.Redirect = "";
             var affilationData = new Affiliation();
             var licenseData = new License();    
             var certificateData = new Certificate();    
@@ -64,8 +65,7 @@ namespace BRB.Controllers
                 resumeProfileData.LastSectionVisitedId = professionalViewModel.LastSectionVisitedId;
                 resumeProfileData.LastModDate = DateTime.Today;
                 resumeProfileData.LastSectionCompletedId = professionalViewModel.IsComplete == true ? professionalViewModel.LastSectionVisitedId : 0;
-                _resumeService.UpdateResumeMaster(resumeProfileData);
-
+               
                 var proData = _dbContext.Professionals.FirstOrDefault(x => x.ResumeId == sessionData.ResumeId);
                 if(proData != null) {
                     _dbContext.Professionals.Remove(proData);
@@ -135,6 +135,8 @@ namespace BRB.Controllers
                    
                 }
 
+                _resumeService.UpdateResumeMaster(resumeProfileData);
+                ajaxResponse.Redirect = "/Resume/ComputerAndTechnicalSkills";
 
             }
             return Json(ajaxResponse);

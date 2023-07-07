@@ -751,3 +751,8 @@ ul.navbar-nav .dropdown-menu {
     padding-left: 15px;
     padding-right: 15px;
 }
+
+/*.modal.show {
+    background:#000;
+    opacity: 0.5;
+}*/

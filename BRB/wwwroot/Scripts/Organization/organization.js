@@ -4,24 +4,8 @@ var positionArray = []
 
 $(document).ready(function () {
     LoadDropdowns();
-
-    $.ajax({
-        url: '/organization/GetMasterData',
-        type: 'Get',
-        success: function (response) {
-            if (response.data != null) {
-                console.log(response.data);
-                $('#hdfOrgExperienceId').val(response.data.orgExperienceId);
-                $('.isoptOut').prop("checked", response.data.isOptOut).trigger('change');
-            }
-           
-           
-        },
-        error: function (error) {
-            console.log(error)
-        }
-    })
-    getFormData()
+    getFormData();
+   
 });
 
 function getFormData() {
@@ -29,7 +13,8 @@ function getFormData() {
         url: '/organization/GetData',
         type: 'get',
         success: function (response) {
-            console.log(response.data)
+            $('#hdfOrgExperienceId').val(response.data.orgExperienceId);
+           $('.isoptOut').prop("checked", response.data.isOptOut).trigger('change');
             if (response.data != null) {
                 if (response.data.length > 0) {
                     $.each(response.data, function (index, value) {

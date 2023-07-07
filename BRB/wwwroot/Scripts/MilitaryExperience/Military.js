@@ -136,6 +136,7 @@ $('#btnAddPosition').click(function () {
             let html = ` <div class="col-md-12 positionInnerBox">
                                 <span class="card-text row pt-3">
                                 <div class="col-md-8">
+                                 <p class="text-muted"> ${value.title}</p>
                                     <p class="text-muted"  id="messageCurrentlyNotIn">${value.startedMonth} ${value.startedYear} - ${value.endedMonth} ${value.endedYear} </p>
                                     <p class="text-muted" id="messageCurrentlyIn">${value.startedMonth} ${value.startedYear} - Current </p>
                                     <p class="text-muted">Training Completed: ${value.mainTraining}</p>
@@ -217,6 +218,7 @@ function LoadCards() {
         let html = ` <div class="col-md-12 positionInnerBox">
                                 <span class="card-text row pt-3">
                                 <div class="col-md-8">
+                                 <p class="text-muted"> ${value.title}</p>
                                     <p class="text-muted"  id="messageCurrentlyNotIn">${value.startedMonth} ${value.startedYear} - ${value.endedMonth} ${value.endedYear} </p>
                                     <p class="text-muted" id="messageCurrentlyIn">${value.startedMonth} ${value.startedYear} - Current </p>
                                     <p class="text-muted">Training Completed: ${value.mainTraining}</p>

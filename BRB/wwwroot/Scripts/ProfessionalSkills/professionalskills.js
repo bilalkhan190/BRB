@@ -559,7 +559,9 @@ $('#btnSaveAndContinue').click(function () {
         url: '/Professional/PostProfessionalSkillsData',
         type: 'POST',
         data: { professionalViewModel: data },
-        success: function (response) { },
+        success: function (response) {
+            window.location.href = response.data.redirect;
+        },
         error: function (error) { }
     });
 

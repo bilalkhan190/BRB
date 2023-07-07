@@ -23,19 +23,6 @@ namespace BRB.Controllers
             return View();
         }
 
-        public IActionResult GetMasterData()
-        {
-            AjaxResponse ajaxResponse = new AjaxResponse();
-            var sessionData = JsonSerializer.Deserialize<UserSessionData>(HttpContext.Session.GetString("_userData"));
-            var ids = JsonSerializer.Deserialize<TableIdentities>(sessionData.Ids);
-            var record = _dbContext.OrgExperiences.FirstOrDefault(x => x.OrgExperienceId == ids.orgExperienceId);
-            if (record != null)
-            {
-                ajaxResponse.Data = record;
-            }
-            return Json(ajaxResponse);
-        }
-
         public IActionResult GetData()
         {
             AjaxResponse ajaxResponse = new AjaxResponse();
@@ -49,8 +36,8 @@ namespace BRB.Controllers
                 foreach (var o in record)
                 {
                     OrganizationViewObject viewObject = new OrganizationViewObject();
+                    viewObject.OrgExperience = _dbContext.OrgExperiences.FirstOrDefault(x => x.ResumeId == sessionData.ResumeId);
                     viewObject.Organization = o;
-                    viewObject.OrgExperienceId = ids.orgExperienceId;
                     viewObject.orgPositions = GetOrgPositions(o.OrganizationId);
                     ListOfObjs.Add(viewObject);
                 }

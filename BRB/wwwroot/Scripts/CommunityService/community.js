@@ -27,21 +27,7 @@ $('#cbPositionCurrentlyIn').click(function () {
 
 $(document).ready(function () {
     LoadDropdowns();
-    $.ajax({
-        url: '/CommunityService/GetMasterdata',
-        type: 'get',
-        success: function (response) {
-            if (response.data != null) {
-                $('#hdfVolunteerExperienceId').val(response.data.volunteerExperienceId);
-                $('.isoptOut').prop("checked", response.data.isOptOut).trigger('change');
-            }
-        },
-        error: function (err) {
-
-        }
-    });
     getFormData();
-    LoadCards();
 });
 
 function LoadDropdowns() {
@@ -94,6 +80,8 @@ function getFormData() {
         type: 'get',
         success: function (response) {
             if (response.data != null) {
+                $('#hdfVolunteerExperienceId').val(response.data.volunteerExperienceId);
+                $('.isoptOut').prop("checked", response.data.isOptOut).trigger('change');
                 if (response.data.length > 0) {
                     $.each(response.data, function (index, value) {
                         organizationArr.push(response.data[index].volunteerOrg)

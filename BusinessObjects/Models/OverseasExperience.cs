@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BusinessObjects.Models;
 
@@ -16,4 +17,7 @@ public partial class OverseasExperience
     public DateTime CreatedDate { get; set; }
 
     public DateTime LastModDate { get; set; }
+
+    [NotMapped]
+    public List<OverseasStudy> OverseasStudies { get; set; }
 }

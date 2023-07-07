@@ -31,8 +31,8 @@ namespace BRB.Controllers
                 foreach (var o in record)
                 {
                     VolunteerViewObject viewObject = new VolunteerViewObject();
+                    viewObject.VolunteerExperience = _dbContext.VolunteerExperiences.FirstOrDefault(x => x.ResumeId == sessionData.ResumeId);
                     viewObject.VolunteerOrg = o;
-                    viewObject.VolunteerExperienceId = ids.orgExperienceId;
                     viewObject.VolunteerPositions = GetOrgPositions(o.VolunteerOrgId);
                     ListOfObjs.Add(viewObject);
                 }
@@ -53,7 +53,7 @@ namespace BRB.Controllers
             AjaxResponse ajaxResponse = new AjaxResponse();
             var sessionData = JsonSerializer.Deserialize<UserSessionData>(HttpContext.Session.GetString("_userData"));
             var ids = JsonSerializer.Deserialize<TableIdentities>(sessionData.Ids);
-            var record = _dbContext.VolunteerExperiences.FirstOrDefault(x => x.VolunteerExperienceId == ids.volunteerId);
+            var record = _dbContext.VolunteerExperiences.FirstOrDefault(x => x.ResumeId == sessionData.ResumeId);
             if (record != null)
             {
                 ajaxResponse.Data = record;
@@ -87,24 +87,23 @@ namespace BRB.Controllers
             {
                 try
                 {
-                    if (record.VolunteerExperienceId > 0)
+                   
+                    if (record != null)
                     {
-
-
-                        volunteerExperience.VolunteerExperienceId = record.VolunteerExperienceId;
-                        volunteerExperience.ResumeId = sessionData.ResumeId;
-                        volunteerExperience.CreatedDate = DateTime.Today;
-                        volunteerExperience.LastModDate = DateTime.Today;
-                        //volunteerExperience.IsOptOut = false;
-                        volunteerExperience.IsComplete = communityViewModel.IsComplete;
-                        _dbContext.VolunteerExperiences.Update(volunteerExperience);
+                        record.ResumeId = sessionData.ResumeId;
+                        record.CreatedDate = DateTime.Today;
+                        record.IsOptOut = false;
+                        record.IsComplete = communityViewModel.IsComplete;
+                        _dbContext.VolunteerExperiences.Update(record);
                         _dbContext.SaveChanges();
-
+                        volunteerExperience.VolunteerExperienceId = record.VolunteerExperienceId;
                     }
                     else
                     {
+                        
                         volunteerExperience.ResumeId = sessionData.ResumeId;
                         volunteerExperience.CreatedDate = DateTime.Today;
+                        volunteerExperience.LastModDate = DateTime.Today;
                         volunteerExperience.IsOptOut = false;
                         volunteerExperience.IsComplete = communityViewModel.IsComplete;
                         _dbContext.VolunteerExperiences.Add(volunteerExperience);
@@ -126,6 +125,7 @@ namespace BRB.Controllers
                             else
                             {
                                 _dbContext.VolunteerOrgs.Add(org);
+                                _dbContext.SaveChanges();
 
                             }
 

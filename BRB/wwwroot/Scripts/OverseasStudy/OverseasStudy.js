@@ -22,7 +22,41 @@ function GenerateRadio() {
 }
 
 $(document).ready(function () {
+    $('#btnSaveOverseasStudy').click(function () {
+        $('#OverseasForm').validate();
+        if ($('#OverseasForm').valid()) {
+            let overseas = {
+                overseasStudyId: $('#hdfOverseasStudyId').val(),
+                collegeName: $('input[name="CollegeName"]').val(),
+                City: $('input[name="City"]').val(),
+                countryId: $('select[name="CountryId"]').val(),
+                startedDate: $('input[name="StartedDate"]').val(),
+                endDate: $('input[name="EndedDate"]').val(),
+                classesCompleted: $('input[name="ClassesCompleted"]').val(),
+                otherInfo: $('input[name="OtherInfo"]').val(),
+                livingSituationOther: $('input[name="LivingSituationOther"]').val(),
+                livingSituationId: $('input[name="LivingSituationId"]').val()
+            }
+            if (localStorage.getItem("pos-index") == null) {
+                overseasArray.push(overseas);
+            }
+            else {
+                overseasArray[parseInt(localStorage.getItem("pos-index"))] = overseas;
+                localStorage.clear();
+            }
+            ResetForm();
+          /*  $("#SummaryModal").hide().removeClass("show");*/
+            //$(".modal-backdrop").css({
+            //    display: "none",
+            //    visibility: "hidden"
+            //});
+            $("#DivSection").html("");
+            LoadData();
+            
+        }
 
+
+    });
     //filling the dropdown
     $('#ddlCountry').html("");
     $('#ddlCountry').append('<option value="0" selected><b>Select Country</b></option>')
@@ -46,8 +80,13 @@ $(document).ready(function () {
             if (response.data != null) {
                 $('#hdfOverseasExperienceId').val(response.data.overseasExperienceId);
                 $('.isoptOut').prop("checked", response.data.isOptOut).trigger('change');
+                if (response.data.overseasStudies.length > 0) {
+                    $.each(response.data.overseasStudies, function (index, value) {
+                        overseasArray.push(value)
+                    })
+                }
             }
-           
+            LoadData();
         },
         error: function (err) {
 
@@ -56,55 +95,28 @@ $(document).ready(function () {
     /*LoadData();*/
 
     //get submitted data
-    $.ajax({
-        url: '/OverseasStudy/GetDataById',
-        type: 'get',
-        success: function (response) {
-            if (response.data != null) {
-                $.each(response.data, function (index, value) {
-                    overseasArray.push(value)
-                });
-                LoadData();
-            }
-          
-        },
-        error: function (err) {
+    
+    //$.ajax({
+    //    url: '/OverseasStudy/GetDataById',
+    //    type: 'get',
+    //    success: function (response) {
+    //        if (response.data != null) {
+    //            $.each(response.data, function (index, value) {
+    //                overseasArray.push(value)
+    //            });
 
-        }
-    });
+    //        }
+    //        LoadData();
+    //    },
+    //    error: function (err) {
 
+    //    }
+    //});
 
     GenerateRadio();
 }); 
-$('#btnSaveOverseasStudy').click(function () {
-    $('#OverseasForm').validate();
-    if ($('#OverseasForm').valid()) {
-        let overseas = {
-            overseasStudyId: $('#hdfOverseasStudyId').val(),
-            collegeName: $('input[name="CollegeName"]').val(),
-            City: $('input[name="City"]').val(),
-            countryId: $('select[name="CountryId"]').val(),
-            startedDate: $('input[name="StartedDate"]').val(),
-            endDate: $('input[name="EndedDate"]').val(),
-            classesCompleted: $('input[name="ClassesCompleted"]').val(),
-            otherInfo: $('input[name="OtherInfo"]').val(),
-            livingSituationOther: $('input[name="LivingSituationOther"]').val(),
-            livingSituationId: $('input[name="LivingSituationId"]').val()
-        }
-        if (localStorage.getItem("pos-index") == null) {
-            overseasArray.push(overseas);
-        }
-        else {
-            overseasArray[parseInt(localStorage.getItem("pos-index"))] = overseas;
-            localStorage.clear();
-        }
-        $("#DivSection").html("");
-        LoadData();
-      
-    }
- 
-   
-});
+
+
 
 
 $(document).on('change', 'input[type="radio"]', function () {
@@ -132,6 +144,7 @@ $(document).on('change', 'input[type="radio"]', function () {
 
 $('#btnClose').click(function () {
     ResetForm();
+    $('#SummaryModal').modal('hide');
 });
 
 //method need to modify abhi 
@@ -161,10 +174,11 @@ function ResetForm() {
 
 $(document).on('click', '#btnEditOverseas', function () {
     var response = overseasArray[$(this).attr('data-edit')];
+    console.log(response)
     localStorage.setItem("pos-index", $(this).attr('data-edit'));
       let startDate = new Date(response.startedDate).toISOString().split('T')[0];
       let endDate = new Date(response.endedDate).toISOString().split('T')[0];
-      console.log(response.collegeName)
+      
     $('#hdfOverseasStudyId').val(response.overseasStudyId);
     $('#txtcollegeName').val(response.collegeName)
     $('#City').val(response.city);
