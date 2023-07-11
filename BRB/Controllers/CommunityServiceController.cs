@@ -152,6 +152,7 @@ namespace BRB.Controllers
                         _dbContext.SaveChanges();
                         transection.Commit();
                     }
+                    ajaxResponse.Redirect = "/Resume/Certifications";
                 }
                 catch (Exception ex)
                 {

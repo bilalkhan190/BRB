@@ -3,6 +3,7 @@ using BusinessObjects.Models.DTOs;
 using BusinessObjects.Models.MetaData;
 using BusinessObjects.Services.interfaces;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel;
 using System.Text.Json;
 
 namespace BRB.Controllers
@@ -54,7 +55,7 @@ namespace BRB.Controllers
             ajaxResponse.Success = true;
             ajaxResponse.Redirect = "";
             var affilationData = new Affiliation();
-            var licenseData = new License();    
+            var licenseData = new BusinessObjects.Models.License();    
             var certificateData = new Certificate();    
             var sessionData = JsonSerializer.Deserialize<UserSessionData>(HttpContext.Session.GetString("_userData"));
             if (sessionData != null)
@@ -65,20 +66,24 @@ namespace BRB.Controllers
                 resumeProfileData.LastSectionVisitedId = professionalViewModel.LastSectionVisitedId;
                 resumeProfileData.LastModDate = DateTime.Today;
                 resumeProfileData.LastSectionCompletedId = professionalViewModel.IsComplete == true ? professionalViewModel.LastSectionVisitedId : 0;
-               
-                var proData = _dbContext.Professionals.FirstOrDefault(x => x.ResumeId == sessionData.ResumeId);
-                if(proData != null) {
-                    _dbContext.Professionals.Remove(proData);
-                    _dbContext.SaveChanges();
+                bool isAbleToAdd = false;
+                var masterData = _dbContext.Professionals.FirstOrDefault(x => x.ResumeId == sessionData.ResumeId);
+                if (masterData == null)
+                {
+                    masterData = new Professional();
+                    masterData.CreatedDate = DateTime.Today;
+                    isAbleToAdd = true;
                 }
-                
-                Professional professionalMaster = new Professional();
-                professionalMaster.ResumeId = sessionData.ResumeId;
-                professionalMaster.CreatedDate = DateTime.Today;
-                professionalMaster.LastModDate = DateTime.Today;
-                professionalMaster.IsOptOut = false;
-                professionalMaster.IsComplete = professionalViewModel.IsComplete;
-                var masterData =  _professionalService.AddProfessionalMaster(professionalMaster);
+                masterData.ResumeId = sessionData.ResumeId;  
+                masterData.LastModDate = DateTime.Today;
+                masterData.IsOptOut = false;
+                masterData.IsComplete = professionalViewModel.IsComplete;
+
+                if (isAbleToAdd)
+                {
+                    _dbContext.Professionals.Add(masterData);                   
+                }
+                _dbContext.SaveChanges();
 
                 if (professionalViewModel.Licenses.Count > 0)
                 {
@@ -92,8 +97,13 @@ namespace BRB.Controllers
                     {
                         license.ProfessionalId = masterData.ProfessionalId;
                         license.CreatedDate = DateTime.Today;
-                        licenseData =  _professionalService.AddLicense(license);
+                        license.LastModDate = DateTime.Today;
+                        license.LicenseId = 0;
+                        licenseData = _professionalService.AddLicense(license);
+                        
+                        
                     }
+                    
                 }
                 if (professionalViewModel.Certificates.Count > 0)
                 {
@@ -106,7 +116,10 @@ namespace BRB.Controllers
                     foreach (var certificate in professionalViewModel.Certificates)
                     {
                         certificate.ProfessionalId = masterData.ProfessionalId;
-                        _professionalService.AddCertificate(certificate);
+                        certificate.CreatedDate = DateTime.Today;
+                        certificate.LastModDate = DateTime.Today;
+                        certificate.CertificateId = 0;
+                            _professionalService.AddCertificate(certificate);
                     }
                 }
                 if (professionalViewModel.Affiliations.Count > 0)
@@ -120,14 +133,27 @@ namespace BRB.Controllers
                     foreach (var affilation in professionalViewModel.Affiliations)
                     {
                         affilation.ProfessionalId = masterData.ProfessionalId;
+                        affilation.CreatedDate = DateTime.Today;
+                        affilation.LastModDate= DateTime.Today;
+                        affilation.AffiliationId = 0;
                         affilationData = _professionalService.AddAffilation(affilation);
+                      
+                      
 
-                        if (affilation.AffiliationPositions.Count > 0)
+                        if (professionalViewModel.AffiliationPositions.Count > 0)
                         {
-                            foreach (var affilationPosition in affilation.AffiliationPositions)
+                            var rangeRecord = _dbContext.AffiliationPositions.Where(x =>x.AffiliationId == affilationData.AffiliationId).ToList();
+                            if (rangeRecord.Count > 0)
                             {
-                                affilationPosition.AffiliationId = affilation.AffiliationId;
+                                _dbContext.AffiliationPositions.RemoveRange(rangeRecord);
+                                _dbContext.SaveChanges();
+                            }
+                            foreach (var affilationPosition in professionalViewModel.AffiliationPositions)
+                            {
+                                affilationPosition.AffiliationId = affilationData.AffiliationId;
                                 affilationPosition.CreatedDate = DateTime.Today;
+                                affilationPosition.LastModDate = DateTime.Today;
+                                affilationPosition.AffiliationPositionId = 0;
                                 _professionalService.AddAffilationPosition(affilationPosition);
                             }
                         }
@@ -136,8 +162,65 @@ namespace BRB.Controllers
                 }
 
                 _resumeService.UpdateResumeMaster(resumeProfileData);
-                ajaxResponse.Redirect = "/Resume/ComputerAndTechnicalSkills";
+               
 
+            }
+            ajaxResponse.Redirect = "/Resume/ComputerAndTechnicalSkills";
+            return Json(ajaxResponse);
+        }
+
+        public IActionResult DeleteLicense(int id)
+        {
+            var record = _dbContext.Licenses.FirstOrDefault(x =>x.LicenseId == id);
+            AjaxResponse ajaxResponse = new AjaxResponse();
+            ajaxResponse.Success = false;
+            if (record != null)
+            {
+                _dbContext.Licenses.Remove(record);
+                _dbContext.SaveChanges();
+               ajaxResponse.Success = true;
+            }
+            return Json(ajaxResponse);
+        }
+
+        public IActionResult DeleteCertificate(int id)
+        {
+            var record = _dbContext.Certificates.FirstOrDefault(x => x.CertificateId == id);
+            AjaxResponse ajaxResponse = new AjaxResponse();
+            ajaxResponse.Success = false;
+            if (record != null)
+            {
+                _dbContext.Certificates.Remove(record);
+                _dbContext.SaveChanges();
+                ajaxResponse.Success = true;
+            }
+            return Json(ajaxResponse);
+        }
+
+        public IActionResult DeleteAffilation(int id)
+        {
+            var record = _dbContext.Affiliations.FirstOrDefault(x => x.AffiliationId == id);
+            AjaxResponse ajaxResponse = new AjaxResponse();
+            ajaxResponse.Success = false;
+            if (record != null)
+            {
+                _dbContext.Affiliations.Remove(record);
+                _dbContext.SaveChanges();
+                ajaxResponse.Success = true;
+            }
+            return Json(ajaxResponse);
+        }
+
+        public IActionResult DeleteAffilationPosition(int id)
+        {
+            var record = _dbContext.AffiliationPositions.FirstOrDefault(x => x.AffiliationPositionId == id);
+            AjaxResponse ajaxResponse = new AjaxResponse();
+            ajaxResponse.Success = false;
+            if (record != null)
+            {
+                _dbContext.AffiliationPositions.Remove(record);
+                _dbContext.SaveChanges();
+                ajaxResponse.Success = true;
             }
             return Json(ajaxResponse);
         }

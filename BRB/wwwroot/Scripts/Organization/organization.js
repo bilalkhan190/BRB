@@ -87,11 +87,20 @@ $('#btnSaveOrganization').click(function () {
             organizationArr[parseInt(localStorage.getItem("org-index"))] = organization;
             localStorage.clear();
         }
+        $('#orgForm').trigger('reset');
         LoadCards();
     }
    
 
 });
+
+$('.closeModal').click(function () {
+    $('#orgForm').trigger('reset')
+})
+$('.modelPosition').click(function () {
+    $('#orgPositionForm').trigger('reset')
+})
+
 
 $(document).on('click', '#btnAddPosition', function () {
     $('#orgPositionForm').validate();
@@ -116,6 +125,7 @@ $(document).on('click', '#btnAddPosition', function () {
             positionArray[parseInt(localStorage.getItem("pos-index"))] = position;
             localStorage.clear();
         }
+        $('#orgPositionForm').trigger('reset');
         LoadCards();
     }
    

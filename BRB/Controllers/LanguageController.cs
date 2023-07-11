@@ -64,21 +64,23 @@ namespace BRB.Controllers
                 languageSkill.LastModDate = DateTime.Today;
                 using (var transection = _dbContext.Database.BeginTransaction())
                 {
+                    var record = _dbContext.LanguageSkills.FirstOrDefault(x => x.ResumeId == sessionData.ResumeId);
                     try
                     {
-                        if (languageSkill.LanguageSkillId > 0)
+                        if (record != null)
                         {
-                            _dbContext.LanguageSkills.Update(languageSkill);
+                            record.IsComplete= languageSkill.IsComplete;
+                            record.CreatedDate = DateTime.Today;
+                            record.LastModDate = DateTime.Today;
+                            _dbContext.LanguageSkills.Update(record);
                             _dbContext.SaveChanges();
+                            languageSkill.LanguageSkillId = record.LanguageSkillId;
                         }
                         else
                         {
-                            var record = _dbContext.LanguageSkills.FirstOrDefault(x => x.ResumeId == sessionData.ResumeId);
-                            if (record != null)
-                            {
                                 _dbContext.LanguageSkills.Add(languageSkill);
                                 _dbContext.SaveChanges();
-                            }
+                           
                         }
                         if (languageViewModel.Languages.Count > 0)
                         {

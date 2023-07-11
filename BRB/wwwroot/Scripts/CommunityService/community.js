@@ -68,10 +68,19 @@ $('#btnSaveOrganization').click(function () {
             organizationArr[parseInt(localStorage.getItem("org-index"))] = orginazation;
             localStorage.clear();
         }
+        $('#orgForm').trigger('reset');
         LoadCards();
 
     }
 
+});
+
+$('.closeModal').click(function () {
+    $('#orgForm').trigger('reset')
+})
+
+$('.modelPosition').click(function () {
+    $('#orgPositionForm').trigger('reset');
 });
 
 function getFormData() {
@@ -148,7 +157,7 @@ $('#btnSaveAndContinue').click(function () {
         type: 'POST',
         data: { communityViewModel: obj },
         success: function (response) {
-
+            window.location.href = response.redirect;
         },
         error: function (error) {
 

@@ -91,6 +91,7 @@ namespace BRB.Controllers
                         _dbContext.Resumes.Update(resume);
                         _dbContext.SaveChanges();   
                         transection.Commit();
+                       
 
                     }
                 }

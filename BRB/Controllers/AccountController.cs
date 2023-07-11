@@ -58,7 +58,7 @@ namespace BRB.Controllers
                             _context.SaveChanges();
                             ajaxResponse.Success = true;
                             ajaxResponse.Message = "User Has been Created Successfully!";
-                            ajaxResponse.Redirect = "/Account/index";
+                            ajaxResponse.Redirect = "/Resume/ContactInfo";
                         }
                         else
                         {

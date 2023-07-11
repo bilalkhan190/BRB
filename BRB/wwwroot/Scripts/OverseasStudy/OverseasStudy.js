@@ -4,11 +4,12 @@ function GenerateRadio() {
         url: '/OverseasStudy/GetLivingSituationData',
         type: 'Get',
         success: function (response) {
+            console.log(response.data)
             $.each(response.data, function (index, value) {
                 let html = `<div class="form-check">
                                     <label class="form-check-label">
                                         <input name="LivingSituationId"
-                                               type="radio" class="form-check-input" value="${value.livingSituationId}" checked=""/>   ${value.livingSituationDesc}
+                                               type="radio" class="form-check-input" value="${value.livingSituationId}"/>   ${value.livingSituationDesc}
                                     </label>
                                          
                                 </div>`;
@@ -45,6 +46,13 @@ $(document).ready(function () {
                 localStorage.clear();
             }
             ResetForm();
+            //$("#SummaryModal").removeClass('show').css("display", "none");
+            //$(".modal-backdrop").css({
+            //    zindex: "-1",
+            //    position: "relative"
+            //});
+            //$('body').css("overflow", "auto");
+
           /*  $("#SummaryModal").hide().removeClass("show");*/
             //$(".modal-backdrop").css({
             //    display: "none",
@@ -54,7 +62,13 @@ $(document).ready(function () {
             LoadData();
             
         }
-
+        //$("#summaryBtn").click(function () {
+        //    //$("#SummaryModal").css("display", "block");
+        //    $(".modal-backdrop").css({
+        //        zindex: "1",
+        //        position: "fixed"
+        //    });
+        //});
 
     });
     //filling the dropdown
@@ -143,8 +157,9 @@ $(document).on('change', 'input[type="radio"]', function () {
 //});
 
 $('#btnClose').click(function () {
-    ResetForm();
-    $('#SummaryModal').modal('hide');
+  
+    $('#OverseasForm').trigger('reset')
+   /* $('#SummaryModal').modal('hide');*/
 });
 
 //method need to modify abhi 
@@ -176,18 +191,18 @@ $(document).on('click', '#btnEditOverseas', function () {
     var response = overseasArray[$(this).attr('data-edit')];
     console.log(response)
     localStorage.setItem("pos-index", $(this).attr('data-edit'));
-      let startDate = new Date(response.startedDate).toISOString().split('T')[0];
-      let endDate = new Date(response.endedDate).toISOString().split('T')[0];
-      
+      //let startDate = new Date(response.startedDate).toISOString().split('T')[0];
+      //let endDate = new Date(response.endedDate).toISOString().split('T')[0];
+  
     $('#hdfOverseasStudyId').val(response.overseasStudyId);
     $('#txtcollegeName').val(response.collegeName)
-    $('#City').val(response.city);
+    $('#City').val(response.City);
     $('#ddlCountry').val(response.countryId)
-    $('#txtStartDate').val(startDate)
-    $('#txtEndDate').val(endDate)
+    $('#txtStartDate').val(response.startedDate)
+    $('#txtEndDate').val(response.endDate)
     $('#txtClassSectionCompleted').val(response.classesCompleted)
     $('#txtOtherInfo').val(response.otherInfo)
-    $('input[type="LivingSituationId"]').val(response.livingSituationId);
+    $('input[name="LivingSituationId"]').val(response.livingSituationId);
     $('#SummaryModal').modal('show')
 });
 
@@ -216,6 +231,7 @@ $('#btnSaveAndContinue').click(function () {
 
 function LoadData() {
     $("#DivSection").html("");
+   overseasArray =  covertArrayKeyIntoCamelCase(overseasArray)
     $.each(overseasArray, function (index, value) {
         let html = ` 
                 <div class="card col-md-12 p-0 mb-3 cardWrapper"> 
@@ -223,8 +239,8 @@ function LoadData() {
                        <div class="row">
                             <div class="col-md-8">
                                 <span class="card-text">
-                                    <h5 class="title-text">${value.collegeName}</h5>
-                                    <p class="text-muted">${value.startedDate}-${value.endDate}</p>
+                                    <h5 class="title-text">${value.collegeName}</h5><br/>
+                                    <h5 class="title-text">${value.city}</h5>
                                 </span>
                             </div>
                             <div class="col-md-4">

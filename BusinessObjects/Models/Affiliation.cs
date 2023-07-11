@@ -31,5 +31,5 @@ public partial class Affiliation
     public DateTime LastModDate { get; set; }
 
     [NotMapped]
-    public List<AffiliationPosition> AffiliationPositions { get; set; }
+    public List<AffiliationPosition> AffiliationPositions { get; set; } = new List<AffiliationPosition>();
 }

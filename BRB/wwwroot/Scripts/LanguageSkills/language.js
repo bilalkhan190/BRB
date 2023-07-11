@@ -34,6 +34,7 @@ $('#btnSaveLanguage').click(function () {
             languageArray[parseInt(localStorage.getItem("pos-index"))] = language;
             localStorage.clear();
         }
+        $('#languageForm').trigger('reset');
         LoadCards();
     }
    
@@ -41,6 +42,9 @@ $('#btnSaveLanguage').click(function () {
   
 });
 
+$('.closeLanguage').click(function () {
+    $('#languageForm').trigger('reset');
+})
 $('#btnSaveAndContinue').click(function () {
     let data = {
         LanguageSkillId: $('#hdfLanguageSkillId').val(),
@@ -67,6 +71,7 @@ function LoadData() {
         url: '/Language/GetLanguageSkillsRecord',
         type: 'GET',
         success: function (response) {
+            console.log(response.data)
             if (response.data != null) {
                 $('#hdfLanguageSkillId').val(response.data.languageSkillId);
                 $('.isoptOut').prop("checked", response.data.isOptOut).trigger('change')

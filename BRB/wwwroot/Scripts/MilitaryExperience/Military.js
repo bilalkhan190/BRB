@@ -127,7 +127,7 @@ $('#btnAddPosition').click(function () {
         }
 
         //fill the array of position record and display the recorded data in div
-
+        $('#militaryPositionForm').trigger('reset')
         $('#divEditSection div.row').html('');
 
 
@@ -179,6 +179,9 @@ $('#btnAddPosition').click(function () {
     
 });
 
+$('.closeModal').click(function () {
+    $('#militaryPositionForm').trigger('reset')
+})
 function loadData(response) {
     if (response.data != null) {
         $('#hdfMilitaryExperienceId').val(response.data.militaryExperienceId);
