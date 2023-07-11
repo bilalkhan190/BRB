@@ -88,9 +88,11 @@ function getFormData() {
         url: '/CommunityService/GetData',
         type: 'get',
         success: function (response) {
-            if (response.data != null) {
-                $('#hdfVolunteerExperienceId').val(response.data.volunteerExperienceId);
-                $('.isoptOut').prop("checked", response.data.isOptOut).trigger('change');
+            if (response.data.length > 0) {
+                console.log(response.data)
+                $('#hdfVolunteerExperienceId').val(response.data[0].volunteerExperience.volunteerExperienceId);
+                $('#cbSectionNotApply').prop("checked", response.data[0].volunteerExperience.isOptOut).trigger('change');
+                $('#cbIsComplete').prop("checked", response.data[0].volunteerExperience.isComplete);
                 if (response.data.length > 0) {
                     $.each(response.data, function (index, value) {
                         organizationArr.push(response.data[index].volunteerOrg)
@@ -149,7 +151,8 @@ $('#btnSaveAndContinue').click(function () {
         VolunteerExperienceId: $('#hdfVolunteerExperienceId').val(),
         VolunteerPositions: positionArray,
         VolunteerOrgs: organizationArr,
-        IsComplete: $('#cbIsComplete').val($('#cbIsComplete').is(':checked'))[0].checked,
+        IsComplete: $('#cbIsComplete').is(":checked"),
+        IsOptOut: $('#cbSectionNotApply').is(":checked"),
         LastSectionVisitedId: $('#hdfLastSectionVisitedId').val()
     };
     $.ajax({
@@ -165,6 +168,15 @@ $('#btnSaveAndContinue').click(function () {
     });
 });
 
+
+$('#cbSectionNotApply').change(function () {
+    if (this.checked) {
+        $('#isOptSection').hide();
+    }
+    else {
+        $('#isOptSection').show();
+    }
+});
 function LoadCards() {
     $('#divEditSection div.row').html("");
     organizationArr = covertArrayKeyIntoCamelCase(organizationArr)

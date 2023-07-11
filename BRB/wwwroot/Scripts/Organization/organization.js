@@ -13,8 +13,9 @@ function getFormData() {
         url: '/organization/GetData',
         type: 'get',
         success: function (response) {
-            $('#hdfOrgExperienceId').val(response.data.orgExperienceId);
-           $('.isoptOut').prop("checked", response.data.isOptOut).trigger('change');
+            $('#hdfOrgExperienceId').val(response.data[0].orgExperience.orgExperienceId);
+            $('#cbSectionNotApply').prop("checked", response.data[0].orgExperience.isOptOut).trigger('change');
+            $('#cbIsComplete').prop("checked", response.data[0].orgExperience.isComplete);
             if (response.data != null) {
                 if (response.data.length > 0) {
                     $.each(response.data, function (index, value) {
@@ -36,6 +37,15 @@ function getFormData() {
         }
     })
 }
+
+$('#cbSectionNotApply').change(function () {
+    if (this.checked) {
+        $('#isOptSection').hide();
+    }
+    else {
+        $('#isOptSection').show();
+    }
+});
 
 $('#cbCurrentlyIn').click(function () {
     if ($(this).is(':checked')) {
@@ -138,7 +148,8 @@ $('#btnSaveAndContinue').click(function () {
         LastSectionVisitedId: $('#hdfLastSectionVisitedId').val(),
         OrgPositions: positionArray,
         Organizations: organizationArr,
-        IsComplete: $('#cbIsComplete').val($('#cbIsComplete').is(':checked'))[0].checked
+        IsComplete: $('#cbIsComplete').is(':checked'),
+        IsOptOut: $('#cbSectionNotApply').is(':checked')
     };
     $.ajax({
         url: '/organization/PostOrganizationData',

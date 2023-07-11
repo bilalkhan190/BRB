@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
 using BusinessObjects.Services.interfaces;
 using Microsoft.EntityFrameworkCore;
+using static iText.StyledXmlParser.Jsoup.Select.Evaluator;
+using Microsoft.AspNetCore.Localization;
 
 namespace BRB.Controllers
 {
@@ -23,26 +25,35 @@ namespace BRB.Controllers
             AjaxResponse ajaxResponse = new AjaxResponse();
             ajaxResponse.Success = true;
             var sessionData = JsonSerializer.Deserialize<UserSessionData>(HttpContext.Session.GetString("_userData"));
-            var ids = JsonSerializer.Deserialize<TableIdentities>(sessionData.Ids);
             List<VolunteerViewObject> ListOfObjs = new List<VolunteerViewObject>();
-            var record = _dbContext.VolunteerOrgs.Where(x => x.VolunteerExperienceId == ids.volunteerId).ToList();
-            if (record.Count > 0)
+            VolunteerViewObject volunteerViewObject = new VolunteerViewObject();
+            var masterRecord = _dbContext.VolunteerExperiences.FirstOrDefault(x =>x.ResumeId == sessionData.ResumeId);
+            if (masterRecord != null)
             {
-                foreach (var o in record)
+                
+                var record = _dbContext.VolunteerOrgs.Where(x => x.VolunteerExperienceId == masterRecord.VolunteerExperienceId).ToList();
+
+
+                if (record.Count > 0)
                 {
-                    VolunteerViewObject viewObject = new VolunteerViewObject();
-                    viewObject.VolunteerExperience = _dbContext.VolunteerExperiences.FirstOrDefault(x => x.ResumeId == sessionData.ResumeId);
-                    viewObject.VolunteerOrg = o;
-                    viewObject.VolunteerPositions = GetOrgPositions(o.VolunteerOrgId);
-                    ListOfObjs.Add(viewObject);
+                    foreach (var o in record)
+                    {
+                        VolunteerViewObject viewObject = new VolunteerViewObject();
+                        viewObject.VolunteerExperience = masterRecord;
+                        viewObject.VolunteerOrg = o;
+                        viewObject.VolunteerPositions = GetOrgPositions(o.VolunteerOrgId);
+                        ListOfObjs.Add(viewObject);
+                    }
+                    ajaxResponse.Data = ListOfObjs;
                 }
-                ajaxResponse.Data = ListOfObjs;
+
             }
             else
             {
-                ajaxResponse.Data = _dbContext.VolunteerExperiences.FirstOrDefault(x => x.ResumeId == sessionData.ResumeId);
+                ajaxResponse.Data = null;
             }
-         
+
+
             return Json(ajaxResponse);
 
 
@@ -82,19 +93,17 @@ namespace BRB.Controllers
             VolunteerExperience volunteerExperience = new VolunteerExperience();
 
             var ids = JsonSerializer.Deserialize<TableIdentities>(sessionData.Ids);
-            var record = _dbContext.VolunteerExperiences.FirstOrDefault(x => x.ResumeId == sessionData.ResumeId);
+           
             using (var transection = _dbContext.Database.BeginTransaction())
             {
                 try
                 {
-                   
+                    var record = _dbContext.VolunteerExperiences.FirstOrDefault(x => x.ResumeId == sessionData.ResumeId);
                     if (record != null)
                     {
-                        record.ResumeId = sessionData.ResumeId;
-                        record.CreatedDate = DateTime.Today;
-                        record.IsOptOut = false;
+                        record.LastModDate = DateTime.Today;
+                        record.IsOptOut = communityViewModel.IsOptOut;
                         record.IsComplete = communityViewModel.IsComplete;
-                        _dbContext.VolunteerExperiences.Update(record);
                         _dbContext.SaveChanges();
                         volunteerExperience.VolunteerExperienceId = record.VolunteerExperienceId;
                     }
@@ -103,27 +112,24 @@ namespace BRB.Controllers
                         
                         volunteerExperience.ResumeId = sessionData.ResumeId;
                         volunteerExperience.CreatedDate = DateTime.Today;
-                        volunteerExperience.LastModDate = DateTime.Today;
-                        volunteerExperience.IsOptOut = false;
+                        volunteerExperience.IsOptOut = communityViewModel.IsOptOut;
                         volunteerExperience.IsComplete = communityViewModel.IsComplete;
                         _dbContext.VolunteerExperiences.Add(volunteerExperience);
                         _dbContext.SaveChanges();
                     }
-
                     if (communityViewModel.VolunteerOrgs.Count > 0)
                     {
                         foreach (var org in communityViewModel.VolunteerOrgs)
                         {
-
-                            org.VolunteerExperienceId = volunteerExperience.VolunteerExperienceId;
-                            org.CreatedDate = DateTime.Today;
-                            org.LastModDate = DateTime.Today;
                             if (org.VolunteerOrgId > 0)
                             {
                                 _dbContext.VolunteerOrgs.Update(org);
                             }
                             else
                             {
+                                org.VolunteerExperienceId = volunteerExperience.VolunteerExperienceId;
+                                org.CreatedDate = DateTime.Today;
+                                org.LastModDate = DateTime.Today;
                                 _dbContext.VolunteerOrgs.Add(org);
                                 _dbContext.SaveChanges();
 
@@ -133,15 +139,16 @@ namespace BRB.Controllers
                             {
                                 foreach (var position in communityViewModel.VolunteerPositions)
                                 {
-                                    position.VolunteerOrgId = org.VolunteerOrgId;
-                                    position.CreatedDate = DateTime.Today;
-                                    position.LastModDate = DateTime.Today;
+                                   
                                     if (position.VolunteerPositionId > 0)
                                     {
                                         _dbContext.VolunteerPositions.Update(position);
                                     }
                                     else
                                     {
+                                        position.VolunteerOrgId = org.VolunteerOrgId;
+                                        position.CreatedDate = DateTime.Today;
+                                        position.LastModDate = DateTime.Today;
                                         _dbContext.VolunteerPositions.Add(position);
 
                                     }
@@ -194,8 +201,12 @@ namespace BRB.Controllers
             if (positionId > 0)
             {
                 var position = _dbContext.VolunteerPositions.FirstOrDefault(c => c.VolunteerPositionId == positionId);
-                _dbContext.VolunteerPositions.Remove(position);
-                _dbContext.SaveChanges();
+                if (position != null)
+                {
+                    _dbContext.VolunteerPositions.Remove(position);
+                    _dbContext.SaveChanges();
+                }
+              
             }
             return Json(ajaxResponse);
         }

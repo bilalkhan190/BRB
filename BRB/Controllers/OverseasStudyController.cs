@@ -49,7 +49,7 @@ namespace BRB.Controllers
                         if (data == null)
                         {
                            
-                            overseasExperience.IsOptOut = false;
+                            overseasExperience.IsOptOut = overseasStudyViewModel.IsOptOut;
                             overseasExperience.ResumeId = sessionData.ResumeId;
                             overseasExperience.IsComplete = overseasStudyViewModel.IsComplete;
                             overseasExperience.CreatedDate = DateTime.Today;
@@ -61,7 +61,7 @@ namespace BRB.Controllers
                         {
 
 
-                            data.IsOptOut = false;
+                            data.IsOptOut = overseasStudyViewModel.IsOptOut;
                             data.ResumeId = sessionData.ResumeId;
                             data.IsComplete = overseasStudyViewModel.IsComplete;
                             data.CreatedDate = DateTime.Today;

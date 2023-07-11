@@ -134,16 +134,19 @@
                 <li>@o.StartedMonth @o.StartedYear, @o.StateName</li>
                 <li>@o.EndedMonth @o.EndedYear</li>
             </ul>
-
-            <p style="padding-bottom: 10px;background: #dbdbdb;padding-top: 10px;padding-left: 10px;font-size: 20px;margin-bottom: 16px;"><b>Organization Positions</b></p>
-            @foreach (var op in Model.OrgPositions)
+            if (Model.OrgPositions.Count> 0)
             {
-                <ul>
-                    <li> <i>@op.Title</i></li>
-                    <li>@op.StartedMonth @op.StartedYear - @op.EndedMonth @op.EndedYear</li>
+                <p style="padding-bottom: 10px;background: #dbdbdb;padding-top: 10px;padding-left: 10px;font-size: 20px;margin-bottom: 16px;"><b>Organization Positions</b></p>
+                @foreach (var op in Model.OrgPositions)
+                {
+                    <ul>
+                        <li> <i>@op.Title</i></li>
+                        <li>@op.StartedMonth @op.StartedYear - @op.EndedMonth @op.EndedYear</li>
 
-                </ul>
+                    </ul>
+                }
             }
+            
 
         }
 

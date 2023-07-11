@@ -93,7 +93,8 @@ $(document).ready(function () {
         success: function (response) {
             if (response.data != null) {
                 $('#hdfOverseasExperienceId').val(response.data.overseasExperienceId);
-                $('.isoptOut').prop("checked", response.data.isOptOut).trigger('change');
+                $('#sectionCheckBox').prop("checked", response.data.isOptOut).trigger('change');
+                $('#cbkFinished').prop("checked", response.data.isComplete);
                 if (response.data.overseasStudies.length > 0) {
                     $.each(response.data.overseasStudies, function (index, value) {
                         overseasArray.push(value)
@@ -142,19 +143,15 @@ $(document).on('change', 'input[type="radio"]', function () {
     }
 });
 
-//$('#cbNotApply').click(function () {
-//    if (this.checked) {
-//        alert('checked')
-//        $('#cbkFinished').attr("disabled", true);
-//        $('#btnSaveAndContinue').attr("disabled", true);
-//    }
-//    else {
-//        alert('not checked')
-//        $('#cbkFinished').prop('disabled', false);
-//        $('#btnSaveAndContinue').prop('disabled', false);
-//    }
+$('#sectionCheckBox').change(function () {
+    if (this.checked) {
+        $('#isOptSection').hide()
+    }
+    else {
+        $('#isOptSection').show()
+    }
   
-//});
+});
 
 $('#btnClose').click(function () {
   
@@ -211,7 +208,8 @@ $('#btnSaveAndContinue').click(function () {
         OverseasStudyId: $('#hdfOverseasStudyId').val(),
         LastSectionVisitedId: $('#hdfLastSectionVisitedId').val(),
         OverseasStudies: overseasArray,
-        IsComplete: $('#cbIsComplete').is(":checked")
+        IsComplete: $('#cbkFinished').is(":checked"),
+        IsOptOut: $('#sectionCheckBox').is(":checked")
     };
     $.ajax({
         url: '/OverseasStudy/postdata',

@@ -33,6 +33,15 @@ $(document).ready(function () {
     GetCompleteData();
 })
 
+$('#cbSectionNotApply').change(function () {
+    if (this.checked) {
+        $('#mainDiv').hide();
+    }
+    else {
+        $('#mainDiv').show();
+    }
+});
+
 $('#btnSaveLicense').click(function () {
     $('#licenseForm').validate();
     if ($('#licenseForm').valid()) {
@@ -445,6 +454,7 @@ function GetCompleteData() {
                 console.log(response.data)
                 console.log(response.data.professionalExperience.isComplete)
                 $('#cbIsComplete').prop('checked', response.data.professionalExperience.isComplete)
+                $('#cbSectionNotApply').prop('checked', response.data.professionalExperience.isOptOut).trigger('change')
                 if (response.data.licenses.length > 0) {
                     $.each(response.data.licenses, function (index, value) {
                         licenseArray.push(value)
@@ -686,6 +696,7 @@ $('#btnSaveAndContinue').click(function () {
         Licenses: licenseArray, Certificates: certificateArray, Affiliations: affilationArray,
         AffiliationPositions: positionArray,
         IsComplete: $('#cbIsComplete').is(':checked'),
+        IsOptOut: $('#cbSectionNotApply').is(':checked'),
         LastSectionVisitedId: $('#hdfLastSectionVisitedId').val(),
 
     };

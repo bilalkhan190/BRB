@@ -76,7 +76,7 @@ namespace BRB.Controllers
                 }
                 masterData.ResumeId = sessionData.ResumeId;  
                 masterData.LastModDate = DateTime.Today;
-                masterData.IsOptOut = false;
+                masterData.IsOptOut = professionalViewModel.IsOptOut;
                 masterData.IsComplete = professionalViewModel.IsComplete;
 
                 if (isAbleToAdd)

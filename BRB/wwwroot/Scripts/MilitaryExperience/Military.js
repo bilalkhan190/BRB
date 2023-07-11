@@ -81,6 +81,7 @@ $(document).on('click', '#btnAddOrContinue', function () {
         EndedYear: $('#ddlEndedYear').val(),
         Rank: $('#txtRank').val(),
         IsComplete: $('#cbIsComplete').is(':checked'),
+        IsOptOut: $('#cbSectionNotApply').is(':checked'),
         MilitaryPositions: positionArray
     };
     if ($('#mainForm').valid()) {
@@ -193,9 +194,8 @@ function loadData(response) {
         $('#ddlEndedMonth').val(response.data.endedMonth);
         $('#ddlEndedYear').val(response.data.endedYear);
         $('#txtRank').val(response.data.rank);
-        if (response.data.isComplete) {
-            $('#cbIsComplete').prop('checked', true);
-        }
+        $('#cbIsComplete').prop('checked', response.data.isComplete);
+        $('#cbSectionNotApply').prop("checked",response.data.isOptOut)
         if (response.data.endedMonth == null && response.data.endedYear == null) {
             //$('#cbCurrentlyIn').prop('checked', true);
             $('#ddlEndedMonth').hide();
