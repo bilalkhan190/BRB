@@ -168,7 +168,7 @@ namespace BRB.Controllers
             ajaxResponse.Redirect = "/Resume/ComputerAndTechnicalSkills";
             return Json(ajaxResponse);
         }
-
+        [HttpPost]
         public IActionResult DeleteLicense(int id)
         {
             var record = _dbContext.Licenses.FirstOrDefault(x =>x.LicenseId == id);

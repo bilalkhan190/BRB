@@ -90,7 +90,7 @@ function LoadLicenseCards() {
                             </div>
                             <div class="col-md-4">
                             <div class="card-Btn">
-                                <button type="button"  class="btn custombtn w-auto ms-2">
+                                <button type="button"  class="btnDeleteLicense btn custombtn w-auto ms-2" data-item='${index}'>
                                     <svg stroke="currentColor" fill="currentColor" stroke-width="0"
                                          viewBox="0 0 24 24" height="1em" width="1em"
                                          xmlns="http://www.w3.org/2000/svg">
@@ -122,7 +122,6 @@ function LoadLicenseCards() {
 function LoadCertCards() {
     $('#divCertificateCard div.row-cstm').html('');
    certificateArray = covertArrayKeyIntoCamelCase(certificateArray)
-    console.log(certificateArray)
     $.each(certificateArray, function (index, value) {
         let html = `
                 <div class="card p-0 mt-2 mb-2 cardWrapper"> 
@@ -136,14 +135,14 @@ function LoadCertCards() {
                             </div>
                             <div class="col-md-4">
                             <div class="card-Btn">
-                                <button type="button"  class="btn custombtn w-auto ms-2">
-                                    <svg stroke="currentColor" fill="currentColor" stroke-width="0"
-                                         viewBox="0 0 24 24" height="1em" width="1em"
-                                         xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z">
-                                        </path>
-                                    </svg>
-                                </button>
+                               <button type="button" class="btnDeleteCertificate btn custombtn w-auto ms-2" data-item="${index}">
+                                <svg stroke="currentColor" fill="currentColor" stroke-width="0"
+                                    viewBox="0 0 24 24" height="1em" width="1em"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z">
+                                    </path>
+                                </svg>
+                            </button>
                                 <button type="button" class="btnEditCertificate btn custombtn customBtn-light w-auto ms-1" data-item='${index}'>
                                     <svg stroke="currentColor" fill="currentColor" stroke-width="0"
                                          viewBox="0 0 24 24" height="1em" width="1em"
@@ -183,7 +182,7 @@ function LoadaffCards() {
                     </div>
                     <div class="col-md-6">
                         <div class="card-Btn">
-                            <button type="button" class="btn custombtn w-auto ms-2">
+                            <button type="button"  class="btnDeletePosition btn custombtn w-auto ms-2">
                                 <svg stroke="currentColor" fill="currentColor" stroke-width="0"
                                     viewBox="0 0 24 24" height="1em" width="1em"
                                     xmlns="http://www.w3.org/2000/svg">
@@ -191,7 +190,7 @@ function LoadaffCards() {
                                     </path>
                                 </svg>
                             </button>
-                            <button type="button" class='btnEditAffilationPosition custombtn customBtn-light w-auto ms-1' data-identity='${guid()}' data-json='${JSON.stringify(position)}' data-item='${positionArray.length - 1}' data-bs-toggle="modal"
+                            <button type="button" class='btnEditAffilationPosition btn custombtn customBtn-light w-auto ms-1' data-identity='${guid()}' data-json='${JSON.stringify(position)}' data-item='${positionArray.length - 1}' data-bs-toggle="modal"
                                 data-bs-target="#PositionModel">
                                 <svg stroke="currentColor" fill="currentColor" stroke-width="0"
                                     viewBox="0 0 24 24" height="1em" width="1em"
@@ -232,7 +231,7 @@ function LoadaffCards() {
                                     </div>
                                         <div class="col-md-6">
                                  <div class="card-Btn">
-                                <button type="button"  class="btn custombtn w-auto ms-2">
+                                <button type="button"  class="btnDeleteAffiliation btn custombtn w-auto ms-2" data-json='${JSON.stringify(affilation)}' data-item='${affilationArray.length - 1}'>
                                     <svg stroke="currentColor" fill="currentColor" stroke-width="0"
                                          viewBox="0 0 24 24" height="1em" width="1em"
                                          xmlns="http://www.w3.org/2000/svg">
@@ -289,6 +288,23 @@ $(document).on("click", ".btnEditLicense", function () {
     $("#licenseModal").modal("show");
 })
 
+$(document).on("click", ".btnDeleteLicense", function () {
+    let index = $(this).attr("data-item");
+    let editRecord = licenseArray[index];
+    $.ajax({
+        url: '/professional/DeleteLicense?id=' + editRecord.licenseId,
+        type: 'post',
+        success: function (response) {
+            if (response.success) {
+                licenseArray.splice(index, 1);
+                LoadLicenseCards();
+            }
+        },
+        error: function (error) { }
+    });
+
+});
+
 
 $(document).on("click", ".btnEditCertificate", function () {
     let index = $(this).attr("data-item");
@@ -300,6 +316,26 @@ $(document).on("click", ".btnEditCertificate", function () {
         localStorage.setItem("edit-cert", index);
     $("#CertificateModal").modal("show");
 })
+
+$(document).on("click", ".btnDeleteCertificate", function () {
+    let index = $(this).attr("data-item");
+    let editRecord = certificateArray[index];
+    console.log(editRecord)
+    $.ajax({
+        url: '/professional/DeleteCertificate?id=' + editRecord.certificateId,
+        type: 'post',
+        success: function (response) {
+            if (response.success) {
+                certificateArray.splice(index, 1);
+                LoadCertCards();
+            }
+           
+
+        },
+        error: function (error) { }
+    });
+
+});
 
 $(document).on("click", ".btnEditAffilation", function () {
     let index = $(this).attr("data-item");
@@ -331,6 +367,44 @@ $(document).on("click", ".btnEditAffilation", function () {
 //    $('#txtOtherInfo').val(editRecord.otherInfo);
 //    localStorage.setItem("edit-position", index);
 //    $("#PositionModel").modal("show");
+//});
+
+$(document).on("click", ".btnDeleteAffiliation", function () {
+    let index = $(this).attr("data-item");
+    let editRecord = JSON.parse($(this).attr("data-json"));
+    console.log(editRecord)
+    $.ajax({
+        url: '/professional/DeleteAffilation?id=' + editRecord.affiliationId,
+        type: 'post',
+        success: function (response) {
+            if (response.success) {
+                affilationArray.splice(index, 1);
+                LoadaffCards();
+            }
+        },
+        error: function (error) { }
+    });
+
+});
+
+
+
+//$(document).on("click", ".btnDeletePosition", function () {
+//    let index = $(this).attr("data-item");
+//    let editRecord = JSON.parse($(this).attr("data-json"));
+//    console.log(editRecord)
+//    $.ajax({
+//        url: '/professional/DeleteAffilationPosition?id=' + editRecord.affiliationId,
+//        type: 'post',
+//        success: function (response) {
+//            if (response.success) {
+//                affilationArray.splice(index, 1);
+//                LoadaffCards();
+//            }
+//        },
+//        error: function (error) { }
+//    });
+
 //});
 
 $(document).on('click', '#btnAddPositions', function () {
