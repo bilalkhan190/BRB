@@ -27,7 +27,7 @@ namespace BRB.Controllers
             _resumeService = resumeService;
             _mapper = mapper;
         }
-        //[OutputCache(NoStore = true,Duration = 0, PolicyName = "OutputCacheWithAuthPolicy")]
+  
         public IActionResult Index()
         {
             if (HttpContext.Session.GetString(SessionKeyUserData) != null)
