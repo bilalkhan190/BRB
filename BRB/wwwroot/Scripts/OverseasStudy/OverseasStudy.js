@@ -45,17 +45,10 @@ $(document).ready(function () {
                 localStorage.clear();
             }
             ResetForm();
-          /*  $("#SummaryModal").hide().removeClass("show");*/
-            //$(".modal-backdrop").css({
-            //    display: "none",
-            //    visibility: "hidden"
-            //});
-            $("#DivSection").html("");
+            $("#DivSection").html("") ;
             LoadData();
-            
+
         }
-
-
     });
     //filling the dropdown
     $('#ddlCountry').html("");
