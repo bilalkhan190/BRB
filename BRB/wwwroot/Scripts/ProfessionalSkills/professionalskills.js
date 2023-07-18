@@ -533,6 +533,7 @@ function GetCompleteData() {
                 console.log(response.data)
                 console.log(response.data.professionalExperience.isComplete)
                 $('#cbIsComplete').prop('checked', response.data.professionalExperience.isComplete)
+                $('#cbIsComplete').prop('disabled', response.data.professionalExperience.isComplete)
                 $('#cbSectionNotApply').prop('checked', response.data.professionalExperience.isOptOut).trigger('change')
                 if (response.data.licenses.length > 0) {
                     $.each(response.data.licenses, function (index, value) {
@@ -652,15 +653,15 @@ $(document).on('click','#btnAddPosition',function () {
                                     </path>
                                 </svg>
                             </button>
-                                                                <button type="button" class='btnEditPosition' data-identity='${guid()}' data-json='${JSON.stringify(position)}' class="btn custombtn customBtn-light w-auto ms-1" data-bs-toggle="modal"
-                                                                    data-bs-target="#PositionModel">
-                                                                    <svg stroke="currentColor" fill="currentColor" stroke-width="0"
-                                                                        viewBox="0 0 24 24" height="1em" width="1em"
-                                                                        xmlns="http://www.w3.org/2000/svg">
-                                                                        <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z">
-                                                                        </path>
-                                                                    </svg>
-                                                                </button>
+                                                                 <button type="button" class='btnEditAffilationPosition btn custombtn customBtn-light w-auto ms-1' data-identity='${guid()}' data-json='${JSON.stringify(position)}' data-item='${positionArray.length - 1}' data-bs-toggle="modal"
+                                data-bs-target="#PositionModel">
+                                <svg stroke="currentColor" fill="currentColor" stroke-width="0"
+                                    viewBox="0 0 24 24" height="1em" width="1em"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z">
+                                    </path>
+                                </svg>
+                            </button>
                                                             </div>
                                                         </div>
                                                         <input type='hidden' class='Title' value='${position.Title}'>
