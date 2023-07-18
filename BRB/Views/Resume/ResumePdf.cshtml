@@ -122,7 +122,7 @@
         </div>
     }
 
-    @if (Model.Organizations.Count > 0)
+    @if (Model.OrgExperience.IsOptOut)
     {
         <div>
             <p style="padding-bottom: 10px;background: #dbdbdb;padding-top: 10px;padding-left: 10px;font-size: 20px;margin-bottom: 16px;"><b>Organization and Volunteer Experience:</b></p>
@@ -153,7 +153,7 @@
     }
     <br>
 
-    @if (Model.VolunteerOrgs.Count > 0)
+    @if (Model.VolunteerExperience.IsOptOut)
     {
         <p style="padding-bottom: 10px;background: #dbdbdb;padding-top: 10px;padding-left: 10px;font-size: 20px;margin-bottom: 16px;">
             <b>Organization</b>
@@ -179,58 +179,58 @@
 
     }
 
-
-    @if (Model.Licenses.Count > 0)
+    @if (Model.Professional.IsOptOut)
     {
-
-        <div>
-            <p style="padding-bottom: 10px;background: #dbdbdb;padding-top: 10px;padding-left: 10px;font-size: 20px;margin-bottom: 16px;"> <b>Licenses and Certificates:</b></p>
-        </div>
-        foreach (var l in Model.Licenses)
-        {
-            <ul style="margin-bottom:0;">
-                <li> @l.Title (@l.StateName)</li>
-            </ul>
-
-        }
-
-    }
-
-    @if (Model.Certificates.Count > 0)
-    {
-        foreach (var c in Model.Certificates)
-        {
-            <ul style="margin-bottom:0;">
-                <li>@c.Title (@c.StateName)</li>
-            </ul>
-        }
-
-    }
-    @if (Model.AffiliationPositions.Count > 0)
-    {
-        <p style="padding-bottom: 10px;background: #dbdbdb;padding-top: 10px;padding-left: 10px;font-size: 20px;margin-bottom: 16px;"> <b>Professional Affiliations:</b></p>
-        @foreach (var aff in Model.AffiliationPositions)
+        if (Model.Licenses.Count > 0)
         {
             <div>
-                <b>@aff.Title</b>
+                <p style="padding-bottom: 10px;background: #dbdbdb;padding-top: 10px;padding-left: 10px;font-size: 20px;margin-bottom: 16px;"> <b>Licenses and Certificates:</b></p>
             </div>
+            foreach (var l in Model.Licenses)
+            {
+                <ul style="margin-bottom:0;">
+                    <li> @l.Title (@l.StateName)</li>
+                </ul>
+            }
+
+        }
+
+        if (Model.Certificates.Count > 0)
+        {
+            foreach (var c in Model.Certificates)
+            {
+                <ul style="margin-bottom:0;">
+                    <li>@c.Title (@c.StateName)</li>
+                </ul>
+            }
+
+        }
+        if (Model.AffiliationPositions.Count > 0)
+        {
+            <p style="padding-bottom: 10px;background: #dbdbdb;padding-top: 10px;padding-left: 10px;font-size: 20px;margin-bottom: 16px;"> <b>Professional Affiliations:</b></p>
+            @foreach (var aff in Model.AffiliationPositions)
+            {
+                <div>
+                    <b>@aff.Title</b>
+                </div>
+                <ul>
+                    <li>@aff.StartedMonth - @aff.StartedYear</li>
+                    <li> test - titlew</li>
+                    <li>March 2072 - March 2073</li>
+                </ul>
+            }
+            <p style="padding-bottom: 10px;background: #dbdbdb;padding-top: 10px;padding-left: 10px;font-size: 20px;margin-bottom: 16px;">
+                <b>Affilation Position</b>
+            </p>
             <ul>
-                <li>@aff.StartedMonth - @aff.StartedYear</li>
-                <li> test - titlew</li>
-                <li>March 2072 - March 2073</li>
+                @foreach (var p in Model.AffiliationPositions)
+                {
+                    <li>@p.Title (@p.StartedMonth @p.StartedYear - @p.EndedMonth @p.EndedYear)</li>
+                }
             </ul>
         }
-        <p style="padding-bottom: 10px;background: #dbdbdb;padding-top: 10px;padding-left: 10px;font-size: 20px;margin-bottom: 16px;">
-            <b>Affilation Position</b>
-        </p>
-        <ul>
-            @foreach (var p in Model.AffiliationPositions)
-            {
-                <li>@p.Title (@p.StartedMonth @p.StartedYear - @p.EndedMonth @p.EndedYear)</li>
-            }
-        </ul>
+
     }
-    
     <div>
        
 
