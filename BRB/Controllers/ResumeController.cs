@@ -201,14 +201,14 @@ namespace BRB.Controllers
 
                     var paragraphs = converter.Parse(htmlValue);
                     for (int i = 0; i < paragraphs.Count; i++)
-                    {                        
+                    {
                         body.Append(paragraphs[i]);
                     }
 
                     mainPart.Document.Save();
 
-                    
-                    
+
+
                 }
                 string filename = "resume - " + Guid.NewGuid() + ".docx";
                 System.IO.File.WriteAllBytes(_webHostEnvironment.WebRootPath + "/downloads/" + filename, generatedDocument.ToArray());
@@ -218,13 +218,15 @@ namespace BRB.Controllers
                 record.LastModDate = DateTime.Today;
                 record.GeneratedDate = DateTime.Today;
                 _dbContext.SaveChanges();
-                SendResume(_webHostEnvironment.WebRootPath + "/downloads/" + filename, "sameer.ullah@matechco.com");
-               
+                SendResume(_webHostEnvironment.WebRootPath + "/downloads/" + filename, sessionRecord.Username);
+
                 return File(
                 fileContents: generatedDocument.ToArray(),
                 contentType: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
                 fileDownloadName: filename);
-            }
+
+                return View("resumePdf");
+           // }
 
                 
         }

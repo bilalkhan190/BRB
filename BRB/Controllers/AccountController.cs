@@ -107,16 +107,16 @@ namespace BRB.Controllers
                         sessionRecord = _resumeService.GetResumeProfile(resumeData.UserId);
                     }
 
-                    TableIdentities identities = new TableIdentities();
-                    var ds = SqlHelper.GetDataSet("Data Source=A2NWPLSK14SQL-v02.shr.prod.iad2.secureserver.net;Initial Catalog=WH4LProd;User Id=brbdbuser; Password=brb!!!***;;Encrypt=False;TrustServerCertificate=True", "SP_GetAllIds", CommandType.StoredProcedure, new SqlParameter("ResumeId", sessionRecord.ResumeId));
-                    if (ds.Tables.Count > 0)
-                    {
-                        identities = ds.Tables[0].ToList_<TableIdentities>().FirstOrDefault();
-                        if (identities != null)
-                        {
-                            sessionRecord.Ids = JsonConvert.SerializeObject(identities);
-                        }
-                    }
+                    //TableIdentities identities = new TableIdentities();
+                    //var ds = SqlHelper.GetDataSet("Data Source=A2NWPLSK14SQL-v02.shr.prod.iad2.secureserver.net;Initial Catalog=WH4LProd;User Id=brbdbuser; Password=brb!!!***;;Encrypt=False;TrustServerCertificate=True", "SP_GetAllIds", CommandType.StoredProcedure, new SqlParameter("ResumeId", sessionRecord.ResumeId));
+                    //if (ds.Tables.Count > 0)
+                    //{
+                    //    identities = ds.Tables[0].ToList_<TableIdentities>().FirstOrDefault();
+                    //    if (identities != null)
+                    //    {
+                    //        sessionRecord.Ids = JsonConvert.SerializeObject(identities);
+                    //    }
+                    //}
                  
                     HttpContext.Session.SetString(SessionKeyUserData, JsonConvert.SerializeObject(sessionRecord));
                     ajaxResponse.Success = true;
@@ -210,7 +210,7 @@ namespace BRB.Controllers
             }
             else
             {
-                if (HttpContext.Session.IsAvailable)
+                if (HttpContext.Session.GetString(SessionKeyUserData) != null)
                 {
                     HttpContext.Session.Remove(SessionKeyUserData);
                 }

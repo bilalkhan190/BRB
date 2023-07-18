@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.ObjectModel;
 using System.Net.Mail;
 using System.Text;
+using System.Web.Mvc;
 
 namespace BusinessObjects.Helper
 {
@@ -150,7 +151,7 @@ namespace BusinessObjects.Helper
             }
             catch (Exception ex)
             {
-                throw ex;
+
             }
         }
 

@@ -6,7 +6,7 @@ let lastSectionCompletedId = $('#hdfLastSectionCompletedId').val();
 $('#btnGenResume').click(function () {
     debugger
     $.ajax({
-        url: '/Resume/GenerateResume',
+        url: '/Resume/GenerateResumeOnWord',
         type: 'get',
         success: function (response) {
           

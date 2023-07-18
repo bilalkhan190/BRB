@@ -59,7 +59,7 @@
         </fieldset>
                 @if (ViewBag.GeneratedFileName == "" || ViewBag.GeneratedFileName == null)
                 {
-                    <a href="@Url.Action("GenerateResumeOnWord","Resume")" class="btn btn-primary custombtn w-auto">Generate Resume</a>
+                    <button id="btnGenResume"  class="btn btn-primary custombtn w-auto" disabled>Generate Resume</button>
                 }
                 else
                 {
