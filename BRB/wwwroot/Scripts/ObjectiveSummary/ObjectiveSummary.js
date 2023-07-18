@@ -18,11 +18,13 @@ function LoadData() {
                 $('#ddlPositionType').val(response.data.positionTypeId)
                 $('#CurrentCompanyType').val(response.data.currentCompanyType)
                 $('#ddlChangeTypeList').val(response.data.changeTypeId).trigger('change')
-                $('#FieldsOfExperience').val(response.data.objectivesummaryId)
                 $('#txtChangeTypeList').val(response.data.changeTypeOther)
                 $('#FieldsOfExperience').val(response.data.fieldsOfExperience);
-                $('#ckbIsComplete').prop('checked', response.data.isComplete);
-                $('#ckbIsComplete').prop('disabled', response.data.isComplete);
+                $('#ckbIsComplete').prop('checked',response.data.isComplete);
+                $('#ckbIsComplete').val(response.data.isComplete);
+                $('#ckbIsComplete').attr('readonly', 'readonly');
+
+              
             }
             
         },
