@@ -162,7 +162,6 @@ namespace BRB.Controllers
                 }
 
                 _resumeService.UpdateResumeMaster(resumeProfileData);
-               
 
             }
             ajaxResponse.Redirect = "/Resume/ComputerAndTechnicalSkills";
@@ -204,6 +203,12 @@ namespace BRB.Controllers
             ajaxResponse.Success = false;
             if (record != null)
             {
+                var position = _dbContext.AffiliationPositions.Where(x => x.AffiliationId == record.AffiliationId).ToList();
+                if (position.Count > 0)
+                {
+                    _dbContext.AffiliationPositions.RemoveRange(position);
+                    _dbContext.SaveChanges();
+                }
                 _dbContext.Affiliations.Remove(record);
                 _dbContext.SaveChanges();
                 ajaxResponse.Success = true;

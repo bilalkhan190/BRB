@@ -20,8 +20,8 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="State">Objective Type</label>
-                    <select name="ObjectiveType" class="form-control" required>
+                    <label for="State">Objective Type <span class="text-danger">*</span></label>
+                    <select name="ObjectiveType" id="ddlObjectiveType" class="form-control" required>
                         <option value="" selected="">--Select Objective-</option>
                         <option value="Objective">Objective</option>
                         <option value="Professional Summary">Professional Summary</option>
@@ -30,17 +30,14 @@
             </div>
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="State">Experience</label>
+                    <label for="State">Experience <span class="text-danger">*</span></label>
                     <select id="ddlExperienceOfYears" name="YearsOfExperienceId" class="form-control" required>
-                        @*<option value="" selected=""></option>
-                        <option value="0-5 years">0-5 years</option>
-                        <option value="6-10 years">6-10 years</option>
-                        <option value="10+ years">10+ years</option>*@
+                       
                     </select>
                 </div>
             </div>
         </div>
-        <h1>Skills</h1>
+        <h1>Skills <span class="text-danger">*</span></h1>
         <p>
             What skills do you have that would be most useful for the job or industry that you are
             pursuing?
@@ -61,6 +58,7 @@
                 <label for="State">
                     What type of position are you using this resume for
                     currently?
+                    <span class="text-danger">*</span>
                 </label>
                     <select id="ddlPositionType" name="PositionTypeId" class="form-control" required>
                     
@@ -71,12 +69,14 @@
                 <label for="State">
                     What type of company or industry are you using this resume for
                     currently?
+                        <span class="text-danger">*</span>
                 </label>
                     <input name="CurrentCompanyType" id="CurrentCompanyType" type="text" class="form-control" value="" required>
             </div>
                 <div class="form-group mt-2">
                     <label for="FieldsOfExperience">
                         What Fields you are experienced in?
+                        <span class="text-danger">*</span>
                     </label>
                     <input name="FieldsOfExperience" id="FieldsOfExperience" type="text" class="form-control" value="" required>
                 </div>
@@ -84,6 +84,7 @@
                 <label for="State">
                     What types of positive changes do you want to make for a
                     company?
+                        <span class="text-danger">*</span>
                 </label>
                     <select name="ChangeTypeId" id="ddlChangeTypeList" class="form-control" required>
                 </select>

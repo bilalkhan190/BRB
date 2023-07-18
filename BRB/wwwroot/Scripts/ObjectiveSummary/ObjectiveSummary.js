@@ -11,17 +11,18 @@ function LoadData() {
         success: function (response)
         {
             if (response.data != null) {
+                console.log(response.data)
                 $('#hdfobjectiveSummaryId').val(response.data.objectiveSummaryId)
                 $('#ddlExperienceOfYears').val(response.data.yearsOfExperienceId)
+                $('#ddlObjectiveType').val(response.data.objectiveType)
                 $('#ddlPositionType').val(response.data.positionTypeId)
                 $('#CurrentCompanyType').val(response.data.currentCompanyType)
-                $('#ddlChangeTypeList').val(response.data.changeTypeId)
+                $('#ddlChangeTypeList').val(response.data.changeTypeId).trigger('change')
                 $('#FieldsOfExperience').val(response.data.objectivesummaryId)
-                //$('#ddlChangeTypeList').val(response.data.objectivesummaryId)
-                if (response.data.isComplete) {
-                    $('#ckbIsComplete').prop('checked', true);
-                }
-                $('#FieldsOfExperience').val(response.data.fieldsOfExperience)
+                $('#txtChangeTypeList').val(response.data.changeTypeOther)
+                $('#FieldsOfExperience').val(response.data.fieldsOfExperience);
+                $('#ckbIsComplete').prop('checked', response.data.isComplete);
+                $('#ckbIsComplete').prop('disabled', response.data.isComplete);
             }
             
         },
@@ -40,7 +41,7 @@ function GenerateCheckboxes() {
             $.each(response.data, function (index, value) {
                 let checkboxHtml = ` <div class="custom-checkbox custom-control">
                                         <input type="checkbox" id="${value.objectiveDesc}" ${value.checked ? 'checked' : ''}
-                                 class="custom-control-input" value="${value.objectiveId}"/>
+                                 class="custom-control-input customcb" value="${value.objectiveId}"/>
                                 <label class="custom-control-label"
                                                for="${value.objectiveDesc}">${value.objectiveDesc}</label>
                                 </div>`;
@@ -55,18 +56,49 @@ function GenerateCheckboxes() {
         }
     });
 }
-$(document).on('change', '.custom-control-input', function () {
-   console.log('change')
-    let checkboxCount = $(':checkbox:checked').length;
-    if (checkboxCount == 3) {
+$(document).on('change', '.customcb', function (e) {
+
+    let count = 0;
+    $(document).find(".customcb").each(function () {
+        if ($(this).is(":checked")) {
+            count++;
+        }
         
-        $(':checkbox:not(:checked)').prop('disabled', true);
+    })
+
+    debugger;
+    if (count > 3) {
+        $(this).prop('checked', false);
         $('#checkboxlimitMessage').hide();
-    } else {
-        $(':checkbox:not(:checked)').prop('disabled', false);
+       // $('input:checkbox:not(:checked)').prop('disabled', true);
+        $(document).find(".customcb").each(function () {
+            if (!$(this).is(":checked")) {
+                $(this).prop("disabled", true);
+               
+            }
+        })
+       
+        e.preventDefault();
+        return false;
+
+    }
+    else {
+        $('input:checkbox:not(:checked)').prop('disabled', false);
         $('#checkboxlimitMessage').show();
     }
+   
+  
+    //if (checkboxCount == 3) {
 
+    //    $(':checkbox:not(:checked)').prop('disabled', true);
+    //    $('#checkboxlimitMessage').hide();
+    //} else {
+    //    $(':checkbox:not(:checked)').prop('disabled', false);
+    //    $('#checkboxlimitMessage').show();
+    //}
+    //console.log(checkboxCount)
+
+    //console.log(this)
 });
 
 function AppendNameAttributeForCheckboxes(listOfCheckboxes) {
@@ -171,7 +203,7 @@ $('#ddlChangeTypeList').change(function () {
 $('#btnSaveObjectives').click(function () {
     $('#objectiveForm').validate();
     if ($('#objectiveForm').valid()) {
-        AppendNameAttributeForCheckboxes($(':checkbox:checked'));
+        AppendNameAttributeForCheckboxes($('.customcb:checked'));
         $('#ckbIsComplete').val($('#ckbIsComplete').is(":checked"))[0].checked
         $.ajax({
             url: '/ObjectiveSummary/PostData',

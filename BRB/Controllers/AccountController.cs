@@ -5,6 +5,7 @@ using BusinessObjects.Models.DTOs;
 using BusinessObjects.Models.MetaData;
 using BusinessObjects.Services.interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OutputCaching;
 using Microsoft.Data.SqlClient;
 using Newtonsoft.Json;
 using System.Data;
@@ -26,9 +27,13 @@ namespace BRB.Controllers
             _resumeService = resumeService;
             _mapper = mapper;
         }
+        //[OutputCache(NoStore = true,Duration = 0, PolicyName = "OutputCacheWithAuthPolicy")]
         public IActionResult Index()
         {
-           
+            if (HttpContext.Session.GetString(SessionKeyUserData) != null)
+            {
+                return RedirectToAction("Home", "Resume");
+            }
             return View("SignIn");
         }
 
@@ -131,7 +136,7 @@ namespace BRB.Controllers
                                     ajaxResponse.Redirect = "/Resume/OverseasStudy";
                                     break;
                                 case 30:
-                                    ajaxResponse.Redirect = "/Resume/WorkExperience";
+                                    ajaxResponse.Redirect = "/Resume/Military";
                                     break;
                                 case 35:
                                     ajaxResponse.Redirect = "/Resume/Military";
@@ -174,7 +179,7 @@ namespace BRB.Controllers
                                     ajaxResponse.Redirect = "/Resume/OverseasStudy";
                                     break;
                                 case 35:
-                                    ajaxResponse.Redirect = "/Resume/WorkExperience";
+                                    ajaxResponse.Redirect = "/Resume/Military";
                                     break;
                                 case 40:
                                     ajaxResponse.Redirect = "/Resume/Military";

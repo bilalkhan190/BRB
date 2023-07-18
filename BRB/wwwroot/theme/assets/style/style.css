@@ -232,6 +232,14 @@ header {
     text-align: left;
 }
 
+.formWrapper form .form-group svg {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translate(-50%, 5px);
+    cursor: pointer;
+}
+
 .formWrapper form .form-floating input {
     padding: 10px 8px;
     transition: .3s;

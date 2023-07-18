@@ -61,6 +61,7 @@ $('#btnSaveOrganization').click(function () {
             EndedMonth: $('#ddlEndedMonth').val(),
             EndedYear: $('#ddlEndedYear').val(),
         };
+        $('#btnSaveOrganization').prop('disabled',true)
         if (localStorage.getItem("org-index") == null) {
             organizationArr.push(orginazation);
         }
@@ -77,10 +78,12 @@ $('#btnSaveOrganization').click(function () {
 
 $('.closeModal').click(function () {
     $('#orgForm').trigger('reset')
+    $('#btnSaveOrganization').prop('disabled', false)
 })
 
 $('.modelPosition').click(function () {
     $('#orgPositionForm').trigger('reset');
+    $('#btnAddPosition').prop('disabled', false)
 });
 
 function getFormData() {
@@ -135,6 +138,7 @@ $(document).on('click', '#btnAddPosition', function () {
             Responsibility3: $('#txtResponsibility3').val(),
             OtherInfo: $('#txtOtherInfo').val(),
         };
+        $('#btnAddPosition').prop('disabled',true)
         if (localStorage.getItem("pos-index") == null) {
             positionArray.push(position);
         }
@@ -323,8 +327,8 @@ $(document).on('click', '#btnEditOrg', function () {
 });
 
 $(document).on('click', '#btnEditPosition', function () {
-    var response = positionArray[$(this).attr('pos-index')];
-    localStorage.setItem("pos-index", $(this).attr('pos-index'));
+        var response = positionArray[$(this).attr('pos-index')];
+        localStorage.setItem("pos-index", $(this).attr('pos-index'));
         $('#hdfVolunteerPositionId').val(response.volunteerPositionId),
         $('#txtTitle').val(response.title),
         $('#ddlPositionStartedMonth').val(response.startedMonth),

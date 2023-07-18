@@ -54,6 +54,7 @@ public partial class College
     public string? HonorProgram { get; set; }
 
     public string? Gpa { get; set; }
+   
 
     public bool? IncludeGpa { get; set; }
 

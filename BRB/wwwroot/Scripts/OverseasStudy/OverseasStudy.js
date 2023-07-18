@@ -6,6 +6,7 @@ function GenerateRadio() {
         success: function (response) {
             console.log(response.data)
             $.each(response.data, function (index, value) {
+                console.log(value.livingSituationId)
                 let html = `<div class="form-check">
                                     <label class="form-check-label">
                                         <input name="LivingSituationId"
@@ -32,7 +33,7 @@ $(document).ready(function () {
                 City: $('input[name="City"]').val(),
                 countryId: $('select[name="CountryId"]').val(),
                 startedDate: $('input[name="StartedDate"]').val(),
-                endDate: $('input[name="EndedDate"]').val(),
+                EndedDate: $('#txtEndDate').val(),
                 classesCompleted: $('input[name="ClassesCompleted"]').val(),
                 otherInfo: $('input[name="OtherInfo"]').val(),
                 livingSituationOther: $('input[name="LivingSituationOther"]').val(),
@@ -95,6 +96,7 @@ $(document).ready(function () {
                 $('#hdfOverseasExperienceId').val(response.data.overseasExperienceId);
                 $('#sectionCheckBox').prop("checked", response.data.isOptOut).trigger('change');
                 $('#cbkFinished').prop("checked", response.data.isComplete);
+                $('#cbkFinished').prop("disabled", response.data.isComplete);
                 if (response.data.overseasStudies.length > 0) {
                     $.each(response.data.overseasStudies, function (index, value) {
                         overseasArray.push(value)
@@ -136,7 +138,7 @@ $(document).ready(function () {
 
 $(document).on('change', 'input[type="radio"]', function () {
     let input = "<input type='text' name='LivingSituationOther' class='form-control mt-2 mb-2' required id='txtLivingSituationOther'/>";
-    if (this.value == 3) {
+    if ($(this).val() == 3) {
         $('#cbDiv').after(input);
     } else {
         $('input[name="LivingSituationOther"]').remove();
@@ -154,12 +156,10 @@ $('#sectionCheckBox').change(function () {
 });
 
 $('#btnClose').click(function () {
-  
     $('#OverseasForm').trigger('reset')
-   /* $('#SummaryModal').modal('hide');*/
+    $('input[name="LivingSituationOther"]').remove();
+  
 });
-
-//method need to modify abhi 
 
 $('.cbCurrentlyIn').click(function () {
     if ($(this).is(':checked')) {
@@ -186,20 +186,21 @@ function ResetForm() {
 
 $(document).on('click', '#btnEditOverseas', function () {
     var response = overseasArray[$(this).attr('data-edit')];
-    console.log(response)
     localStorage.setItem("pos-index", $(this).attr('data-edit'));
-      //let startDate = new Date(response.startedDate).toISOString().split('T')[0];
-      //let endDate = new Date(response.endedDate).toISOString().split('T')[0];
-  
+    let endDate;
+    let startDate = new Date(response.startedDate).toISOString().split('T')[0];
+    if (response.endedDate != null) {
+        endDate = new Date(response.endedDate).toISOString().split('T')[0];
+    }
     $('#hdfOverseasStudyId').val(response.overseasStudyId);
     $('#txtcollegeName').val(response.collegeName)
-    $('#City').val(response.City);
+    $('#City').val(response.city);
     $('#ddlCountry').val(response.countryId)
-    $('#txtStartDate').val(response.startedDate)
-    $('#txtEndDate').val(response.endDate)
+    $('#txtStartDate').val(startDate)
+    $('#txtEndDate').val(endDate)
     $('#txtClassSectionCompleted').val(response.classesCompleted)
     $('#txtOtherInfo').val(response.otherInfo)
-    $('input[name="LivingSituationId"]').val(response.livingSituationId);
+    $('input[name="LivingSituationId"]').val(response.livingSituationId)
     $('#SummaryModal').modal('show')
 });
 

@@ -21,9 +21,11 @@ $(document).ready(function () {
         type: 'Get',
         success: function (response) {
             if (response.data != null) {
-                console.log(response.data);
+                console.log(response.data)
                 $('#hdfMilitaryExperienceId').val(response.data.militaryExperienceId);
                 $('.isoptOut').prop("checked", response.data.isOptOut).trigger('change');
+                //$('#cbCurrentlyIn').prop("checked", response.data.currentlyIn).trigger('change');
+                $('#cbIsComplete').prop("disabled", response.data.isComplete);
                 loadData(response)
             }
           
@@ -128,7 +130,8 @@ $('#btnAddPosition').click(function () {
         }
 
         //fill the array of position record and display the recorded data in div
-        $('#militaryPositionForm').trigger('reset')
+        $('#militaryPositionForm').trigger('reset');
+        $('#btnAddPosition').prop('disabled', true);
         $('#divEditSection div.row').html('');
 
 
@@ -182,6 +185,7 @@ $('#btnAddPosition').click(function () {
 
 $('.closeModal').click(function () {
     $('#militaryPositionForm').trigger('reset')
+    $('#btnAddPosition').prop('disabled', false);
 })
 function loadData(response) {
     if (response.data != null) {

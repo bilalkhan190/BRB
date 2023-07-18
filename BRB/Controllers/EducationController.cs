@@ -92,18 +92,28 @@ namespace BRB.Controllers
             TableIdentities ids = new TableIdentities();
             List<EducationViewObject> ListOfObjs = new List<EducationViewObject>();
             var sessionData = JsonSerializer.Deserialize<UserSessionData>(HttpContext.Session.GetString("_userData"));
-            ids = JsonSerializer.Deserialize<TableIdentities>(sessionData.Ids);
-            var colleges = GetColleges(ids.educationId);
-            foreach (var c in colleges)
+            EducationViewObject educationObj = new EducationViewObject();
+            var data = _dbContext.Educations.FirstOrDefault(x => x.ResumeId == sessionData.ResumeId);
+            var colleges = GetColleges(data.EducationId);
+            if (colleges.Count > 0)
             {
-                EducationViewObject educationObj = new EducationViewObject();
-                educationObj.College = c;
-                educationObj.AcademicHonors = GetAcademicHonors(c.CollegeId);
-                educationObj.AcademicScholarships = GetAcademicScholarship(c.CollegeId);
-                ListOfObjs.Add(educationObj);
+                foreach (var c in colleges)
+                {
+
+                    educationObj.Education = data;
+                    educationObj.College = c;
+                    educationObj.AcademicHonors = GetAcademicHonors(c.CollegeId);
+                    educationObj.AcademicScholarships = GetAcademicScholarship(c.CollegeId);
+                    ListOfObjs.Add(educationObj);
+                }
+                ajaxResponse.Data = ListOfObjs;
+            }
+            else
+            {
+                ajaxResponse.Data = data;
             }
 
-            ajaxResponse.Data = ListOfObjs;
+          
             return Json(ajaxResponse);
 
         }
@@ -123,7 +133,7 @@ namespace BRB.Controllers
                             CertificateId = c.CertificateId,
                             CertificateOther = c.CertificateOther,
                             IsComplete = c.IsComplete,
-                            DegreeId = c.DegreeId,  
+                            DegreeId = c.DegreeId,
                             DegreeOther = c.DegreeOther,
                             Gpa = c.Gpa,
                             EducationId = educationId,
@@ -136,7 +146,7 @@ namespace BRB.Controllers
                             MajorSpecialtyOther = c.MajorSpecialtyOther,
                             MinorId = c.MinorId,
                             SchoolName = c.SchoolName,
-                            MinorOther = c.MinorOther                           
+                            MinorOther = c.MinorOther
                         }).ToList();
             return data;
         }
@@ -195,6 +205,7 @@ namespace BRB.Controllers
                         _dbContext.Educations.Update(education);
                         _dbContext.SaveChanges();
                     }
+                    ajaxResponse.Redirect = "/Resume/OverseasStudy";
                     if (educationViewModel.College.Count > 0)
                     {
                         foreach (var college in educationViewModel.College)
@@ -250,7 +261,7 @@ namespace BRB.Controllers
                         }
                       
                         ajaxResponse.Data = educationViewModel;
-                        ajaxResponse.Redirect = "/Resume/OverseasStudy";
+                       
                     }
                     _dbContext.Resumes.Update(resumeProfileData);
                     _dbContext.SaveChanges();

@@ -16,6 +16,7 @@ function getFormData() {
             $('#hdfOrgExperienceId').val(response.data[0].orgExperience.orgExperienceId);
             $('#cbSectionNotApply').prop("checked", response.data[0].orgExperience.isOptOut).trigger('change');
             $('#cbIsComplete').prop("checked", response.data[0].orgExperience.isComplete);
+            $('#cbIsComplete').prop("disabled", response.data[0].orgExperience.isComplete);
             if (response.data != null) {
                 if (response.data.length > 0) {
                     $.each(response.data, function (index, value) {
@@ -90,6 +91,7 @@ $('#btnSaveOrganization').click(function () {
             EndedMonth: $('#ddlEndedMonth').val(),
             EndedYear: $('#ddlEndedYear').val(),
         };
+        $('#btnSaveOrganization').prop('disabled', true)
         if (localStorage.getItem("org-index") == null) {
             organizationArr.push(organization);
         }
@@ -99,6 +101,7 @@ $('#btnSaveOrganization').click(function () {
         }
         $('#orgForm').trigger('reset');
         LoadCards();
+        console.log(organizationArr);
     }
    
 
@@ -106,9 +109,11 @@ $('#btnSaveOrganization').click(function () {
 
 $('.closeModal').click(function () {
     $('#orgForm').trigger('reset')
+    $('#btnSaveOrganization').prop('disabled', false)
 })
 $('.modelPosition').click(function () {
-    $('#orgPositionForm').trigger('reset')
+    $('#orgPositionForm').trigger('reset');
+    $('#btnAddPosition').prop('disabled', false)
 })
 
 
@@ -128,6 +133,7 @@ $(document).on('click', '#btnAddPosition', function () {
             Responsibility3: $('#txtResponsibility3').val(),
             OtherInfo: $('#txtOtherInfo').val(),
         };
+        $('#btnAddPosition').prop('disabled', true)
         if (localStorage.getItem("pos-index") == null) {
             positionArray.push(position);
         }
@@ -183,7 +189,7 @@ function LoadDropdowns() {
 }
 
 function LoadCards() {
-    $('#divEditSection div.row').html("")
+    $('#divEditSection').html("")
     organizationArr = covertArrayKeyIntoCamelCase(organizationArr)
     $.each(organizationArr, function (index, value) {
         let html = `<div class="card col-md-12 p-0 mb-3 cardWrapper mt-3">
@@ -236,7 +242,7 @@ function LoadCards() {
 </div>
       
          `
-        $('#divEditSection div.row').append(html)
+        $('#divEditSection').append(html)
     });
 
     $('#positionDiv div.row').html("");

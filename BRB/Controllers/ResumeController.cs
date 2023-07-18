@@ -6,6 +6,7 @@ using BusinessObjects.Models.MetaData;
 using BusinessObjects.Services.interfaces;
 using Castle.Core.Resource;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OutputCaching;
 using Microsoft.Data.SqlClient;
 using Newtonsoft.Json;
 using StoredProcedureEFCore;
@@ -25,7 +26,7 @@ namespace BRB.Controllers
             _resumeService = resumeService;
             _contactInfoService = contactInfoService;
         }
-
+        //[OutputCache(NoStore = true, Duration = 0, PolicyName = "OutputCacheWithAuthPolicy")]
         public IActionResult Home()
         {
             return View("Index");

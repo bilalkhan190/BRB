@@ -13,46 +13,46 @@
     <div class="row">
         <div class="col-md-6 p-0">
             <div class="sideImg">
-                <img src="/theme/assets/images/sign-in.png" />
+                <img src="/theme/assets/images/sign-in.png"  />
             </div>
         </div>
         <div class="col-md-6 p-0">
             <div class="formWrapper signUp-formWrapper">
                 <form id="signUpForm" class="needs-validation formSpace" novalidate>
-                    <img src="/theme/assets/images/logo.png" />
+                    <a href="@Url.Action("Index","Account")"><img src="/theme/assets/images/logo.png" /></a>
                     <h1>Create New User Account</h1>
                     <div class="row mt-4">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="validationCustom01">First Name</label>
+                                <label for="validationCustom01">First Name <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="validationCustom01" name="FirstName" asp-for="FirstName" placeholder="" required>
                                 <span class="field-validation-valid error" asp-validation-for="FirstName" data-valmsg-replace="true"></span>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="validationCustom02">Last Name</label>
+                                <label for="validationCustom02">Last Name<span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="validationCustom02" name="LastName" asp-for="LastName" placeholder="" required>
                                 <span class="field-validation-valid error" asp-validation-for="LastName" data-valmsg-replace="true"></span>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="email">Email</label>
+                                <label for="email">Email <span class="text-danger">*</span></label>
                                 <input type="email" class="form-control" id="email" name="UserName" asp-for="UserName" placeholder="" required>
                                 <span class="field-validation-valid error" asp-validation-for="UserName" data-valmsg-replace="true"></span>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="email">Password</label>
+                                <label for="email">Password<span class="text-danger">*</span></label>
                                 <input type="password" class="form-control" id="Password" name="UserPassword" asp-for="UserPassword" placeholder="" required>
                                 <span class="field-validation-valid error" asp-validation-for="UserPassword" data-valmsg-replace="true"></span>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="email">Re-enter Password</label>
+                                <label for="email">Re-enter Password<span class="text-danger">*</span></label>
                                 <input type="password" class="form-control" id="CPassword" asp-for="ConfirmPassword" placeholder=" " required>
                                 <span class="field-validation-valid error" asp-validation-for="ConfirmPassword" data-valmsg-replace="true"></span>
                             </div>
@@ -61,7 +61,7 @@
                             <div class="form-group">
                                 <label for="phone" class="">
                                     Cell Phone (preferred) or Home
-                                    Phone
+                                    Phone<span class="text-danger">*</span>
                                 </label>
                                 <input asp-for="Phone" id="phone" name="Phone" placeholder="xxx-xxx-xxxx"
                                        type="text" class="form-control" required>
@@ -70,21 +70,21 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="Address">Address</label>
+                                <label for="Address">Address<span class="text-danger">*</span></label>
                                 <input asp-for="Address1" id="Address" name="Address1" type="text" class="form-control" placeholder=" " required>
                                 <span class="field-validation-valid error" asp-validation-for="Address1" data-valmsg-replace="true"></span>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="City" class="">City</label>
+                                <label for="City" class="">City<span class="text-danger">*</span></label>
                                 <input asp-for="City" id="City" type="text" name="City" class="form-control" placeholder=" " required>
                                 <span class="field-validation-valid error" asp-validation-for="City" data-valmsg-replace="true"></span>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="State" class="">State</label>
+                                <label for="State" class="">State<span class="text-danger">*</span></label>
                                 <select id="ddlStateAbbr" name="StateAbbr" class="form-control" required>
                                 </select>
                                 <span class="field-validation-valid error" asp-validation-for="StateAbbr" data-valmsg-replace="true"></span>
@@ -92,7 +92,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="Code" class="">Zip Code</label>
+                                <label for="Code" class="">Zip Code<span class="text-danger">*</span></label>
                                 <input asp-for="ZipCode" id="Code" type="text" name="ZipCode" class="form-control" placeholder=" " required>
                                 <span class="field-validation-valid error" asp-validation-for="ZipCode" data-valmsg-replace="true"></span>
                             </div>

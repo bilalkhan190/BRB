@@ -16,11 +16,17 @@ $(document).ready(function () {
     });
 
     LoadData();
-}); 
+});
 
 $('#btnSaveLanguage').click(function () {
-    $('#languageForm').validate();
-    if ($('#languageForm').valid()) {
+    if ($('#txtLanguageName').val().trim() == "") {
+        $('#languageForm').validate();
+        $('#languageForm').trigger('reset');
+
+    }
+    else if ($('#languageForm').valid())
+    {
+
         let language = {
             LanguageId: $('#hdfLanguageId').val(),
             LanguageName: $('#txtLanguageName').val(),
@@ -37,9 +43,15 @@ $('#btnSaveLanguage').click(function () {
         $('#languageForm').trigger('reset');
         LoadCards();
     }
-   
+    else {
+        $('#languageForm').validate()
+    }
+
+           
+
+
     //fill the array of position record and display the recorded data in div
-  
+
 });
 
 $('.closeLanguage').click(function () {
@@ -52,7 +64,7 @@ $('#btnSaveAndContinue').click(function () {
         Languages: languageArray,
         IsComplete: $('#cbIsComplete').val($('#cbIsComplete').is(':checked'))[0].checked
     }
-   
+
     $.ajax({
         url: '/Language/PostLanguageSkillData',
         type: 'POST',
@@ -66,7 +78,7 @@ $('#btnSaveAndContinue').click(function () {
     });
 });
 
-function LoadData() {  
+function LoadData() {
     $.ajax({
         url: '/Language/GetLanguageSkillsRecord',
         type: 'GET',
@@ -83,8 +95,8 @@ function LoadData() {
                     LoadCards();
                 }
             }
-           
-          
+
+
         },
         error: function (error) {
 

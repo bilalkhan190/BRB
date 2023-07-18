@@ -13,21 +13,21 @@
             <input id="hdfcontactInfoId" name="ContactInfoId"  type="hidden" />
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="validationCustom01">First Name</label>
+                    <label for="validationCustom01">First Name<span class="text-danger">*</span></label>
                     <input type="text" class="form-control" maxlength="50" id="validationCustom01"
                            name="FirstName" required>
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="validationCustom02">Last Name</label>
+                    <label for="validationCustom02">Last Name <span class="text-danger">*</span></label>
                     <input type="text" class="form-control" maxlength="50" id="validationCustom02" name="LastName"
                            required>
                 </div>
             </div>
             <div class="col-md-12">
             <div class="form-group">
-                <label for="Address">Address</label>
+                    <label for="Address">Address <span class="text-danger">*</span></label>
                 <input name="Address1" id="Address" maxlength="50" type="text" class="form-control" required>
             </div>
             <div class="form-group">
@@ -36,13 +36,13 @@
             </div>
             <div class="col-md-4">
             <div class="form-group">
-                <label for="City" class="">City</label>
+                    <label for="City" class="">City <span class="text-danger">*</span></label>
                 <input name="City" id="City" type="text" class="form-control" required>
             </div>
             </div>
             <div class="col-md-4">
             <div class="form-group">
-                <label for="State" class="">State</label>
+                    <label for="State" class="">State <span class="text-danger">*</span></label>
                     <select name="StateAbbr" id="ddlStateAbbr" class="form-control" required>
                    
                 </select>
@@ -50,7 +50,7 @@
             </div>
             <div class="col-md-4">
             <div class="form-group">
-                <label for="Code" class="">Zip Code</label>
+                    <label for="Code" class="">Zip Code <span class="text-danger">*</span></label>
                 <input name="ZipCode" id="Code" maxlength="5" type="text" class="form-control" required>
             </div>
             </div>
@@ -58,7 +58,7 @@
                 <div class="form-group">
                     <label for="phone" class="">
                         Cell Phone (preferred) or Home
-                        Phone
+                        Phone <span class="text-danger">*</span>
                     </label>
                     <button type="button" class="btn btn-outline-primary btn-sm questionBtn"
                             data-bs-toggle="modal" data-bs-target="#PhoneModal">
@@ -71,7 +71,7 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="email">
-                        Email
+                        Email <span class="text-danger">*</span>
                     </label>
                     <button type="button" class="btn btn-outline-primary btn-sm questionBtn"
                             data-bs-toggle="modal" data-bs-target="#EmailModal">
