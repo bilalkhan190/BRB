@@ -57,7 +57,15 @@
                 </label>
             </div>
         </fieldset>
-                <button id="btnGenResume" class="btn btn-primary custombtn w-auto" disabled>Generate Resume</button>
+                @if (ViewBag.GeneratedFileName == "" || ViewBag.GeneratedFileName == null)
+                {
+                    <a href="@Url.Action("GenerateResumeOnWord","Resume")" class="btn btn-primary custombtn w-auto">Generate Resume</a>
+                }
+                else
+                {
+                    <a href="~/downloads/@ViewBag.GeneratedFileName" download="@ViewBag.GeneratedFileName" class="btn btn-primary custombtn w-auto">Download</a>
+                }
+
     </div>
     </div>
     </div>

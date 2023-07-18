@@ -88,6 +88,7 @@ namespace BusinessObjects.Services
                 record.LastSectionVisitedId = resumeViewModels.LastSectionVisitedId;
                 record.LastSectionCompletedId= resumeViewModels.LastSectionCompletedId;
                 record.LastModDate= resumeViewModels.LastModDate;
+                record.GeneratedFileName = null; //to detect changes
                _dbContext.Entry(record).State = EntityState.Modified;
               _dbContext.SaveChanges();
             }
