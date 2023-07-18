@@ -22,7 +22,7 @@ function LoadData() {
                 $('#FieldsOfExperience').val(response.data.fieldsOfExperience);
                 $('#ckbIsComplete').prop('checked',response.data.isComplete);
                 $('#ckbIsComplete').val(response.data.isComplete);
-                $('#ckbIsComplete').attr('readonly', 'readonly');
+               /* $('#ckbIsComplete').attr('readonly', 'readonly');*/
 
               
             }

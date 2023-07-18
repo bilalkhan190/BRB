@@ -2,13 +2,17 @@
 let lastSelectedVisitedId = $('#hdfLastSelectedVisitedId').val();
 let lastSectionCompletedId = $('#hdfLastSectionCompletedId').val();
 
-$('#btnGenerateResume').click(function () {
+
+$('#btnGenResume').click(function () {
+    debugger
     $.ajax({
         url: '/Resume/GenerateResume',
         type: 'get',
         success: function (response) {
           
         },
-        error: function (err) { }
+        error: function (err) {
+            debugger
+        }
     });
 })
