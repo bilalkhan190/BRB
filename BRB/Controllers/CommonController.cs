@@ -1,9 +1,13 @@
-﻿using BusinessObjects.Models;
+﻿using BusinessObjects.Helper;
+using BusinessObjects.Models;
 using BusinessObjects.Models.DTOs;
 using BusinessObjects.Models.MetaData;
 using BusinessObjects.Services.interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore.Query;
+using Newtonsoft.Json;
+using System.Data;
 using System.Text.Json;
 
 namespace BRB.Controllers
@@ -54,14 +58,14 @@ namespace BRB.Controllers
         }
 
         [HttpPost]
-        public IActionResult IsOptOut(int recordId , int sectionId,bool status)
+        public IActionResult IsOptOut(int recordId, int sectionId, bool status)
         {
-            var sessionData = JsonSerializer.Deserialize<UserSessionData>(HttpContext.Session.GetString("_userData"));
+            var sessionData = JsonConvert.DeserializeObject<UserSessionData>(HttpContext.Session.GetString("_userData"));
             AjaxResponse ajaxResponse = new AjaxResponse();
             ajaxResponse.Success = false;
             switch (sectionId)
             {
-               
+
                 case 30:
                     var record = _dbContext.OverseasExperiences.FirstOrDefault(x => x.ResumeId == sessionData.ResumeId);
                     if (recordId == 0 || record == null)
@@ -76,7 +80,7 @@ namespace BRB.Controllers
                         _dbContext.SaveChanges();
                         recordId = overseasExperience.OverseasExperienceId;
                     }
-                    
+
                     var overseasRecord = _dbContext.OverseasExperiences.FirstOrDefault(x => x.OverseasExperienceId == recordId);
                     if (overseasRecord != null)
                     {
@@ -86,7 +90,7 @@ namespace BRB.Controllers
                         ajaxResponse.Data = overseasRecord;
                         ajaxResponse.Success = true;
                     }
-                    
+
                     break;
                 case 40:
                     var militaryExperience = _dbContext.MilitaryExperiences.FirstOrDefault(x => x.ResumeId == sessionData.ResumeId);
@@ -111,7 +115,7 @@ namespace BRB.Controllers
                         ajaxResponse.Data = miltaryRecord;
                         ajaxResponse.Success = true;
                     }
-                  
+
                     break;
                 case 45:
                     var orgExperience = _dbContext.OrgExperiences.FirstOrDefault(x => x.ResumeId == sessionData.ResumeId);
@@ -136,7 +140,7 @@ namespace BRB.Controllers
                         ajaxResponse.Data = organization;
                         ajaxResponse.Success = true;
                     }
-                   
+
                     break;
                 case 50:
                     var volunteer = _dbContext.VolunteerExperiences.FirstOrDefault(x => x.ResumeId == sessionData.ResumeId);
@@ -195,15 +199,38 @@ namespace BRB.Controllers
                         recordId = ls.LanguageSkillId;
                     }
                     var language = _dbContext.LanguageSkills.FirstOrDefault(x => x.LanguageSkillId == recordId);
-                     language.IsOptOut = status;
+                    language.IsOptOut = status;
                     _dbContext.LanguageSkills.Update(language);
                     _dbContext.SaveChanges();
-                    ajaxResponse.Data= language;
+                    ajaxResponse.Data = language;
                     ajaxResponse.Success = true;
                     break;
 
             }
             return Json(ajaxResponse);
         }
+
+
+        public IActionResult GetIsOptOut()
+        {
+            AjaxResponse ajaxResponse = new AjaxResponse();
+            ajaxResponse.Data = null;
+            //var record = _dropdownService.GetLanguageAbility();
+            //is opr out
+
+            var sessionData = JsonConvert.DeserializeObject<UserSessionData>(HttpContext.Session.GetString("_userData"));
+            var dtIsOptOut = SqlHelper.GetDataTable("Data Source=A2NWPLSK14SQL-v02.shr.prod.iad2.secureserver.net;Initial Catalog=WH4LProd;User Id=brbdbuser; Password=brb!!!***;;Encrypt=False;TrustServerCertificate=True", "SP_GetIsOptOut", CommandType.StoredProcedure, new SqlParameter("ResumeId", sessionData.ResumeId));
+            if (dtIsOptOut.Rows.Count > 0)
+            {
+                string IsOptOutJson = JsonConvert.SerializeObject(dtIsOptOut);
+                ajaxResponse.Data = IsOptOutJson;
+            }
+            else
+            {
+                ajaxResponse.Data = null;
+            }
+            return Json(ajaxResponse);
+        }
+
     }
 }

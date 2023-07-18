@@ -19,7 +19,7 @@ namespace BRB.Controllers
         private readonly IResumeService _resumeService;
         public const string SessionKeyUserData = "_userData";
         private readonly IMapper _mapper;
-       
+
 
         public AccountController(IUserProfileService userProfileService, IResumeService resumeService, IMapper mapper)
         {
@@ -27,7 +27,7 @@ namespace BRB.Controllers
             _resumeService = resumeService;
             _mapper = mapper;
         }
-  
+
         public IActionResult Index()
         {
             if (HttpContext.Session.GetString(SessionKeyUserData) != null)
@@ -70,9 +70,9 @@ namespace BRB.Controllers
                             ajaxResponse.Success = false;
                             ajaxResponse.Message = "username is already taken!";
                         }
-                        
+
                     }
-                   
+
                 }
 
             }
@@ -87,13 +87,14 @@ namespace BRB.Controllers
             ajaxResponse.Success = false;
             ajaxResponse.Message = "email or password is invalid";
             ajaxResponse.Redirect = "/Resume/ContactInfo";
-            if (loginViewModel != null) {
-              var record =  _userProfileService.ValidateUser(loginViewModel.UserName, loginViewModel.Password);
+            if (loginViewModel != null)
+            {
+                var record = _userProfileService.ValidateUser(loginViewModel.UserName, loginViewModel.Password);
                 if (record != null)
                 {
                     if (_resumeService.IsUserExist(record.UserId))
                     {
-                         sessionRecord = _resumeService.GetResumeProfile(record.UserId);
+                        sessionRecord = _resumeService.GetResumeProfile(record.UserId);
                     }
                     else
                     {
@@ -102,10 +103,10 @@ namespace BRB.Controllers
                         resumeViewModels.UserId = record.UserId;
                         resumeViewModels.CreatedDate = DateTime.Today;
                         resumeViewModels.LastModDate = DateTime.Today;
-                        var resumeData  = _resumeService.CreateResumeMaster(resumeViewModels);
+                        var resumeData = _resumeService.CreateResumeMaster(resumeViewModels);
                         sessionRecord = _resumeService.GetResumeProfile(resumeData.UserId);
                     }
-                
+
                     TableIdentities identities = new TableIdentities();
                     var ds = SqlHelper.GetDataSet("Data Source=A2NWPLSK14SQL-v02.shr.prod.iad2.secureserver.net;Initial Catalog=WH4LProd;User Id=brbdbuser; Password=brb!!!***;;Encrypt=False;TrustServerCertificate=True", "SP_GetAllIds", CommandType.StoredProcedure, new SqlParameter("ResumeId", sessionRecord.ResumeId));
                     if (ds.Tables.Count > 0)
@@ -116,10 +117,10 @@ namespace BRB.Controllers
                             sessionRecord.Ids = JsonConvert.SerializeObject(identities);
                         }
                     }
-
+                 
                     HttpContext.Session.SetString(SessionKeyUserData, JsonConvert.SerializeObject(sessionRecord));
-                        ajaxResponse.Success = true;
-                        ajaxResponse.Message = "Login successfully .. redirecting";
+                    ajaxResponse.Success = true;
+                    ajaxResponse.Message = "Login successfully .. redirecting";
                     if (sessionRecord != null)
                     {
                         if (sessionRecord.LastSectionCompletedId > 0)
@@ -202,9 +203,9 @@ namespace BRB.Controllers
 
                             }
                         }
-                       
+
+
                     }
-                       
                 }
             }
             else

@@ -76,7 +76,7 @@
                     {
                         <ul class="nav">
                             <li class="nav-item">
-                                <a href="@Url.Action("ContactInfo","Resume")" class="nav-link">
+                                <a id="contactInfo" href="@Url.Action("ContactInfo","Resume")" class="nav-link">
                                     <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24"
                                          class="cr-sidebar__nav-item-icon " height="1em" width="1em"
                                          xmlns="http://www.w3.org/2000/svg">
@@ -87,7 +87,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="@Url.Action("Objective","Resume")" class="nav-link">
+                                <a id="objective" href="@Url.Action("Objective","Resume")" class="nav-link">
                                     <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24"
                                          class="cr-sidebar__nav-item-icon " height="1em" width="1em"
                                          xmlns="http://www.w3.org/2000/svg">
@@ -98,7 +98,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="@Url.Action("Education","Resume")" class="nav-link">
+                                <a id="education" href="@Url.Action("Education","Resume")" class="nav-link">
                                     <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24"
                                          class="cr-sidebar__nav-item-icon " height="1em" width="1em"
                                          xmlns="http://www.w3.org/2000/svg">
@@ -109,7 +109,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="@Url.Action("OverseasStudy","Resume")" class="nav-link">
+                                <a id="overseasExp" href="@Url.Action("OverseasStudy","Resume")" class="nav-link">
                                     <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24"
                                          class="cr-sidebar__nav-item-icon " height="1em" width="1em"
                                          xmlns="http://www.w3.org/2000/svg">
@@ -131,7 +131,7 @@
                         </a>
                         </li>*@
                             <li class="nav-item">
-                                <a href="@Url.Action("Military","Resume")" class="nav-link">
+                                <a id="militaryExp" href="@Url.Action("Military","Resume")" class="nav-link">
                                     <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24"
                                          class="cr-sidebar__nav-item-icon " height="1em" width="1em"
                                          xmlns="http://www.w3.org/2000/svg">
@@ -142,7 +142,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="@Url.Action("Organizations","Resume")" class="nav-link">
+                                <a id="orgExperience" href="@Url.Action("Organizations","Resume")" class="nav-link">
                                     <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24"
                                          class="cr-sidebar__nav-item-icon " height="1em" width="1em"
                                          xmlns="http://www.w3.org/2000/svg">
@@ -153,7 +153,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="@Url.Action("CommunityService","Resume")" class="nav-link">
+                                <a id="volunteer" href="@Url.Action("CommunityService","Resume")" class="nav-link">
                                     <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24"
                                          class="cr-sidebar__nav-item-icon " height="1em" width="1em"
                                          xmlns="http://www.w3.org/2000/svg">
@@ -164,7 +164,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="@Url.Action("Certifications","Resume")" class="nav-link">
+                                <a id="professional" href="@Url.Action("Certifications","Resume")" class="nav-link">
                                     <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24"
                                          class="cr-sidebar__nav-item-icon " height="1em" width="1em"
                                          xmlns="http://www.w3.org/2000/svg">
@@ -175,7 +175,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="@Url.Action("ComputerAndTechnicalSkills","Resume")" class="nav-link">
+                                <a id="technicalSkill" href="@Url.Action("ComputerAndTechnicalSkills","Resume")" class="nav-link">
                                     <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24"
                                          class="cr-sidebar__nav-item-icon " height="1em" width="1em"
                                          xmlns="http://www.w3.org/2000/svg">
@@ -186,7 +186,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="@Url.Action("LanguagesSkills","Resume")" class="nav-link">
+                                <a id="languageSkill" href="@Url.Action("LanguagesSkills","Resume")" class="nav-link">
                                     <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24"
                                          class="cr-sidebar__nav-item-icon " height="1em" width="1em"
                                          xmlns="http://www.w3.org/2000/svg">
@@ -269,9 +269,48 @@
         })()
 
 
+        $(function () {
+            GetIsOptOut();
+        })
+
         function covertArrayKeyIntoCamelCase(arr) {
 
             return arr.map(el => _.mapKeys(el, (val, key) => _.camelCase(key)));
+        }
+
+        const GetIsOptOut = () => {
+            $.ajax({
+                url: `/common/GetIsOptOut`,
+                type: 'GET',
+                success: function (response) {
+                    if (response.data) {
+                        debugger
+                        let json = JSON.parse(response.data)[0]
+
+                        //Object.keys(json[0]).forEach(function (key, value) {
+                        //    if (value) {
+
+                        //        $('#' + key).html(`<path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"></path>`)
+                        //    }
+                        //})
+
+                        const keys = Object.keys(json);
+                        for (let i = 0; i < keys.length; i++) {
+                            const key = keys[i];
+                            console.log(key, json[key]);
+                            let val =json[key]
+                            if (val) {
+
+                                $(`#${key} svg`).html(`<path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"></path>`)
+                            }
+                        }
+
+                    } else {
+
+                    }
+                },
+                error: function (err) { }
+            })
         }
 
         $(document).on('change', '.isoptOut', function () {
