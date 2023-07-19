@@ -25,6 +25,11 @@ $('#btnLogin').click(function () {
    
 });
 
+$('#btnVeriftVoucher').on('submit', function (e) {
+    e.preverntDefault();
+    alert('am running')
+})
+
 const togglePassword = document
     .querySelector('#togglePassword');
 const password = document.querySelector('#pwd');

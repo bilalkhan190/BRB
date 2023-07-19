@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
-using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.ObjectModel;
 using System.Net.Mail;
@@ -83,7 +82,7 @@ namespace BusinessObjects.Helper
             return monthName;
         }
 
-        public static async Task<string> RenderViewAsync<TModel>(this Controller controller, string viewName, TModel model, bool partial = false)
+        public static async Task<string> RenderViewAsync<TModel>(this Microsoft.AspNetCore.Mvc.Controller controller, string viewName, TModel model, bool partial = false)
         {
             if (string.IsNullOrEmpty(viewName))
             {
@@ -94,15 +93,15 @@ namespace BusinessObjects.Helper
 
             using (var writer = new StringWriter())
             {
-                IViewEngine viewEngine = controller.HttpContext.RequestServices.GetService(typeof(ICompositeViewEngine)) as ICompositeViewEngine;
-                ViewEngineResult viewResult = viewEngine.FindView(controller.ControllerContext, viewName, !partial);
+                Microsoft.AspNetCore.Mvc.ViewEngines.IViewEngine viewEngine = controller.HttpContext.RequestServices.GetService(typeof(ICompositeViewEngine)) as ICompositeViewEngine;
+                Microsoft.AspNetCore.Mvc.ViewEngines.ViewEngineResult viewResult = viewEngine.FindView(controller.ControllerContext, viewName, !partial);
 
                 if (viewResult.Success == false)
                 {
                     return $"A view with the name {viewName} could not be found";
                 }
 
-                ViewContext viewContext = new ViewContext(
+                Microsoft.AspNetCore.Mvc.Rendering.ViewContext viewContext = new Microsoft.AspNetCore.Mvc.Rendering.ViewContext(
                     controller.ControllerContext,
                     viewResult.View,
                     controller.ViewData,

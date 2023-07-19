@@ -92,7 +92,7 @@ namespace BRB.Controllers
             resumeProfileData.LastSectionCompletedId = communityViewModel.IsComplete == true ? communityViewModel.LastSectionVisitedId : 0;
             VolunteerExperience volunteerExperience = new VolunteerExperience();
 
-            var ids = JsonSerializer.Deserialize<TableIdentities>(sessionData.Ids);
+            //var ids = JsonSerializer.Deserialize<TableIdentities>(sessionData.Ids);
            
             using (var transection = _dbContext.Database.BeginTransaction())
             {

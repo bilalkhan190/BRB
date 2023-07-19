@@ -94,24 +94,32 @@ namespace BRB.Controllers
             var sessionData = JsonSerializer.Deserialize<UserSessionData>(HttpContext.Session.GetString("_userData"));
             EducationViewObject educationObj = new EducationViewObject();
             var data = _dbContext.Educations.FirstOrDefault(x => x.ResumeId == sessionData.ResumeId);
-            var colleges = GetColleges(data.EducationId);
-            if (colleges.Count > 0)
+            if (data != null)
             {
-                foreach (var c in colleges)
+                var colleges = GetColleges(data.EducationId);
+                if (colleges.Count > 0)
                 {
+                    foreach (var c in colleges)
+                    {
 
-                    educationObj.Education = data;
-                    educationObj.College = c;
-                    educationObj.AcademicHonors = GetAcademicHonors(c.CollegeId);
-                    educationObj.AcademicScholarships = GetAcademicScholarship(c.CollegeId);
-                    ListOfObjs.Add(educationObj);
+                        educationObj.Education = data;
+                        educationObj.College = c;
+                        educationObj.AcademicHonors = GetAcademicHonors(c.CollegeId);
+                        educationObj.AcademicScholarships = GetAcademicScholarship(c.CollegeId);
+                        ListOfObjs.Add(educationObj);
+                    }
+                    ajaxResponse.Data = ListOfObjs;
                 }
-                ajaxResponse.Data = ListOfObjs;
+                else
+                {
+                    ajaxResponse.Data = data;
+                }
             }
             else
             {
-                ajaxResponse.Data = data;
+                ajaxResponse.Data = null;
             }
+          
 
           
             return Json(ajaxResponse);

@@ -42,6 +42,11 @@ namespace BRB.Controllers
             return View("SignUp");
         }
 
+        public IActionResult VoucherVerification()
+        {
+            return View();
+        }
+
         [HttpPost]
         public IActionResult CreateUser(UserProfileViewModel userProfileViewModel)
         {
@@ -59,6 +64,8 @@ namespace BRB.Controllers
                         var userExist = _context.UserProfiles.FirstOrDefault(p => p.UserName == model.UserName);
                         if (userExist == null)
                         {
+                            //email verification here
+                            model.IsVerified = false;
                             _context.UserProfiles.Add(model);
                             _context.SaveChanges();
                             ajaxResponse.Success = true;
@@ -92,6 +99,22 @@ namespace BRB.Controllers
                 var record = _userProfileService.ValidateUser(loginViewModel.UserName, loginViewModel.Password);
                 if (record != null)
                 {
+                    //validating user
+                    if (record.IsVerified == false)
+                    {
+                        ajaxResponse.Success = false;
+                        ajaxResponse.Message = "Please verify your email";
+                        return Json(ajaxResponse);
+                    }
+                    if (record.IsActive == false)
+                    {
+                        ajaxResponse.Success = false;
+                        ajaxResponse.Message = "Please verify your email";
+                        ajaxResponse.Redirect = "";
+                        return Json(ajaxResponse);
+                    }
+
+
                     if (_resumeService.IsUserExist(record.UserId))
                     {
                         sessionRecord = _resumeService.GetResumeProfile(record.UserId);
@@ -107,17 +130,8 @@ namespace BRB.Controllers
                         sessionRecord = _resumeService.GetResumeProfile(resumeData.UserId);
                     }
 
-                    //TableIdentities identities = new TableIdentities();
-                    //var ds = SqlHelper.GetDataSet("Data Source=A2NWPLSK14SQL-v02.shr.prod.iad2.secureserver.net;Initial Catalog=WH4LProd;User Id=brbdbuser; Password=brb!!!***;;Encrypt=False;TrustServerCertificate=True", "SP_GetAllIds", CommandType.StoredProcedure, new SqlParameter("ResumeId", sessionRecord.ResumeId));
-                    //if (ds.Tables.Count > 0)
-                    //{
-                    //    identities = ds.Tables[0].ToList_<TableIdentities>().FirstOrDefault();
-                    //    if (identities != null)
-                    //    {
-                    //        sessionRecord.Ids = JsonConvert.SerializeObject(identities);
-                    //    }
-                    //}
-                 
+
+
                     HttpContext.Session.SetString(SessionKeyUserData, JsonConvert.SerializeObject(sessionRecord));
                     ajaxResponse.Success = true;
                     ajaxResponse.Message = "Login successfully .. redirecting";

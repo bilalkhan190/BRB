@@ -27,7 +27,7 @@
             <div class="row pageLayout">
                 <div class="col-md-2 relate p-0">
                     <div class="logo">
-                        <img src="~/theme/assets/images/logo.png" alt="">
+                        <a href="@Url.Action("Home","Resume")"> <img src="~/theme/assets/images/logo.png" alt=""></a>
                     </div>
                 </div>
                 <div class="col-md-10 p-0">
@@ -300,8 +300,9 @@
                             console.log(key, json[key]);
                             let val = json[key]
                             if (val) {
-
-                                $(`#${key} svg`).html(`<path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"></path>`)
+                                debugger
+                                //$(`#${key} svg`).html(`<path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"></path>`)
+                                $(`#${key} svg`).html(`<path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" style="fill: #008000;"></path>`)
                                 arrRes.push(true)
                             } else {
                                 arrRes.push(false)

@@ -13,6 +13,9 @@
     z-index: 9999;
 }
 
+.green-checkmark {
+    color: #90ee90;
+}
 
 #preLoader {
     z-index: 11;

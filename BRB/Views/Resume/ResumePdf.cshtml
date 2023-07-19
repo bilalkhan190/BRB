@@ -49,7 +49,7 @@
     <div>
         <p>
             <span style="display: block;font-weight: 700;padding-bottom: 10px;background: #dbdbdb;padding-top: 10px;padding-left: 10px;font-size: 20px;margin-bottom: 16px;">@Model.ObjectiveSummary.ObjectiveType</span>
-            <span> To utilize my @Model.ObjectiveSummary.ObjectiveDesc1,  @Model.ObjectiveSummary.ObjectiveDesc2, and  @Model.ObjectiveSummary.ObjectiveDesc3 skills to secure a  @Model.ObjectiveSummary.PositionTypeDesc job in a matech co organization to increase revenue.</span>
+            <span> To utilize my @Model.ObjectiveSummary.ObjectiveDesc1,  @Model.ObjectiveSummary.ObjectiveDesc2, and  @Model.ObjectiveSummary.ObjectiveDesc3 skills to secure a  @Model.ObjectiveSummary.PositionTypeDesc job in @Model.ObjectiveSummary.CurrentCompanyType to increase revenue.</span>
         </p>
         <p style="padding-bottom: 10px;background: #dbdbdb;padding-top: 10px;padding-left: 10px;font-size: 20px;margin-bottom: 16px;"><b>Education:</b></p>
         @foreach (var c in Model.Colleges)
@@ -92,37 +92,41 @@
 
         }
     </div>
-    @if (@Model.MilitaryExperiences != null)
+    @if (!Model.MilitaryExperiences.IsOptOut)
     {
+        if (@Model.MilitaryExperiences != null)
+        {
 
-        <p style="padding-bottom: 10px;background: #dbdbdb;padding-top: 10px;padding-left: 10px;font-size: 20px;margin-bottom: 16px;"><b>Military Experience:</b></p>
-        <div>
-            <ul>
-                <li><i> @Model.MilitaryExperiences.City @Model.MilitaryExperiences.Rank</i></li>
-                <li>@Model.MilitaryExperiences.Branch</li>
-                <li>
-                    @Model.MilitaryExperiences.StartedMonth @Model.MilitaryExperiences.StartedYear - @Model.MilitaryExperiences.EndedMonth @Model.MilitaryExperiences.EndedYear
-                </li>
-            </ul>
-        </div>
-        <div>
-            <p style="padding-bottom: 10px;background: #dbdbdb;padding-top: 10px;padding-left: 10px;font-size: 20px;margin-bottom: 16px;"><b>Military Position:</b></p>
-            @if (Model.MilitaryPositions.Count > 0)
-            {
+            <p style="padding-bottom: 10px;background: #dbdbdb;padding-top: 10px;padding-left: 10px;font-size: 20px;margin-bottom: 16px;"><b>Military Experience:</b></p>
+            <div>
                 <ul>
-                    @foreach (var p in Model.MilitaryPositions)
-                    {
-                        <li>@p.Title</li>
-                    }
+                    <li><i> @Model.MilitaryExperiences.City @Model.MilitaryExperiences.Rank</i></li>
+                    <li>@Model.MilitaryExperiences.Branch</li>
+                    <li>
+                        @Model.MilitaryExperiences.StartedMonth @Model.MilitaryExperiences.StartedYear - @Model.MilitaryExperiences.EndedMonth @Model.MilitaryExperiences.EndedYear
+                    </li>
                 </ul>
+            </div>
+            <div>
+                <p style="padding-bottom: 10px;background: #dbdbdb;padding-top: 10px;padding-left: 10px;font-size: 20px;margin-bottom: 16px;"><b>Military Position:</b></p>
+                @if (Model.MilitaryPositions.Count > 0)
+                {
+                    <ul>
+                        @foreach (var p in Model.MilitaryPositions)
+                        {
+                            <li>@p.Title</li>
+                        }
+                    </ul>
 
-            }
+                }
 
 
-        </div>
+            </div>
+        }
     }
+   
 
-    @if (Model.OrgExperience.IsOptOut)
+    @if (!Model.OrgExperience.IsOptOut)
     {
         <div>
             <p style="padding-bottom: 10px;background: #dbdbdb;padding-top: 10px;padding-left: 10px;font-size: 20px;margin-bottom: 16px;"><b>Organization and Volunteer Experience:</b></p>
@@ -153,7 +157,7 @@
     }
     <br>
 
-    @if (Model.VolunteerExperience.IsOptOut)
+    @if (!Model.VolunteerExperience.IsOptOut)
     {
         <p style="padding-bottom: 10px;background: #dbdbdb;padding-top: 10px;padding-left: 10px;font-size: 20px;margin-bottom: 16px;">
             <b>Organization</b>
@@ -179,7 +183,7 @@
 
     }
 
-    @if (Model.Professional.IsOptOut)
+    @if (!Model.Professional.IsOptOut)
     {
         if (Model.Licenses.Count > 0)
         {
@@ -232,9 +236,6 @@
 
     }
     <div>
-       
-
-
         <p style="padding-bottom: 10px;background: #dbdbdb;padding-top: 10px;padding-left: 10px;font-size: 20px;margin-bottom: 16px;">
             <b>Computer Skills:</b>
         </p>

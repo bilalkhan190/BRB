@@ -111,11 +111,10 @@ namespace BRB.Controllers
             OverseasExperience overseasExperience = new OverseasExperience();
             ajaxResponse.Data = null;
             var sessionData = JsonSerializer.Deserialize<UserSessionData>(HttpContext.Session.GetString("_userData"));
-            var ids = JsonSerializer.Deserialize<TableIdentities>(sessionData.Ids);
             var record = _dbContext.OverseasExperiences.FirstOrDefault(x => x.ResumeId == sessionData.ResumeId);
-            record.OverseasStudies = GetOverseasStudies(record.OverseasExperienceId);
             if (record != null)
             {
+                record.OverseasStudies = GetOverseasStudies(record.OverseasExperienceId);
                 ajaxResponse.Data = record;
             }
             return Json(ajaxResponse);

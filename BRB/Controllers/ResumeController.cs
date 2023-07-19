@@ -218,15 +218,15 @@ namespace BRB.Controllers
                 record.LastModDate = DateTime.Today;
                 record.GeneratedDate = DateTime.Today;
                 _dbContext.SaveChanges();
-                SendResume(_webHostEnvironment.WebRootPath + "/downloads/" + filename, sessionRecord.Username);
+                SendResume(_webHostEnvironment.WebRootPath + "/downloads/" + filename, sessionData.UserName);
 
                 return File(
                 fileContents: generatedDocument.ToArray(),
                 contentType: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
                 fileDownloadName: filename);
 
-                return View("resumePdf");
-           // }
+                //return RedirectToAction("Home");
+            }
 
                 
         }

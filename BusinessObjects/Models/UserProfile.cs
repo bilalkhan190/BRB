@@ -32,4 +32,5 @@ public partial class UserProfile
     public string? ZipCode { get; set; }
 
     public string? Phone { get; set; }
+    public bool? IsVerified { get; set; }
 }
