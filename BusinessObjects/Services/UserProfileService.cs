@@ -86,10 +86,30 @@ namespace BusinessObjects.Services
         public bool VerifyUser(string userId)
         {
             var user = _dbContext.UserProfiles.FirstOrDefault(x => x.UserId == Convert.ToInt32(userId));
-            if (user!=null)
+            if (user != null)
             {
                 user.IsVerified = true;
                 _dbContext.UserProfiles.Update(user);
+                _dbContext.SaveChanges();
+                return true;
+            }
+            return false;
+        }
+
+
+        public bool VerifyVoucher(string voucherCode,int userId)
+        {
+            var voucherExists = _dbContext.Vouchers.FirstOrDefault(x => x.Code == voucherCode);
+            if (voucherExists != null)
+            {
+                Resume resume = _dbContext.Resumes.FirstOrDefault(x => x.UserId == userId);
+                resume.VoucherCode = voucherCode;
+                _dbContext.Resumes.Update(resume);
+
+                UserProfile user = _dbContext.UserProfiles.FirstOrDefault(x => x.UserId == userId);
+                user.IsActive = true;
+                _dbContext.UserProfiles.Update(user);
+
                 _dbContext.SaveChanges();
                 return true;
             }

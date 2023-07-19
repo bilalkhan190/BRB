@@ -70,15 +70,24 @@ namespace BRB.Controllers
             ajaxResponse.Data = null;
             ajaxResponse.Message = "Unable to create voucher";
             var sessionData = JsonConvert.DeserializeObject<UserSessionData>(HttpContext.Session.GetString("_userData"));
-            voucher.CreatedBy = sessionData.UserName;
-            voucher.IsActive = true;
-            voucher.GeneratedDate = DateTime.Today;
-            _dbContext.Vouchers.Add(voucher);
-          var IsAdded =  _dbContext.SaveChanges();
-            if (IsAdded > 0)
+            var voucherCode = _dbContext.Vouchers.FirstOrDefault(x => x.Code == voucher.Code);
+            if (voucherCode==null)
             {
-                ajaxResponse.Success = true;
-                ajaxResponse.Message = "Voucher successfully Created";
+                voucher.CreatedBy = sessionData.UserName;
+                voucher.IsActive = true;
+                voucher.GeneratedDate = DateTime.Today;
+                _dbContext.Vouchers.Add(voucher);
+                var IsAdded = _dbContext.SaveChanges();
+                if (IsAdded > 0)
+                {
+                    ajaxResponse.Success = true;
+                    ajaxResponse.Message = "Voucher successfully Created";
+                }
+            }
+            else
+            {
+                ajaxResponse.Success = false;
+                ajaxResponse.Message = "This voucher Code already exists.";
             }
            
             return Json(ajaxResponse);

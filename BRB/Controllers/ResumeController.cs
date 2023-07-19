@@ -2,6 +2,7 @@
 using BusinessObjects.Models;
 using BusinessObjects.Models.DTOs;
 using BusinessObjects.Models.MetaData;
+using BusinessObjects.Services;
 //using BusinessObjects.Models.MetaData.New;
 using BusinessObjects.Services.interfaces;
 using DocumentFormat.OpenXml;
@@ -21,12 +22,14 @@ namespace BRB.Controllers
     {
         private readonly IResumeService _resumeService;
         private readonly IContactInfoService _contactInfoService;
+        private readonly IUserProfileService _userProfileService;
         IWebHostEnvironment _webHostEnvironment;
-        public ResumeController(IResumeService resumeService, IContactInfoService contactInfoService, IWebHostEnvironment webHostEnvironment)
+        public ResumeController(IResumeService resumeService, IContactInfoService contactInfoService, IWebHostEnvironment webHostEnvironment, IUserProfileService userProfileService)
         {
             _resumeService = resumeService;
             _contactInfoService = contactInfoService;
             _webHostEnvironment = webHostEnvironment;
+            _userProfileService = userProfileService;
         }
         //[OutputCache(NoStore = true, Duration = 0, PolicyName = "OutputCacheWithAuthPolicy")]
         public IActionResult Home()
@@ -243,6 +246,29 @@ namespace BRB.Controllers
         }
 
 
+        public IActionResult VoucherVerification()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public JsonResult VerifyVoucher(string voucherCode)
+        {
+            AjaxResponse ajaxResponse = new AjaxResponse();
+            ajaxResponse.Success = false;
+            ajaxResponse.Message = "Unable to verify code";
+            ajaxResponse.Redirect = "";
+
+            var sessionData = JsonConvert.DeserializeObject<UserSessionData>(HttpContext.Session.GetString("_userData"));
+            var res = _userProfileService.VerifyVoucher(voucherCode, sessionData.UserId);
+            if (res)
+            {
+                ajaxResponse.Success = true;
+                ajaxResponse.Message = "Code verified redirecting...";
+                ajaxResponse.Redirect = "/Resume/Home";
+            }
+            return Json(ajaxResponse);
+        }
 
     }
 }

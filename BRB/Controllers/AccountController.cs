@@ -29,12 +29,12 @@ namespace BRB.Controllers
             _userProfileService = userProfileService;
             _resumeService = resumeService;
             _mapper = mapper;
-            _webHostEnvironment = webHostEnvironment;   
+            _webHostEnvironment = webHostEnvironment;
         }
 
         public IActionResult Index()
         {
-          
+
             if (HttpContext.Session.GetString(SessionKeyUserData) != null)
             {
                 return RedirectToAction("Home", "Resume");
@@ -47,10 +47,6 @@ namespace BRB.Controllers
             return View("SignUp");
         }
 
-        public IActionResult VoucherVerification()
-        {
-            return View();
-        }
 
         [Route("Verification/{id}")]
         public IActionResult AccountVerification(string id)
@@ -73,7 +69,9 @@ namespace BRB.Controllers
             {
                 using (Wh4lprodContext _context = new Wh4lprodContext())
                 {
-                    var model = _mapper.Map<UserProfile>(userProfileViewModel);
+
+                    //var model = _mapper.Map<UserProfile>(userProfileViewModel);
+                    var model = SqlHelper.MapTo_<UserProfile>(userProfileViewModel);
                     if (model != null)
                     {
                         var userExist = _context.UserProfiles.FirstOrDefault(p => p.UserName == model.UserName);
@@ -118,42 +116,48 @@ namespace BRB.Controllers
                 if (record != null)
                 {
                     //validating user
-                    //if (record.IsVerified == false)
-                    //{
-                    //    ajaxResponse.Success = false;
-                    //    ajaxResponse.Message = "Please verify your email";
-                    //    return Json(ajaxResponse);
-                    //}
-                    //if (record.IsActive == false)
-                    //{
-                    //    ajaxResponse.Success = false;
-                    //    ajaxResponse.Message = "Please verify your email";
-                    //    ajaxResponse.Redirect = "";
-                    //    return Json(ajaxResponse);
-                    //}
-
-
-                    if (_resumeService.IsUserExist(record.UserId))
+                    if (record.IsVerified == false)
                     {
-                        sessionRecord = _resumeService.GetResumeProfile(record.UserId);
-                    }
-                    else
-                    {
-                        //creating the resume master if not exist for new user
-                        ResumeViewModels resumeViewModels = new ResumeViewModels();
-                        resumeViewModels.UserId = record.UserId;
-                        resumeViewModels.CreatedDate = DateTime.Today;
-                        resumeViewModels.LastModDate = DateTime.Today;
-                        var resumeData = _resumeService.CreateResumeMaster(resumeViewModels);
-                        sessionRecord = _resumeService.GetResumeProfile(resumeData.UserId);
+                        ajaxResponse.Success = false;
+                        ajaxResponse.Message = "Please verify your email";
+                        return Json(ajaxResponse);
                     }
 
+                    if (record.IsActive == false)
+                    {
+                        ajaxResponse.Success = false;
+                        ajaxResponse.Redirect = "/Resume/VoucherVerification";
+                        //return Json(ajaxResponse);
+                    }
+                    //else
+                    //{
+
+                        if (_resumeService.IsUserExist(record.UserId))
+                        {
+                            sessionRecord = _resumeService.GetResumeProfile(record.UserId);
+                        }
+                        else
+                        {
+                            //creating the resume master if not exist for new user
+                            ResumeViewModels resumeViewModels = new ResumeViewModels();
+                            resumeViewModels.UserId = record.UserId;
+                            resumeViewModels.CreatedDate = DateTime.Today;
+                            resumeViewModels.LastModDate = DateTime.Today;
+                            var resumeData = _resumeService.CreateResumeMaster(resumeViewModels);
+                            sessionRecord = _resumeService.GetResumeProfile(resumeData.UserId);
+                        }
+                    //}
 
 
                     HttpContext.Session.SetString(SessionKeyUserData, JsonConvert.SerializeObject(sessionRecord));
                     ajaxResponse.Success = true;
                     ajaxResponse.Message = "Login successfully .. redirecting";
-                    if (sessionRecord.UserType != "Admin")
+
+                    if (record.IsActive == false)
+                    {
+                        return Json(ajaxResponse);
+                    }
+                    else if (sessionRecord.UserType != "Admin")
                     {
                         if (sessionRecord != null)
                         {
@@ -234,10 +238,8 @@ namespace BRB.Controllers
                                     case 65:
                                         ajaxResponse.Redirect = "/Resume/LanguagesSKills";
                                         break;
-
                                 }
                             }
-
 
                         }
                     }
