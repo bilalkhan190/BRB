@@ -1,9 +1,12 @@
 ﻿using BRB.Attributes;
+using BusinessObjects.Helper;
 using BusinessObjects.Models;
 using BusinessObjects.Models.DTOs;
 using BusinessObjects.Models.MetaData;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using Microsoft.Data.SqlClient;
+using System.Data;
 using System.Web.Mvc.Ajax;
 
 namespace BRB.Controllers
@@ -20,6 +23,38 @@ namespace BRB.Controllers
         {
             return View("ProductReport");
         }
+
+
+        public JsonResult SearchProductReport(DateTime? fromDate, DateTime? toDate, string? voucher, string? email)
+        {
+            AjaxResponse ajaxResponse = new AjaxResponse();
+            try
+            {
+
+                SqlParameter[] sqlParameters = new SqlParameter[]
+                {
+                new SqlParameter("@FromDt",fromDate?? (object)DBNull.Value),
+                new SqlParameter("@ToDt", toDate?? (object)DBNull.Value),
+                new SqlParameter("@VoucherCode", voucher?? (object)DBNull.Value),
+                new SqlParameter("@Domain", email?? (object)DBNull.Value)
+                };
+
+                var dt = SqlHelper.GetDataTable("Data Source=A2NWPLSK14SQL-v02.shr.prod.iad2.secureserver.net;Initial Catalog=WH4LProd;User Id=brbdbuser; Password=brb!!!***;;Encrypt=False;TrustServerCertificate=True", "sp_AdminGetProductReport_New", CommandType.StoredProcedure, sqlParameters);
+
+                ajaxResponse.Success = true;
+                ajaxResponse.Data = dt.SerializeObjectJson_();
+            }
+            catch (Exception ex)
+            {
+                ajaxResponse.Success = false;
+                ajaxResponse.Message = ex.Message;
+            }
+
+
+            return Json(ajaxResponse);
+        }
+
+
 
         public IActionResult Voucher()
         {

@@ -154,5 +154,28 @@ namespace BusinessObjects.Helper
             }
         }
 
+        public static void SendEmail(string toEmail,string subject , string body)
+        {
+            MailMessage mailMessage = new MailMessage("bestresumebuilderresume@gmail.com", toEmail);
+            ((Collection<MailAddress>)mailMessage.ReplyToList).Add(new MailAddress("bestresumebuilderresume@gmail.com"));
+            mailMessage.Subject = subject;
+            mailMessage.Body = body;
+            mailMessage.BodyEncoding = Encoding.UTF8;
+            mailMessage.IsBodyHtml = true;
+            try
+            {
+                new SmtpClient()
+                {
+                    DeliveryMethod = ((SmtpDeliveryMethod)0),
+                    Host = "relay-hosting.secureserver.net",
+                    Port = 25
+                }.Send(mailMessage);
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+
     }
 }

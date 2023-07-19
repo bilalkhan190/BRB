@@ -11,6 +11,7 @@ using Microsoft.Data.SqlClient;
 using Newtonsoft.Json;
 using System.Data;
 using System.Text.Json;
+using static BusinessObjects.Helper.ApplicationHelper;
 
 namespace BRB.Controllers
 {
@@ -51,6 +52,16 @@ namespace BRB.Controllers
             return View();
         }
 
+        [Route("Verification/{id}")]
+        public IActionResult AccountVerification(string id)
+        {
+            if (!string.IsNullOrEmpty(id) && _userProfileService.VerifyUser(id))
+            {
+                return View();
+            }
+            return View("SignIn");
+        }
+
         [HttpPost]
         public IActionResult CreateUser(UserProfileViewModel userProfileViewModel)
         {
@@ -68,11 +79,13 @@ namespace BRB.Controllers
                         var userExist = _context.UserProfiles.FirstOrDefault(p => p.UserName == model.UserName);
                         if (userExist == null)
                         {
-                            //email verification here
                             model.IsVerified = false;
                             model.RoleType = "";
                             _context.UserProfiles.Add(model);
                             _context.SaveChanges();
+                            //email verification here
+                            string link = $@"{Request.Scheme}://{Request.Host}/Verification/{model.UserId}";
+                            SendEmail(model.UserName, "Best Resume Builder - User Verification", $@"Dear {model.FirstName} <br/><br/><a href='{link}'>Click here</a> for verification");
                             ajaxResponse.Success = true;
                             ajaxResponse.Message = "User Has been Created Successfully!";
                             ajaxResponse.Redirect = "/Resume/ContactInfo";
