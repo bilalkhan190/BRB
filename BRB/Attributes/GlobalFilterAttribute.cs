@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc.Filters;
+﻿using BusinessObjects.Models.MetaData;
+using Microsoft.AspNetCore.Mvc.Filters;
+using Newtonsoft.Json;
 
 namespace BRB.Attributes
 {
@@ -13,7 +15,6 @@ namespace BRB.Attributes
                 context.HttpContext.Response.Headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
                 context.HttpContext.Response.Headers["Expires"] = "-1";
                 context.HttpContext.Response.Headers["Pragma"] = "no-cache";
-
                 //base.OnActionExecuting(context);
             }
         }

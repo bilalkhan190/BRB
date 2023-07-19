@@ -57,6 +57,11 @@
                 </label>
             </div>
         </fieldset>
+        <div id="panel">
+                @if (TempData["msg"] != null)
+                {
+                    <div class="alert alert-success" >@TempData["msg"]</div>
+                }
                 @if (ViewBag.GeneratedFileName == "" || ViewBag.GeneratedFileName == null)
                 {
                     <button id="btnGenResume"  class="btn btn-primary custombtn w-auto" disabled>Generate Resume</button>
@@ -65,7 +70,7 @@
                 {
                     <a href="~/downloads/@ViewBag.GeneratedFileName" download="@ViewBag.GeneratedFileName" class="btn btn-primary custombtn w-auto">Download</a>
                 }
-
+        </div>
     </div>
     </div>
     </div>

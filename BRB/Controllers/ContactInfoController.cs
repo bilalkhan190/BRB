@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using BRB.Attributes;
 using BusinessObjects.Models;
 using BusinessObjects.Models.DTOs;
 using BusinessObjects.Models.MetaData;
@@ -12,6 +13,8 @@ using System.Text.Json;
 
 namespace BRB.Controllers
 {
+
+   
     public class ContactInfoController : BaseController
     {
         private readonly IResumeService _resumeService;

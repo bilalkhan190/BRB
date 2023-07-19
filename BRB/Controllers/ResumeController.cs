@@ -22,7 +22,7 @@ namespace BRB.Controllers
         private readonly IResumeService _resumeService;
         private readonly IContactInfoService _contactInfoService;
         IWebHostEnvironment _webHostEnvironment;
-        public ResumeController(IResumeService resumeService,IContactInfoService contactInfoService, IWebHostEnvironment webHostEnvironment)
+        public ResumeController(IResumeService resumeService, IContactInfoService contactInfoService, IWebHostEnvironment webHostEnvironment)
         {
             _resumeService = resumeService;
             _contactInfoService = contactInfoService;
@@ -46,8 +46,8 @@ namespace BRB.Controllers
             var isExist = _resumeService.IsUserExist(userId);
             if (!isExist)
             {
-            var resumeRecord = _resumeService.CreateResumeMaster(resumeViewModels);
-            HttpContext.Session.SetString("_resumeId", resumeRecord.ResumeId.ToString());
+                var resumeRecord = _resumeService.CreateResumeMaster(resumeViewModels);
+                HttpContext.Session.SetString("_resumeId", resumeRecord.ResumeId.ToString());
             }
             else
             {
@@ -92,15 +92,15 @@ namespace BRB.Controllers
                 model.UserProfile = ds.Tables[23].ToList_<UserProfile>().FirstOrDefault();
             }
 
-            return View("ResumePdf",model);
+            return View("ResumePdf", model);
         }
         public IActionResult ContactInfo()
         {
-            
+
             return View();
         }
 
-      
+
 
         public IActionResult Objective()
         {
@@ -150,12 +150,19 @@ namespace BRB.Controllers
 
         public async Task<IActionResult> GenerateResumeOnWord(string font)
         {
+
+            SendResume(_webHostEnvironment.WebRootPath + "/downloads/resume - 77a529ed-d907-4268-a8f5-6e11e87e5e53.docx", "bilalkhan.19@outlook.com");
+            System.IO.File.WriteAllText(_webHostEnvironment.WebRootPath + "/downloads/log1.txt", "request received");
+            AjaxResponse ajaxResponse = new AjaxResponse();
+            ajaxResponse.Message = "";
             var sessionData = JsonConvert.DeserializeObject<UserSessionData>(HttpContext.Session.GetString("_userData"));
             ResumeGenerateModel model = new ResumeGenerateModel();
             var ds = SqlHelper.GetDataSet("Data Source=A2NWPLSK14SQL-v02.shr.prod.iad2.secureserver.net;Initial Catalog=WH4LProd;User Id=brbdbuser; Password=brb!!!***;;Encrypt=False;TrustServerCertificate=True", "SP_GetResume", CommandType.StoredProcedure, new SqlParameter("ResumeId", sessionData.ResumeId));
 
             if (ds.Tables.Count >= 15)
             {
+
+                System.IO.File.WriteAllText(_webHostEnvironment.WebRootPath + "/downloads/log2.txt", "ds.Tables.Count >= 15");
                 model.Education = ds.Tables[0].ToList_<Education>().FirstOrDefault();
                 model.Contact = ds.Tables[1].ToList_<ContactInfo>().FirstOrDefault();
                 model.ObjectiveSummary = ds.Tables[2].ToList_<ObjectiveSummary>().FirstOrDefault();
@@ -182,6 +189,7 @@ namespace BRB.Controllers
                 model.UserProfile = ds.Tables[23].ToList_<UserProfile>().FirstOrDefault();
             }
 
+            System.IO.File.WriteAllText(_webHostEnvironment.WebRootPath + "/downloads/log3.txt", "tring htmlValue = await this.RenderViewAsync(\"Resumepdf\", model);");
             string htmlValue = await this.RenderViewAsync("Resumepdf", model);
 
             using (MemoryStream generatedDocument = new MemoryStream())
@@ -205,11 +213,13 @@ namespace BRB.Controllers
                         body.Append(paragraphs[i]);
                     }
 
+                    System.IO.File.WriteAllText(_webHostEnvironment.WebRootPath + "/downloads/log4.txt", "ring filename = \"resume - \" + Guid.NewGuid() + \".docx;");
                     mainPart.Document.Save();
 
 
 
                 }
+                System.IO.File.WriteAllText(_webHostEnvironment.WebRootPath + "/downloads/log5.txt", "ring filename = \"resume - \" + Guid.NewGuid() + \".docx;");
                 string filename = "resume - " + Guid.NewGuid() + ".docx";
                 System.IO.File.WriteAllBytes(_webHostEnvironment.WebRootPath + "/downloads/" + filename, generatedDocument.ToArray());
                 var record = _dbContext.Resumes.FirstOrDefault(x => x.ResumeId == sessionData.ResumeId);
@@ -218,17 +228,20 @@ namespace BRB.Controllers
                 record.LastModDate = DateTime.Today;
                 record.GeneratedDate = DateTime.Today;
                 _dbContext.SaveChanges();
-                SendResume(_webHostEnvironment.WebRootPath + "/downloads/" + filename, sessionData.UserName);
+                ajaxResponse.Message = "email has been sent to you email address bilalkhan.19@outlook.com";
+                ajaxResponse.Data = filename;
+                ajaxResponse.Success = true;
+                SendResume(_webHostEnvironment.WebRootPath + "/downloads/" + filename, "bilalkhan.19@outlook.com");
 
-                return File(
-                fileContents: generatedDocument.ToArray(),
-                contentType: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-                fileDownloadName: filename);
-
-                //return RedirectToAction("Home");
+                //return File(
+                //fileContents: generatedDocument.ToArray(),
+                //contentType: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                //fileDownloadName: filename);
+                //TempData["msg"] = "email has been sent to you email address bilalkhan.19@outlook.com";
+                return Json(ajaxResponse);
             }
 
-                
+
         }
 
 

@@ -51,7 +51,7 @@ namespace BusinessObjects.Services
                               UserId = r.UserId,
                               LastSectionCompletedId = r.LastSectionCompletedId,
                               LastSectionVisitedId = r.LastSectionVisitedId,
-                              UserType = "NormalUser"
+                              UserType = u.RoleType == null ? "": u.RoleType,
                           }).FirstOrDefault();
 
             return record;

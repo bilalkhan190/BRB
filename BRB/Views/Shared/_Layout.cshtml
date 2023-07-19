@@ -67,12 +67,14 @@
                     <img src="~/theme/assets/images/logo.png" alt="">
                     <a href="../Views/Resume/Index.cshtml"></a>
                     </div>*@
-                    @{
+                  @*  @{
                         var sessionData = JsonConvert.DeserializeObject<UserSessionData>(HttpContextAccessor.HttpContext.Session.GetString("_userData"));
 
-                    }
+                    }*@
 
-                    @if (sessionData.UserId != 0 && sessionData != null)
+                  @*  @if (sessionData.UserId != 0 && sessionData != null)
+                    {*@
+                    @if (ViewBag.UserRecord.UserType != "Admin")
                     {
                         <ul class="nav">
                             <li class="nav-item">
@@ -198,6 +200,13 @@
                             </li>
                         </ul>
                     }
+                    else
+                    {
+                        <ul class="nav">
+                        </ul>
+                    }
+
+                    @*}*@
 
                 </div>
             </div>

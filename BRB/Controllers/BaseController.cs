@@ -29,6 +29,7 @@ namespace BRB.Controllers
             if (HttpContext.Session.GetString("_userData") != null ) 
             {
                 sessionData = JsonConvert.DeserializeObject<UserSessionData>(HttpContext.Session.GetString("_userData"));
+                    ViewBag.UserRecord = sessionData;
             }
             else
             {

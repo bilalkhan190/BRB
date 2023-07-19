@@ -57,6 +57,7 @@ builder.Services.AddScoped<IWorkExperienceService, WorkExperienceService>();
 builder.Services.AddMvc(options =>
 {
     options.Filters.Add(new GlobalFilterAttribute());
+ 
 });
 
 var app = builder.Build();
