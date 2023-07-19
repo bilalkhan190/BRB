@@ -9,7 +9,22 @@ $('#btnGenResume').click(function () {
         url: '/Resume/GenerateResumeOnWord',
         type: 'get',
         success: function (response) {
-          
+            if (response.success) {
+                alert(response.message);
+                let a = document.createElement("a");
+                a.href = "/downloads/" + response.data;
+                a.download = response.data;
+                a.click();
+                a.innerText = "Download";
+                a.classList.add("btn");
+                a.classList.add("btn-primary");
+                a.classList.add("custombtn");
+                a.classList.add("w-auto");
+                $("#btnGenResume").remove();
+                document.getElementById("panel").append(a);
+
+
+            }
         },
         error: function (err) {
             debugger

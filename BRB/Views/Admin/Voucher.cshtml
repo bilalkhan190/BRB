@@ -1,0 +1,50 @@
+﻿
+
+    <div class="formWrapper">
+        <div class="formSpace pb-0">
+            <div class="alignContent">
+                <h1>
+                    Create New Voucher Code
+                </h1>
+            </div>
+        </div>
+
+        <form id="voucherForm" class="needs-validation formSpace" novalidate="">
+            <input type="hidden" value="" id="hdfVolunteerOrgId">
+            <div class="row mx-auto">
+                <div class="col-md-12 p-0">
+                    <div class="form-group">
+                        <label for="validationCustom01">Voucher Code<span class="text-danger">*</span></label>
+                        <input name="Code" id="validationCustom01" type="text" class="form-control" value="" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="validationCustom02">Initial Count<span class="text-danger">*</span></label>
+                        <input name="InitialCount" id="validationCustom02" type="text" class="form-control" value="" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="validationCustom01">Effective Date<span class="text-danger">*</span></label>
+                        <input name="EffectiveDate" id="validationCustom01" type="text" class="form-control" value="" placeholder="YYYY-MM-DD" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="validationCustom01">Expiration Date<span class="text-danger">*</span></label>
+                        <input name="ExpirationDate" id="validationCustom01" type="text" class="form-control" value="" placeholder="YYYY-MM-DD" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="validationCustom01">Product<span class="text-danger">*</span></label>
+                    <select name="OfferedProductId" id="selectform" class="form-control" required><option value="Resume" selected="">Resume</option></select>
+                    </div>
+                    <div class="formbtn-Wrapper">
+                        <button type="submit" id="btnSaveVoucher" class="btn btn-primary custombtn w-auto">
+                            Create
+                        </button>
+                        <a href="/Admin/index" class="btn btn-primary custombtn w-auto">
+                            Back to Admin
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+@section Scripts{
+    <script src="~/scripts/voucher/voucher.js"></script>
+}

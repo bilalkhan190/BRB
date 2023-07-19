@@ -4,6 +4,7 @@ using BusinessObjects.Models;
 using BusinessObjects.Models.DTOs;
 using BusinessObjects.Models.MetaData;
 using BusinessObjects.Services.interfaces;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OutputCaching;
 using Microsoft.Data.SqlClient;
@@ -19,17 +20,20 @@ namespace BRB.Controllers
         private readonly IResumeService _resumeService;
         public const string SessionKeyUserData = "_userData";
         private readonly IMapper _mapper;
+        IWebHostEnvironment _webHostEnvironment;
 
 
-        public AccountController(IUserProfileService userProfileService, IResumeService resumeService, IMapper mapper)
+        public AccountController(IUserProfileService userProfileService, IResumeService resumeService, IMapper mapper, IWebHostEnvironment webHostEnvironment)
         {
             _userProfileService = userProfileService;
             _resumeService = resumeService;
             _mapper = mapper;
+            _webHostEnvironment = webHostEnvironment;   
         }
 
         public IActionResult Index()
         {
+          
             if (HttpContext.Session.GetString(SessionKeyUserData) != null)
             {
                 return RedirectToAction("Home", "Resume");
@@ -66,6 +70,7 @@ namespace BRB.Controllers
                         {
                             //email verification here
                             model.IsVerified = false;
+                            model.RoleType = "";
                             _context.UserProfiles.Add(model);
                             _context.SaveChanges();
                             ajaxResponse.Success = true;
@@ -100,19 +105,19 @@ namespace BRB.Controllers
                 if (record != null)
                 {
                     //validating user
-                    if (record.IsVerified == false)
-                    {
-                        ajaxResponse.Success = false;
-                        ajaxResponse.Message = "Please verify your email";
-                        return Json(ajaxResponse);
-                    }
-                    if (record.IsActive == false)
-                    {
-                        ajaxResponse.Success = false;
-                        ajaxResponse.Message = "Please verify your email";
-                        ajaxResponse.Redirect = "";
-                        return Json(ajaxResponse);
-                    }
+                    //if (record.IsVerified == false)
+                    //{
+                    //    ajaxResponse.Success = false;
+                    //    ajaxResponse.Message = "Please verify your email";
+                    //    return Json(ajaxResponse);
+                    //}
+                    //if (record.IsActive == false)
+                    //{
+                    //    ajaxResponse.Success = false;
+                    //    ajaxResponse.Message = "Please verify your email";
+                    //    ajaxResponse.Redirect = "";
+                    //    return Json(ajaxResponse);
+                    //}
 
 
                     if (_resumeService.IsUserExist(record.UserId))
@@ -135,90 +140,97 @@ namespace BRB.Controllers
                     HttpContext.Session.SetString(SessionKeyUserData, JsonConvert.SerializeObject(sessionRecord));
                     ajaxResponse.Success = true;
                     ajaxResponse.Message = "Login successfully .. redirecting";
-                    if (sessionRecord != null)
+                    if (sessionRecord.UserType != "Admin")
                     {
-                        if (sessionRecord.LastSectionCompletedId > 0)
+                        if (sessionRecord != null)
                         {
-                            switch (sessionRecord.LastSectionCompletedId)
+                            if (sessionRecord.LastSectionCompletedId > 0)
                             {
-                                case 15:
-                                    ajaxResponse.Redirect = "/Resume/Objective";
-                                    break;
-                                case 20:
-                                    ajaxResponse.Redirect = "/Resume/Education";
-                                    break;
-                                case 25:
-                                    ajaxResponse.Redirect = "/Resume/OverseasStudy";
-                                    break;
-                                case 30:
-                                    ajaxResponse.Redirect = "/Resume/Military";
-                                    break;
-                                case 35:
-                                    ajaxResponse.Redirect = "/Resume/Military";
-                                    break;
-                                case 40:
-                                    ajaxResponse.Redirect = "/Resume/Organizations";
-                                    break;
-                                case 45:
-                                    ajaxResponse.Redirect = "/Resume/CommunityService";
-                                    break;
-                                case 50:
-                                    ajaxResponse.Redirect = "/Resume/ComputerAndTechnicalSkills";
-                                    break;
-                                case 60:
-                                    ajaxResponse.Redirect = "/Resume/Certifications";
-                                    break;
-                                case 55:
-                                    ajaxResponse.Redirect = "/Resume/LanguagesSKills";
-                                    break;
-                                case 65:
-                                    ajaxResponse.Redirect = "/Resume/Home";
-                                    break;
+                                switch (sessionRecord.LastSectionCompletedId)
+                                {
+                                    case 15:
+                                        ajaxResponse.Redirect = "/Resume/Objective";
+                                        break;
+                                    case 20:
+                                        ajaxResponse.Redirect = "/Resume/Education";
+                                        break;
+                                    case 25:
+                                        ajaxResponse.Redirect = "/Resume/OverseasStudy";
+                                        break;
+                                    case 30:
+                                        ajaxResponse.Redirect = "/Resume/Military";
+                                        break;
+                                    case 35:
+                                        ajaxResponse.Redirect = "/Resume/Military";
+                                        break;
+                                    case 40:
+                                        ajaxResponse.Redirect = "/Resume/Organizations";
+                                        break;
+                                    case 45:
+                                        ajaxResponse.Redirect = "/Resume/CommunityService";
+                                        break;
+                                    case 50:
+                                        ajaxResponse.Redirect = "/Resume/ComputerAndTechnicalSkills";
+                                        break;
+                                    case 60:
+                                        ajaxResponse.Redirect = "/Resume/Certifications";
+                                        break;
+                                    case 55:
+                                        ajaxResponse.Redirect = "/Resume/LanguagesSKills";
+                                        break;
+                                    case 65:
+                                        ajaxResponse.Redirect = "/Resume/Home";
+                                        break;
 
+                                }
                             }
-                        }
-                        else
-                        {
-                            switch (sessionRecord.LastSectionVisitedId)
+                            else
                             {
-                                case 15:
-                                    ajaxResponse.Redirect = "/Resume/ContactInfo";
-                                    break;
-                                case 20:
-                                    ajaxResponse.Redirect = "/Resume/Objective";
-                                    break;
-                                case 25:
-                                    ajaxResponse.Redirect = "/Resume/Education";
-                                    break;
-                                case 30:
-                                    ajaxResponse.Redirect = "/Resume/OverseasStudy";
-                                    break;
-                                case 35:
-                                    ajaxResponse.Redirect = "/Resume/Military";
-                                    break;
-                                case 40:
-                                    ajaxResponse.Redirect = "/Resume/Military";
-                                    break;
-                                case 45:
-                                    ajaxResponse.Redirect = "/Resume/Organizations";
-                                    break;
-                                case 50:
-                                    ajaxResponse.Redirect = "/Resume/CommunityService";
-                                    break;
-                                case 60:
-                                    ajaxResponse.Redirect = "/Resume/ComputerAndTechnicalSkills";
-                                    break;
-                                case 55:
-                                    ajaxResponse.Redirect = "/Resume/Certifications";
-                                    break;
-                                case 65:
-                                    ajaxResponse.Redirect = "/Resume/LanguagesSKills";
-                                    break;
+                                switch (sessionRecord.LastSectionVisitedId)
+                                {
+                                    case 15:
+                                        ajaxResponse.Redirect = "/Resume/ContactInfo";
+                                        break;
+                                    case 20:
+                                        ajaxResponse.Redirect = "/Resume/Objective";
+                                        break;
+                                    case 25:
+                                        ajaxResponse.Redirect = "/Resume/Education";
+                                        break;
+                                    case 30:
+                                        ajaxResponse.Redirect = "/Resume/OverseasStudy";
+                                        break;
+                                    case 35:
+                                        ajaxResponse.Redirect = "/Resume/Military";
+                                        break;
+                                    case 40:
+                                        ajaxResponse.Redirect = "/Resume/Military";
+                                        break;
+                                    case 45:
+                                        ajaxResponse.Redirect = "/Resume/Organizations";
+                                        break;
+                                    case 50:
+                                        ajaxResponse.Redirect = "/Resume/CommunityService";
+                                        break;
+                                    case 60:
+                                        ajaxResponse.Redirect = "/Resume/ComputerAndTechnicalSkills";
+                                        break;
+                                    case 55:
+                                        ajaxResponse.Redirect = "/Resume/Certifications";
+                                        break;
+                                    case 65:
+                                        ajaxResponse.Redirect = "/Resume/LanguagesSKills";
+                                        break;
 
+                                }
                             }
+
+
                         }
-
-
+                    }
+                    else
+                    {
+                        ajaxResponse.Redirect = "/Admin/index";
                     }
                 }
             }
