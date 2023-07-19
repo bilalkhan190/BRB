@@ -103,11 +103,14 @@ namespace BRB.Controllers
                         record.IsComplete = organizationViewModel.IsComplete;
                         record.IsOptOut = organizationViewModel.IsOptOut;
                         _dbContext.SaveChanges();
+                        orgExperience.OrgExperienceId = record.OrgExperienceId;    
+
                     }
                     else
                     {
                         _dbContext.OrgExperiences.Add(orgExperience);
                         _dbContext.SaveChanges();
+                      
                     }
                     if (organizationViewModel.Organizations.Count > 0)
                     {
@@ -120,7 +123,7 @@ namespace BRB.Controllers
                             }
                             else
                             {
-                                org.OrgExperienceId = record.OrgExperienceId;
+                                org.OrgExperienceId = orgExperience.OrgExperienceId;
                                 org.CreatedDate = DateTime.Today;
                                 org.LastModDate = DateTime.Today;
                                 _dbContext.Organizations.Add(org);

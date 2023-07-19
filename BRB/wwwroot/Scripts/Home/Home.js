@@ -6,11 +6,11 @@ let lastSectionCompletedId = $('#hdfLastSectionCompletedId').val();
 $('#btnGenResume').click(function () {
     debugger
     $.ajax({
-        url: '/Resume/GenerateResumeOnWord',
+        url: '/Resume/GenerateResumeOnWord?font=' + $("input[name='Font']:checked").val(),
         type: 'get',
         success: function (response) {
             if (response.success) {
-                alert(response.message);
+                swal("Resume Generate Successfull", response.message, "success");
                 let a = document.createElement("a");
                 a.href = "/downloads/" + response.data;
                 a.download = response.data;

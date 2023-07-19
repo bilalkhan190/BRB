@@ -184,34 +184,38 @@ namespace BRB.Controllers
             ajaxResponse.Success = false;
             ajaxResponse.Redirect = "";
             var sessionData = JsonSerializer.Deserialize<UserSessionData>(HttpContext.Session.GetString("_userData"));
-            var ids = JsonSerializer.Deserialize<TableIdentities>(sessionData.Ids);
             Resume resumeProfileData = new Resume();
+            Education education = new Education();
             resumeProfileData.ResumeId = sessionData.ResumeId;
             resumeProfileData.UserId = sessionData.UserId;
             resumeProfileData.LastSectionVisitedId = educationViewModel.LastSectionVisitedId;
             resumeProfileData.LastModDate = DateTime.Today;
             resumeProfileData.CreatedDate = DateTime.Today;
             resumeProfileData.LastSectionCompletedId = educationViewModel.IsComplete == true ? educationViewModel.LastSectionVisitedId : 0;
-            Education education = new Education();
-            education.EducationId = ids.educationId;
-            education.ResumeId = sessionData.ResumeId;
-            education.IsComplete = educationViewModel.IsComplete == true ? educationViewModel.IsComplete : false;
-            education.CreatedDate = DateTime.Today;
-            education.LastModDate = DateTime.Today;
+            
+           
             using (var transection = _dbContext.Database.BeginTransaction())
             {
                 try
                 {
-                    bool masterRecord = _dbContext.Educations.Any(x => x.EducationId == ids.educationId);
-                    if (!masterRecord)
+
+                    var record = _dbContext.Educations.FirstOrDefault(x => x.ResumeId == sessionData.ResumeId);
+                   
+                  
+                    if (record == null)
                     {
+                        education.ResumeId = sessionData.ResumeId;
+                        education.IsComplete = educationViewModel.IsComplete == true ? educationViewModel.IsComplete : false;
+                        education.CreatedDate = DateTime.Today;
                         _dbContext.Educations.Add(education);
                         _dbContext.SaveChanges();
                     }
                     else
                     {
-                        _dbContext.Educations.Update(education);
+                        record.LastModDate = DateTime.Today;
+                        record.IsComplete = educationViewModel.IsComplete;
                         _dbContext.SaveChanges();
+                        education.EducationId = record.EducationId;
                     }
                     ajaxResponse.Redirect = "/Resume/OverseasStudy";
                     if (educationViewModel.College.Count > 0)
