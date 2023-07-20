@@ -265,6 +265,8 @@ namespace BRB.Controllers
             var res = _userProfileService.VerifyVoucher(voucherCode, sessionData.UserId);
             if (res)
             {
+                sessionData.VoucherCode = voucherCode;
+                HttpContext.Session.SetString("_userData", JsonConvert.SerializeObject(sessionData));
                 ajaxResponse.Success = true;
                 ajaxResponse.Message = "Code verified redirecting...";
                 ajaxResponse.Redirect = "/Resume/Home";

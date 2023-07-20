@@ -83,7 +83,7 @@ namespace BRB.Controllers
                             _context.SaveChanges();
                             //email verification here
                             string link = $@"{Request.Scheme}://{Request.Host}/Verification/{model.UserId}";
-                            SendEmail(model.UserName, "Best Resume Builder - User Verification", $@"Dear {model.FirstName} <br/><br/><a href='{link}'>Click here</a> for verification");
+                            SendEmail(model.UserName, $@"Dear {model.FirstName} <br/><br/><a href='{link}'>Click here</a> for verification", "Best Resume Builder - User Verification");
                             ajaxResponse.Success = true;
                             ajaxResponse.Message = "User Has been Created Successfully!";
                             ajaxResponse.Redirect = "/Resume/ContactInfo";

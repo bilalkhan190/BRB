@@ -19,6 +19,7 @@ namespace BusinessObjects.Models.MetaData
         public string? UserName  { get; set; }
 
         public string Ids { get; set; }
+        public string VoucherCode { get; set; }
 
         public int LastSectionVisitedId { get; set; }
         public int LastSectionCompletedId  { get; set; }
