@@ -49,7 +49,7 @@ namespace BRB.Controllers
             if (sessionData != null)
             {
                 
-                Resume resumeProfileData = new Resume();
+                Resume resumeProfileData = _dbContext.Resumes.FirstOrDefault(x => x.ResumeId == sessionData.ResumeId);
                 resumeProfileData.ResumeId = sessionData.ResumeId;
                 resumeProfileData.UserId = sessionData.UserId;
                 resumeProfileData.LastSectionVisitedId = languageViewModel.LastSectionVisitedId;
@@ -60,6 +60,7 @@ namespace BRB.Controllers
                 languageSkill.ResumeId = sessionData.ResumeId;
                 languageSkill.LanguageSkillId = languageViewModel.LanguageSkillId;
                 languageSkill.IsComplete = languageViewModel.IsComplete;
+                languageSkill.IsOptOut = languageViewModel.IsOptOut;
                 languageSkill.CreatedDate = DateTime.Today;
                 languageSkill.LastModDate = DateTime.Today;
                 using (var transection = _dbContext.Database.BeginTransaction())
@@ -70,6 +71,7 @@ namespace BRB.Controllers
                         if (record != null)
                         {
                             record.IsComplete= languageSkill.IsComplete;
+                            record.IsOptOut = languageSkill.IsOptOut;
                             record.CreatedDate = DateTime.Today;
                             record.LastModDate = DateTime.Today;
                             _dbContext.LanguageSkills.Update(record);

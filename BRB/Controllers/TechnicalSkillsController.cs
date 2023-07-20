@@ -62,7 +62,7 @@ namespace BRB.Controllers
                     {
                         _dbContext.TechnicalSkills.Add(model);
                     }
-                    Resume resumeProfileData = new Resume();
+                    Resume resumeProfileData = _dbContext.Resumes.FirstOrDefault(x => x.ResumeId == sessionData.ResumeId);
                     resumeProfileData.ResumeId = sessionData.ResumeId;
                     resumeProfileData.UserId = sessionData.UserId;
                     resumeProfileData.LastSectionVisitedId = technicalSkill.LastSectionVisitedId;

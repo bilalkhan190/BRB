@@ -14,6 +14,7 @@ using Microsoft.Data.SqlClient;
 using Newtonsoft.Json;
 using StoredProcedureEFCore;
 using System.Data;
+using System.Net.Mail;
 using static BusinessObjects.Helper.ApplicationHelper;
 
 namespace BRB.Controllers
@@ -224,7 +225,8 @@ namespace BRB.Controllers
                 record.LastModDate = DateTime.Today;
                 record.GeneratedDate = DateTime.Today;
                 _dbContext.SaveChanges();
-                SendResume(_webHostEnvironment.WebRootPath + "/downloads/" + filename, "bilalkhan.19@outlook.com");
+                //SendResume(_webHostEnvironment.WebRootPath + "/downloads/" + filename, "bilalkhan.19@outlook.com");
+                SendEmailAttachment("bilalkhan.19@outlook.com", new Attachment(_webHostEnvironment.WebRootPath + "/downloads/" + filename));
                 ajaxResponse.Message = "email has been sent to you email address bilalkhan.19@outlook.com";
                 ajaxResponse.Data = filename;
                 ajaxResponse.Success = true;

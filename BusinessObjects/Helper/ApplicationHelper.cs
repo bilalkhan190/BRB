@@ -8,6 +8,8 @@ using System.Collections.ObjectModel;
 using System.Net.Mail;
 using System.Text;
 using System.Web.Mvc;
+using System.Net;
+using System.Web.Helpers;
 
 namespace BusinessObjects.Helper
 {
@@ -18,7 +20,8 @@ namespace BusinessObjects.Helper
             string monthName = string.Empty;
             switch (monthInNumber)
             {
-                case 1: { 
+                case 1:
+                    {
                         monthName = "January";
                         break;
                     }
@@ -154,26 +157,86 @@ namespace BusinessObjects.Helper
             }
         }
 
-        public static void SendEmail(string toEmail,string subject , string body)
+        //public static void SendEmail(string toEmail, string subject, string body)
+        //{
+        //    MailMessage mailMessage = new MailMessage("bestresumebuilderresume@gmail.com", toEmail);
+        //    ((Collection<MailAddress>)mailMessage.ReplyToList).Add(new MailAddress("bestresumebuilderresume@gmail.com"));
+        //    mailMessage.Subject = subject;
+        //    mailMessage.Body = body;
+        //    mailMessage.BodyEncoding = Encoding.UTF8;
+        //    mailMessage.IsBodyHtml = true;
+        //    try
+        //    {
+        //        new SmtpClient()
+        //        {
+        //            DeliveryMethod = ((SmtpDeliveryMethod)0),
+        //            Host = "relay-hosting.secureserver.net",
+        //            Port = 25
+        //        }.Send(mailMessage);
+        //    }
+        //    catch (Exception ex)
+        //    {
+
+        //    }
+        //}
+
+
+        public static void SendEmailAttachment(string ToEmail, Attachment attachment)
         {
-            MailMessage mailMessage = new MailMessage("bestresumebuilderresume@gmail.com", toEmail);
-            ((Collection<MailAddress>)mailMessage.ReplyToList).Add(new MailAddress("bestresumebuilderresume@gmail.com"));
-            mailMessage.Subject = subject;
-            mailMessage.Body = body;
-            mailMessage.BodyEncoding = Encoding.UTF8;
-            mailMessage.IsBodyHtml = true;
             try
             {
-                new SmtpClient()
-                {
-                    DeliveryMethod = ((SmtpDeliveryMethod)0),
-                    Host = "relay-hosting.secureserver.net",
-                    Port = 25
-                }.Send(mailMessage);
+                MailMessage msg = new MailMessage("matechtestaccu@gmail.com", ToEmail);
+                msg.Subject = "Best Resume Builder - Your Resume";
+                StringBuilder stringBuilder = new StringBuilder();
+                stringBuilder.Append("<strong>CONGRATULATIONS!</strong><br /><br />");
+                stringBuilder.Append("Your resume is attached in Word.  As you see, the file is named with your first and last name along with the month and date your resume was submitted to Best Resume Builder.  We recommend keeping this as your file format so you and employers will know that they have the most current copy of your skills and background.<br /><br />");
+                stringBuilder.Append("<strong>Be sure to check the following to finalize your resume:</strong>");
+                stringBuilder.Append("<li>Any jobs/organizations/experiences that have ENDED have a ‘past tense’ verb at the front of the bullet point.  Some bullet points will need to have information modified based on your personal experience, so be sure they make sense and are specific with details where possible.</li>");
+                stringBuilder.Append("<li>If you only have ONE job within a company, you will see that the dates of employment will be duplicated right under each other.  Please be sure to remove the dates of employment in the line with the job title and keep the dates in the line with the company name and location.</li>");
+                stringBuilder.Append("<li>Check that the font size is consistent for your headings and titles. Some browsers may create inconsistent font sizes, so make changes where necessary to have your resume be consistent from section to section.</li>");
+                stringBuilder.Append("<li>You should try to condense your resume to one page – or the MOST important information fits on the first page.  You may have to eliminate some bullet points or change font size (be careful not to go smaller than 10pt).</li>");
+                stringBuilder.Append("<li>Use spell check – there may have been input fields that you entered quickly and may have a misspelled word.</li>");
+                stringBuilder.Append("<br />");
+                stringBuilder.Append("Good luck in your career search process!  For more information on other resources to help with your resume, interview skills, job offer negotiation, or other topics, please go to our website ");
+                stringBuilder.Append("<a href='www.bestresumebuilder.com'>www.bestresumebuilder.com</a> and check out the ‘Additional Resources’ page.  Thank you for using Best Resume Builder.");
+                stringBuilder.Append("<br />");
+                stringBuilder.Append("<br />");
+                msg.Body = stringBuilder.ToString();
+                msg.IsBodyHtml = true;
+                msg.Attachments.Add(attachment);
+                SmtpClient client = new SmtpClient();
+                client.Host = "smtp.gmail.com";
+                client.Port = 587;
+                client.EnableSsl = true;
+                client.UseDefaultCredentials = false;
+                client.Credentials = new NetworkCredential("matechtestaccu@gmail.com", "mtufjxsjvhkuuuna");
+                client.SendMailAsync(msg);
             }
             catch (Exception ex)
             {
+                throw;
+            }
+        }
 
+        public static void SendEmail(string ToEmail, string body, string Subject)
+        {
+            try
+            {
+                MailMessage msg = new MailMessage("matechtestaccu@gmail.com", ToEmail);
+                msg.Subject = Subject;
+                msg.Body = body;
+                msg.IsBodyHtml = true;
+                SmtpClient client = new SmtpClient();
+                client.Host = "smtp.gmail.com";
+                client.Port = 587;
+                client.EnableSsl = true;
+                client.UseDefaultCredentials = false;
+                client.Credentials = new NetworkCredential("matechtestaccu@gmail.com", "mtufjxsjvhkuuuna");
+                client.SendMailAsync(msg);
+            }
+            catch (Exception ex)
+            {
+                throw;
             }
         }
 
