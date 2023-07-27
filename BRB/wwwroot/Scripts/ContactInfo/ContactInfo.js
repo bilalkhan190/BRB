@@ -13,6 +13,8 @@
             alert(err)
         }
     });
+
+
     $.ajax({
         url: '/ContactInfo/GetAllContactInfo' ,
         type: 'GET',

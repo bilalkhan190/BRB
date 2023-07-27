@@ -144,6 +144,7 @@ public partial class Wh4lprodContext : DbContext
     public virtual DbSet<WorkRespQuestion> WorkRespQuestions { get; set; }
 
     public virtual DbSet<YearsOfExperienceList> YearsOfExperienceLists { get; set; }
+    public virtual DbSet<ResponsibilityOptionsResponse> ResponsibilityOptionsResponses { get; set; }
 
 
 
@@ -188,7 +189,12 @@ public partial class Wh4lprodContext : DbContext
                 .IsUnicode(false);
         });
 
-        modelBuilder.Entity<Affiliation>(entity =>
+        modelBuilder.Entity<ResponsibilityOptionsResponse>(entity =>
+        {
+            entity.ToTable("ResponsibilityOptionsResponse");
+
+        });
+            modelBuilder.Entity<Affiliation>(entity =>
         {
             entity.ToTable("Affiliation");
 

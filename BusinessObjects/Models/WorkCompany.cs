@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BusinessObjects.Models;
 
@@ -15,11 +16,15 @@ public partial class WorkCompany
 
     public string? State { get; set; }
 
-    public int? StartMonth { get; set; }
+    public string? StartMonth { get; set; }
 
     public int? StartYear { get; set; }
 
-    public int? EndMonth { get; set; }
+    public string? EndMonth { get; set; }
 
     public int? EndYear { get; set; }
+
+
+    [NotMapped]
+    public List<WorkPosition> Positions { get; set; } = new List<WorkPosition>();
 }

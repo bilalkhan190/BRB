@@ -121,7 +121,23 @@ namespace BRB.Controllers
         }
         public IActionResult WorkExperience()
         {
-            return View();
+            var sessionData = JsonConvert.DeserializeObject<UserSessionData>(HttpContext.Session.GetString("_userData"));
+            var record = _dbContext.WorkExperiences.FirstOrDefault(x => x.ResumeId == sessionData.ResumeId);
+            var companies = _dbContext.WorkCompanies.Where(x => x.WorkExperienceId == record.WorkExperienceId).ToList();
+            companies.ForEach(f =>
+            {
+                var positions = _dbContext.WorkPositions.Where(x => x.CompanyId == f.CompanyId).ToList();
+                positions.ForEach(a =>
+                {
+                    var awards = _dbContext.JobAwards.Where(x => x.CompanyJobId == a.PositionId).ToList();
+                    a.JobAwards = awards;
+                });
+                f.Positions = positions;
+            });
+            record.Companies = companies;
+
+            CreateWorkExperience();
+            return View(record);
         }
 
         public IActionResult Military()
@@ -150,6 +166,26 @@ namespace BRB.Controllers
             return View();
         }
 
+        public IActionResult CreateWorkExperience()
+        {
+            AjaxResponse ajaxResponse = new AjaxResponse();
+            var sessionData = JsonConvert.DeserializeObject<UserSessionData>(HttpContext.Session.GetString("_userData"));
+            var record = _dbContext.WorkExperiences.FirstOrDefault(x => x.ResumeId == sessionData.ResumeId);
+            if (record == null)
+            {
+                WorkExperience workExperience = new WorkExperience()
+                {
+                    ResumeId = sessionData.ResumeId,
+                    CreatedDate = DateTime.Today,
+                    IsComplete = false,
+
+                };
+                _dbContext.WorkExperiences.Add(workExperience);
+                _dbContext.SaveChanges();
+                ajaxResponse.Success = true;
+            }
+            return Json(ajaxResponse);
+        }
 
         public async Task<IActionResult> GenerateResumeOnWord(string font)
         {
