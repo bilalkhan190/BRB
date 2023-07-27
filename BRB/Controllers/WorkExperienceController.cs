@@ -182,11 +182,11 @@ namespace BRB.Controllers
                         _dbContext.JobAwards.Add(model);
                     }
                     _dbContext.SaveChanges();
-
+                    var awardList = _dbContext.JobAwards.Where(x => x.CompanyJobId == model.CompanyJobId).ToList();
                    
-                    var html = await ApplicationHelper.RenderViewAsync(this, "_positions", positionList, true);
+                    var html = await ApplicationHelper.RenderViewAsync(this, "_awards", awardList, true);
                     ajaxResponse.Data = html;
-                    ajaxResponse.FieldName = "_" + model.CompanyId;
+                    ajaxResponse.FieldName = "_" + model.JobAwardId;
                     ajaxResponse.Success = true;
 
 
