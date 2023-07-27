@@ -76,7 +76,7 @@ namespace BRB.Controllers
             ajaxResponse.Success = true;
             ajaxResponse.Redirect = "/Resume/CommunityService";
             var sessionData = JsonSerializer.Deserialize<UserSessionData>(HttpContext.Session.GetString("_userData"));
-            Resume resumeProfileData = new Resume();
+            Resume resumeProfileData = _dbContext.Resumes.FirstOrDefault(x => x.ResumeId == sessionData.ResumeId);
             resumeProfileData.ResumeId = sessionData.ResumeId;
             resumeProfileData.UserId = sessionData.UserId;
             resumeProfileData.LastSectionVisitedId = organizationViewModel.LastSectionVisitedId;

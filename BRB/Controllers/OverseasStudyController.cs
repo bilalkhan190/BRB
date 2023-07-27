@@ -30,7 +30,7 @@ namespace BRB.Controllers
             ajaxResponse.Message = string.Empty;
             ajaxResponse.Redirect = "/resume/military";
             var overseasExperienceData = new OverseasExperience();
-            Resume resume = new Resume();
+            Resume resume = _dbContext.Resumes.FirstOrDefault(x => x.ResumeId == sessionData.ResumeId);
             resume.ResumeId = sessionData.ResumeId;
             resume.UserId = sessionData.UserId;
             resume.LastSectionVisitedId = overseasStudyViewModel.LastSectionVisitedId;

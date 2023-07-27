@@ -1,8 +1,8 @@
 ﻿$(document).ready(function () {
-  
+
     $('#ddlStateAbbr').html("");
     $('#ddlStateAbbr').append('<option value="" selected><b>Select State</b></option>');
-   
+
     $.ajax({
         url: '/Common/GetStateList',
         type: 'get',
@@ -26,6 +26,7 @@ $('#btnCreateUser').click(function () {
             type: 'POST',
             data: $('#signUpForm').serialize(),
             success: function (response) {
+                debugger
                 if (response.success) {
                     swal("Account Status", response.message, "success");
                     window.location.href = response.redirect;

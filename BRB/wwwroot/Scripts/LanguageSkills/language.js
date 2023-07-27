@@ -18,6 +18,11 @@ $(document).ready(function () {
     LoadData();
 });
 
+$(document).on('change', '#cbSectionNotApply', function () {
+    if (this.checked) $('#isOptSection').hide()
+    else $('#isOptSection').show()
+});
+
 $('#btnSaveLanguage').click(function () {
     if ($('#txtLanguageName').val().trim() == "") {
         $('#languageForm').validate();
@@ -62,7 +67,8 @@ $('#btnSaveAndContinue').click(function () {
         LanguageSkillId: $('#hdfLanguageSkillId').val(),
         LastSectionVisitedId: $('#hdfLastSectionVisitedId').val(),
         Languages: languageArray,
-        IsComplete: $('#cbIsComplete').val($('#cbIsComplete').is(':checked'))[0].checked
+        IsComplete: $('#cbIsComplete').val($('#cbIsComplete').is(':checked'))[0].checked,
+        IsOptOut: $('#cbSectionNotApply').is(':checked')
     }
 
     $.ajax({
@@ -86,7 +92,8 @@ function LoadData() {
             console.log(response.data)
             if (response.data != null) {
                 $('#hdfLanguageSkillId').val(response.data.languageSkillId);
-                $('.isoptOut').prop("checked", response.data.isOptOut).trigger('change')
+                debugger
+                $('#cbSectionNotApply').prop("checked", response.data.isOptOut).trigger('change')
                 $("#cbIsComplete").prop("checked", response.data.isComplete)
                 if (response.data.languages.length > 0) {
                     $.each(response.data.languages, function (index, value) {

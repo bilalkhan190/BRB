@@ -184,7 +184,7 @@ namespace BRB.Controllers
             ajaxResponse.Success = false;
             ajaxResponse.Redirect = "";
             var sessionData = JsonSerializer.Deserialize<UserSessionData>(HttpContext.Session.GetString("_userData"));
-            Resume resumeProfileData = new Resume();
+            Resume resumeProfileData = _dbContext.Resumes.FirstOrDefault(x => x.ResumeId == sessionData.ResumeId);
             Education education = new Education();
             resumeProfileData.ResumeId = sessionData.ResumeId;
             resumeProfileData.UserId = sessionData.UserId;

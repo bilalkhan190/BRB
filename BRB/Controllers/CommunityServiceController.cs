@@ -83,7 +83,7 @@ namespace BRB.Controllers
             AjaxResponse ajaxResponse = new AjaxResponse();
             ajaxResponse.Success = true;
             var sessionData = JsonSerializer.Deserialize<UserSessionData>(HttpContext.Session.GetString("_userData"));
-            Resume resumeProfileData = new Resume();
+            Resume resumeProfileData = _dbContext.Resumes.FirstOrDefault(x => x.ResumeId == sessionData.ResumeId);
             resumeProfileData.ResumeId = sessionData.ResumeId;
             resumeProfileData.UserId = sessionData.UserId;
             resumeProfileData.LastSectionVisitedId = communityViewModel.LastSectionVisitedId;

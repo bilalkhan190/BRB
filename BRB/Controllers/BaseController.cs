@@ -25,17 +25,23 @@ namespace BRB.Controllers
             else
             {
 
-            UserSessionData sessionData = null;
-            if (HttpContext.Session.GetString("_userData") != null ) 
-            {
-                sessionData = JsonConvert.DeserializeObject<UserSessionData>(HttpContext.Session.GetString("_userData"));
+                UserSessionData sessionData = null;
+                if (HttpContext.Session.GetString("_userData") != null)
+                {
+                    sessionData = JsonConvert.DeserializeObject<UserSessionData>(HttpContext.Session.GetString("_userData"));
+                    if (((Microsoft.AspNetCore.Mvc.Controllers.ControllerActionDescriptor)context.ActionDescriptor).ActionName != "VoucherVerification" && 
+                        ((Microsoft.AspNetCore.Mvc.Controllers.ControllerActionDescriptor)context.ActionDescriptor).ActionName != "VerifyVoucher" && 
+                        string.IsNullOrEmpty(sessionData.VoucherCode))
+                    {
+                        context.Result = new RedirectResult(Url.Action("VoucherVerification", "Resume"));
+                    }
                     ViewBag.UserRecord = sessionData;
-            }
-            else
-            {
-                context.Result = new RedirectResult(Url.Action("Index", "Account"));
-            }
-            base.OnActionExecuting(context);    
+                }
+                else
+                {
+                    context.Result = new RedirectResult(Url.Action("Index", "Account"));
+                }
+                base.OnActionExecuting(context);
             }
         }
     }
