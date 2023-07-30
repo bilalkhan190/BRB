@@ -55,6 +55,7 @@ namespace BRB.Controllers
                 resumeProfileData.LastSectionVisitedId = languageViewModel.LastSectionVisitedId;
                 resumeProfileData.LastModDate = DateTime.Today;
                 resumeProfileData.CreatedDate = DateTime.Today;
+                resumeProfileData.GeneratedFileName = null;
                 resumeProfileData.LastSectionCompletedId = languageViewModel.IsComplete == true ? languageViewModel.LastSectionVisitedId : 0;
                 LanguageSkill languageSkill = new LanguageSkill();
                 languageSkill.ResumeId = sessionData.ResumeId;

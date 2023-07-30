@@ -47,14 +47,14 @@
 
     </div>
     <div>
-        @if(Model.ObjectiveSummary != null)
+        @if (Model.ObjectiveSummary != null)
         {
             <p>
                 <span style="display: block;font-weight: 700;padding-bottom: 10px;background: #dbdbdb;padding-top: 10px;padding-left: 10px;font-size: 20px;margin-bottom: 16px;">@Model.ObjectiveSummary.ObjectiveType</span>
                 <span> To utilize my @Model.ObjectiveSummary.ObjectiveDesc1,  @Model.ObjectiveSummary.ObjectiveDesc2, and  @Model.ObjectiveSummary.ObjectiveDesc3 skills to secure a  @Model.ObjectiveSummary.PositionTypeDesc job in @Model.ObjectiveSummary.CurrentCompanyType to increase revenue.</span>
             </p>
         }
-       
+
         <p style="padding-bottom: 10px;background: #dbdbdb;padding-top: 10px;padding-left: 10px;font-size: 20px;margin-bottom: 16px;"><b>Education:</b></p>
         @foreach (var c in Model.Colleges)
         {
@@ -96,9 +96,9 @@
 
         }
     </div>
-    @if (!Model.MilitaryExperiences.IsOptOut)
+    @if (@Model.MilitaryExperiences != null)
     {
-        if (@Model.MilitaryExperiences != null)
+        if (!Model.MilitaryExperiences.IsOptOut)
         {
 
             <p style="padding-bottom: 10px;background: #dbdbdb;padding-top: 10px;padding-left: 10px;font-size: 20px;margin-bottom: 16px;"><b>Military Experience:</b></p>
@@ -128,7 +128,7 @@
             </div>
         }
     }
-   
+
 
     @if (!Model.OrgExperience.IsOptOut)
     {
@@ -142,7 +142,7 @@
                 <li>@o.StartedMonth @o.StartedYear, @o.StateName</li>
                 <li>@o.EndedMonth @o.EndedYear</li>
             </ul>
-            if (Model.OrgPositions.Count> 0)
+            if (Model.OrgPositions.Count > 0)
             {
                 <p style="padding-bottom: 10px;background: #dbdbdb;padding-top: 10px;padding-left: 10px;font-size: 20px;margin-bottom: 16px;"><b>Organization Positions</b></p>
                 @foreach (var op in Model.OrgPositions)
@@ -154,7 +154,7 @@
                     </ul>
                 }
             }
-            
+
 
         }
 
@@ -247,7 +247,7 @@
             Microsoft Word, Microsoft Power Point, Macintosh Pages, Adobe Illustrator, Adobe Publisher, web developement
         </span>
         </p><br />
-       
+
         @if (Model.Languages.Count > 0)
         {
             <p style="padding-bottom: 10px;background: #dbdbdb;padding-top: 10px;padding-left: 10px;font-size: 20px;margin-bottom: 16px;"><b>Language Skills:</b></p>

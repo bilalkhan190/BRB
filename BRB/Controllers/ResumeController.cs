@@ -27,7 +27,7 @@ namespace BRB.Controllers
         IWebHostEnvironment _webHostEnvironment;
         public ResumeController(IResumeService resumeService, IContactInfoService contactInfoService, IWebHostEnvironment webHostEnvironment, IUserProfileService userProfileService)
         {
-            _resumeService = resumeService;
+            _resumeService  =     resumeService;
             _contactInfoService = contactInfoService;
             _webHostEnvironment = webHostEnvironment;
             _userProfileService = userProfileService;
@@ -122,6 +122,7 @@ namespace BRB.Controllers
         }
         public IActionResult WorkExperience()
         {
+            CreateWorkExperience();
             var sessionData = JsonConvert.DeserializeObject<UserSessionData>(HttpContext.Session.GetString("_userData"));
             var record = _dbContext.WorkExperiences.FirstOrDefault(x => x.ResumeId == sessionData.ResumeId);
             var companies = _dbContext.WorkCompanies.Where(x => x.WorkExperienceId == record.WorkExperienceId).ToList();
@@ -132,12 +133,14 @@ namespace BRB.Controllers
                 {
                     var awards = _dbContext.JobAwards.Where(x => x.CompanyJobId == a.PositionId).ToList();
                     a.JobAwards = awards;
+                    a.workRespQuestions = _dbContext.WorkRespQuestions.Where(x => x.PositionId == a.PositionId).ToList();
+                    a.responsibilityOptions = _dbContext.ResponsibilityOptionsResponses.Where(x => x.PositionId == a.PositionId).ToList();
                 });
                 f.Positions = positions;
             });
             record.Companies = companies;
 
-            CreateWorkExperience();
+          
             return View(record);
         }
 
@@ -262,8 +265,9 @@ namespace BRB.Controllers
                 record.GeneratedDate = DateTime.Today;
                 _dbContext.SaveChanges();
                 //SendResume(_webHostEnvironment.WebRootPath + "/downloads/" + filename, "bilalkhan.19@outlook.com");
-                SendEmailAttachment("bilalkhan.19@outlook.com", new Attachment(_webHostEnvironment.WebRootPath + "/downloads/" + filename));
-                ajaxResponse.Message = "email has been sent to you email address bilalkhan.19@outlook.com";
+                SendEmailAttachment(sessionData.UserName, new Attachment(_webHostEnvironment.WebRootPath + "/downloads/" + filename));
+                //SendEmail(sessionData.UserName,)
+                ajaxResponse.Message = $"Email has been sent to your email address {sessionData.UserName} ";
                 ajaxResponse.Data = filename;
                 ajaxResponse.Success = true;
                 return Json(ajaxResponse);

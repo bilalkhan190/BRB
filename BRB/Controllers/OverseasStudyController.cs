@@ -36,6 +36,7 @@ namespace BRB.Controllers
             resume.LastSectionVisitedId = overseasStudyViewModel.LastSectionVisitedId;
             resume.LastModDate = DateTime.Today;
             resume.CreatedDate = DateTime.Today;
+            resume.GeneratedFileName = null;
             resume.LastSectionCompletedId = overseasStudyViewModel.IsComplete == true ? overseasStudyViewModel.LastSectionVisitedId : 0;
             OverseasExperience overseasExperience = new OverseasExperience();
             using (var transection = _dbContext.Database.BeginTransaction())
@@ -67,7 +68,6 @@ namespace BRB.Controllers
                             data.CreatedDate = DateTime.Today;
                             data.LastModDate = DateTime.Today;
                             _dbContext.OverseasExperiences.Update(data);
-
                         }
                         if (overseasStudyViewModel.OverseasStudies.Count > 0)
                         {
@@ -87,6 +87,7 @@ namespace BRB.Controllers
                                     _dbContext.OverseasStudies.Add(overseas);
                                 }
                             }
+                            _dbContext.SaveChanges();
                         }
                         _dbContext.Resumes.Update(resume);
                         _dbContext.SaveChanges();   

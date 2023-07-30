@@ -34,7 +34,8 @@ $('#FormVoucherVerfication').on('submit', function (e) {
         success: function (response) {
             if (response.success) {
                 swal("Success", response.message, "success");
-                window.location.href = response.redirect;
+                setTimeout(function () { window.location.href = response.redirect; }, 1000);
+               
             } else {
                 swal("Error", response.message, "error");
             }

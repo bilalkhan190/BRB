@@ -456,6 +456,11 @@
                         <label for="resp" class="">Job Responsibility</label>
                         <p class="danger-text"><em>You must select a responsibility.</em></p>
                         <select name="JobResponsibilityId" id="ddlJobResponsibility" class="form-control-sm form-control">
+                            <option>-Select-</option>
+                            @foreach (var item in ViewBag.Responsibilities)
+                            {
+                                <option value="@item.JobCategoryId">@item.JobCategoryDesc</option>
+                            }
                         </select>
                     </div>
                     <h5>

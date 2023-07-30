@@ -26,10 +26,10 @@ $('#btnCreateUser').click(function () {
             type: 'POST',
             data: $('#signUpForm').serialize(),
             success: function (response) {
-                debugger
+              
                 if (response.success) {
                     swal("Account Status", response.message, "success");
-                    window.location.href = response.redirect;
+                    setTimeout(function () { window.location.href = response.redirect; }, 1000);
                 } else {
                     swal("Account Status", response.message, "error");
                 }

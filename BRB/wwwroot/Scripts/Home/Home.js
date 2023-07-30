@@ -10,7 +10,7 @@ $('#btnGenResume').click(function () {
         type: 'get',
         success: function (response) {
             if (response.success) {
-                swal("Resume Generate Successfull", response.message, "success");
+                swal("Resume Generated Successfullyl", response.message, "success");
                 let a = document.createElement("a");
                 a.href = "/downloads/" + response.data;
                 a.download = response.data;

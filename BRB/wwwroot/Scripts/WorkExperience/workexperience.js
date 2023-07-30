@@ -10,7 +10,8 @@ $(document).on('click', '#btnAddJob', function () {
     } else {
         $('#mainDisplayPage').hide();
         $('#divJobForm').load(url);
-        setTimeout(function () { fillDropdown() }, 2000)
+        fillDropdown();
+        //setTimeout(function () { fillDropdown() }, 2000)
     }
 });
 
@@ -115,9 +116,24 @@ $(document).on("click", "#btnSavePosition", function () {
 
 $(document).on('click', '#btnCancelJob', function () {
     console.log('cancel click')
-    $('#divJobForm').hide();
+    $('#divJobForm').html('');
     $('#mainDisplayPage').show();
 });
+
+$('#btnSaveOrContinue').click(function () {
+    $.ajax({
+        url: '/WorkExperience/UpdateExperienceMaster?isComplete=' + $('#cbIsComplete').is(":checked"),
+        type: 'get',
+        success: function (response) {
+            if (response.success) {
+                window.location.href = response.redirect;
+            }
+        },
+        error: function (err) {
+            alert(err)
+        }
+    });
+})
 
 
 function fillDropdown(val) {
@@ -199,14 +215,16 @@ $('#btnAddAward').click(function () {
 //hit kr k check krna hai 
 $('#btnSaveAward').click(function () {
     let positionId = localStorage.getItem("PositionId");
+    console.log($('#formAward').serialize());
       $.ajax({
-          url: '/WorkExperience/AddAward?CompanyJobId=' + positionId + "&" + $('#FormAward').serialize(),
+          url: '/WorkExperience/AddAward?' + $('#formAward').serialize() + '&CompanyJobId=' + positionId,
         type: 'get',
         success: function (response) {
             console.log(response);
             if (response.success) {
+                console.log(response.fieldName)
                 $('#' + response.fieldName).html(response.data);
-                $('#FormAward').trigger("reset");
+                $('#formAward').trigger("reset");
 
             }
         },
@@ -214,13 +232,12 @@ $('#btnSaveAward').click(function () {
             alert(err)
         }
     });
-
+    //'/WorkExperience/AddAward?CompanyJobId=' + positionId + "&" + $('#formAward').serialize(),
 });
 
 
 $(document).on("click", "button.btnEditCompany", function () {
     var json = JSON.parse($(this).attr("data-item"));
-    console.log(json)
     $("input[name='CompanyId']").val(json.companyId);
     $("input[name='CompanyName']").val(json.companyName);
     $("input[name='City']").val(json.city);
@@ -232,43 +249,73 @@ $(document).on("click", "button.btnEditCompany", function () {
     $("#SummaryModal").modal('show');
 })
 
+$(document).on("click", "button.btnEditAward", function () {
+    var json = JSON.parse($(this).attr("data-item"));
+    console.log(json)
+    $("input[name='JobAwardId']").val(json.jobAwardId);
+    $("input[name='AwardDesc']").val(json.awardDesc);
+    $("select[name='AwardedMonth']").val(json.awardedMonth);
+    $("select[name='AwardedYear']").val(json.awardedYear);
+    $("#hdfPositionId").val(json.companyJobId);
+    $('#awardModal').modal('show');
+})
+
 $(document).on("click", "button.btnEditPosition", function () {
+    $('#loader').fadeIn();
     var json = JSON.parse($(this).attr("data-item"));
     console.log(json)
     localStorage.setItem("CompanyId", json.companyId);
-    $('#mainDisplayPage').hide();
-    $('#divJobForm').show()
-    debugger;
-    $("input[name='PositionId']").val(json.positionId);
-    $("#ddlJobResponsibility").val(json.jobResponsibilityId);
-    $("#ddlJobResponsibility").trigger("change");
-    $(`input[name='Title']`).val(json.title);
-    $(`select[name='StartMonth']`).val(json.startMonth);
-    $(`select[name='StartYear']`).val(json.startYear);
-    $(`select[name='EndMonth']`).val(json.endMonth);
-    $(`select[name='EndYear']`).val(json.endYear);
-    $(`input[name='Project1']`).val(json.project1);
-    $(`input[name='Project2']`).val(json.project2);
-    $(`input[name='ImproveProductivity']`).val(json.improveProductivity);
-    $(`input[name='IncreaseRevenue']`).val(json.increaseRevenue);
-    $(`input[name='PercentageImprovement']`).val(json.percentageImprovement);
-    setTimeout(function () {
-        if (json.workRespQuestions) {
-            $.each(json.workRespQuestions, function (index, value) {
-               
-                $(`input[name='workRespQuestions[${index}].Answer']`).val(value.answer);
-            })
-        }
+    //if ($('#divJobForm').children().length > 0) {
+    //    $('#mainDisplayPage').hide();
+    //    $('#divJobForm').show()
+    //} else {
+    //    $('#mainDisplayPage').hide();
+    //    $('#divJobForm').load(url);
+    //    fillDropdown();
+    //}
+    //debugger;
+    $.get(url, function (response) {
+        console.log(response)
+        $('#mainDisplayPage').hide();
+        $('#divJobForm').html(response);
+            $(document).find("#ddlJobResponsibility").val(json.jobResponsibilityId);
+            $(document).find("#ddlJobResponsibility").trigger("change");
+      
+            $("input[name='PositionId']").val(json.positionId);
+      
+            $(`input[name='Title']`).val(json.title);
+            $(`select[name='StartMonth']`).val(json.startMonth);
+            $(`select[name='StartYear']`).val(json.startYear);
+            $(`select[name='EndMonth']`).val(json.endMonth);
+            $(`select[name='EndYear']`).val(json.endYear);
+            $(`input[name='Project1']`).val(json.project1);
+            $(`input[name='Project2']`).val(json.project2);
+            $(`input[name='ImproveProductivity']`).val(json.improveProductivity);
+            $(`input[name='IncreaseRevenue']`).val(json.increaseRevenue);
+            $(`input[name='PercentageImprovement']`).val(json.percentageImprovement);
 
-        if (json.responsibilityOptions) {
-            $.each(json.responsibilityOptions, function (index, value) {
+            setTimeout(function () {
+                if (json.workRespQuestions) {
+                    $.each(json.workRespQuestions, function (index, value) {
 
-                $(`input[name='responsibilityOptions[${index}].ResponsibilityOption'][value='${value.responsibilityOption}']`).prop("checked", true);
-            })
-        }
-    }, 2000);
-   
+                        $(`input[name='workRespQuestions[${index}].Answer']`).val(value.answer);
+                    })
+                }
+
+                if (json.responsibilityOptions) {
+                    $.each(json.responsibilityOptions, function (index, value) {
+
+                        $(`input[name='responsibilityOptions[${index}].ResponsibilityOption'][value='${value.responsibilityOption}']`).prop("checked", true);
+                    })
+                }
+                $('#loader').fadeOut(250)
+            }, 1000);
+
+      
+    })
     
+   
+   
     
 })
 

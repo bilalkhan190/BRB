@@ -166,39 +166,41 @@ namespace BRB.Controllers
                                 switch (sessionRecord.LastSectionCompletedId)
                                 {
                                     case 15:
-                                        ajaxResponse.Redirect = "/Resume/Objective";
+                                        ajaxResponse.Redirect = "/Resume/ContactInfo";
                                         break;
                                     case 20:
-                                        ajaxResponse.Redirect = "/Resume/Education";
+                                        ajaxResponse.Redirect = "/Resume/Objective";
                                         break;
                                     case 25:
-                                        ajaxResponse.Redirect = "/Resume/OverseasStudy";
+                                        ajaxResponse.Redirect = "/Resume/Education";
                                         break;
                                     case 30:
-                                        ajaxResponse.Redirect = "/Resume/Military";
+                                        ajaxResponse.Redirect = "/Resume/OverseasStudy";
                                         break;
                                     case 35:
-                                        ajaxResponse.Redirect = "/Resume/Military";
+                                        ajaxResponse.Redirect = "/Resume/WorkExperience";
                                         break;
                                     case 40:
-                                        ajaxResponse.Redirect = "/Resume/Organizations";
+                                        ajaxResponse.Redirect = "/Resume/Military";
                                         break;
                                     case 45:
-                                        ajaxResponse.Redirect = "/Resume/CommunityService";
+                                        ajaxResponse.Redirect = "/Resume/Organizations";
                                         break;
                                     case 50:
-                                        ajaxResponse.Redirect = "/Resume/ComputerAndTechnicalSkills";
+                                        ajaxResponse.Redirect = "/Resume/CommunityService";
                                         break;
                                     case 60:
                                         ajaxResponse.Redirect = "/Resume/Certifications";
                                         break;
                                     case 55:
-                                        ajaxResponse.Redirect = "/Resume/LanguagesSKills";
+                                        ajaxResponse.Redirect = "/Resume/ComputerAndTechnicalSkills";
                                         break;
                                     case 65:
-                                        ajaxResponse.Redirect = "/Resume/Home";
+                                        ajaxResponse.Redirect = "/Resume/LanguagesSKills";
                                         break;
-
+                                    
+                                    default: ajaxResponse.Redirect = "/Resume/Home";
+                                        break;
                                 }
                             }
                             else
@@ -218,7 +220,7 @@ namespace BRB.Controllers
                                         ajaxResponse.Redirect = "/Resume/OverseasStudy";
                                         break;
                                     case 35:
-                                        ajaxResponse.Redirect = "/Resume/Military";
+                                        ajaxResponse.Redirect = "/Resume/WorkExperience";
                                         break;
                                     case 40:
                                         ajaxResponse.Redirect = "/Resume/Military";
@@ -238,6 +240,8 @@ namespace BRB.Controllers
                                     case 65:
                                         ajaxResponse.Redirect = "/Resume/LanguagesSKills";
                                         break;
+                                    default: ajaxResponse.Redirect = "/Resume/Home";
+                                        break;
                                 }
                             }
 
@@ -245,7 +249,7 @@ namespace BRB.Controllers
                     }
                     else
                     {
-                        ajaxResponse.Redirect = "/Admin/index";
+                        ajaxResponse.Redirect = "/Admin/ProductReport";
                     }
                 }
             }

@@ -20,6 +20,7 @@ namespace BRB.Controllers
         }
         public IActionResult GetJobResponsibility()
         {
+            ViewBag.Responsibilities = _dropdownService.GetJobCategoryList();
             return PartialView("_WorkResponsibility");
         }
         public IActionResult GetResponsibilityFAQ(int jobCategoryId)
@@ -146,6 +147,7 @@ namespace BRB.Controllers
                     positionList.ForEach(f => { 
                         f.workRespQuestions = _dbContext.WorkRespQuestions.Where(x => x.PositionId == f.PositionId).ToList();
                         f.responsibilityOptions = _dbContext.ResponsibilityOptionsResponses.Where(x => x.PositionId == f.PositionId).ToList();
+                        f.JobAwards = _dbContext.JobAwards.Where(x => x.CompanyJobId == f.PositionId).ToList();
                     });
                     var html = await ApplicationHelper.RenderViewAsync(this, "_positions", positionList, true);
                     ajaxResponse.Data = html;
@@ -175,18 +177,26 @@ namespace BRB.Controllers
                 {
                     if (model.JobAwardId > 0)
                     {
-                        _dbContext.JobAwards.Update(model);
+                        var record = _dbContext.JobAwards.FirstOrDefault(x => x.JobAwardId == model.JobAwardId);
+                        record.AwardDesc = model.AwardDesc;
+                        record.AwardedMonth = model.AwardedMonth;
+                        record.AwardedYear = model.AwardedYear;
+                        record.LastModDate = DateTime.Today;
                     }
                     else
                     {
+                        model.CreatedDate = DateTime.Today;
                         _dbContext.JobAwards.Add(model);
                     }
+                   
+                      
+                    
                     _dbContext.SaveChanges();
                     var awardList = _dbContext.JobAwards.Where(x => x.CompanyJobId == model.CompanyJobId).ToList();
                    
                     var html = await ApplicationHelper.RenderViewAsync(this, "_awards", awardList, true);
                     ajaxResponse.Data = html;
-                    ajaxResponse.FieldName = "_" + model.JobAwardId;
+                    ajaxResponse.FieldName = "_" + model.CompanyJobId;
                     ajaxResponse.Success = true;
 
 
@@ -211,9 +221,24 @@ namespace BRB.Controllers
             return Json(ajaxResponse);
         }
 
-        public IActionResult PostWorkExperienceData()
+        public IActionResult UpdateExperienceMaster(bool isComplete)
         {
-            return Json("");
+            var sessionData = JsonConvert.DeserializeObject<UserSessionData>(HttpContext.Session.GetString("_userData"));
+            AjaxResponse ajaxResponse = new AjaxResponse();
+            ajaxResponse.Data = null;
+            ajaxResponse.Success = false;
+            var data = _dbContext.WorkExperiences.FirstOrDefault(x =>x.ResumeId == sessionData.ResumeId);
+            if (data != null)
+            {
+                data.IsComplete = isComplete;
+                data.LastModDate = DateTime.Today;    
+                _dbContext.SaveChanges();
+                //resume master bhi update krwana h with last visited id
+                ajaxResponse.Data = data;
+                ajaxResponse.Redirect = "/Resume/Military";
+                ajaxResponse.Success = true;
+            }
+            return Json(ajaxResponse);
         }
     }
 }

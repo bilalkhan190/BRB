@@ -92,6 +92,7 @@ $(document).ready(function () {
         url: '/OverseasStudy/GetMasterdata',
         type: 'get',
         success: function (response) {
+            console.log(response.data)
             if (response.data != null) {
                 $('#hdfOverseasExperienceId').val(response.data.overseasExperienceId);
                 $('#sectionCheckBox').prop("checked", response.data.isOptOut).trigger('change');

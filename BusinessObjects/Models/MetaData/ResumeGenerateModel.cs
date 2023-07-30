@@ -13,6 +13,12 @@ namespace BusinessObjects.Models.MetaData
         public ContactInfo Contact { get; set; } = new ContactInfo();
         public ObjectiveSummary ObjectiveSummary { get; set; } = new ObjectiveSummary();
         public Education Education { get; set; } = new Education();
+
+        public WorkExperience WorkExperience { get; set; }
+
+        //public List<WorkCompany> WorkCompany { get; set; }
+
+        //public List<CompanyJob> CompanyJobs { get; set; }
         public List<College> Colleges { get; set; } = new List<College>();
         public List<AcademicHonor> AcademicHonors { get; set; } = new List<AcademicHonor>();
         public List<AcademicScholarship> AcademicScholarships { get; set; } = new List<AcademicScholarship>();
