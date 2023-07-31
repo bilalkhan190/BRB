@@ -16,7 +16,7 @@ namespace BusinessObjects.Models.MetaData
 
         public WorkExperience WorkExperience { get; set; }
 
-        //public List<WorkCompany> WorkCompany { get; set; }
+        public List<WorkCompany> WorkCompany { get; set; }
 
         //public List<CompanyJob> CompanyJobs { get; set; }
         public List<College> Colleges { get; set; } = new List<College>();

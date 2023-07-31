@@ -96,6 +96,52 @@
 
         }
     </div>
+
+    @if (Model.WorkExperience != null)
+    {
+
+        <p style="padding-bottom: 10px;background: #dbdbdb;padding-top: 10px;padding-left: 10px;font-size: 20px;margin-bottom: 16px;"><b>Work Experience:</b></p>
+
+        if (Model.WorkExperience.Companies.Count > 0)
+        {
+            @foreach (var company in Model.WorkExperience.Companies)
+            {
+                <b>Company: @company.CompanyName</b><br />
+                if (company.Positions.Count > 0)
+                {
+                    @foreach (var job in company.Positions)
+                    {
+                        <b>Position: @job.Title</b><br />
+                        @foreach (var responsibilityOption in job.responsibilityOptions)
+                        {
+                            <em>Responsibilities FAQs</em><br />
+
+                            foreach (var workRespQuestion in job.workRespQuestions)
+                            {
+                                <b>Question: @workRespQuestion.Question</b>
+                                <p>Answer: @workRespQuestion.Answer</p>
+                            }
+
+                        }
+                        <br />
+                        if (job.JobAwards.Count > 0)
+                        {
+                            <p>Awards</p>
+
+                            foreach (var award in job.JobAwards)
+                            {
+                                <p>@award.AwardDesc</p>
+                            }
+                        }
+                       
+                    }
+                }
+               
+            }
+        }
+       
+    }
+
     @if (@Model.MilitaryExperiences != null)
     {
         if (!Model.MilitaryExperiences.IsOptOut)
@@ -244,7 +290,7 @@
             <b>Computer Skills:</b>
         </p>
         <span>
-            Microsoft Word, Microsoft Power Point, Macintosh Pages, Adobe Illustrator, Adobe Publisher, web developement
+            Microsoft Word, Microsoft Power Point, Macintosh Pages, Adobe Illustrator, Adobe Publisher, Web Developement
         </span>
         </p><br />
 

@@ -11,6 +11,7 @@ using DocumentFormat.OpenXml.Wordprocessing;
 using HtmlToOpenXml;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using StoredProcedureEFCore;
 using System.Data;
@@ -27,7 +28,7 @@ namespace BRB.Controllers
         IWebHostEnvironment _webHostEnvironment;
         public ResumeController(IResumeService resumeService, IContactInfoService contactInfoService, IWebHostEnvironment webHostEnvironment, IUserProfileService userProfileService)
         {
-            _resumeService  =     resumeService;
+            _resumeService = resumeService;
             _contactInfoService = contactInfoService;
             _webHostEnvironment = webHostEnvironment;
             _userProfileService = userProfileService;
@@ -94,6 +95,7 @@ namespace BRB.Controllers
                 model.LanguageSkill = ds.Tables[21].ToList_<LanguageSkill>().FirstOrDefault();
                 model.Languages = ds.Tables[22].ToList_<Language>();
                 model.UserProfile = ds.Tables[23].ToList_<UserProfile>().FirstOrDefault();
+            
             }
 
             return View("ResumePdf", model);
@@ -140,7 +142,7 @@ namespace BRB.Controllers
             });
             record.Companies = companies;
 
-          
+
             return View(record);
         }
 
@@ -225,6 +227,27 @@ namespace BRB.Controllers
                 model.LanguageSkill = ds.Tables[21].ToList_<LanguageSkill>().FirstOrDefault();
                 model.Languages = ds.Tables[22].ToList_<Language>();
                 model.UserProfile = ds.Tables[23].ToList_<UserProfile>().FirstOrDefault();
+                model.WorkExperience = _dbContext.WorkExperiences.FirstOrDefault(x => x.ResumeId == sessionData.ResumeId);
+                model.WorkExperience.Companies = _dbContext.WorkCompanies.Where(x => x.WorkExperienceId == model.WorkExperience.WorkExperienceId).ToList();
+                foreach (var company in model.WorkExperience.Companies)
+                {
+                    company.Positions = _dbContext.WorkPositions.Where(x => x.CompanyId == company.CompanyId).ToList();
+
+                    foreach (var job in company.Positions)
+                    {
+                        job.responsibilityOptions = _dbContext.ResponsibilityOptionsResponses.Where(x => x.PositionId == job.PositionId).ToList();
+                        job.workRespQuestions = (from question in _dbContext.ResponsibilityQuestions
+                                                 join workResQuestion in _dbContext.WorkRespQuestions on question.RespQuestionId equals workResQuestion.RespQuestionId
+                                                 where workResQuestion.PositionId == job.PositionId
+                                                 select new WorkRespQuestion
+                                                 {
+                                                     Answer = workResQuestion.Answer,
+                                                     Question = question.Caption
+                                                 }
+                                                 ).ToList();
+                        job.JobAwards = _dbContext.JobAwards.Where(x => x.CompanyJobId == job.PositionId).ToList();
+                    }
+                }
             }
 
             string htmlValue = await this.RenderViewAsync("Resumepdf", model);
