@@ -45,13 +45,14 @@ $('#cbSectionNotApply').change(function () {
 $('#btnSaveLicense').click(function () {
     $('#licenseForm').validate();
     if ($('#licenseForm').valid()) {
+        $('#btnSaveLicense').prop('disabled', true)
         let license = {
             Title: $('#txtlicenseTitle').val(),
             StateAbbr: $('#ddllicenseState').val(),
             ReceivedMonth: $('#ddllicenseReceivedMonth').val(),
             ReceivedYear: $('#ddllicenseReceivedYear').val(),
         };
-        $('#btnSaveLicense').prop('disabled',true)
+       
         if (localStorage.getItem("edit-license") === null) {
             licenseArray.push(license);
 
@@ -63,7 +64,8 @@ $('#btnSaveLicense').click(function () {
         }
         $('#licenseForm').trigger('reset');
         LoadLicenseCards();
-
+        $('#licenseModal').modal('toggle')
+        $('#btnSaveLicense').prop('disabled', false)
 
     }
 
@@ -415,13 +417,14 @@ $(document).on('click', '#btnAddPositions', function () {
 $('#btnSaveCertificate').click(function () {
     $('#certificateForm').validate();
     if ($('#certificateForm').valid()) {
+        $('#btnSaveCertificate').prop('disabled', true)
         let certificate = {
             Title: $('#txtCertificateTitle').val(),
             StateAbbr: $('#ddlCertificateState').val(),
             ReceivedMonth: $('#ddlCertificateReceivedMonth').val(),
             ReceivedYear: $('#ddlCertificateReceivedYear').val(),
         };
-        $('#btnSaveCertificate').prop('disabled',true)
+       
         if (localStorage.getItem("edit-cert") === null) {
             certificateArray.push(certificate)
         }
@@ -433,6 +436,8 @@ $('#btnSaveCertificate').click(function () {
 
         $('#certificateForm').trigger('reset');
         LoadCertCards();
+        $('#CertificateModal').modal('toggle')
+        $('#btnSaveCertificate').prop('disabled', false)
     }
 
 });
@@ -495,8 +500,8 @@ $('#btnSaveAffilation').click(function () {
                     <span>
                         <p class="noPosition" class="danger-text"><em>You currently have no positions listed. Either add a position to the organization or delete the organization.</em></p>
 
-                        <button type="button" class="btn btn-primary btn-sm custombtn w-auto mt-2" data-bs-toggle="modal" onclick="clearStorage(this)" data-item='${guid()}'
-                            data-bs-target="#PositionModel">
+                        <button type="button" class="btn btn-primary btn-sm custombtn w-auto mt-2" onclick="clearStorage(this);$('#PositionModel').modal('toggle')" data-item='${guid()}'
+                            >
                             Add an Position of ${affilation.AffiliationName}
                         </button>
                 </div>
@@ -515,6 +520,7 @@ $('#btnSaveAffilation').click(function () {
             $($(".cardWrapper-aff")[index]).find(".btnEditAffilation").attr("data-json", JSON.stringify(affilation));
             localStorage.clear();
         }
+        $('#AffilationModal').modal('toggle')
     }
     // LoadaffCards();
 });
@@ -734,7 +740,8 @@ $(document).on('click','#btnAddPosition',function () {
             $("button[data-item='" + id + "']").before(html);
             //$('#noPosition').parent().append(html);
         }
-
+        $('#PositionModel').modal('toggle')
+        $('#btnAddPosition').prop('disabled', false)
         console.log(positionArray);
     }
 });

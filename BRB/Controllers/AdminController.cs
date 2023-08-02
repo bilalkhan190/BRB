@@ -73,6 +73,7 @@ namespace BRB.Controllers
             var voucherCode = _dbContext.Vouchers.FirstOrDefault(x => x.Code == voucher.Code);
             if (voucherCode==null)
             {
+               
                 voucher.CreatedBy = sessionData.UserName;
                 voucher.IsActive = true;
                 voucher.GeneratedDate = DateTime.Today;
@@ -83,6 +84,8 @@ namespace BRB.Controllers
                     ajaxResponse.Success = true;
                     ajaxResponse.Message = "Voucher successfully Created";
                 }
+
+               
             }
             else
             {

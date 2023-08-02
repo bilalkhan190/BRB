@@ -8,39 +8,41 @@
         padding: 10px;
         border: 1px solid #000;
     }
+
 </style>
-<div class="resumeWrapper" style="padding: 40px;font-family:sans-serif;">
+<div class="resumeWrapper" style="padding: 40px;">
+  
     <div>
-        @if (Model.UserProfile != null)
+        @if (Model.Contact != null)
         {
-            <h1 style="margin:0;text-transform: uppercase;">
-                @Model.UserProfile.FirstName <span style="font-weight: 100;color: #a3a3a3;"> @Model.UserProfile.LastName </span>
+            <h1 style="margin:0;text-transform: uppercase;font-family:@ViewBag.fonts">
+                @Model.Contact.FirstName <span style="font-weight: 100;color: #a3a3a3;font-family:@ViewBag.fonts"> @Model.Contact.LastName </span>
             </h1>
-            <p style="margin:0;display: inline-block;border-right: 1px solid #000;padding-right: 5px;line-height: 20px;margin-bottom: 5px;">
-                <span style="color: #a3a3a3;">Address: </span>
-                @Model.UserProfile.Address1
+            <p style="margin:0;display: inline-block;border-right: 1px solid #000;padding-right: 5px;line-height: 20px;margin-bottom: 5px;font-family:@ViewBag.fonts">
+                <span style="color: #a3a3a3;font-family:@ViewBag.fonts">Address: </span>
+                @Model.Contact.Address1
             </p>
-            <p style="margin:0;display: inline-block;line-height: 20px;margin-bottom: 5px;">
-                <span style="color: #a3a3a3;">Email: </span>
-                @Model.UserProfile.UserName
+            <p style="margin:0;display: inline-block;line-height: 20px;margin-bottom: 5px;font-family:@ViewBag.fonts">
+                <span style="color: #a3a3a3;font-family:@ViewBag.fonts">Email: </span>
+                @Model.Contact.Email
             </p>
             <div>
-                <p style="margin:0;display: inline-block;border-right: 1px solid #000;padding-right: 5px;line-height: 20px;margin-bottom: 5px;">
-                    <span style="color: #a3a3a3;">City: </span>
-                    @Model.UserProfile.City
+                <p style="margin:0;display: inline-block;border-right: 1px solid #000;padding-right: 5px;line-height: 20px;margin-bottom: 5px;font-family:@ViewBag.fonts">
+                    <span style="color: #a3a3a3;font-family:@ViewBag.fonts">City: </span>
+                    @Model.Contact.City
                 </p>
-                <p style="margin:0;display: inline-block;border-right: 1px solid #000;padding-right: 5px;line-height: 20px;margin-bottom: 5px;">
-                    <span style="color: #a3a3a3;">State: </span>
-                    @Model.UserProfile.StateAbbr
+                <p style="margin:0;display: inline-block;border-right: 1px solid #000;padding-right: 5px;line-height: 20px;margin-bottom: 5px;font-family:@ViewBag.fonts">
+                    <span style="color: #a3a3a3;font-family:@ViewBag.fonts">State: </span>
+                    @Model.Contact.StateAbbr
                 </p>
-                <p style="margin:0;display:inline-block;margin-bottom: 5px;">
-                    <span style="color: #a3a3a3;">ZipCode: </span>
-                    @Model.UserProfile.ZipCode
+                <p style="margin:0;display:inline-block;margin-bottom: 5px;font-family:@ViewBag.fonts">
+                    <span style="color: #a3a3a3;font-family:@ViewBag.fonts">ZipCode: </span>
+                    @Model.Contact.ZipCode
                 </p>
             </div>
-            <p style="margin:0;">
-                <span style="color: #a3a3a3;">phone: </span>
-                @Model.UserProfile.Phone
+            <p style="margin:0;display:inline-block;font-family:@ViewBag.fonts">
+                <span style="color: #a3a3a3;font-family:@ViewBag.fonts">Phone: </span>
+                @Model.Contact.Phone
             </p>
 
         }
@@ -50,41 +52,37 @@
         @if (Model.ObjectiveSummary != null)
         {
             <p>
-                <span style="display: block;font-weight: 700;padding-bottom: 10px;background: #dbdbdb;padding-top: 10px;padding-left: 10px;font-size: 20px;margin-bottom: 16px;">@Model.ObjectiveSummary.ObjectiveType</span>
-                <span> To utilize my @Model.ObjectiveSummary.ObjectiveDesc1,  @Model.ObjectiveSummary.ObjectiveDesc2, and  @Model.ObjectiveSummary.ObjectiveDesc3 skills to secure a  @Model.ObjectiveSummary.PositionTypeDesc job in @Model.ObjectiveSummary.CurrentCompanyType to increase revenue.</span>
+                <span style="display: block;font-weight: 700;padding-bottom: 10px;background: #dbdbdb;padding-top: 10px;font-size: 20px;margin-bottom: 16px;">@Model.ObjectiveSummary.ObjectiveType</span>
+                <span> To utilize my @Model.ObjectiveSummary.ObjectiveDesc1, @Model.ObjectiveSummary.ObjectiveDesc2, and  @Model.ObjectiveSummary.ObjectiveDesc3 skills to secure a @Model.ObjectiveSummary.PositionTypeDesc job in @Model.ObjectiveSummary.CurrentCompanyType to increase revenue.</span>
             </p>
         }
 
-        <p style="padding-bottom: 10px;background: #dbdbdb;padding-top: 10px;padding-left: 10px;font-size: 20px;margin-bottom: 16px;"><b>Education:</b></p>
+        <p style="padding-bottom: 10px;background: #dbdbdb;padding-top: 10px;font-size: 20px;margin-bottom: 16px;font-family:@ViewBag.fonts"><b>Education:</b></p>
         @foreach (var c in Model.Colleges)
         {
 
-            <span style="font-weight: 700;">@c.CollegeName</span>
+            <span style="font-weight: 700;font-family:@ViewBag.fonts">@c.CollegeName</span>
             <ul>
                 <li style="padding-bottom: 5px;">
                     @c.CollegeCity
                 </li>
-                <li style="padding-bottom: 5px;">@c.GradDate</li>
-                <li style="padding-bottom: 5px;">@c.SchoolName</li>
-                <li style="padding-bottom: 5px;">
+                <li style="padding-bottom: 5px;font-family:@ViewBag.fonts">@c.GradDate?.ToShortDateString()</li>
+                <li style="padding-bottom: 5px;font-family:@ViewBag.fonts">@c.SchoolName</li>
+                <li style="padding-bottom: 5px;font-family:@ViewBag.fonts">
                     @c.DegreeDesc	GPA:  @c.Gpa
                     Specialty in @c.MajorSpecialtyDesc
                 </li>
-                <li style="padding-bottom: 5px;">Minor:  @c.MinorDesc</li>
-                <li>Certificate in @c.CertificateDesc</li>
+                <li style="padding-bottom: 5px;font-family:@ViewBag.fonts">Minor:  @c.MinorDesc</li>
+                <li style="font-family:@ViewBag.fonts">Certificate in @c.CertificateDesc</li>
             </ul>
-
-
-
-
             foreach (var a in Model.AcademicHonors)
             {
-                <p style="margin:0;">@c.HonorProgram @c.GradDate</p>
-                <div style="display:flex;align-items:center;justify-content: space-between;padding-top:10px;">
-                    <span style="font-weight: 700;">
+                <p style="margin:0;font-family:@ViewBag.fonts">@c.HonorProgram @c.GradDate?.ToShortDateString()</p>
+                <div style="display:flex;align-items:center;justify-content: space-between;padding-top:10px;font-family:@ViewBag.fonts">
+                    <span style="font-weight: 700;font-family:@ViewBag.fonts">
                         @a.HonorName
                     </span>
-                    <div style="text-align:right;"></div>
+                    <div style="text-align:right;font-family:@ViewBag.fonts"></div>
                 </div>
             }
             <ul>
@@ -100,37 +98,52 @@
     @if (Model.WorkExperience != null)
     {
 
-        <p style="padding-bottom: 10px;background: #dbdbdb;padding-top: 10px;padding-left: 10px;font-size: 20px;margin-bottom: 16px;"><b>Work Experience:</b></p>
+        <p style="padding-bottom: 10px;background: #dbdbdb;padding-top: 10px;padding-left: 10px;font-size: 20px;margin-bottom: 16px;font-family:@ViewBag.fonts"><b>Work Experience:</b></p>
 
         if (Model.WorkExperience.Companies.Count > 0)
         {
             @foreach (var company in Model.WorkExperience.Companies)
             {
-                <b>Company: @company.CompanyName</b><br />
+                <b style="font-family:@ViewBag.fonts">Company: @company.CompanyName</b>
+
+                <br />
                 if (company.Positions.Count > 0)
                 {
                     @foreach (var job in company.Positions)
                     {
-                        <b>Position: @job.Title</b><br />
-                        @foreach (var responsibilityOption in job.responsibilityOptions)
-                        {
-                            <em>Responsibilities FAQs</em><br />
+                        <b style="font-family:@ViewBag.fonts">Position: @job.Title</b>
+                        <p style="font-family:@ViewBag.fonts">Date: @job.StartMonth @job.StartYear - @job.EndMonth @job.EndYear</p>
+                        <p style="font-family:@ViewBag.fonts">Additional Responsibility: @job.Project1 - @job.Project2</p>
 
-                            foreach (var workRespQuestion in job.workRespQuestions)
+                        <br />
+                        
+                        
+                        <em style="font-family:@ViewBag.fonts">Responsibilities FAQs</em>
+                        <br />
+                        <ul>
+                            @foreach (var responsibilityOption in job.responsibilityOptions)
                             {
-                                <b>Question: @workRespQuestion.Question</b>
-                                <p>Answer: @workRespQuestion.Answer</p>
-                            }
 
+                                <li style="font-family:@ViewBag.fonts">@responsibilityOption.Caption</li>
+
+
+                            }
+</ul>
+                       
+                        foreach (var workRespQuestion in job.workRespQuestions)
+                        {
+                            <b style="font-family:@ViewBag.fonts">Question: @workRespQuestion.Question</b>
+                            <p style="font-family:@ViewBag.fonts">Answer: @workRespQuestion.Answer</p>
                         }
                         <br />
                         if (job.JobAwards.Count > 0)
                         {
-                            <p>Awards</p>
+                            <p style="font-family:@ViewBag.fonts"><b>Awards</b></p>
 
                             foreach (var award in job.JobAwards)
                             {
                                 <p>@award.AwardDesc</p>
+                                <p>@award.AwardedMonth - @award.AwardedYear</p>
                             }
                         }
                        
@@ -147,24 +160,27 @@
         if (!Model.MilitaryExperiences.IsOptOut)
         {
 
-            <p style="padding-bottom: 10px;background: #dbdbdb;padding-top: 10px;padding-left: 10px;font-size: 20px;margin-bottom: 16px;"><b>Military Experience:</b></p>
+            <p style="padding-bottom: 10px;background: #dbdbdb;padding-top: 10px;padding-left: 10px;font-size: 20px;margin-bottom: 16px;font-family:@ViewBag.fonts"><b>Military Experience:</b></p>
             <div>
                 <ul>
-                    <li><i> @Model.MilitaryExperiences.City @Model.MilitaryExperiences.Rank</i></li>
-                    <li>@Model.MilitaryExperiences.Branch</li>
-                    <li>
+                    <li style="font-family:@ViewBag.fonts"><i style="font-family:@ViewBag.fonts"> @Model.MilitaryExperiences.City @Model.MilitaryExperiences.Rank</i></li>
+                    <li style="font-family:@ViewBag.fonts">@Model.MilitaryExperiences.Branch</li>
+                   
+                    <li style="font-family:@ViewBag.fonts">
                         @Model.MilitaryExperiences.StartedMonth @Model.MilitaryExperiences.StartedYear - @Model.MilitaryExperiences.EndedMonth @Model.MilitaryExperiences.EndedYear
                     </li>
+                    <li style="font-family:@ViewBag.fonts">@Model.MilitaryExperiences.CountryName</li>
                 </ul>
             </div>
             <div>
-                <p style="padding-bottom: 10px;background: #dbdbdb;padding-top: 10px;padding-left: 10px;font-size: 20px;margin-bottom: 16px;"><b>Military Position:</b></p>
+                <p style="padding-bottom: 10px;background: #dbdbdb;padding-top: 10px;padding-left: 10px;font-size: 20px;margin-bottom: 16px;font-family:@ViewBag.fonts"><b>Military Position:</b></p>
                 @if (Model.MilitaryPositions.Count > 0)
                 {
-                    <ul>
+                    <ul style="font-family:@ViewBag.fonts">
                         @foreach (var p in Model.MilitaryPositions)
                         {
-                            <li>@p.Title</li>
+                            <li style="font-family:@ViewBag.fonts">@p.Title</li>
+                            <li style="font-family:@ViewBag.fonts">@p.StartedMonth @p.StartedYear - @p.EndedMonth @p.EndedYear</li>
                         }
                     </ul>
 
@@ -179,23 +195,23 @@
     @if (!Model.OrgExperience.IsOptOut)
     {
         <div>
-            <p style="padding-bottom: 10px;background: #dbdbdb;padding-top: 10px;padding-left: 10px;font-size: 20px;margin-bottom: 16px;"><b>Organization and Volunteer Experience:</b></p>
+            <p style="padding-bottom: 10px;background: #dbdbdb;padding-top: 10px;padding-left: 10px;font-size: 20px;margin-bottom: 16px;font-family:@ViewBag.fonts"><b>Organization and Volunteer Experience:</b></p>
         </div>
         @foreach (var o in Model.Organizations)
         {
             <ul>
-                <li>@o.City</li>
-                <li>@o.StartedMonth @o.StartedYear, @o.StateName</li>
-                <li>@o.EndedMonth @o.EndedYear</li>
+                <li style="font-family:@ViewBag.fonts">@o.City</li>
+                <li style="font-family:@ViewBag.fonts">@o.StartedMonth @o.StartedYear, @o.StateName</li>
+                <li style="font-family:@ViewBag.fonts">@o.EndedMonth @o.EndedYear</li>
             </ul>
             if (Model.OrgPositions.Count > 0)
             {
-                <p style="padding-bottom: 10px;background: #dbdbdb;padding-top: 10px;padding-left: 10px;font-size: 20px;margin-bottom: 16px;"><b>Organization Positions</b></p>
+                <p style="padding-bottom: 10px;background: #dbdbdb;padding-top: 10px;padding-left: 10px;font-size: 20px;margin-bottom: 16px;font-family:@ViewBag.fonts"><b>Organization Positions</b></p>
                 @foreach (var op in Model.OrgPositions)
                 {
                     <ul>
-                        <li> <i>@op.Title</i></li>
-                        <li>@op.StartedMonth @op.StartedYear - @op.EndedMonth @op.EndedYear</li>
+                        <li style="font-family:@ViewBag.fonts"> <i style="font-family:@ViewBag.fonts">@op.Title</i></li>
+                        <li style="font-family:@ViewBag.fonts">@op.StartedMonth @op.StartedYear - @op.EndedMonth @op.EndedYear</li>
 
                     </ul>
                 }
@@ -209,22 +225,22 @@
 
     @if (!Model.VolunteerExperience.IsOptOut)
     {
-        <p style="padding-bottom: 10px;background: #dbdbdb;padding-top: 10px;padding-left: 10px;font-size: 20px;margin-bottom: 16px;">
+        <p style="padding-bottom: 10px;background: #dbdbdb;padding-top: 10px;padding-left: 10px;font-size: 20px;margin-bottom: 16px;font-family:@ViewBag.fonts">
             <b>Organization</b>
         </p>
         foreach (var vo in Model.VolunteerOrgs)
         {
-            <ul>
-                <li>@vo.VolunteerOrg1</li>
-                <li>@vo.City, @vo.StateName</li>
-                <li>@vo.StartedMonth @vo.StartedYear - @vo.EndedMonth @vo.EndedYear</li>
+            <ul style="font-family:@ViewBag.fonts">
+                <li style="font-family:@ViewBag.fonts">@vo.VolunteerOrg1</li>
+                <li style="font-family:@ViewBag.fonts">@vo.City, @vo.StateName</li>
+                <li style="font-family:@ViewBag.fonts">@vo.StartedMonth @vo.StartedYear - @vo.EndedMonth @vo.EndedYear</li>
             </ul>
 
-            <p style="padding-bottom: 10px;background: #dbdbdb;padding-top: 10px;padding-left: 10px;font-size: 20px;margin-bottom: 16px;"><b>Volunteer Positions</b></p>
+            <p style="padding-bottom: 10px;background: #dbdbdb;padding-top: 10px;padding-left: 10px;font-size: 20px;margin-bottom: 16px;font-family:@ViewBag.fonts"><b>Volunteer Positions</b></p>
             <ul>
                 @foreach (var vp in Model.VolunteerPositions)
                 {
-                    <li>@vp.Title (@vp.StartedMonth @vp.StartedYear)</li>
+                    <li style="font-family:@ViewBag.fonts">@vp.Title (@vp.StartedMonth @vp.StartedYear)</li>
                 }
             </ul>
 
@@ -238,12 +254,12 @@
         if (Model.Licenses.Count > 0)
         {
             <div>
-                <p style="padding-bottom: 10px;background: #dbdbdb;padding-top: 10px;padding-left: 10px;font-size: 20px;margin-bottom: 16px;"> <b>Licenses and Certificates:</b></p>
+                <p style="padding-bottom: 10px;background: #dbdbdb;padding-top: 10px;padding-left: 10px;font-size: 20px;margin-bottom: 16px;font-family:@ViewBag.fonts"> <b>Licenses and Certificates:</b></p>
             </div>
             foreach (var l in Model.Licenses)
             {
-                <ul style="margin-bottom:0;">
-                    <li> @l.Title (@l.StateName)</li>
+                <ul style="margin-bottom:0;font-family:@ViewBag.fonts">
+                    <li style="font-family:@ViewBag.fonts"> @l.Title (@l.StateName)</li>
                 </ul>
             }
 
@@ -253,56 +269,83 @@
         {
             foreach (var c in Model.Certificates)
             {
-                <ul style="margin-bottom:0;">
-                    <li>@c.Title (@c.StateName)</li>
+                <ul style="margin-bottom:0;font-family:@ViewBag.fonts">
+                    <li style="font-family:@ViewBag.fonts">@c.Title (@c.StateName)</li>
                 </ul>
             }
 
         }
         if (Model.AffiliationPositions.Count > 0)
         {
-            <p style="padding-bottom: 10px;background: #dbdbdb;padding-top: 10px;padding-left: 10px;font-size: 20px;margin-bottom: 16px;"> <b>Professional Affiliations:</b></p>
+            <p style="padding-bottom: 10px;background: #dbdbdb;padding-top: 10px;padding-left: 10px;font-size: 20px;margin-bottom: 16px;font-family:@ViewBag.fonts"> <b>Professional Affiliations:</b></p>
             @foreach (var aff in Model.AffiliationPositions)
             {
                 <div>
-                    <b>@aff.Title</b>
+                    <b style="font-family:@ViewBag.fonts">@aff.Title</b>
                 </div>
-                <ul>
-                    <li>@aff.StartedMonth - @aff.StartedYear</li>
-                    <li> test - titlew</li>
-                    <li>March 2072 - March 2073</li>
+                <ul style="font-family:@ViewBag.fonts">
+                    <li style="font-family:@ViewBag.fonts">@aff.StartedMonth - @aff.StartedYear</li>
+                    <li style="font-family:@ViewBag.fonts"> test - titlew</li>
+                    <li style="font-family:@ViewBag.fonts">March 2072 - March 2073</li>
                 </ul>
             }
-            <p style="padding-bottom: 10px;background: #dbdbdb;padding-top: 10px;padding-left: 10px;font-size: 20px;margin-bottom: 16px;">
+            <p style="padding-bottom: 10px;background: #dbdbdb;padding-top: 10px;padding-left: 10px;font-size: 20px;margin-bottom: 16px;font-family:@ViewBag.fonts">
                 <b>Affilation Position</b>
             </p>
             <ul>
                 @foreach (var p in Model.AffiliationPositions)
                 {
-                    <li>@p.Title (@p.StartedMonth @p.StartedYear - @p.EndedMonth @p.EndedYear)</li>
+                    <li style="font-family:@ViewBag.fonts">@p.Title (@p.StartedMonth @p.StartedYear - @p.EndedMonth @p.EndedYear)</li>
                 }
             </ul>
         }
 
     }
     <div>
-        <p style="padding-bottom: 10px;background: #dbdbdb;padding-top: 10px;padding-left: 10px;font-size: 20px;margin-bottom: 16px;">
+        <p style="padding-bottom: 10px;background: #dbdbdb;padding-top: 10px;padding-left: 10px;font-size: 20px;margin-bottom: 16px;font-family:@ViewBag.fonts">
             <b>Computer Skills:</b>
         </p>
-        <span>
-            Microsoft Word, Microsoft Power Point, Macintosh Pages, Adobe Illustrator, Adobe Publisher, Web Developement
-        </span>
-        </p><br />
-
-        @if (Model.Languages.Count > 0)
+        @if(!Model.TechnicalSkill.IsOptOut)
         {
-            <p style="padding-bottom: 10px;background: #dbdbdb;padding-top: 10px;padding-left: 10px;font-size: 20px;margin-bottom: 16px;"><b>Language Skills:</b></p>
-            foreach (var lang in Model.Languages)
+            string skills = "";
+            skills += Model.TechnicalSkill.Msword.Value ? "Microsoft Word, " : "";
+            skills += Model.TechnicalSkill.Msexcel.Value ? "Microsoft Excel, " : "";
+            skills += Model.TechnicalSkill.MspowerPoint.Value ? "Microsoft Powerpoint, " : "";
+            skills += Model.TechnicalSkill.Msoutlook.Value ? "Microsoft Outlook, " : "";
+            skills += Model.TechnicalSkill.MacPages.Value ? "Macintosh Pages, " : "";
+            skills += Model.TechnicalSkill.MacNumbers.Value ? "Macintosh Numbers, " : "";
+            skills += Model.TechnicalSkill.MacKeynote.Value ? "Macintosh Notes, " : "";
+            skills += Model.TechnicalSkill.AdobeAcrobat.Value ? "Adobe Acrobat, " : "";
+            skills += Model.TechnicalSkill.AdobePublisher.Value ? "Adobe Publisher, " : "";
+            skills += Model.TechnicalSkill.AdobeIllustrator.Value ? "Adobe Illustrator, " : "";
+            skills += Model.TechnicalSkill.AdobePhotoshop.Value ? "Adobe Photoshop, " : "";
+            skills += Model.TechnicalSkill.GoogleSuite.Value ? "Google Suit, " : "";
+            skills += Model.TechnicalSkill.GoogleDocs.Value ? "Google Docs" : "";
+            
+            <ul>
+                @foreach (var item in skills.Split(","))
+                {
+                    <li style="font-family:@ViewBag.fonts">@item</li>
+                }
+</ul>
+            
+                <br />
+        }
+      
+
+        @if (!Model.LanguageSkill.IsOptOut)
+        {
+            if (Model.Languages.Count > 0)
             {
-                <span>@lang.LanguageAbilityDesc in @lang.LanguageName</span>
+                <p style="padding-bottom: 10px;background: #dbdbdb;padding-top: 10px;padding-left: 10px;font-size: 20px;margin-bottom: 16px;font-family:@ViewBag.fonts"><b>Language Skills:</b></p>
+                <ul>
+                    @foreach (var lang in Model.Languages)
+                    {
+                        <li style="font-family:@ViewBag.fonts">@lang.LanguageAbilityDesc in @lang.LanguageName</li>
 
+                    }
+                </ul>
             }
-
         }
 
     </div>

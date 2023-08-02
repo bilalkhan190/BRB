@@ -130,6 +130,7 @@ $(document).on('click', '#btnAddOrContinue', function () {
 $('#btnAddPosition').click(function () {
     $('#militaryPositionForm').validate();
     if ($('#militaryPositionForm').valid()) {
+        $('#btnAddPosition').prop('disabled', true);
         let position = {
             MilitaryPositionId: $('#hdfMilitaryPositionId').val(),
             Title: $('#txtTitle').val(),
@@ -153,7 +154,8 @@ $('#btnAddPosition').click(function () {
 
         //fill the array of position record and display the recorded data in div
         $('#militaryPositionForm').trigger('reset');
-        $('#btnAddPosition').prop('disabled', true);
+        $('#SummaryModal').modal('toggle')
+        $('#btnAddPosition').prop('disabled', false);
         $('#divEditSection div.row').html('');
 
 

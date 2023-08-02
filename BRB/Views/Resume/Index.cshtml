@@ -26,7 +26,7 @@
                         ?
                     </button>
                     icon on each page to get more information. There are examples of each completed section of a
-                    resume on each page also by clicking the Example button.
+                    resume on each page also by clicking the Example button...
                 </p>
                 <p>
                     Once you've completed each section, select your desired font below and click the GENERATE
@@ -39,21 +39,28 @@
                     To finalize the development of your resume, please choose which font you would like to have
                     the resume formatted in and then click "Generate":
                 </p>
+                @{
+                    string enable = "";
+                    if (ViewBag.GeneratedFileName != "" && ViewBag.GeneratedFileName != null)
+                    {
+                        enable = "disabled";
+                    }
+                }
                 <fieldset class="form-group mb-2">
                     <legend>Resume Font</legend>
                     <div class="form-check ps-0">
                         <label class="form-check-label">
-                            <input name="Font" type="radio" checked value="Arial"> Arial
+                            <input name="Font" type="radio" checked value="Arial" @enable> Arial
                         </label>
                     </div>
                     <div class="form-check ps-0">
                         <label class="form-check-label">
-                            <input name="Font" type="radio" value="Calibri"> Calibri
+                            <input name="Font" type="radio" value="Calibri" @enable> Calibri
                         </label>
                     </div>
                     <div class="form-check ps-0">
                         <label class="form-check-label">
-                            <input name="Font" type="radio" value="Times New Roman"> Times New Roman
+                            <input name="Font" type="radio" value="Times New Roman" @enable> Times New Roman
                         </label>
                     </div>
                 </fieldset>

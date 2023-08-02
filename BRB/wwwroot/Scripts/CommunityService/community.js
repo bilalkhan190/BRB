@@ -51,6 +51,7 @@ function LoadDropdowns() {
 $('#btnSaveOrganization').click(function () {
     $('#orgForm').validate()
     if ($('#orgForm').valid()) {
+        $('#btnSaveOrganization').prop('disabled', true)
         let orginazation = {
             VolunteerOrgId: $('#hdfVolunteerOrgId').val(),
             VolunteerOrg1: $('#txtOrgName').val(),
@@ -61,7 +62,7 @@ $('#btnSaveOrganization').click(function () {
             EndedMonth: $('#ddlEndedMonth').val(),
             EndedYear: $('#ddlEndedYear').val(),
         };
-        $('#btnSaveOrganization').prop('disabled',true)
+        
         if (localStorage.getItem("org-index") == null) {
             organizationArr.push(orginazation);
         }
@@ -70,6 +71,8 @@ $('#btnSaveOrganization').click(function () {
             localStorage.clear();
         }
         $('#orgForm').trigger('reset');
+        $('#SummaryModal').modal('toggle')
+        $('#btnSaveOrganization').prop('disabled', false)
         LoadCards();
 
     }
@@ -125,6 +128,7 @@ function getFormData() {
 $(document).on('click', '#btnAddPosition', function () {
     $('#orgPositionForm').validate();
     if ($('#orgPositionForm').valid()) {
+        $('#btnAddPosition').prop('disabled', true)
         let position = {
             VolunteerPositionId: $('#hdfVolunteerPositionId').val(),
             VolunteerOrgId: $('#hdfVolunteerOrgId').val(),
@@ -138,7 +142,7 @@ $(document).on('click', '#btnAddPosition', function () {
             Responsibility3: $('#txtResponsibility3').val(),
             OtherInfo: $('#txtOtherInfo').val(),
         };
-        $('#btnAddPosition').prop('disabled',true)
+       
         if (localStorage.getItem("pos-index") == null) {
             positionArray.push(position);
         }
@@ -146,6 +150,9 @@ $(document).on('click', '#btnAddPosition', function () {
             positionArray[parseInt(localStorage.getItem("pos-index"))] = position;
             localStorage.clear();
         }
+
+        $('#PositionModel').modal('toggle')
+        $('#btnAddPosition').prop('disabled', false)
         LoadCards();
     }
 });
@@ -222,8 +229,7 @@ function LoadCards() {
                            
                                 <div id="positionDiv">
                                      </div>  
-                         <button type="button" class="btn btn-primary btn-sm custombtn w-auto" data-bs-toggle="modal"
-                                    data-bs-target="#PositionModel">
+                         <button type="button" class="btn btn-primary btn-sm custombtn w-auto" onclick="$('#PositionModel').modal('toggle')">
                                 Add an Position of ${value.volunteerOrg1}
                             </button>
                             </div>

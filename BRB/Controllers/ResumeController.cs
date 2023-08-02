@@ -198,103 +198,124 @@ namespace BRB.Controllers
             AjaxResponse ajaxResponse = new AjaxResponse();
             ajaxResponse.Message = "";
             var sessionData = JsonConvert.DeserializeObject<UserSessionData>(HttpContext.Session.GetString("_userData"));
+            System.IO.File.WriteAllText(_webHostEnvironment.WebRootPath + "/downloads/logs.txt", "Hit approved");
             ResumeGenerateModel model = new ResumeGenerateModel();
-            var ds = SqlHelper.GetDataSet("Data Source=A2NWPLSK14SQL-v02.shr.prod.iad2.secureserver.net;Initial Catalog=WH4LProd;User Id=brbdbuser; Password=brb!!!***;;Encrypt=False;TrustServerCertificate=True", "SP_GetResume", CommandType.StoredProcedure, new SqlParameter("ResumeId", sessionData.ResumeId));
-            ViewBag.fonts = font;
-            if (ds.Tables.Count >= 15)
+            try
             {
-                model.Education = ds.Tables[0].ToList_<Education>().FirstOrDefault();
-                model.Contact = ds.Tables[1].ToList_<ContactInfo>().FirstOrDefault();
-                model.ObjectiveSummary = ds.Tables[2].ToList_<ObjectiveSummary>().FirstOrDefault();
-                model.Colleges = ds.Tables[3].ToList_<College>();
-                model.AcademicScholarships = ds.Tables[4].ToList_<AcademicScholarship>();
-                model.AcademicHonors = ds.Tables[5].ToList_<AcademicHonor>();
-                model.OverseasExperience = ds.Tables[6].ToList_<OverseasExperience>().FirstOrDefault();
-                model.OverseasStudies = ds.Tables[7].ToList_<OverseasStudy>();
-                model.MilitaryExperiences = ds.Tables[8].ToList_<MilitaryExperience>().FirstOrDefault();
-                model.MilitaryPositions = ds.Tables[9].ToList_<MilitaryPosition>();
-                model.OrgExperience = ds.Tables[10].ToList_<OrgExperience>().FirstOrDefault();
-                model.Organizations = ds.Tables[11].ToList_<Organization>();
-                model.VolunteerExperience = ds.Tables[12].ToList_<VolunteerExperience>().FirstOrDefault();
-                model.VolunteerOrgs = ds.Tables[13].ToList_<VolunteerOrg>();
-                model.VolunteerPositions = ds.Tables[14].ToList_<VolunteerPosition>();
-                model.Professional = ds.Tables[15].ToList_<Professional>().FirstOrDefault();
-                model.Licenses = ds.Tables[16].ToList_<BusinessObjects.Models.License>();
-                model.Certificates = ds.Tables[17].ToList_<Certificate>();
-                model.Affiliations = ds.Tables[18].ToList_<Affiliation>();
-                model.AffiliationPositions = ds.Tables[19].ToList_<AffiliationPosition>();
-                model.TechnicalSkill = ds.Tables[20].ToList_<TechnicalSkill>().FirstOrDefault();
-                model.LanguageSkill = ds.Tables[21].ToList_<LanguageSkill>().FirstOrDefault();
-                model.Languages = ds.Tables[22].ToList_<Language>();
-                model.UserProfile = ds.Tables[23].ToList_<UserProfile>().FirstOrDefault();
-                model.WorkExperience = _dbContext.WorkExperiences.FirstOrDefault(x => x.ResumeId == sessionData.ResumeId);
-                model.WorkExperience.Companies = _dbContext.WorkCompanies.Where(x => x.WorkExperienceId == model.WorkExperience.WorkExperienceId).ToList();
-                foreach (var company in model.WorkExperience.Companies)
+                var ds = SqlHelper.GetDataSet("Data Source=A2NWPLSK14SQL-v02.shr.prod.iad2.secureserver.net;Initial Catalog=WH4LProd;User Id=brbdbuser; Password=brb!!!***;;Encrypt=False;TrustServerCertificate=True", "SP_GetResume", CommandType.StoredProcedure, new SqlParameter("ResumeId", sessionData.ResumeId));
+                ViewBag.fonts = font;
+                if (ds.Tables.Count >= 15)
                 {
-                    company.Positions = _dbContext.WorkPositions.Where(x => x.CompanyId == company.CompanyId).ToList();
-
-                    foreach (var job in company.Positions)
+                    model.Education = ds.Tables[0].ToList_<Education>().FirstOrDefault();
+                    model.Contact = ds.Tables[1].ToList_<ContactInfo>().FirstOrDefault();
+                    model.ObjectiveSummary = ds.Tables[2].ToList_<ObjectiveSummary>().FirstOrDefault();
+                    model.Colleges = ds.Tables[3].ToList_<College>();
+                    model.AcademicScholarships = ds.Tables[4].ToList_<AcademicScholarship>();
+                    model.AcademicHonors = ds.Tables[5].ToList_<AcademicHonor>();
+                    model.OverseasExperience = ds.Tables[6].ToList_<OverseasExperience>().FirstOrDefault();
+                    model.OverseasStudies = ds.Tables[7].ToList_<OverseasStudy>();
+                    model.MilitaryExperiences = ds.Tables[8].ToList_<MilitaryExperience>().FirstOrDefault();
+                    model.MilitaryPositions = ds.Tables[9].ToList_<MilitaryPosition>();
+                    model.OrgExperience = ds.Tables[10].ToList_<OrgExperience>().FirstOrDefault();
+                    model.Organizations = ds.Tables[11].ToList_<Organization>();
+                    model.VolunteerExperience = ds.Tables[12].ToList_<VolunteerExperience>().FirstOrDefault();
+                    model.VolunteerOrgs = ds.Tables[13].ToList_<VolunteerOrg>();
+                    model.VolunteerPositions = ds.Tables[14].ToList_<VolunteerPosition>();
+                    model.Professional = ds.Tables[15].ToList_<Professional>().FirstOrDefault();
+                    model.Licenses = ds.Tables[16].ToList_<BusinessObjects.Models.License>();
+                    model.Certificates = ds.Tables[17].ToList_<Certificate>();
+                    model.Affiliations = ds.Tables[18].ToList_<Affiliation>();
+                    model.AffiliationPositions = ds.Tables[19].ToList_<AffiliationPosition>();
+                    model.TechnicalSkill = ds.Tables[20].ToList_<TechnicalSkill>().FirstOrDefault();
+                    model.LanguageSkill = ds.Tables[21].ToList_<LanguageSkill>().FirstOrDefault();
+                    model.Languages = ds.Tables[22].ToList_<Language>();
+                    model.UserProfile = ds.Tables[23].ToList_<UserProfile>().FirstOrDefault();
+                    model.WorkExperience = _dbContext.WorkExperiences.FirstOrDefault(x => x.ResumeId == sessionData.ResumeId);
+                    model.WorkExperience.Companies = _dbContext.WorkCompanies.Where(x => x.WorkExperienceId == model.WorkExperience.WorkExperienceId).ToList();
+                    foreach (var company in model.WorkExperience.Companies)
                     {
-                        job.responsibilityOptions = _dbContext.ResponsibilityOptionsResponses.Where(x => x.PositionId == job.PositionId).ToList();
-                        job.workRespQuestions = (from question in _dbContext.ResponsibilityQuestions
-                                                 join workResQuestion in _dbContext.WorkRespQuestions on question.RespQuestionId equals workResQuestion.RespQuestionId
-                                                 where workResQuestion.PositionId == job.PositionId
-                                                 select new WorkRespQuestion
-                                                 {
-                                                     Answer = workResQuestion.Answer,
-                                                     Question = question.Caption
-                                                 }
-                                                 ).ToList();
-                        job.JobAwards = _dbContext.JobAwards.Where(x => x.CompanyJobId == job.PositionId).ToList();
+                        company.Positions = _dbContext.WorkPositions.Where(x => x.CompanyId == company.CompanyId).ToList();
+
+                        foreach (var job in company.Positions)
+                        {
+                            //job.responsibilityOptions = (from record in _dbContext.ResponsibilityOptionsResponses
+                            //                              join ResponsibilityOptions in _dbContext.ResponsibilityOptions on record.ResponsibilityOption equals ResponsibilityOptions.ResponsibilityId
+                            //                              where record.PositionId == job.PositionId
+                            //                              select new ResponsibilityOptionsResponse
+                            //                              {                                                             
+                            //                                  Caption = ResponsibilityOptions.Caption
+                            //                              }
+                            //                         ).ToList();
+                            job.workRespQuestions = (from question in _dbContext.ResponsibilityQuestions
+                                                     join workResQuestion in _dbContext.WorkRespQuestions on question.RespQuestionId equals workResQuestion.RespQuestionId
+                                                     where workResQuestion.PositionId == job.PositionId
+                                                     select new WorkRespQuestion
+                                                     {
+                                                         Answer = workResQuestion.Answer,
+                                                         Question = question.Caption
+                                                     }
+                                                     ).ToList();
+                            job.JobAwards = _dbContext.JobAwards.Where(x => x.CompanyJobId == job.PositionId).ToList();
+                        }
                     }
                 }
-            }
-
-            string htmlValue = await this.RenderViewAsync("Resumepdf", model);
-
-            using (MemoryStream generatedDocument = new MemoryStream())
-            {
-                using (WordprocessingDocument package = WordprocessingDocument.Create(
-                       generatedDocument, WordprocessingDocumentType.Document))
+                System.IO.File.WriteAllText(_webHostEnvironment.WebRootPath + "/downloads/logs.txt", "Data fetched");
+                string htmlValue = await this.RenderViewAsync("Resumepdf", model);
+                System.IO.File.WriteAllText(_webHostEnvironment.WebRootPath + "/downloads/logs.txt", "Html generated");
+                using (MemoryStream generatedDocument = new MemoryStream())
                 {
-                    MainDocumentPart mainPart = package.MainDocumentPart;
-                    if (mainPart == null)
+                    using (WordprocessingDocument package = WordprocessingDocument.Create(
+                           generatedDocument, WordprocessingDocumentType.Document))
                     {
-                        mainPart = package.AddMainDocumentPart();
-                        new Document(new DocumentFormat.OpenXml.Wordprocessing.Body()).Save(mainPart);
+                        MainDocumentPart mainPart = package.MainDocumentPart;
+                        if (mainPart == null)
+                        {
+                            mainPart = package.AddMainDocumentPart();
+                            new Document(new DocumentFormat.OpenXml.Wordprocessing.Body()).Save(mainPart);
+                        }
+
+                        HtmlConverter converter = new HtmlConverter(mainPart);
+                        DocumentFormat.OpenXml.Wordprocessing.Body body = mainPart.Document.Body;
+
+                        var paragraphs = converter.Parse(htmlValue);
+                        for (int i = 0; i < paragraphs.Count; i++)
+                        {
+
+                            body.Append(paragraphs[i]);
+                        }
+
+                        mainPart.Document.Save();
+
+
+
                     }
-
-                    HtmlConverter converter = new HtmlConverter(mainPart);
-                    DocumentFormat.OpenXml.Wordprocessing.Body body = mainPart.Document.Body;
-
-                    var paragraphs = converter.Parse(htmlValue);
-                    for (int i = 0; i < paragraphs.Count; i++)
-                    {
-
-                        body.Append(paragraphs[i]);
-                    }
-
-                    mainPart.Document.Save();
-
-
-
+                    System.IO.File.WriteAllText(_webHostEnvironment.WebRootPath + "/downloads/logs.txt", "word generated");
+                    string filename = "resume - " + Guid.NewGuid() + ".docx";
+                    System.IO.File.WriteAllBytes(_webHostEnvironment.WebRootPath + "/downloads/" + filename, generatedDocument.ToArray());
+                    var record = _dbContext.Resumes.FirstOrDefault(x => x.ResumeId == sessionData.ResumeId);
+                    record.GeneratedFileName = filename;
+                    record.ChosenFont = font;
+                    record.LastModDate = DateTime.Today;
+                    record.GeneratedDate = DateTime.Today;
+                    _dbContext.SaveChanges();
+                    System.IO.File.WriteAllText(_webHostEnvironment.WebRootPath + "/downloads/logs.txt", "attachement saved email started");
+                    //SendResume(_webHostEnvironment.WebRootPath + "/downloads/" + filename, "bilalkhan.19@outlook.com");
+                    SendEmailAttachment(sessionData.UserName, new Attachment(_webHostEnvironment.WebRootPath + "/downloads/" + filename));
+                    System.IO.File.WriteAllText(_webHostEnvironment.WebRootPath + "/downloads/logs.txt", "email sent");
+                    //SendEmail(sessionData.UserName,)
+                    ajaxResponse.Message = $"Email has been sent to your email address {sessionData.UserName} ";
+                    ajaxResponse.Data = filename;
+                    ajaxResponse.Success = true;
+                  
                 }
-                string filename = "resume - " + Guid.NewGuid() + ".docx";
-                System.IO.File.WriteAllBytes(_webHostEnvironment.WebRootPath + "/downloads/" + filename, generatedDocument.ToArray());
-                var record = _dbContext.Resumes.FirstOrDefault(x => x.ResumeId == sessionData.ResumeId);
-                record.GeneratedFileName = filename;
-                record.ChosenFont = font;
-                record.LastModDate = DateTime.Today;
-                record.GeneratedDate = DateTime.Today;
-                _dbContext.SaveChanges();
-                //SendResume(_webHostEnvironment.WebRootPath + "/downloads/" + filename, "bilalkhan.19@outlook.com");
-                SendEmailAttachment(sessionData.UserName, new Attachment(_webHostEnvironment.WebRootPath + "/downloads/" + filename));
-                //SendEmail(sessionData.UserName,)
-                ajaxResponse.Message = $"Email has been sent to your email address {sessionData.UserName} ";
-                ajaxResponse.Data = filename;
-                ajaxResponse.Success = true;
-                return Json(ajaxResponse);
             }
+            catch (Exception ex)
+            {
+                ajaxResponse.Success = false;
+                ajaxResponse.Message = ex.Message;
+                
+            }
+            return Json(ajaxResponse);
 
             //Aspose
 

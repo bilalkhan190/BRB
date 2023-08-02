@@ -63,7 +63,7 @@ $(document).on("click", "#btnSavePosition", function () {
             if (response.success) {
                 $('#companiesPenal').html(response.data);
                 $('#companyForm').trigger("reset");
-               
+                $('#SummaryModal').modal('toggle')
             }
         },
         error: function (err) {
@@ -205,7 +205,7 @@ $(document).on('change', '#ddlJobResponsibility', function () {
     });
 })
 
-$('#btnAddAward').click(function () {
+$(document).on('click', '.btnAddAward', function () {
     let positionId = $(this).attr("data-position-id");
     localStorage.setItem("PositionId", positionId);
     $('#awardModal').modal('show');
@@ -225,7 +225,7 @@ $('#btnSaveAward').click(function () {
                 console.log(response.fieldName)
                 $('#' + response.fieldName).html(response.data);
                 $('#formAward').trigger("reset");
-
+                $('#awardModal').modal('toggle')
             }
         },
         error: function (err) {

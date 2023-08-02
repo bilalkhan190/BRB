@@ -100,6 +100,8 @@ $('#btnSaveOrganization').click(function () {
             localStorage.clear();
         }
         $('#orgForm').trigger('reset');
+        $('#SummaryModal').modal('toggle')
+        $('#btnSaveOrganization').prop('disabled', false)
         LoadCards();
         console.log(organizationArr);
     }
@@ -120,6 +122,7 @@ $('.modelPosition').click(function () {
 $(document).on('click', '#btnAddPosition', function () {
     $('#orgPositionForm').validate();
     if ($('#orgPositionForm').valid()) {
+        $('#btnAddPosition').prop('disabled', true)
         let position = {
             OrganizationId: $('#hdfOrganizationId').val(),
             OrgPositionId: $('#hdfOrgPositionId').val(),
@@ -133,7 +136,6 @@ $(document).on('click', '#btnAddPosition', function () {
             Responsibility3: $('#txtResponsibility3').val(),
             OtherInfo: $('#txtOtherInfo').val(),
         };
-        $('#btnAddPosition').prop('disabled', true)
         if (localStorage.getItem("pos-index") == null) {
             positionArray.push(position);
         }
@@ -143,6 +145,8 @@ $(document).on('click', '#btnAddPosition', function () {
         }
         $('#orgPositionForm').trigger('reset');
         LoadCards();
+        $('#PositionModel').modal('toggle')
+        $('#btnAddPosition').prop('disabled', false)
     }
    
 });
@@ -232,8 +236,7 @@ function LoadCards() {
                 </span>
             </div>
              <div id="positionDiv"></div>
-        <button type="button" class="btn btn-primary btn-sm custombtn w-auto mt-2" data-bs-toggle="modal"
-            data-bs-target="#PositionModel">
+        <button type="button" class="btn btn-primary btn-sm custombtn w-auto mt-2" onclick="$('#PositionModel').modal('toggle')">
             Add an Position of ${value.orgName}
         </button>
         </div>

@@ -69,13 +69,15 @@ $('.modalClose').click(function () {
     $(document).find('input[name="MajorOther"]').remove();
     $(document).find('input[name="MinorOther"]').remove();
     $(document).find('input[name="MajorSpecialityOther"]').remove();
+    
     FormReset();
 })
 
 $('#btnCollageSave').click(function () {
-    $('#btnCollageSave').prop('disabled',true)
+   
     $('#CollageForm').validate();
     if ($('#CollageForm').valid()) {
+        $('#btnCollageSave').prop('disabled', true)
         let college = {
             LastSectionVisitedId: $('#hdfLastSectionVisitedId').val(), CollegeId: $('#hdfCollegeId').val(),
             CollegeName: $('#txtCollegeName').val(), CollegeCity: $('#CollegeCity').val(),
@@ -94,8 +96,10 @@ $('#btnCollageSave').click(function () {
             localStorage.clear();
             
         }
-      
+        $('#SummaryModal').modal('toggle');
         LoadCards();
+        $('#btnCollageSave').prop('disabled', false)
+        $('#CollageForm').trigger('reset');
     }
       
 });
@@ -149,8 +153,7 @@ function LoadCards() {
                                                        </div>
 
                                                     <button type="button"
-                                                                class="btn btn-primary custombtn w-auto mt-2 mb-2" data-bs-toggle="modal"
-                                                               data-bs-target="#HonorModal">
+                                                                class="btn btn-primary custombtn w-auto mt-2 mb-2" onclick='showModal("#HonorModal")'>
                                                         Add an Academic Honor
                                                     </button>
                                                     <h5 class="mt-2">Scholarships</h5>
@@ -164,8 +167,7 @@ function LoadCards() {
                            
                                                      </div>
                                                         <button type="button"
-                                                               class="btn btn-primary custombtn w-auto mt-2" data-bs-toggle="modal"
-                                                               data-bs-target="#ScholarshipModal">
+                                                               class="btn btn-primary custombtn w-auto mt-2" onclick="$('#ScholarshipModal').modal('toggle');">
                                                        Add an Academic
                                                         Scholarship
                                                    </button>
@@ -461,9 +463,10 @@ function FillDropdowns() {
 
 
 $('#btnSaveHonor').click(function () {
-    $('#btnSaveHonor').prop('disabled', true)
+    
     $('#formAcademicHonor').validate();
     if ($('#formAcademicHonor').valid()) {
+        $('#btnSaveHonor').prop('disabled', true)
         let acadmicHonor = {
             CollegeId: $('#hdfCollegeId').val(),
             AcademicHonorId: $('#hdfAcademicHonorId').val(),
@@ -478,18 +481,27 @@ $('#btnSaveHonor').click(function () {
             acadmicHonorArray[parseInt(localStorage.getItem("acad-index"))] = acadmicHonor;
             localStorage.clear();
         }
-
+        hideModal("#HonorModal");
         LoadCards();
         ResetHonor();
+        $('#btnSaveHonor').prop('disabled', false)
     }
    
    
 });
 
+function hideModal(modalId) {
+    $(modalId).modal('toggle');
+}
+
+function showModal(modalId) {
+    $(modalId).modal('show');
+}
 $('#btnSaveScholarship').click(function () {
-    $('#btnSaveScholarship').prop('disabled', true)
+   
     $('#formAcademicScholarship').validate();
     if ($('#formAcademicScholarship').valid()) {
+        $('#btnSaveScholarship').prop('disabled', true)
         let acadmicScholarship = {
             CollegeId: $('#hdfCollegeId').val(),
             AcademicScholarshipId: $('#hdfAcademicScholarshipId').val(),
@@ -505,8 +517,10 @@ $('#btnSaveScholarship').click(function () {
             acadmicScholarshipArray[parseInt(localStorage.getItem("sch-index"))] = acadmicScholarship;
             localStorage.clear();
         }
+        $("#ScholarshipModal").modal('toggle');
         LoadCards()
         ResetScholarship();
+        $('#btnSaveScholarship').prop('disabled', false)
     }
 });
 

@@ -60,6 +60,7 @@ $(document).ready(function () {
             //    visibility: "hidden"
             //});
             $("#DivSection").html("");
+            $('#SummaryModal').modal('toggle')
             LoadData();
             
         }

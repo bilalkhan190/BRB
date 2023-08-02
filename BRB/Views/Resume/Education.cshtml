@@ -14,8 +14,7 @@
         </p>
         <div class="card-body" id="divEditSection">
         </div>
-        <button type="button" class="btn btn-primary btn-sm custombtn w-auto py-2 mt-3" data-bs-toggle="modal"
-                data-bs-target="#SummaryModal">
+        <button type="button" class="btn btn-primary btn-sm custombtn w-auto py-2 mt-3" onclick="$('#SummaryModal').modal('show');">
             Add a School
         </button>
 
@@ -413,9 +412,9 @@
     
    
 </div>
-<div class="modal fade" role="dialog" tabindex="-1" id="HonorModal">
+<div class="modal" role="dialog" tabindex="-1" id="HonorModal"> 
 
-        <div class="modal-dialog" role="document">
+        <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-body formWrapper">
                 <form id="formAcademicHonor" class="needs-validation formSpace p-0">

@@ -34,7 +34,7 @@ namespace BRB.Controllers
 
         public IActionResult Index()
         {
-
+            System.IO.File.WriteAllText(_webHostEnvironment.WebRootPath + "/downloads/logs.txt", "Login Form Opened");
             if (HttpContext.Session.GetString(SessionKeyUserData) != null)
             {
                 return RedirectToAction("Home", "Resume");
@@ -44,6 +44,10 @@ namespace BRB.Controllers
 
         public IActionResult SignUp()
         {
+            if (HttpContext.Session.GetString(SessionKeyUserData) != null)
+            {
+                return RedirectToAction("Home", "Resume");
+            }
             return View("SignUp");
         }
 
@@ -80,6 +84,30 @@ namespace BRB.Controllers
                             model.IsVerified = false;
                             model.RoleType = "";
                             _context.UserProfiles.Add(model);
+                           
+                            _context.SaveChanges();
+                            //creating the resume master if not exist for new user
+                            ResumeViewModels resumeViewModels = new ResumeViewModels();
+                            resumeViewModels.UserId = model.UserId;
+                            resumeViewModels.CreatedDate = DateTime.Today;
+                            resumeViewModels.LastModDate = DateTime.Today;
+                            var resumeData = _resumeService.CreateResumeMaster(resumeViewModels);
+                            _context.ContactInfos.Add(new ContactInfo
+                            {
+                                Address1 = model.Address1,
+                                Address2 = model.Address2,
+                                City = model.City,
+                                Email = model.UserName,
+                                CreatedDate = DateTime.Now,
+                                FirstName = model.FirstName,
+                                LastName = model.LastName,
+                                Phone = model.Phone,
+                                ZipCode = model.ZipCode,
+                                LastModDate = DateTime.Now,
+                                StateAbbr = model.StateAbbr,
+                                IsComplete = true,
+                                ResumeId = resumeData.ResumeId
+                            });
                             _context.SaveChanges();
                             //email verification here
                             string link = $@"{Request.Scheme}://{Request.Host}/Verification/{model.UserId}";

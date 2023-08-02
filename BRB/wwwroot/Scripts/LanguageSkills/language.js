@@ -46,6 +46,7 @@ $('#btnSaveLanguage').click(function () {
             localStorage.clear();
         }
         $('#languageForm').trigger('reset');
+        $('#LanguageModal').modal('toggle')
         LoadCards();
     }
     else {

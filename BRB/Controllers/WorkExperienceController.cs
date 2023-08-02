@@ -66,6 +66,18 @@ namespace BRB.Controllers
                 }
                 _dbContext.SaveChanges();
                 var companyList = _dbContext.WorkCompanies.Where(x => x.WorkExperienceId == master.WorkExperienceId).ToList();
+                companyList.ForEach(record =>
+                {
+                    var positionList = _dbContext.WorkPositions.Where(x => record.CompanyId == x.CompanyId).ToList();
+                    positionList.ForEach(f =>
+                    {
+                        f.workRespQuestions = _dbContext.WorkRespQuestions.Where(x => x.PositionId == f.PositionId).ToList();
+                        f.responsibilityOptions = _dbContext.ResponsibilityOptionsResponses.Where(x => x.PositionId == f.PositionId).ToList();
+                        f.JobAwards = _dbContext.JobAwards.Where(x => x.CompanyJobId == f.PositionId).ToList();
+                    });
+                    record.Positions = positionList;
+                });
+              
                 var html = await ApplicationHelper.RenderViewAsync(this, "_Companies", companyList, true);
                 ajaxResponse.Data = html;
                 ajaxResponse.Success = true;

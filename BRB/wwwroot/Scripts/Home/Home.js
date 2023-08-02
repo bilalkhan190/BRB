@@ -25,6 +25,9 @@ $('#btnGenResume').click(function () {
 
 
             }
+            else {
+                swal("Error", response.message, "error");
+            }
         },
         error: function (err) {
             debugger
