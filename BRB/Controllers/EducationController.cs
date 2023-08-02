@@ -92,18 +92,36 @@ namespace BRB.Controllers
             TableIdentities ids = new TableIdentities();
             List<EducationViewObject> ListOfObjs = new List<EducationViewObject>();
             var sessionData = JsonSerializer.Deserialize<UserSessionData>(HttpContext.Session.GetString("_userData"));
-            ids = JsonSerializer.Deserialize<TableIdentities>(sessionData.Ids);
-            var colleges = GetColleges(ids.educationId);
-            foreach (var c in colleges)
+            EducationViewObject educationObj = new EducationViewObject();
+            var data = _dbContext.Educations.FirstOrDefault(x => x.ResumeId == sessionData.ResumeId);
+            if (data != null)
             {
-                EducationViewObject educationObj = new EducationViewObject();
-                educationObj.College = c;
-                educationObj.AcademicHonors = GetAcademicHonors(c.CollegeId);
-                educationObj.AcademicScholarships = GetAcademicScholarship(c.CollegeId);
-                ListOfObjs.Add(educationObj);
-            }
+                var colleges = GetColleges(data.EducationId);
+                if (colleges.Count > 0)
+                {
+                    foreach (var c in colleges)
+                    {
 
-            ajaxResponse.Data = ListOfObjs;
+                        educationObj.Education = data;
+                        educationObj.College = c;
+                        educationObj.AcademicHonors = GetAcademicHonors(c.CollegeId);
+                        educationObj.AcademicScholarships = GetAcademicScholarship(c.CollegeId);
+                        ListOfObjs.Add(educationObj);
+                    }
+                    ajaxResponse.Data = ListOfObjs;
+                }
+                else
+                {
+                    ajaxResponse.Data = data;
+                }
+            }
+            else
+            {
+                ajaxResponse.Data = null;
+            }
+          
+
+          
             return Json(ajaxResponse);
 
         }
@@ -123,7 +141,7 @@ namespace BRB.Controllers
                             CertificateId = c.CertificateId,
                             CertificateOther = c.CertificateOther,
                             IsComplete = c.IsComplete,
-                            DegreeId = c.DegreeId,  
+                            DegreeId = c.DegreeId,
                             DegreeOther = c.DegreeOther,
                             Gpa = c.Gpa,
                             EducationId = educationId,
@@ -136,7 +154,7 @@ namespace BRB.Controllers
                             MajorSpecialtyOther = c.MajorSpecialtyOther,
                             MinorId = c.MinorId,
                             SchoolName = c.SchoolName,
-                            MinorOther = c.MinorOther                           
+                            MinorOther = c.MinorOther
                         }).ToList();
             return data;
         }
@@ -166,35 +184,40 @@ namespace BRB.Controllers
             ajaxResponse.Success = false;
             ajaxResponse.Redirect = "";
             var sessionData = JsonSerializer.Deserialize<UserSessionData>(HttpContext.Session.GetString("_userData"));
-            var ids = JsonSerializer.Deserialize<TableIdentities>(sessionData.Ids);
-            Resume resumeProfileData = new Resume();
+            Resume resumeProfileData = _dbContext.Resumes.FirstOrDefault(x => x.ResumeId == sessionData.ResumeId);
+            Education education = new Education();
             resumeProfileData.ResumeId = sessionData.ResumeId;
             resumeProfileData.UserId = sessionData.UserId;
             resumeProfileData.LastSectionVisitedId = educationViewModel.LastSectionVisitedId;
             resumeProfileData.LastModDate = DateTime.Today;
             resumeProfileData.CreatedDate = DateTime.Today;
             resumeProfileData.LastSectionCompletedId = educationViewModel.IsComplete == true ? educationViewModel.LastSectionVisitedId : 0;
-            Education education = new Education();
-            education.EducationId = ids.educationId;
-            education.ResumeId = sessionData.ResumeId;
-            education.IsComplete = educationViewModel.IsComplete == true ? educationViewModel.IsComplete : false;
-            education.CreatedDate = DateTime.Today;
-            education.LastModDate = DateTime.Today;
+            
+           
             using (var transection = _dbContext.Database.BeginTransaction())
             {
                 try
                 {
-                    bool masterRecord = _dbContext.Educations.Any(x => x.EducationId == ids.educationId);
-                    if (!masterRecord)
+
+                    var record = _dbContext.Educations.FirstOrDefault(x => x.ResumeId == sessionData.ResumeId);
+                   
+                  
+                    if (record == null)
                     {
+                        education.ResumeId = sessionData.ResumeId;
+                        education.IsComplete = educationViewModel.IsComplete == true ? educationViewModel.IsComplete : false;
+                        education.CreatedDate = DateTime.Today;
                         _dbContext.Educations.Add(education);
                         _dbContext.SaveChanges();
                     }
                     else
                     {
-                        _dbContext.Educations.Update(education);
+                        record.LastModDate = DateTime.Today;
+                        record.IsComplete = educationViewModel.IsComplete;
                         _dbContext.SaveChanges();
+                        education.EducationId = record.EducationId;
                     }
+                    ajaxResponse.Redirect = "/Resume/OverseasStudy";
                     if (educationViewModel.College.Count > 0)
                     {
                         foreach (var college in educationViewModel.College)
@@ -250,7 +273,7 @@ namespace BRB.Controllers
                         }
                       
                         ajaxResponse.Data = educationViewModel;
-                        ajaxResponse.Redirect = "/Resume/OverseasStudy";
+                       
                     }
                     _dbContext.Resumes.Update(resumeProfileData);
                     _dbContext.SaveChanges();

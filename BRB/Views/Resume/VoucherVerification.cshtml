@@ -1,0 +1,26 @@
+﻿
+<style>
+    .sidebar{
+        display:none
+    }
+</style>
+
+<form id="FormVoucherVerfication" class="needs-validation formSpace mt-3">
+    <div class="form-group">
+        <label for="t">
+            Voucher
+            Code<span class="text-danger">*</span>
+        </label>
+        <input name="City" id="txtVoucher" type="text" class="form-control"
+               value="" required>
+    </div>
+    <div class="formbtn-Wrapper mt-2">
+        <button type="submit" id="btnVeriftVoucher" class="btn btn-primary custombtn w-auto">
+           Verify
+        </button>
+    </div>
+</form>
+
+@section Scripts{
+    <script src="~/scripts/login/login.js"></script>
+}

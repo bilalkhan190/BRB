@@ -53,9 +53,7 @@ namespace BusinessObjects.Services
 
         public List<ResponsibilityOption> GetResponsibilityOptions(int jobCategoryId)
         {
-            var record = (from ro in _dbContext.ResponsibilityOptions
-                         where ro.ResponsibilityId == jobCategoryId
-                         select ro).ToList();
+            var record = _dbContext.ResponsibilityOptions.Where(x => x.ResponsibilityId == jobCategoryId).ToList();
             return record;  
         }
 

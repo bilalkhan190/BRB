@@ -13,6 +13,9 @@
     z-index: 9999;
 }
 
+.green-checkmark {
+    color: #90ee90;
+}
 
 #preLoader {
     z-index: 11;
@@ -230,6 +233,14 @@ header {
     margin-bottom: 20px;
     position: relative;
     text-align: left;
+}
+
+.formWrapper form .form-group svg {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translate(-50%, 5px);
+    cursor: pointer;
 }
 
 .formWrapper form .form-floating input {

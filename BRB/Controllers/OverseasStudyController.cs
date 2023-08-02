@@ -30,12 +30,13 @@ namespace BRB.Controllers
             ajaxResponse.Message = string.Empty;
             ajaxResponse.Redirect = "/resume/military";
             var overseasExperienceData = new OverseasExperience();
-            Resume resume = new Resume();
+            Resume resume = _dbContext.Resumes.FirstOrDefault(x => x.ResumeId == sessionData.ResumeId);
             resume.ResumeId = sessionData.ResumeId;
             resume.UserId = sessionData.UserId;
             resume.LastSectionVisitedId = overseasStudyViewModel.LastSectionVisitedId;
             resume.LastModDate = DateTime.Today;
             resume.CreatedDate = DateTime.Today;
+            resume.GeneratedFileName = null;
             resume.LastSectionCompletedId = overseasStudyViewModel.IsComplete == true ? overseasStudyViewModel.LastSectionVisitedId : 0;
             OverseasExperience overseasExperience = new OverseasExperience();
             using (var transection = _dbContext.Database.BeginTransaction())
@@ -49,7 +50,7 @@ namespace BRB.Controllers
                         if (data == null)
                         {
                            
-                            overseasExperience.IsOptOut = false;
+                            overseasExperience.IsOptOut = overseasStudyViewModel.IsOptOut;
                             overseasExperience.ResumeId = sessionData.ResumeId;
                             overseasExperience.IsComplete = overseasStudyViewModel.IsComplete;
                             overseasExperience.CreatedDate = DateTime.Today;
@@ -61,13 +62,12 @@ namespace BRB.Controllers
                         {
 
 
-                            data.IsOptOut = false;
+                            data.IsOptOut = overseasStudyViewModel.IsOptOut;
                             data.ResumeId = sessionData.ResumeId;
                             data.IsComplete = overseasStudyViewModel.IsComplete;
                             data.CreatedDate = DateTime.Today;
                             data.LastModDate = DateTime.Today;
                             _dbContext.OverseasExperiences.Update(data);
-
                         }
                         if (overseasStudyViewModel.OverseasStudies.Count > 0)
                         {
@@ -87,10 +87,12 @@ namespace BRB.Controllers
                                     _dbContext.OverseasStudies.Add(overseas);
                                 }
                             }
+                            _dbContext.SaveChanges();
                         }
                         _dbContext.Resumes.Update(resume);
                         _dbContext.SaveChanges();   
                         transection.Commit();
+                       
 
                     }
                 }
@@ -110,11 +112,10 @@ namespace BRB.Controllers
             OverseasExperience overseasExperience = new OverseasExperience();
             ajaxResponse.Data = null;
             var sessionData = JsonSerializer.Deserialize<UserSessionData>(HttpContext.Session.GetString("_userData"));
-            var ids = JsonSerializer.Deserialize<TableIdentities>(sessionData.Ids);
             var record = _dbContext.OverseasExperiences.FirstOrDefault(x => x.ResumeId == sessionData.ResumeId);
-            record.OverseasStudies = GetOverseasStudies(record.OverseasExperienceId);
             if (record != null)
             {
+                record.OverseasStudies = GetOverseasStudies(record.OverseasExperienceId);
                 ajaxResponse.Data = record;
             }
             return Json(ajaxResponse);

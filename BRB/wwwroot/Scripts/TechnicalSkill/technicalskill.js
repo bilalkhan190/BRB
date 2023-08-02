@@ -47,8 +47,8 @@ function LoadData() {
         url: '/TechnicalSkills/GetAllData',
         type: 'get',
         success: function (response) {
-            if (response.data) {
-                console.log(response.data != null)
+            if (response.data != null) {
+                console.log(response.data)
                 $('#hdfTechnicalSkillId').val(response.data.technicalSkillId)
                 if (response.data.msword) {
                     $('input[name="Msword"]').prop('checked', true)
@@ -64,6 +64,9 @@ function LoadData() {
                 }
                 if (response.data.macPages) {
                     $('input[name="MacPages"]').prop('checked', true)
+                }
+                if (response.data.macKeynote) {
+                    $('input[name="MacKeynote"]').prop('checked', true)
                 }
                 if (response.data.macNumbers) {
                     $('input[name="MacNumbers"]').prop('checked', true)
@@ -86,9 +89,10 @@ function LoadData() {
                 if (response.data.googleSuite) {
                     $('input[name="GoogleSuite"]').prop('checked', true)
                 }
-                if (response.data.isComplete) {
-                    $('input[name="IsComplete"]').prop('checked', true)
-                }
+                
+                $('input[name="IsComplete"]').prop('checked', response.data.isComplete)
+                $('input[name="IsComplete"]').prop('disabled', response.data.isComplete)
+                
                 $('#otherSkill').val(response.data.otherPrograms);
             }
            

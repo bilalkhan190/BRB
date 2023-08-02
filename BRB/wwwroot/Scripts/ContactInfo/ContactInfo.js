@@ -13,6 +13,8 @@
             alert(err)
         }
     });
+
+
     $.ajax({
         url: '/ContactInfo/GetAllContactInfo' ,
         type: 'GET',
@@ -30,10 +32,10 @@
                 $('input[name="City"]').val(response.data.city);
                 $('select[name="StateAbbr"]').val(response.data.stateAbbr);
                 $('input[name="ZipCode"]').val(response.data.zipCode);
-                if (response.data.isComplete) {
-                    $('input[name="IsComplete"]').prop('checked', true);
-                } 
+                $('input[name="IsComplete"]').prop('checked', response.data.isComplete);
+                $('input[name="IsComplete"]').prop('disabled', response.data.isComplete);
             }
+            
         },
         error: function (err) {
             alert('error')

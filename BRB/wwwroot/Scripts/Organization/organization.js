@@ -13,8 +13,10 @@ function getFormData() {
         url: '/organization/GetData',
         type: 'get',
         success: function (response) {
-            $('#hdfOrgExperienceId').val(response.data.orgExperienceId);
-           $('.isoptOut').prop("checked", response.data.isOptOut).trigger('change');
+            $('#hdfOrgExperienceId').val(response.data[0].orgExperience.orgExperienceId);
+            $('#cbSectionNotApply').prop("checked", response.data[0].orgExperience.isOptOut).trigger('change');
+            $('#cbIsComplete').prop("checked", response.data[0].orgExperience.isComplete);
+            $('#cbIsComplete').prop("disabled", response.data[0].orgExperience.isComplete);
             if (response.data != null) {
                 if (response.data.length > 0) {
                     $.each(response.data, function (index, value) {
@@ -36,6 +38,15 @@ function getFormData() {
         }
     })
 }
+
+$('#cbSectionNotApply').change(function () {
+    if (this.checked) {
+        $('#isOptSection').hide();
+    }
+    else {
+        $('#isOptSection').show();
+    }
+});
 
 $('#cbCurrentlyIn').click(function () {
     if ($(this).is(':checked')) {
@@ -80,6 +91,7 @@ $('#btnSaveOrganization').click(function () {
             EndedMonth: $('#ddlEndedMonth').val(),
             EndedYear: $('#ddlEndedYear').val(),
         };
+        $('#btnSaveOrganization').prop('disabled', true)
         if (localStorage.getItem("org-index") == null) {
             organizationArr.push(organization);
         }
@@ -87,15 +99,30 @@ $('#btnSaveOrganization').click(function () {
             organizationArr[parseInt(localStorage.getItem("org-index"))] = organization;
             localStorage.clear();
         }
+        $('#orgForm').trigger('reset');
+        $('#SummaryModal').modal('toggle')
+        $('#btnSaveOrganization').prop('disabled', false)
         LoadCards();
+        console.log(organizationArr);
     }
    
 
 });
 
+$('.closeModal').click(function () {
+    $('#orgForm').trigger('reset')
+    $('#btnSaveOrganization').prop('disabled', false)
+})
+$('.modelPosition').click(function () {
+    $('#orgPositionForm').trigger('reset');
+    $('#btnAddPosition').prop('disabled', false)
+})
+
+
 $(document).on('click', '#btnAddPosition', function () {
     $('#orgPositionForm').validate();
     if ($('#orgPositionForm').valid()) {
+        $('#btnAddPosition').prop('disabled', true)
         let position = {
             OrganizationId: $('#hdfOrganizationId').val(),
             OrgPositionId: $('#hdfOrgPositionId').val(),
@@ -116,7 +143,10 @@ $(document).on('click', '#btnAddPosition', function () {
             positionArray[parseInt(localStorage.getItem("pos-index"))] = position;
             localStorage.clear();
         }
+        $('#orgPositionForm').trigger('reset');
         LoadCards();
+        $('#PositionModel').modal('toggle')
+        $('#btnAddPosition').prop('disabled', false)
     }
    
 });
@@ -128,7 +158,8 @@ $('#btnSaveAndContinue').click(function () {
         LastSectionVisitedId: $('#hdfLastSectionVisitedId').val(),
         OrgPositions: positionArray,
         Organizations: organizationArr,
-        IsComplete: $('#cbIsComplete').val($('#cbIsComplete').is(':checked'))[0].checked
+        IsComplete: $('#cbIsComplete').is(':checked'),
+        IsOptOut: $('#cbSectionNotApply').is(':checked')
     };
     $.ajax({
         url: '/organization/PostOrganizationData',
@@ -162,7 +193,7 @@ function LoadDropdowns() {
 }
 
 function LoadCards() {
-    $('#divEditSection div.row').html("")
+    $('#divEditSection').html("")
     organizationArr = covertArrayKeyIntoCamelCase(organizationArr)
     $.each(organizationArr, function (index, value) {
         let html = `<div class="card col-md-12 p-0 mb-3 cardWrapper mt-3">
@@ -205,8 +236,7 @@ function LoadCards() {
                 </span>
             </div>
              <div id="positionDiv"></div>
-        <button type="button" class="btn btn-primary btn-sm custombtn w-auto mt-2" data-bs-toggle="modal"
-            data-bs-target="#PositionModel">
+        <button type="button" class="btn btn-primary btn-sm custombtn w-auto mt-2" onclick="$('#PositionModel').modal('toggle')">
             Add an Position of ${value.orgName}
         </button>
         </div>
@@ -215,7 +245,7 @@ function LoadCards() {
 </div>
       
          `
-        $('#divEditSection div.row').append(html)
+        $('#divEditSection').append(html)
     });
 
     $('#positionDiv div.row').html("");

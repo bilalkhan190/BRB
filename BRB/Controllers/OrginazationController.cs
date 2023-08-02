@@ -5,6 +5,7 @@ using BusinessObjects.Services.interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using System.Text.Json;
+using static iText.StyledXmlParser.Jsoup.Select.Evaluator;
 
 namespace BRB.Controllers
 {
@@ -26,27 +27,34 @@ namespace BRB.Controllers
         public IActionResult GetData()
         {
             AjaxResponse ajaxResponse = new AjaxResponse();
+            List<OrganizationViewObject> ListOfObjs = new List<OrganizationViewObject>();
             ajaxResponse.Success = true;
             var sessionData = JsonSerializer.Deserialize<UserSessionData>(HttpContext.Session.GetString("_userData"));
-            var ids = JsonSerializer.Deserialize<TableIdentities>(sessionData.Ids);
-            List<OrganizationViewObject> ListOfObjs = new List<OrganizationViewObject>();
-            var record = _dbContext.Organizations.Where(x => x.OrgExperienceId == ids.orgExperienceId).ToList();
-            if (record.Count > 0)
+            var masterData = _dbContext.OrgExperiences.FirstOrDefault(x => x.ResumeId == sessionData.ResumeId);
+            if (masterData != null)
             {
-                foreach (var o in record)
+                var record = _dbContext.Organizations.Where(x => x.OrgExperienceId == masterData.OrgExperienceId).ToList();
+                if (record.Count > 0)
                 {
-                    OrganizationViewObject viewObject = new OrganizationViewObject();
-                    viewObject.OrgExperience = _dbContext.OrgExperiences.FirstOrDefault(x => x.ResumeId == sessionData.ResumeId);
-                    viewObject.Organization = o;
-                    viewObject.orgPositions = GetOrgPositions(o.OrganizationId);
-                    ListOfObjs.Add(viewObject);
+                    foreach (var o in record)
+                    {
+                        OrganizationViewObject viewObject = new OrganizationViewObject();
+                        viewObject.OrgExperience = _dbContext.OrgExperiences.FirstOrDefault(x => x.ResumeId == sessionData.ResumeId);
+                        viewObject.Organization = o;
+                        viewObject.orgPositions = GetOrgPositions(o.OrganizationId);
+                        ListOfObjs.Add(viewObject);
+                    }
+                    ajaxResponse.Data = ListOfObjs;
                 }
-                ajaxResponse.Data = ListOfObjs;
+                
+
             }
             else
             {
-                ajaxResponse.Data = _dbContext.OrgExperiences.FirstOrDefault(x => x.ResumeId == sessionData.ResumeId);
+                ajaxResponse.Data = null;
             }
+
+
 
             return Json(ajaxResponse);
 
@@ -68,7 +76,7 @@ namespace BRB.Controllers
             ajaxResponse.Success = true;
             ajaxResponse.Redirect = "/Resume/CommunityService";
             var sessionData = JsonSerializer.Deserialize<UserSessionData>(HttpContext.Session.GetString("_userData"));
-            Resume resumeProfileData = new Resume();
+            Resume resumeProfileData = _dbContext.Resumes.FirstOrDefault(x => x.ResumeId == sessionData.ResumeId);
             resumeProfileData.ResumeId = sessionData.ResumeId;
             resumeProfileData.UserId = sessionData.UserId;
             resumeProfileData.LastSectionVisitedId = organizationViewModel.LastSectionVisitedId;
@@ -79,40 +87,45 @@ namespace BRB.Controllers
             orgExperience.ResumeId = sessionData.ResumeId;
             orgExperience.CreatedDate = DateTime.Today;
             orgExperience.LastModDate = DateTime.Today;
+            orgExperience.IsOptOut = organizationViewModel.IsOptOut;
             //orgExperience.IsOptOut = false;
             orgExperience.IsComplete = organizationViewModel.IsComplete;
             using (var transection = _dbContext.Database.BeginTransaction())
             {
                 try
                 {
-                    if (organizationViewModel.OrgExperienceId > 0)
+                    var record = _dbContext.OrgExperiences.FirstOrDefault(x => x.ResumeId == sessionData.ResumeId);
+                    if (record != null)
                     {
-                        orgExperience.OrgExperienceId = organizationViewModel.OrgExperienceId;
-                        _dbContext.OrgExperiences.Update(orgExperience);
+                        record.ResumeId = orgExperience.ResumeId;
+                        record.CreatedDate = DateTime.Today;
+                        record.LastModDate = DateTime.Today;
+                        record.IsComplete = organizationViewModel.IsComplete;
+                        record.IsOptOut = organizationViewModel.IsOptOut;
                         _dbContext.SaveChanges();
+                        orgExperience.OrgExperienceId = record.OrgExperienceId;    
+
                     }
                     else
                     {
-                        var record = _dbContext.OrgExperiences.FirstOrDefault(x => x.ResumeId == sessionData.ResumeId);
-                        if (record == null)
-                        {
-                            _dbContext.OrgExperiences.Add(orgExperience);
-                            _dbContext.SaveChanges();
-                        }
+                        _dbContext.OrgExperiences.Add(orgExperience);
+                        _dbContext.SaveChanges();
+                      
                     }
                     if (organizationViewModel.Organizations.Count > 0)
                     {
                         foreach (var org in organizationViewModel.Organizations)
                         {
-                            org.OrgExperienceId = orgExperience.OrgExperienceId;
-                            org.CreatedDate = DateTime.Today;
-                            org.LastModDate = DateTime.Today;
+                          
                             if (org.OrganizationId > 0)
                             {
                                 _dbContext.Organizations.Update(org);
                             }
                             else
                             {
+                                org.OrgExperienceId = orgExperience.OrgExperienceId;
+                                org.CreatedDate = DateTime.Today;
+                                org.LastModDate = DateTime.Today;
                                 _dbContext.Organizations.Add(org);
                                 _dbContext.SaveChanges();   
                             }
@@ -120,15 +133,16 @@ namespace BRB.Controllers
                             {
                                 foreach (var orgPosition in organizationViewModel.OrgPositions)
                                 {
-                                    orgPosition.OrganizationId = org.OrganizationId;
-                                    orgPosition.CreatedDate = DateTime.Today;
-                                    orgPosition.LastModDate = DateTime.Today;
+                                   
                                     if (orgPosition.OrgPositionId > 0)
                                     {
                                         _dbContext.OrgPositions.Update(orgPosition);
                                     }
                                     else
                                     {
+                                        orgPosition.OrganizationId = org.OrganizationId;
+                                        orgPosition.CreatedDate = DateTime.Today;
+                                        orgPosition.LastModDate = DateTime.Today;
                                         _dbContext.OrgPositions.Add(orgPosition);
                                     }
                                 }
@@ -178,8 +192,12 @@ namespace BRB.Controllers
             if (positionId > 0)
             {
                 var position = _dbContext.OrgPositions.FirstOrDefault(c => c.OrgPositionId == positionId);
-                _dbContext.OrgPositions.Remove(position);
-                _dbContext.SaveChanges();
+                if (position != null)
+                {
+                    _dbContext.OrgPositions.Remove(position);
+                    _dbContext.SaveChanges();
+                }
+               
             }
             return Json(ajaxResponse);
         }

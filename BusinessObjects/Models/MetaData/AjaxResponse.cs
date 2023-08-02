@@ -9,6 +9,7 @@ namespace BusinessObjects.Models.DTOs
     public class AjaxResponse
     {
         public string Message { get; set; }
+        public string FieldName { get; set; }
         public object Data { get; set; }
         public bool Success { get; set; }
         public bool Error { get; set; }

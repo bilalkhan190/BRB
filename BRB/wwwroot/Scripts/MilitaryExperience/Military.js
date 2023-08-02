@@ -21,12 +21,17 @@ $(document).ready(function () {
         type: 'Get',
         success: function (response) {
             if (response.data != null) {
-                console.log(response.data);
+                console.log(response.data)
                 $('#hdfMilitaryExperienceId').val(response.data.militaryExperienceId);
-                $('.isoptOut').prop("checked", response.data.isOptOut).trigger('change');
+                //$('.isoptOut').prop("checked", response.data.isOptOut).trigger('change');
+                $('#cbSectionNotApply').prop("checked", response.data.isOptOut).trigger('change');
+                //$('#cbCurrentlyIn').prop("checked", response.data.currentlyIn).trigger('change');
+                $('#cbIsComplete').prop("disabled", response.data.isComplete);
                 loadData(response)
+
+
             }
-          
+
         },
         error: function (error) {
             console.log(error)
@@ -62,13 +67,14 @@ $(document).on('click', '#cbPositionCurrentlyIn', function () {
     }
 });
 
-//$(document).on('change', '#cbSectionNotApply', function () {
-//    if (this.checked) $('#mainForm').hide()
-//    else $('#mainForm').show()
-//});
+$(document).on('change', '#cbSectionNotApply', function () {
+    if (this.checked) $('#isOptSection').hide()
+    else $('#isOptSection').show()
+});
 
 $(document).on('click', '#btnAddOrContinue', function () {
     //let isCompleted = $('#cbIsComplete').val($('#cbIsComplete').is(':checked'))[0].checked;
+    debugger
     let masterData = {
         MilitaryExperienceId: $('#hdfMilitaryExperienceId').val(),
         LastSectionVisitedId: $('#hdfLastSectionVisitedId').val(),
@@ -81,9 +87,28 @@ $(document).on('click', '#btnAddOrContinue', function () {
         EndedYear: $('#ddlEndedYear').val(),
         Rank: $('#txtRank').val(),
         IsComplete: $('#cbIsComplete').is(':checked'),
+        IsOptOut: $('#cbSectionNotApply').is(':checked'),
         MilitaryPositions: positionArray
     };
-    if ($('#mainForm').valid()) {
+    if (!$('#cbSectionNotApply').prop('checked')) {
+        if ($('#mainForm').valid()) {
+            $.ajax({
+                url: '/Military/PostMilitaryData',
+                type: 'POST',
+                dataType: 'json',
+                data: { militaryViewModel: masterData, },
+                success: function (response) {
+                    positionArray = [];
+                    loadData(response)
+                    window.location.href = response.redirect;
+                },
+                error: function (error) {
+                    console.log(error)
+                }
+            });
+        }
+
+    } else {
         $.ajax({
             url: '/Military/PostMilitaryData',
             type: 'POST',
@@ -99,12 +124,13 @@ $(document).on('click', '#btnAddOrContinue', function () {
             }
         });
     }
-   
+
 });
 
 $('#btnAddPosition').click(function () {
     $('#militaryPositionForm').validate();
     if ($('#militaryPositionForm').valid()) {
+        $('#btnAddPosition').prop('disabled', true);
         let position = {
             MilitaryPositionId: $('#hdfMilitaryPositionId').val(),
             Title: $('#txtTitle').val(),
@@ -127,7 +153,9 @@ $('#btnAddPosition').click(function () {
         }
 
         //fill the array of position record and display the recorded data in div
-
+        $('#militaryPositionForm').trigger('reset');
+        $('#SummaryModal').modal('toggle')
+        $('#btnAddPosition').prop('disabled', false);
         $('#divEditSection div.row').html('');
 
 
@@ -164,7 +192,7 @@ $('#btnAddPosition').click(function () {
                                 </span>
                             </div>`
             $('#divEditSection div.row').append(html)
-            if (value.endedMonth == null || value.endedMonth == "" && value.endedYear == null || value.endedYear == "" ) {
+            if (value.endedMonth == null || value.endedMonth == "" && value.endedYear == null || value.endedYear == "") {
                 $('#messageCurrentlyNotIn').hide();
             } else {
                 $('#messageCurrentlyIn').hide();
@@ -174,11 +202,15 @@ $('#btnAddPosition').click(function () {
         if (positionArray != null && positionArray.length > 3) {
             $("#divEditSection").addClass("BoxHeight");
         }
-      
+
     }
-    
+
 });
 
+$('.closeModal').click(function () {
+    $('#militaryPositionForm').trigger('reset')
+    $('#btnAddPosition').prop('disabled', false);
+})
 function loadData(response) {
     if (response.data != null) {
         $('#hdfMilitaryExperienceId').val(response.data.militaryExperienceId);
@@ -190,9 +222,8 @@ function loadData(response) {
         $('#ddlEndedMonth').val(response.data.endedMonth);
         $('#ddlEndedYear').val(response.data.endedYear);
         $('#txtRank').val(response.data.rank);
-        if (response.data.isComplete) {
-            $('#cbIsComplete').prop('checked', true);
-        }
+        $('#cbIsComplete').prop('checked', response.data.isComplete);
+        $('#cbSectionNotApply').prop("checked", response.data.isOptOut)
         if (response.data.endedMonth == null && response.data.endedYear == null) {
             //$('#cbCurrentlyIn').prop('checked', true);
             $('#ddlEndedMonth').hide();
@@ -207,14 +238,14 @@ function loadData(response) {
         }
         LoadCards();
     }
-   
+
 }
 
-         
+
 
 function LoadCards() {
     $('#divEditSection div.row').html("")
-    $.each(positionArray, function (index,value) {
+    $.each(positionArray, function (index, value) {
         let html = ` <div class="col-md-12 positionInnerBox">
                                 <span class="card-text row pt-3">
                                 <div class="col-md-8">
@@ -250,29 +281,29 @@ function LoadCards() {
             $('#messageCurrentlyIn').hide();
         }
     })
-   
+
 }
 $(document).on('click', '#btnEditMilitary', function () {
     var response = positionArray[$(this).attr('data-edit')];
     localStorage.setItem("pos-index", $(this).attr('data-edit'))
     $('#hdfMilitaryPositionId').val(response.militaryPositionId)
-            $('#txtTitle').val(response.title)
-            $('#ddlPositionStartedMonth').val(response.startedMonth)
-            $('#ddlPositionStartedYear').val(response.startedYear)
-            if (response.endedMonth == null && response.endedYear == null) {
-                $('#cbPositionCurrentlyIn').prop('checked', true);
-                $('#ddlPositionEndedMonth').hide();
-                $('#ddlPositionEndedYear').hide();
-                $('#LabelEndedPositionDate').hide();
-            }
+    $('#txtTitle').val(response.title)
+    $('#ddlPositionStartedMonth').val(response.startedMonth)
+    $('#ddlPositionStartedYear').val(response.startedYear)
+    if (response.endedMonth == null && response.endedYear == null) {
+        $('#cbPositionCurrentlyIn').prop('checked', true);
+        $('#ddlPositionEndedMonth').hide();
+        $('#ddlPositionEndedYear').hide();
+        $('#LabelEndedPositionDate').hide();
+    }
     $('#ddlPositionEndedMonth').val(response.endedMonth)
-            $('#ddlPositionEndedYear').val(response.endedYear)
-            $('#txtMainTraining').val(response.mainTraining)
-            $('#txtResponsibility1').val(response.responsibility1)
-            $('#txtResponsibility2').val(response.responsibility2)
-            $('#txtResponsibility3').val(response.responsibility3)
-            $('#txtOtherInfo').val(response.otherInfo)
-            $('#SummaryModal').modal('show')
+    $('#ddlPositionEndedYear').val(response.endedYear)
+    $('#txtMainTraining').val(response.mainTraining)
+    $('#txtResponsibility1').val(response.responsibility1)
+    $('#txtResponsibility2').val(response.responsibility2)
+    $('#txtResponsibility3').val(response.responsibility3)
+    $('#txtOtherInfo').val(response.otherInfo)
+    $('#SummaryModal').modal('show')
 
 });
 

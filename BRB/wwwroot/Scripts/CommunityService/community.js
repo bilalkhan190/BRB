@@ -51,6 +51,7 @@ function LoadDropdowns() {
 $('#btnSaveOrganization').click(function () {
     $('#orgForm').validate()
     if ($('#orgForm').valid()) {
+        $('#btnSaveOrganization').prop('disabled', true)
         let orginazation = {
             VolunteerOrgId: $('#hdfVolunteerOrgId').val(),
             VolunteerOrg1: $('#txtOrgName').val(),
@@ -61,6 +62,7 @@ $('#btnSaveOrganization').click(function () {
             EndedMonth: $('#ddlEndedMonth').val(),
             EndedYear: $('#ddlEndedYear').val(),
         };
+        
         if (localStorage.getItem("org-index") == null) {
             organizationArr.push(orginazation);
         }
@@ -68,10 +70,23 @@ $('#btnSaveOrganization').click(function () {
             organizationArr[parseInt(localStorage.getItem("org-index"))] = orginazation;
             localStorage.clear();
         }
+        $('#orgForm').trigger('reset');
+        $('#SummaryModal').modal('toggle')
+        $('#btnSaveOrganization').prop('disabled', false)
         LoadCards();
 
     }
 
+});
+
+$('.closeModal').click(function () {
+    $('#orgForm').trigger('reset')
+    $('#btnSaveOrganization').prop('disabled', false)
+})
+
+$('.modelPosition').click(function () {
+    $('#orgPositionForm').trigger('reset');
+    $('#btnAddPosition').prop('disabled', false)
 });
 
 function getFormData() {
@@ -79,9 +94,11 @@ function getFormData() {
         url: '/CommunityService/GetData',
         type: 'get',
         success: function (response) {
-            if (response.data != null) {
-                $('#hdfVolunteerExperienceId').val(response.data.volunteerExperienceId);
-                $('.isoptOut').prop("checked", response.data.isOptOut).trigger('change');
+            if (response.data.length > 0) {
+                console.log(response.data)
+                $('#hdfVolunteerExperienceId').val(response.data[0].volunteerExperience.volunteerExperienceId);
+                $('#cbSectionNotApply').prop("checked", response.data[0].volunteerExperience.isOptOut).trigger('change');
+                $('#cbIsComplete').prop("checked", response.data[0].volunteerExperience.isComplete);
                 if (response.data.length > 0) {
                     $.each(response.data, function (index, value) {
                         organizationArr.push(response.data[index].volunteerOrg)
@@ -111,6 +128,7 @@ function getFormData() {
 $(document).on('click', '#btnAddPosition', function () {
     $('#orgPositionForm').validate();
     if ($('#orgPositionForm').valid()) {
+        $('#btnAddPosition').prop('disabled', true)
         let position = {
             VolunteerPositionId: $('#hdfVolunteerPositionId').val(),
             VolunteerOrgId: $('#hdfVolunteerOrgId').val(),
@@ -124,6 +142,7 @@ $(document).on('click', '#btnAddPosition', function () {
             Responsibility3: $('#txtResponsibility3').val(),
             OtherInfo: $('#txtOtherInfo').val(),
         };
+       
         if (localStorage.getItem("pos-index") == null) {
             positionArray.push(position);
         }
@@ -131,6 +150,9 @@ $(document).on('click', '#btnAddPosition', function () {
             positionArray[parseInt(localStorage.getItem("pos-index"))] = position;
             localStorage.clear();
         }
+
+        $('#PositionModel').modal('toggle')
+        $('#btnAddPosition').prop('disabled', false)
         LoadCards();
     }
 });
@@ -140,7 +162,8 @@ $('#btnSaveAndContinue').click(function () {
         VolunteerExperienceId: $('#hdfVolunteerExperienceId').val(),
         VolunteerPositions: positionArray,
         VolunteerOrgs: organizationArr,
-        IsComplete: $('#cbIsComplete').val($('#cbIsComplete').is(':checked'))[0].checked,
+        IsComplete: $('#cbIsComplete').is(":checked"),
+        IsOptOut: $('#cbSectionNotApply').is(":checked"),
         LastSectionVisitedId: $('#hdfLastSectionVisitedId').val()
     };
     $.ajax({
@@ -148,7 +171,7 @@ $('#btnSaveAndContinue').click(function () {
         type: 'POST',
         data: { communityViewModel: obj },
         success: function (response) {
-
+            window.location.href = response.redirect;
         },
         error: function (error) {
 
@@ -156,6 +179,15 @@ $('#btnSaveAndContinue').click(function () {
     });
 });
 
+
+$('#cbSectionNotApply').change(function () {
+    if (this.checked) {
+        $('#isOptSection').hide();
+    }
+    else {
+        $('#isOptSection').show();
+    }
+});
 function LoadCards() {
     $('#divEditSection div.row').html("");
     organizationArr = covertArrayKeyIntoCamelCase(organizationArr)
@@ -197,8 +229,7 @@ function LoadCards() {
                            
                                 <div id="positionDiv">
                                      </div>  
-                         <button type="button" class="btn btn-primary btn-sm custombtn w-auto" data-bs-toggle="modal"
-                                    data-bs-target="#PositionModel">
+                         <button type="button" class="btn btn-primary btn-sm custombtn w-auto" onclick="$('#PositionModel').modal('toggle')">
                                 Add an Position of ${value.volunteerOrg1}
                             </button>
                             </div>
@@ -302,8 +333,8 @@ $(document).on('click', '#btnEditOrg', function () {
 });
 
 $(document).on('click', '#btnEditPosition', function () {
-    var response = positionArray[$(this).attr('pos-index')];
-    localStorage.setItem("pos-index", $(this).attr('pos-index'));
+        var response = positionArray[$(this).attr('pos-index')];
+        localStorage.setItem("pos-index", $(this).attr('pos-index'));
         $('#hdfVolunteerPositionId').val(response.volunteerPositionId),
         $('#txtTitle').val(response.title),
         $('#ddlPositionStartedMonth').val(response.startedMonth),

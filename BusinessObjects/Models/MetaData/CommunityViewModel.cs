@@ -12,6 +12,7 @@ namespace BusinessObjects.Models.MetaData
         public List<VolunteerPosition> VolunteerPositions { get; set; } = new List<VolunteerPosition>();
 
         public bool IsComplete { get; set; }
+        public bool IsOptOut { get; set; }
 
     }
 }

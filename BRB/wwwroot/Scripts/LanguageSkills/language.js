@@ -16,11 +16,22 @@ $(document).ready(function () {
     });
 
     LoadData();
-}); 
+});
+
+$(document).on('change', '#cbSectionNotApply', function () {
+    if (this.checked) $('#isOptSection').hide()
+    else $('#isOptSection').show()
+});
 
 $('#btnSaveLanguage').click(function () {
-    $('#languageForm').validate();
-    if ($('#languageForm').valid()) {
+    if ($('#txtLanguageName').val().trim() == "") {
+        $('#languageForm').validate();
+        $('#languageForm').trigger('reset');
+
+    }
+    else if ($('#languageForm').valid())
+    {
+
         let language = {
             LanguageId: $('#hdfLanguageId').val(),
             LanguageName: $('#txtLanguageName').val(),
@@ -34,21 +45,33 @@ $('#btnSaveLanguage').click(function () {
             languageArray[parseInt(localStorage.getItem("pos-index"))] = language;
             localStorage.clear();
         }
+        $('#languageForm').trigger('reset');
+        $('#LanguageModal').modal('toggle')
         LoadCards();
     }
-   
+    else {
+        $('#languageForm').validate()
+    }
+
+           
+
+
     //fill the array of position record and display the recorded data in div
-  
+
 });
 
+$('.closeLanguage').click(function () {
+    $('#languageForm').trigger('reset');
+})
 $('#btnSaveAndContinue').click(function () {
     let data = {
         LanguageSkillId: $('#hdfLanguageSkillId').val(),
         LastSectionVisitedId: $('#hdfLastSectionVisitedId').val(),
         Languages: languageArray,
-        IsComplete: $('#cbIsComplete').val($('#cbIsComplete').is(':checked'))[0].checked
+        IsComplete: $('#cbIsComplete').val($('#cbIsComplete').is(':checked'))[0].checked,
+        IsOptOut: $('#cbSectionNotApply').is(':checked')
     }
-   
+
     $.ajax({
         url: '/Language/PostLanguageSkillData',
         type: 'POST',
@@ -62,14 +85,16 @@ $('#btnSaveAndContinue').click(function () {
     });
 });
 
-function LoadData() {  
+function LoadData() {
     $.ajax({
         url: '/Language/GetLanguageSkillsRecord',
         type: 'GET',
         success: function (response) {
+            console.log(response.data)
             if (response.data != null) {
                 $('#hdfLanguageSkillId').val(response.data.languageSkillId);
-                $('.isoptOut').prop("checked", response.data.isOptOut).trigger('change')
+                debugger
+                $('#cbSectionNotApply').prop("checked", response.data.isOptOut).trigger('change')
                 $("#cbIsComplete").prop("checked", response.data.isComplete)
                 if (response.data.languages.length > 0) {
                     $.each(response.data.languages, function (index, value) {
@@ -78,8 +103,8 @@ function LoadData() {
                     LoadCards();
                 }
             }
-           
-          
+
+
         },
         error: function (error) {
 

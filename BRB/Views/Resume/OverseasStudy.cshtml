@@ -8,7 +8,7 @@
         </button>
         </div>
         <div class="custom-checkbox custom-control mt-2 mb-2">
-            <input type="checkbox" class="custom-control-input isoptOut" id="sectionCheckBox">
+            <input type="checkbox" class="custom-control-input" id="sectionCheckBox">
             <label class="custom-control-label" for="sectionCheckBox">
                 This section does not apply to me.
             </label>
@@ -28,10 +28,10 @@
         </p>
         <div id="DivSection" class="mb-2">
         </div>
-        <button type="button" class="btn btn-primary btn-sm custombtn w-auto mt-2 py-2" data-bs-toggle="modal"
-                data-bs-target="#SummaryModal">
+            <button type="button" class="btn btn-primary btn-sm custombtn w-auto mt-2 py-2" onclick="$('#SummaryModal').modal('toggle')">
             Add an Overseas Study Experience
         </button>
+        </div>
         <div class="custom-checkbox custom-control mb-2 mt-3">
             <input type="checkbox" id="cbkFinished"
                    class="custom-control-input">
@@ -45,7 +45,7 @@
                 Continue
             </button>
         </div>
-        </div>
+        
     </form>
 </div>
 <div class="modal fade" id="SummaryModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -60,22 +60,22 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label for="validationCustom01">College/University</label>
+                                <label for="validationCustom01">College/University<span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="txtcollegeName"
                                        name="CollegeName" required>
                             </div>
                             <div class="form-group">
-                                <label for="City" class="">City</label>
+                                <label for="City" class="">City<span class="text-danger">*</span></label>
                                 <input name="City" id="City" type="text" class="form-control" required>
                             </div>
                             <div class="form-group">
-                                <label for="t" class="">Country</label>
+                                <label for="t" class="">Country<span class="text-danger">*</span></label>
                                 <select name="CountryId"
                                         id="ddlCountry" class="form-control" required>
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label for="received" class="">Date Started</label>
+                                <label for="received" class="">Date Started <span class="text-danger">*</span></label>
                                 <div class="row">
                                     <div class="col-12">
                                     <input class="form-control" id="txtStartDate" name="StartedDate" type="date" required />
@@ -94,7 +94,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="received" class="lblEndedDate">Date Ended</label>
+                                <label for="received" class="lblEndedDate">Date Ended <span class="text-danger">*</span></label>
                                 <div class="row">
                                     <div class="col-12">
                                         <input class="form-control" id="txtEndDate" name="EndedDate" type="date" required />
@@ -103,7 +103,7 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="t" class="">Main Classes Completed</label>
+                                <label for="t" class="">Main Classes Completed <span class="text-danger">*</span></label>
                                 <input name="ClassesCompleted" id="txtClassSectionCompleted" type="text" class="form-control" value="" required>
                             </div>
 

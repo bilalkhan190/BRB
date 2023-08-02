@@ -38,7 +38,7 @@ namespace BRB.Controllers
             resumeProfileData.LastModDate = DateTime.Today;
             resumeProfileData.LastSectionVisitedId = militaryViewModel.LastSectionVisitedId;
             resumeProfileData.LastSectionCompletedId = militaryViewModel.IsComplete == true ? militaryViewModel.LastSectionVisitedId : 0;
-            _resumeService.UpdateResumeMaster(resumeProfileData);
+         
               militaryViewModel.ResumeId = sessionData.ResumeId;
               militaryViewModel.CreatedDate = DateTime.Today;
               militaryViewModel.LastModDate = DateTime.Today;
@@ -108,6 +108,7 @@ namespace BRB.Controllers
 
                         }
                     }
+                    _resumeService.UpdateResumeMaster(resumeProfileData);
                     transection.Commit();
                 }
                 catch (Exception)

@@ -12,6 +12,7 @@ namespace BusinessObjects.Models.MetaData
        public List<OverseasStudy> OverseasStudies { get; set; } = new List<OverseasStudy>();
 
         public bool IsComplete { get; set; }
+        public bool IsOptOut { get; set; }
 
         public DateTime CreatedDate { get; set; }
 

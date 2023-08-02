@@ -16,6 +16,8 @@ namespace BusinessObjects.Services.interfaces
         UserProfile ValidateUser(string userName, string password);
 
         object GetAllIds(int resumeId);
+        bool VerifyUser(string userId);
+        bool VerifyVoucher(string voucherCode, int userId);
 
     }
 }

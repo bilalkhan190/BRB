@@ -39,7 +39,7 @@ $('#ddlMajorSpeciality').change(function () {
 
 
 $('#ddlMinor').change(function () {
-    let input = `<input name="MinorOther" id="MinorOther" placeholder="Other Certificates" type="text" class="form-control mt-2" value="" required/>`
+    let input = `<input name="MinorOther" id="MinorOther" placeholder="Other Minor" type="text" class="form-control mt-2" value="" required/>`
     let ddlSelectedValue = $('#ddlMinor option:selected').val()
     if (ddlSelectedValue == 160) {
         $(this).after(input)
@@ -61,12 +61,23 @@ $('#ddlOtherCertificates').change(function () {
     }
 });
 $('.modalClose').click(function () {
+    $('#btnCollageSave').prop('disabled', false)
+    $('#btnSaveScholarship').prop('disabled', false)
+    $('#btnSaveHonor').prop('disabled', false);
+    $(document).find('input[name="OtherCertificates"]').remove();
+    $(document).find('input[name="DegreeOther"]').remove();
+    $(document).find('input[name="MajorOther"]').remove();
+    $(document).find('input[name="MinorOther"]').remove();
+    $(document).find('input[name="MajorSpecialityOther"]').remove();
+    
     FormReset();
 })
 
 $('#btnCollageSave').click(function () {
+   
     $('#CollageForm').validate();
     if ($('#CollageForm').valid()) {
+        $('#btnCollageSave').prop('disabled', true)
         let college = {
             LastSectionVisitedId: $('#hdfLastSectionVisitedId').val(), CollegeId: $('#hdfCollegeId').val(),
             CollegeName: $('#txtCollegeName').val(), CollegeCity: $('#CollegeCity').val(),
@@ -83,9 +94,12 @@ $('#btnCollageSave').click(function () {
         else {
             collegeArray[parseInt(localStorage.getItem("col-index"))] = college;
             localStorage.clear();
+            
         }
-      
+        $('#SummaryModal').modal('toggle');
         LoadCards();
+        $('#btnCollageSave').prop('disabled', false)
+        $('#CollageForm').trigger('reset');
     }
       
 });
@@ -93,6 +107,7 @@ $('#btnCollageSave').click(function () {
 function LoadCards() {
     $('#divEditSection').html("")
     collegeArray = covertArrayKeyIntoCamelCase(collegeArray)
+    console.log(collegeArray);
     $.each(collegeArray, function (index, value) {
         let html = `<div class="card ml-4 mt-4 cardWrapper"> 
                                                            <div class="card-body">
@@ -138,8 +153,7 @@ function LoadCards() {
                                                        </div>
 
                                                     <button type="button"
-                                                                class="btn btn-primary custombtn w-auto mt-2 mb-2" data-bs-toggle="modal"
-                                                               data-bs-target="#HonorModal">
+                                                                class="btn btn-primary custombtn w-auto mt-2 mb-2" onclick='showModal("#HonorModal")'>
                                                         Add an Academic Honor
                                                     </button>
                                                     <h5 class="mt-2">Scholarships</h5>
@@ -153,8 +167,7 @@ function LoadCards() {
                            
                                                      </div>
                                                         <button type="button"
-                                                               class="btn btn-primary custombtn w-auto mt-2" data-bs-toggle="modal"
-                                                               data-bs-target="#ScholarshipModal">
+                                                               class="btn btn-primary custombtn w-auto mt-2" onclick="$('#ScholarshipModal').modal('toggle');">
                                                        Add an Academic
                                                         Scholarship
                                                    </button>
@@ -253,26 +266,36 @@ function LoadCards() {
 
 
 
-
 $(document).ready(function () {
     FillDropdowns();
     $.ajax({
         url: '/Education/GetData',
         type: 'Get',
         success: function (response) {
+            console.log(response)
           
-            for (var i = 0; i < response.data.length; i++) {
-                collegeArray.push(response.data[i].college)
-                $.each(response.data[i].academicHonors, function (index, value) {
-                    acadmicHonorArray.push(value)
-                });
-                $.each(response.data[i].academicScholarships, function (index, value) {
-                    acadmicScholarshipArray.push(value)
-                });
-            }
            
-          
-            LoadCards();
+            if (response.data.length > 0) {
+                $('#cbkIsComplete').prop('checked', response.data[0].education.isComplete)
+                $('#cbkIsComplete').prop('disabled', response.data[0].education.isComplete)
+                for (var i = 0; i < response.data.length; i++) {
+                    collegeArray.push(response.data[i].college)
+                    $.each(response.data[i].academicHonors, function (index, value) {
+                        acadmicHonorArray.push(value)
+                    });
+                    $.each(response.data[i].academicScholarships, function (index, value) {
+                        acadmicScholarshipArray.push(value)
+                    });
+                }
+
+
+                LoadCards();
+            } else if (response.data != null)
+            {
+                $('#cbkIsComplete').prop('checked', response.data.isComplete)
+                $('#cbkIsComplete').prop('disabled', response.data.isComplete)
+            }
+            
 
         }, error: function (err) {
             alert('error')
@@ -283,6 +306,7 @@ $(document).ready(function () {
 
 
 $(document).on('click', '#btnEditCollege', function () {
+    $('#btnCollageSave').prop('disabled', false)
     var response = collegeArray[$(this).attr('data-edit')];
     console.log(response)
     localStorage.setItem("col-index", $(this).attr('data-edit'))
@@ -294,14 +318,19 @@ $(document).on('click', '#btnEditCollege', function () {
     $('input[name="HonorProgram"]').val(response.honorProgram)
     $('select[name="CollegeStateAbbr"]').val(response.collegeStateAbbr)
     $('input[name="SchoolName"]').val(response.schoolName)
-    $('input[name="DegreeId"]').val(response.degreeId)
-    $('input[name="MajorId"]').val(response.majorId)
-    $('select[name="MajorSpecialtyId"]').val(response.majorSpecialtyId)
-    $('select[name="MinorId"]').val(response.minorId)
-    if (response.includeGpa != null || response.includeGpa == false) {
+    $('#ddlDegree').val(response.degreeId).trigger('change')
+    $('#DegreeOther').val(response.degreeOther);
+    $('#ddlMajor').val(response.majorId).trigger('change')
+    $('#MajorOther').val(response.majorOther);
+    $('select[name="MajorSpecialtyId"]').val(response.majorSpecialtyId).trigger('change')
+    $('input[name="MajorSpecialityOther"]').val(response.majorSpecialtyOther);
+    $('select[name="MinorId"]').val(response.minorId).trigger('change')
+    $('input[name="MinorOther"]').val(response.minorOther);
+    if (response.includeGpa != null || response.includeGpa != false) {
         $('input[name="IncludeGpa"]').prop('checked', true);
     }
-    $('select[name="CertificateId"]').val(response.certificateId)
+    $('select[name="CertificateId"]').val(response.certificateId).trigger('change')
+    $('input[name="CertificateOther"]').val(response.certificateOther);
     $('input[name="Gpa"]').val(response.gpa)
     $('.collegeModal').modal('show')
 });
@@ -434,8 +463,10 @@ function FillDropdowns() {
 
 
 $('#btnSaveHonor').click(function () {
+    
     $('#formAcademicHonor').validate();
     if ($('#formAcademicHonor').valid()) {
+        $('#btnSaveHonor').prop('disabled', true)
         let acadmicHonor = {
             CollegeId: $('#hdfCollegeId').val(),
             AcademicHonorId: $('#hdfAcademicHonorId').val(),
@@ -450,17 +481,27 @@ $('#btnSaveHonor').click(function () {
             acadmicHonorArray[parseInt(localStorage.getItem("acad-index"))] = acadmicHonor;
             localStorage.clear();
         }
-
+        hideModal("#HonorModal");
         LoadCards();
         ResetHonor();
+        $('#btnSaveHonor').prop('disabled', false)
     }
    
    
 });
 
+function hideModal(modalId) {
+    $(modalId).modal('toggle');
+}
+
+function showModal(modalId) {
+    $(modalId).modal('show');
+}
 $('#btnSaveScholarship').click(function () {
+   
     $('#formAcademicScholarship').validate();
     if ($('#formAcademicScholarship').valid()) {
+        $('#btnSaveScholarship').prop('disabled', true)
         let acadmicScholarship = {
             CollegeId: $('#hdfCollegeId').val(),
             AcademicScholarshipId: $('#hdfAcademicScholarshipId').val(),
@@ -476,13 +517,16 @@ $('#btnSaveScholarship').click(function () {
             acadmicScholarshipArray[parseInt(localStorage.getItem("sch-index"))] = acadmicScholarship;
             localStorage.clear();
         }
+        $("#ScholarshipModal").modal('toggle');
         LoadCards()
         ResetScholarship();
+        $('#btnSaveScholarship').prop('disabled', false)
     }
 });
 
 
 $(document).on('click', '#btnEditHonor', function () {
+    $('#btnSaveHonor').prop('disabled', false)
     var response = acadmicHonorArray[$(this).attr('acad-edit')];
     localStorage.setItem("acad-index", $(this).attr('acad-edit'))
     $('#hdfAcademicHonorId').val(response.academicHonorId);
@@ -493,6 +537,7 @@ $(document).on('click', '#btnEditHonor', function () {
 });
 
 $(document).on('click', '#btnEditAcademicScholarship', function () {
+    $('#btnSaveScholarship').prop('disabled', false)
     var response = acadmicScholarshipArray[$(this).attr('sch-edit')];
     localStorage.setItem("sch-index", $(this).attr('sch-edit'))
     $('#hdfAcademicScholarshipId').val(response.academicScholarshipId);

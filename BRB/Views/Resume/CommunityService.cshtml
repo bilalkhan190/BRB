@@ -16,7 +16,7 @@
         </div>
         <div class="custom-checkbox custom-control mt-2 mb-2">
             <input type="checkbox"
-                   class="custom-control-input isoptOut" id="cbSectionNotApply">
+                   class="custom-control-input" id="cbSectionNotApply">
             <label class="custom-control-label" for="cbSectionNotApply">
             This section does not apply to me.
         </label>
@@ -37,8 +37,7 @@
         <div class="row mx-auto">
         </div>
     </div>
-    <button type="button" class="btn btn-primary btn-sm custombtn w-auto py-2 mt-3" data-bs-toggle="modal"
-            data-bs-target="#SummaryModal">
+    <button type="button" class="btn btn-primary btn-sm custombtn w-auto py-2 mt-3" onclick="$('#SummaryModal').modal('toggle')">
         Add a Volunteer Organization
     </button>
     </div>
@@ -70,21 +69,21 @@
                     <div class="row">
                         <div class="col-md-12 p-0">
                             <div class="form-group">
-                                <label for="validationCustom01">Organization</label>
+                                <label for="validationCustom01">Organization<span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="txtOrgName"
                                        name="OrgName" required>
                             </div>
                             <div class="form-group">
-                                <label for="City" class="">City</label>
+                                <label for="City" class="">City<span class="text-danger">*</span></label>
                                 <input name="City" id="txtCity" type="text" class="form-control" required>
                             </div>
                             <div class="form-group">
-                                <label for="t" class="">State</label><select name="StateAbbr"
+                                <label for="t" class="">State<span class="text-danger">*</span></label><select name="StateAbbr"
                                                                              id="ddlStateAbbr" class="form-control">
                                 </select>
                             </div>
                             <div class="form-group mb-0">
-                                <label for="received" class="">Date Started</label>
+                                <label for="received" class="">Date Started<span class="text-danger">*</span></label>
                                 <div class="row">
                                     <div class="col-6">
                                         <div class="form-group">
@@ -280,7 +279,7 @@
                             </div>
 
                             <div class="form-group mb-0">
-                                <label for="received" id="labelEndedDate" class="">Date Ended</label>
+                                <label for="received" id="labelEndedDate" class="">Date Ended<span class="text-danger">*</span></label>
                                 <div class="row">
                                     <div class="col-6">
                                         <div class="form-group">
@@ -546,12 +545,12 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label for="validationCustom01">Title</label>
+                                <label for="validationCustom01">Title<span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="txtTitle"
                                        name="Title" required>
                             </div>
                             <div class="form-group mb-0">
-                                <label for="received" class="">Date Started</label>
+                                <label for="received" class="">Date Started<span class="text-danger">*</span></label>
                                 <div class="row">
                                     <div class="col-6">
                                         <div class="form-group">
@@ -747,7 +746,7 @@
                             </div>
 
                             <div class="form-group mb-0">
-                                <label for="received" id="LabelEndedPositionDate" class="">Date Ended</label>
+                                <label for="received" id="LabelEndedPositionDate" class="">Date Ended<span class="text-danger">*</span></label>
                                 <div class="row">
                                     <div class="col-6">
                                         <div class="form-group">
@@ -931,15 +930,15 @@
                             <div class="form-group mb-0">
                                 <legend>Top three primary responsibilities</legend>
                                 <div class="form-group">
-                                    <label for="t" class="">Responsibility #1</label>
+                                    <label for="t" class="">Responsibility #1<span class="text-danger">*</span></label>
                                     <input name="Responsibility1" id="txtResponsibility1" type="text" class="form-control" value="" required>
                                 </div>
                                 <div class="form-group">
-                                    <label for="t" class="">Responsibility #2</label>
+                                    <label for="t" class="">Responsibility #2<span class="text-danger">*</span></label>
                                     <input name="Responsibility2" id="txtResponsibility2" type="text" class="form-control" value="" required>
                                 </div>
                                 <div class="form-group">
-                                    <label for="t" class="">Responsibility #3</label>
+                                    <label for="t" class="">Responsibility #3<span class="text-danger">*</span></label>
                                     <input name="Responsibility3" id="txtResponsibility3" type="text" class="form-control" value="" required>
                                 </div>
                             </div>
@@ -956,7 +955,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary modalClose w-auto"
+                <button type="button" class="btn btn-secondary modelPosition w-auto"
                         data-bs-dismiss="modal">
                     Close
                 </button>

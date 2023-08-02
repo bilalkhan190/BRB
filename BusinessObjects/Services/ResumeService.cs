@@ -16,7 +16,7 @@ namespace BusinessObjects.Services
     {
         private readonly Wh4lprodContext _dbContext;
         private readonly IMapper _mapper;
-        public ResumeService(Wh4lprodContext dbContext,IMapper mapper)
+        public ResumeService(Wh4lprodContext dbContext, IMapper mapper)
         {
             _dbContext = dbContext;
             _mapper = mapper;
@@ -25,8 +25,8 @@ namespace BusinessObjects.Services
         {
             Resume resume = new Resume();
             resume.UserId = resumeViewModels.UserId;
-            resume.LastSectionVisitedId= resumeViewModels.LastSectionVisitedId;
-            resume.LastSectionCompletedId= resumeViewModels.LastSectionCompletedId;
+            resume.LastSectionVisitedId = resumeViewModels.LastSectionVisitedId;
+            resume.LastSectionCompletedId = resumeViewModels.LastSectionCompletedId;
             resume.IsActive = true;
             _dbContext.Resumes.Add(resume);
             _dbContext.SaveChanges();
@@ -35,13 +35,13 @@ namespace BusinessObjects.Services
         }
         public int GetResumeId(int userId)
         {
-            return _dbContext.Resumes.FirstOrDefault(x =>x.UserId == userId).ResumeId;
+            return _dbContext.Resumes.FirstOrDefault(x => x.UserId == userId).ResumeId;
         }
-      
+
         public UserSessionData GetResumeProfile(int userId)
         {
-            
-               var record = (from r in _dbContext.Resumes
+
+            var record = (from r in _dbContext.Resumes
                           join u in _dbContext.UserProfiles on r.UserId equals u.UserId
                           where r.UserId == userId
                           select new UserSessionData
@@ -51,7 +51,8 @@ namespace BusinessObjects.Services
                               UserId = r.UserId,
                               LastSectionCompletedId = r.LastSectionCompletedId,
                               LastSectionVisitedId = r.LastSectionVisitedId,
-                              UserType = "NormalUser"
+                              UserType = u.RoleType == null ? "" : u.RoleType,
+                              VoucherCode = r.VoucherCode
                           }).FirstOrDefault();
 
             return record;
@@ -86,18 +87,19 @@ namespace BusinessObjects.Services
                 record.ResumeId = resumeViewModels.ResumeId;
                 record.UserId = resumeViewModels.UserId;
                 record.LastSectionVisitedId = resumeViewModels.LastSectionVisitedId;
-                record.LastSectionCompletedId= resumeViewModels.LastSectionCompletedId;
-                record.LastModDate= resumeViewModels.LastModDate;
-               _dbContext.Entry(record).State = EntityState.Modified;
-              _dbContext.SaveChanges();
+                record.LastSectionCompletedId = resumeViewModels.LastSectionCompletedId;
+                record.LastModDate = resumeViewModels.LastModDate;
+                record.GeneratedFileName = null; //to detect changes
+                _dbContext.Entry(record).State = EntityState.Modified;
+                _dbContext.SaveChanges();
             }
             return resumeViewModels.ResumeId;
         }
 
         public Resume GetResumeByPageId(int pageId)
         {
-          return  _dbContext.Resumes.Where(x => x.LastSectionVisitedId == pageId).FirstOrDefault();
-            
+            return _dbContext.Resumes.Where(x => x.LastSectionVisitedId == pageId).FirstOrDefault();
+
         }
     }
 }

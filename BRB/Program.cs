@@ -1,4 +1,5 @@
 using AutoMapper;
+using BRB.Attributes;
 using BusinessObjects.Helper;
 using BusinessObjects.Models;
 using BusinessObjects.Services;
@@ -48,6 +49,17 @@ builder.Services.AddScoped<IProfessionalService, ProfessionalService>();
 builder.Services.AddScoped<ILanguageService, LanguageService>();
 builder.Services.AddScoped<ITechnicalSkillService, TechnicalSkillService>();
 builder.Services.AddScoped<IWorkExperienceService, WorkExperienceService>();
+//builder.Services.AddOutputCache(options =>
+//{
+//    options.AddBasePolicy(builder => builder.Cache());
+//    options.AddPolicy("OutputCacheWithAuthPolicy",p => p.Expire(TimeSpan.FromSeconds(20)));
+//});
+builder.Services.AddMvc(options =>
+{
+    options.Filters.Add(new GlobalFilterAttribute());
+ 
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -64,7 +76,7 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
-
+//app.UseOutputCache();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Account}/{action=Index}/{id?}");

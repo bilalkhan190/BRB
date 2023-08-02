@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using BRB.Attributes;
 using BusinessObjects.Models;
 using BusinessObjects.Models.DTOs;
 using BusinessObjects.Models.MetaData;
@@ -12,6 +13,8 @@ using System.Text.Json;
 
 namespace BRB.Controllers
 {
+
+   
     public class ContactInfoController : BaseController
     {
         private readonly IResumeService _resumeService;
@@ -55,6 +58,15 @@ namespace BRB.Controllers
             ajaxResponse.Success = false;
             ajaxResponse.Message = string.Empty;
             ajaxResponse.Redirect = "/Resume/Objective";
+            ResumeViewModels resumeProfileData = new ResumeViewModels();
+            resumeProfileData.UserId = sessionData.UserId;
+            resumeProfileData.ResumeId = sessionData.ResumeId;
+            resumeProfileData.LastSectionVisitedId = contactInfoViewModel.LastSectionVisitedId;
+            resumeProfileData.LastSectionCompletedId = contactInfoViewModel.IsComplete == true ? contactInfoViewModel.LastSectionVisitedId : 0;
+            resumeProfileData.CreatedDate = DateTime.Today;
+            resumeProfileData.LastModDate = DateTime.Today;
+            
+          
 
             contactInfoViewModel.ResumeId = sessionData.ResumeId;
             contactInfoViewModel.StateAbbr = contactInfoViewModel.StateAbbr;
@@ -63,16 +75,8 @@ namespace BRB.Controllers
             if (contactInfoViewModel.ContactInfoId == 0)
             {
                 contactInfo = _contactInfoService.AddContactInfo(contactInfoViewModel);
-                if (contactInfo.ContactInfoId > 0)
-                {
-                    ResumeViewModels resumeProfileData = new ResumeViewModels();
-                    resumeProfileData.UserId = sessionData.UserId;
-                    resumeProfileData.ResumeId = sessionData.ResumeId;
-                    resumeProfileData.LastSectionVisitedId = contactInfoViewModel.LastSectionVisitedId;
-                    resumeProfileData.LastSectionCompletedId = contactInfoViewModel.IsComplete == true ? contactInfoViewModel.LastSectionVisitedId : 0;
-                    ajaxResponse.Success = true;
-                    ajaxResponse.Message = "record Save succesfully";
-                }
+                ajaxResponse.Success = true;
+                ajaxResponse.Message = "record Added succesfully";
             }
             else
             {
@@ -83,6 +87,8 @@ namespace BRB.Controllers
                     ajaxResponse.Message = "record updated succesfully";
                 }
             }
+
+            _resumeService.UpdateResumeMaster(resumeProfileData);
 
             return Json(ajaxResponse);
         }

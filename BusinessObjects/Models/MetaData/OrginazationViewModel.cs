@@ -10,6 +10,7 @@ namespace BusinessObjects.Models.MetaData
     {
         public int OrgExperienceId { get; set; }
         public bool IsComplete { get; set; }
+        public bool IsOptOut { get; set; }
         public  List<OrgPosition> OrgPositions { get; set; } = new List<OrgPosition>();
         public List<Organization> Organizations { get; set; } = new List<Organization>();
     }

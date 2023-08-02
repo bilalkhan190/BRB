@@ -62,13 +62,14 @@ namespace BRB.Controllers
                     {
                         _dbContext.TechnicalSkills.Add(model);
                     }
-                    Resume resumeProfileData = new Resume();
+                    Resume resumeProfileData = _dbContext.Resumes.FirstOrDefault(x => x.ResumeId == sessionData.ResumeId);
                     resumeProfileData.ResumeId = sessionData.ResumeId;
                     resumeProfileData.UserId = sessionData.UserId;
                     resumeProfileData.LastSectionVisitedId = technicalSkill.LastSectionVisitedId;
                     resumeProfileData.LastModDate = DateTime.Today;
                     resumeProfileData.CreatedDate = DateTime.Today;
                     resumeProfileData.LastSectionCompletedId = technicalSkill.IsComplete == true ? technicalSkill.LastSectionVisitedId : 0;
+                    resumeProfileData.GeneratedFileName = null;
                     _dbContext.Resumes.Update(resumeProfileData);
                     _dbContext.SaveChanges();
                     trans.Commit();

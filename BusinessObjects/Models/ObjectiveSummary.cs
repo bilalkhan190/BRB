@@ -7,6 +7,7 @@ namespace BusinessObjects.Models;
 public partial class ObjectiveSummary
 {
     public int ObjectiveSummaryId { get; set; }
+    public string? ObjectiveType { get; set; }
 
     public int ResumeId { get; set; }
 

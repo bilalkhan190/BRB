@@ -27,9 +27,9 @@ namespace BusinessObjects.Services
             userProfile.StateAbbr = userProfileViewModel.StateAbbr;
             userProfile.CreatedDate = DateTime.Now.Date;
             userProfile.LastModDate = DateTime.Now.Date;
-            userProfile.ZipCode= userProfileViewModel.ZipCode;
+            userProfile.ZipCode = userProfileViewModel.ZipCode;
             userProfile.FirstName = userProfileViewModel.FirstName;
-            userProfile.LastName= userProfileViewModel.LastName;
+            userProfile.LastName = userProfileViewModel.LastName;
             userProfile.Phone = userProfileViewModel.Phone;
             userProfile.UserName = userProfileViewModel.UserName;
             userProfile.UserPassword = userProfileViewModel.UserPassword;
@@ -40,50 +40,81 @@ namespace BusinessObjects.Services
 
         public object GetAllIds(int resumeId)
         {
-        var data = (from c in _dbContext.ContactInfos 
-                    from o in _dbContext.ObjectiveSummaries 
-                    from e in _dbContext.Educations 
-                    from oe in _dbContext.OverseasExperiences 
-                    from we in _dbContext.WorkExperiences 
-                    from m in _dbContext.MilitaryExperiences
-                    from org in _dbContext.OrgExperiences 
-                    from v in _dbContext.VolunteerExperiences 
-                    from ts in _dbContext.TechnicalSkills 
-                    from p in _dbContext.Professionals 
-                    from ls in _dbContext.LanguageSkills
-                    where c.ResumeId == resumeId && o.ResumeId == resumeId 
-                    && e.ResumeId == resumeId && oe.ResumeId == resumeId
-                    && we.ResumeId == resumeId && m.ResumeId == resumeId
-                    && org.ResumeId == resumeId && v.ResumeId == resumeId
-                    && ts.ResumeId == resumeId && p.ResumeId == resumeId
-                    && ls.ResumeId == resumeId
-                    select new 
-                    {
-                        contactInfoId = c.ContactInfoId,
-                        objectiveId = o.ObjectiveSummaryId,
-                        educationId = e.EducationId,
-                        overseasExpId = oe.OverseasExperienceId,
-                        orgExperience = org.OrgExperienceId,
-                        workExpId = we.WorkExperienceId,
-                        militaryExpId = m.MilitaryExperienceId,
-                        volunteerId = v.VolunteerExperienceId,
-                        technicalSkillId = ts.TechnicalSkillId,
-                        professionalId = p.ProfessionalId,
-                        languageSkillId = ls.LanguageSkillId
-                    }).FirstOrDefault();
+            var data = (from c in _dbContext.ContactInfos
+                        from o in _dbContext.ObjectiveSummaries
+                        from e in _dbContext.Educations
+                        from oe in _dbContext.OverseasExperiences
+                        from we in _dbContext.WorkExperiences
+                        from m in _dbContext.MilitaryExperiences
+                        from org in _dbContext.OrgExperiences
+                        from v in _dbContext.VolunteerExperiences
+                        from ts in _dbContext.TechnicalSkills
+                        from p in _dbContext.Professionals
+                        from ls in _dbContext.LanguageSkills
+                        where c.ResumeId == resumeId && o.ResumeId == resumeId
+                        && e.ResumeId == resumeId && oe.ResumeId == resumeId
+                        && we.ResumeId == resumeId && m.ResumeId == resumeId
+                        && org.ResumeId == resumeId && v.ResumeId == resumeId
+                        && ts.ResumeId == resumeId && p.ResumeId == resumeId
+                        && ls.ResumeId == resumeId
+                        select new
+                        {
+                            contactInfoId = c.ContactInfoId,
+                            objectiveId = o.ObjectiveSummaryId,
+                            educationId = e.EducationId,
+                            overseasExpId = oe.OverseasExperienceId,
+                            orgExperience = org.OrgExperienceId,
+                            workExpId = we.WorkExperienceId,
+                            militaryExpId = m.MilitaryExperienceId,
+                            volunteerId = v.VolunteerExperienceId,
+                            technicalSkillId = ts.TechnicalSkillId,
+                            professionalId = p.ProfessionalId,
+                            languageSkillId = ls.LanguageSkillId
+                        }).FirstOrDefault();
 
             return data;
         }
 
         public UserProfile ValidateUser(string userName, string password)
         {
-           
+
             var currentUser = _dbContext.UserProfiles.FirstOrDefault(u => u.UserName == userName && u.UserPassword == password);
-           
+
             return currentUser;
         }
 
+        public bool VerifyUser(string userId)
+        {
+            var user = _dbContext.UserProfiles.FirstOrDefault(x => x.UserId == Convert.ToInt32(userId));
+            if (user != null)
+            {
+                user.IsVerified = true;
+                _dbContext.UserProfiles.Update(user);
+                _dbContext.SaveChanges();
+                return true;
+            }
+            return false;
+        }
 
-     
+
+        public bool VerifyVoucher(string voucherCode,int userId)
+        {
+            var voucherExists = _dbContext.Vouchers.FirstOrDefault(x => x.Code == voucherCode);
+            if (voucherExists != null)
+            {
+                Resume resume = _dbContext.Resumes.FirstOrDefault(x => x.UserId == userId);
+                resume.VoucherCode = voucherCode;
+                _dbContext.Resumes.Update(resume);
+
+                UserProfile user = _dbContext.UserProfiles.FirstOrDefault(x => x.UserId == userId);
+                user.IsActive = true;
+                _dbContext.UserProfiles.Update(user);
+
+                _dbContext.SaveChanges();
+                return true;
+            }
+            return false;
+        }
+
     }
 }

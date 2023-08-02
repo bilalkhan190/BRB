@@ -40,8 +40,7 @@
 
                 </div>
             </div>
-                <button type="button" class="btn btn-primary custombtn w-auto mt-2" data-bs-toggle="modal" onclick="localStorage.clear()"
-                    data-bs-target="#licenseModal">
+                <button type="button" class="btn btn-primary custombtn w-auto mt-2" onclick="localStorage.clear();$('#licenseModal').modal('toggle')">
                 Add a License
             </button>
         </div>
@@ -53,8 +52,8 @@
                     <div class="row row-cstm mx-auto">
                 </div>
             </div>
-            <button type="button" class="btn btn-primary custombtn w-auto mt-2" data-bs-toggle="modal" onclick="localStorage.clear()"
-                    data-bs-target="#CertificateModal">
+                <button type="button" class="btn btn-primary custombtn w-auto mt-2" onclick="localStorage.clear();$('#CertificateModal').modal('toggle')"
+                   >
                 Add a Certification
             </button>
         </div>
@@ -66,8 +65,7 @@
                     <div class="row row-cstm mx-auto">
                 </div>
             </div>
-            <button type="button"  class="btn btn-primary btn-sm custombtn w-auto mt-2" data-bs-toggle="modal" onclick="localStorage.clear()"
-                    data-bs-target="#AffilationModal">
+                <button type="button" class="btn btn-primary btn-sm custombtn w-auto mt-2" onclick="localStorage.clear();$('#AffilationModal').modal('toggle')"                   >
                 Add an Affiliation
             </button>
         </div>
@@ -99,20 +97,20 @@
                     <div class="row mx-auto">
                         <div class="col-md-12 p-0">
                             <div class="form-group">
-                                <label for="validationCustom01">Organization</label>
+                                <label for="validationCustom01">Organization<span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="txtAffiliationName"
                                        name="AffiliationName" required>
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="City" class="">City</label>
+                                        <label for="City" class="">City<span class="text-danger">*</span></label>
                                         <input name="City" id="txtAffilationCity" type="text" class="form-control" required>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                       <div class="form-group">
-                                <label for="t" class="">State</label>
+                                        <label for="t" class="">State<span class="text-danger">*</span></label>
                                 <select name="StateAbbr" id="txtAffilationStateAbbr" class="form-control ddl_State" required>
                                    
                                 </select>
@@ -120,7 +118,7 @@
                                 </div>
                             </div>
                             <div class="form-group mb-0">
-                                <label for="received" class="">Date Started</label>
+                                <label for="received" class="">Date Started<span class="text-danger">*</span></label>
                                 <div class="row">
                                     <div class="col-6">
                                         <div class="form-group">
@@ -316,7 +314,7 @@
                             </div>
 
                             <div class="form-group mb-0">
-                                <label for="received" class="" id="labelAffilationEndedDate">Date Ended</label>
+                                <label for="received" class="" id="labelAffilationEndedDate">Date Ended<span class="text-danger">*</span></label>
                                 <div class="row">
                                     <div class="col-6">
                                         <div class="form-group">
@@ -506,7 +504,7 @@
                         data-bs-dismiss="modal">
                     Close
                 </button>
-                <button type="button" id="btnSaveAffilation" class="btn btn-secondary custombtn w-auto">Save</button>
+                <button type="button" id="btnSaveAffilation" class="btn btn-secondary closeAffilation w-auto">Save</button>
             </div>
         </div>
     </div>
@@ -601,19 +599,19 @@
                     <div class="row">
                         <div class="col-md-12 p-0">
                             <div class="form-group">
-                                <label for="validationCustom01">License Title</label>
+                                <label for="validationCustom01">License Title<span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="txtlicenseTitle"
                                        name="Title" required>
                             </div>
 
                             <div class="form-group">
-                                <label for="t" class="">State</label>
+                                <label for="t" class="">State<span class="text-danger">*</span></label>
                                 <select name="StateAbbr" id="ddllicenseState" class="form-control " required>
                                    
                                 </select>
                             </div>
                             <div class="form-group mb-0">
-                                <label for="received" class="">Date Started</label>
+                                <label for="received" class="">Date Started<span class="text-danger">*</span></label>
                                 <div class="row">
                                     <div class="col-6">
                                         <div class="form-group">
@@ -800,7 +798,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary modalClose w-auto"
+                <button type="button" class="btn btn-secondary closeLicense w-auto"
                         data-bs-dismiss="modal">
                     Close
                 </button>
@@ -818,19 +816,19 @@
                     <div class="row">
                         <div class="col-md-12 p-0">
                             <div class="form-group">
-                                <label for="validationCustom01">Certificate Title</label>
+                                <label for="validationCustom01">Certificate Title<span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="txtCertificateTitle"
                                        name="Title" required>
                             </div>
 
                             <div class="form-group">
-                                <label for="t" class="">State of Certification</label>
+                                <label for="t" class="">State of Certification<span class="text-danger">*</span></label>
                                 <select name="StateAbbr" id="ddlCertificateState" class="form-control ddl_State" required>
                                    
                                 </select>
                             </div>
                             <div class="form-group mb-0">
-                                <label for="received" class="">Date Started</label>
+                                <label for="received" class="">Date Started<span class="text-danger">*</span></label>
                                 <div class="row">
                                     <div class="col-6">
                                         <div class="form-group">
@@ -1017,7 +1015,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary modalClose w-auto"
+                <button type="button" class="btn btn-secondary closeCertificate w-auto"
                         data-bs-dismiss="modal">
                     Close
                 </button>
@@ -1036,12 +1034,12 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label for="validationCustom01">Title</label>
+                                <label for="validationCustom01">Title<span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="txtpositionTitle"
                                        name="Title" required>
                             </div>
                             <div class="form-group mb-0">
-                                <label for="received" class="">Date Started</label>
+                                <label for="received" class="">Date Started<span class="text-danger">*</span></label>
                                 <div class="row">
                                     <div class="col-6">
                                         <div class="form-group">
@@ -1237,7 +1235,7 @@
                             </div>
 
                             <div class="form-group mb-0">
-                                <label for="received" id="LabelEndedPositionDate" class="">Date Ended</label>
+                                <label for="received" id="LabelEndedPositionDate" class="">Date Ended<span class="text-danger">*</span></label>
                                 <div class="row">
                                     <div class="col-6">
                                         <div class="form-group">
@@ -1421,15 +1419,15 @@
                             <div class="form-group">
                                 <legend>Top three primary responsibilities</legend>
                                 <div class="form-group">
-                                    <label for="t" class="">Responsibility #1</label>
+                                    <label for="t" class="">Responsibility #1<span class="text-danger">*</span></label>
                                     <input name="Responsibility1" id="txtResponsibility1" type="text" class="form-control" value="" required>
                                 </div>
                                 <div class="form-group">
-                                    <label for="t" class="">Responsibility #2</label>
+                                    <label for="t" class="">Responsibility #2<span class="text-danger">*</span></label>
                                     <input name="Responsibility2" id="txtResponsibility2" type="text" class="form-control" value="" required>
                                 </div>
                                 <div class="form-group">
-                                    <label for="t" class="">Responsibility #3</label>
+                                    <label for="t" class="">Responsibility #3<span class="text-danger">*</span></label>
                                     <input name="Responsibility3" id="txtResponsibility3" type="text" class="form-control" value="" required>
                                 </div>
                             </div>

@@ -27,7 +27,7 @@
             <div class="row pageLayout">
                 <div class="col-md-2 relate p-0">
                     <div class="logo">
-                        <img src="~/theme/assets/images/logo.png" alt="">
+                        <a href="@Url.Action("Home","Resume")"> <img src="~/theme/assets/images/logo.png" alt=""></a>
                     </div>
                 </div>
                 <div class="col-md-10 p-0">
@@ -67,16 +67,18 @@
                     <img src="~/theme/assets/images/logo.png" alt="">
                     <a href="../Views/Resume/Index.cshtml"></a>
                     </div>*@
-                    @{
+                  @*  @{
                         var sessionData = JsonConvert.DeserializeObject<UserSessionData>(HttpContextAccessor.HttpContext.Session.GetString("_userData"));
 
-                    }
+                    }*@
 
-                    @if (sessionData.UserId != 0 && sessionData != null)
+                  @*  @if (sessionData.UserId != 0 && sessionData != null)
+                    {*@
+                    @if (ViewBag.UserRecord.UserType != "Admin")
                     {
                         <ul class="nav">
                             <li class="nav-item">
-                                <a href="@Url.Action("ContactInfo","Resume")" class="nav-link">
+                                <a id="contactInfo" href="@Url.Action("ContactInfo","Resume")" class="nav-link">
                                     <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24"
                                          class="cr-sidebar__nav-item-icon " height="1em" width="1em"
                                          xmlns="http://www.w3.org/2000/svg">
@@ -87,7 +89,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="@Url.Action("Objective","Resume")" class="nav-link">
+                                <a id="objective" href="@Url.Action("Objective","Resume")" class="nav-link">
                                     <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24"
                                          class="cr-sidebar__nav-item-icon " height="1em" width="1em"
                                          xmlns="http://www.w3.org/2000/svg">
@@ -98,7 +100,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="@Url.Action("Education","Resume")" class="nav-link">
+                                <a id="education" href="@Url.Action("Education","Resume")" class="nav-link">
                                     <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24"
                                          class="cr-sidebar__nav-item-icon " height="1em" width="1em"
                                          xmlns="http://www.w3.org/2000/svg">
@@ -109,7 +111,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="@Url.Action("OverseasStudy","Resume")" class="nav-link">
+                                <a id="overseasExp" href="@Url.Action("OverseasStudy","Resume")" class="nav-link">
                                     <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24"
                                          class="cr-sidebar__nav-item-icon " height="1em" width="1em"
                                          xmlns="http://www.w3.org/2000/svg">
@@ -119,8 +121,8 @@
                                     <span>Overseas Study</span>
                                 </a>
                             </li>
-                            @*  <li class="nav-item">
-                        <a href="@Url.Action("WorkExperience","Resume")" class="nav-link">
+                              <li class="nav-item">
+                        <a id="workExp" href="@Url.Action("WorkExperience","Resume")" class="nav-link">
                         <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24"
                         class="cr-sidebar__nav-item-icon " height="1em" width="1em"
                         xmlns="http://www.w3.org/2000/svg">
@@ -129,9 +131,9 @@
                         </svg>
                         <span>Work Experience</span>
                         </a>
-                        </li>*@
+                        </li>
                             <li class="nav-item">
-                                <a href="@Url.Action("Military","Resume")" class="nav-link">
+                                <a id="militaryExp" href="@Url.Action("Military","Resume")" class="nav-link">
                                     <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24"
                                          class="cr-sidebar__nav-item-icon " height="1em" width="1em"
                                          xmlns="http://www.w3.org/2000/svg">
@@ -142,7 +144,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="@Url.Action("Organizations","Resume")" class="nav-link">
+                                <a id="orgExperience" href="@Url.Action("Organizations","Resume")" class="nav-link">
                                     <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24"
                                          class="cr-sidebar__nav-item-icon " height="1em" width="1em"
                                          xmlns="http://www.w3.org/2000/svg">
@@ -153,7 +155,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="@Url.Action("CommunityService","Resume")" class="nav-link">
+                                <a id="volunteer" href="@Url.Action("CommunityService","Resume")" class="nav-link">
                                     <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24"
                                          class="cr-sidebar__nav-item-icon " height="1em" width="1em"
                                          xmlns="http://www.w3.org/2000/svg">
@@ -164,7 +166,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="@Url.Action("Certifications","Resume")" class="nav-link">
+                                <a id="professional" href="@Url.Action("Certifications","Resume")" class="nav-link">
                                     <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24"
                                          class="cr-sidebar__nav-item-icon " height="1em" width="1em"
                                          xmlns="http://www.w3.org/2000/svg">
@@ -175,7 +177,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="@Url.Action("ComputerAndTechnicalSkills","Resume")" class="nav-link">
+                                <a id="technicalSkill" href="@Url.Action("ComputerAndTechnicalSkills","Resume")" class="nav-link">
                                     <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24"
                                          class="cr-sidebar__nav-item-icon " height="1em" width="1em"
                                          xmlns="http://www.w3.org/2000/svg">
@@ -186,7 +188,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="@Url.Action("LanguagesSkills","Resume")" class="nav-link">
+                                <a id="languageSkill" href="@Url.Action("LanguagesSkills","Resume")" class="nav-link">
                                     <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24"
                                          class="cr-sidebar__nav-item-icon " height="1em" width="1em"
                                          xmlns="http://www.w3.org/2000/svg">
@@ -198,6 +200,35 @@
                             </li>
                         </ul>
                     }
+                    else
+                    {
+                        <ul class="nav">
+                            <li class="nav-item">
+                                <a  href="@Url.Action("ProductReport","Admin")" class="nav-link">
+                                    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24"
+                                         class="cr-sidebar__nav-item-icon " height="1em" width="1em"
+                                         xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z">
+                                        </path>
+                                    </svg>
+                                    <span>Product Report</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a  href="@Url.Action("Voucher","Admin")" class="nav-link">
+                                    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24"
+                                         class="cr-sidebar__nav-item-icon " height="1em" width="1em"
+                                         xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z">
+                                        </path>
+                                    </svg>
+                                    <span>Voucher</span>
+                                </a>
+                            </li>
+                        </ul>
+                    }
+
+                    @*}*@
 
                 </div>
             </div>
@@ -269,9 +300,57 @@
         })()
 
 
+        $(function () {
+            GetIsOptOut();
+        })
+
         function covertArrayKeyIntoCamelCase(arr) {
 
             return arr.map(el => _.mapKeys(el, (val, key) => _.camelCase(key)));
+        }
+
+        const GetIsOptOut = () => {
+            $.ajax({
+                url: `/common/GetIsOptOut`,
+                type: 'GET',
+                success: function (response) {
+                    if (response.data) {
+
+                        let json = JSON.parse(response.data)[0]
+
+                        //Object.keys(json[0]).forEach(function (key, value) {
+                        //    if (value) {
+
+                        //        $('#' + key).html(`<path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"></path>`)
+                        //    }
+                        //})
+                        let arrRes = []
+                        const keys = Object.keys(json);
+                        for (let i = 0; i < keys.length; i++) {
+                            const key = keys[i];
+                            console.log(key, json[key]);
+                            let val = json[key]
+                            if (val) {
+                                
+                                //$(`#${key} svg`).html(`<path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"></path>`)
+                                $(`#${key} svg`).html(`<path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" style="fill: #008000;"></path>`)
+                                arrRes.push(true)
+                            } else {
+                                arrRes.push(false)
+                            }
+                        }
+                        debugger
+                        let res = arrRes.filter((x => x == false))
+                        if (res.length==0) {
+                            $('#btnGenResume').removeAttr('disabled')
+                        }
+
+                    } else {
+
+                    }
+                },
+                error: function (err) { }
+            })
         }
 
         $(document).on('change', '.isoptOut', function () {

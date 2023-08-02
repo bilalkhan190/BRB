@@ -49,36 +49,41 @@ namespace BRB.Controllers
             if (sessionData != null)
             {
                 
-                Resume resumeProfileData = new Resume();
+                Resume resumeProfileData = _dbContext.Resumes.FirstOrDefault(x => x.ResumeId == sessionData.ResumeId);
                 resumeProfileData.ResumeId = sessionData.ResumeId;
                 resumeProfileData.UserId = sessionData.UserId;
                 resumeProfileData.LastSectionVisitedId = languageViewModel.LastSectionVisitedId;
                 resumeProfileData.LastModDate = DateTime.Today;
                 resumeProfileData.CreatedDate = DateTime.Today;
+                resumeProfileData.GeneratedFileName = null;
                 resumeProfileData.LastSectionCompletedId = languageViewModel.IsComplete == true ? languageViewModel.LastSectionVisitedId : 0;
                 LanguageSkill languageSkill = new LanguageSkill();
                 languageSkill.ResumeId = sessionData.ResumeId;
                 languageSkill.LanguageSkillId = languageViewModel.LanguageSkillId;
                 languageSkill.IsComplete = languageViewModel.IsComplete;
+                languageSkill.IsOptOut = languageViewModel.IsOptOut;
                 languageSkill.CreatedDate = DateTime.Today;
                 languageSkill.LastModDate = DateTime.Today;
                 using (var transection = _dbContext.Database.BeginTransaction())
                 {
+                    var record = _dbContext.LanguageSkills.FirstOrDefault(x => x.ResumeId == sessionData.ResumeId);
                     try
                     {
-                        if (languageSkill.LanguageSkillId > 0)
+                        if (record != null)
                         {
-                            _dbContext.LanguageSkills.Update(languageSkill);
+                            record.IsComplete= languageSkill.IsComplete;
+                            record.IsOptOut = languageSkill.IsOptOut;
+                            record.CreatedDate = DateTime.Today;
+                            record.LastModDate = DateTime.Today;
+                            _dbContext.LanguageSkills.Update(record);
                             _dbContext.SaveChanges();
+                            languageSkill.LanguageSkillId = record.LanguageSkillId;
                         }
                         else
                         {
-                            var record = _dbContext.LanguageSkills.FirstOrDefault(x => x.ResumeId == sessionData.ResumeId);
-                            if (record != null)
-                            {
                                 _dbContext.LanguageSkills.Add(languageSkill);
                                 _dbContext.SaveChanges();
-                            }
+                           
                         }
                         if (languageViewModel.Languages.Count > 0)
                         {
