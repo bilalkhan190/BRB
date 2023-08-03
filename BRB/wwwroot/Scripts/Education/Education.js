@@ -115,12 +115,12 @@ function LoadCards() {
                                                     <div class="col-md-12">
                                                <span class="card-text">
                                                <div class="row">
-                                               <div class="col-md-6">
+                                               <div class="col">
                                                     <h5 class="title-text">${value.collegeName}</h5>
                                                      <p class="text-muted">${value.collegeCity}</p>
                                                     <p class="text-muted">GPA: ${value.gpa}</p>
                                                     </div>
-                                                    <div class="col-md-6">
+                                                    <div class="col">
                                                     <div class="card-Btn">
                                                         <button type="button" id="btnDeleteCollege" data-item='${value.collegeId}' data-edit=${index} class="btn custombtn w-auto ms-2">
                                                     <svg stroke="currentColor" fill="currentColor" stroke-width="0"
@@ -188,13 +188,13 @@ function LoadCards() {
         let html = ` <div class="card mb-3"> 
                                                         <div class="card-body">
                                                             <div class="row">
-                                                                <div class="col-md-10">
+                                                                <div class="col">
                                                             <span class="card-text">
                                                                 <p>${value.honorName}</p>
                                                                 <p class="text-muted"> ${value.honorMonth} ${value.honorYear}</p>
                                                             </span>
                                                         </div>
-                                                        <div class="col-md-2">
+                                                        <div class="col">
                                                         <div class="card-Btn">
                                                             <button type="button" id="btnDeleteHonor" data-item='${value.academicHonorId}' acad-edit=${index} class="btn custombtn w-auto ms-2">
                                                                 <svg stroke="currentColor" fill="currentColor" stroke-width="0"
@@ -228,13 +228,13 @@ function LoadCards() {
         let html = ` <div class="card mb-3"> 
                                                         <div class="card-body">
                                                             <div class="row">
-                                                                <div class="col-md-10">
+                                                                <div class="col">
                                                             <span class="card-text">
                                                                 <p>${value.scholarshipName}</p>
                                                                 <p class="text-muted"> ${value.scholarshipMonth} ${value.scholarshipYear}</p>
                                                             </span>
                                                         </div>
-                                                        <div class="col-md-2">
+                                                        <div class="col">
                                                         <div class="card-Btn">
                                                             <button type="button" id="btnDeleteAcademicScholarship"  data-item='${value.academicScholarshipId}' sch-edit=${index}  class="btn custombtn w-auto ms-2">
                                                                 <svg stroke="currentColor" fill="currentColor" stroke-width="0"
