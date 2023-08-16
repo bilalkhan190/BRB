@@ -21,7 +21,7 @@
             <div class="mt-2">
                 <div class="custom-checkbox custom-control">
                     <input type="checkbox"
-                           id="Microsoft Word" name="Msword" class="custom-control-input"><label class="custom-control-label" for="Microsoft Word">Microsoft Word</label>
+                           id="Microsoft Word" name="Msword" class="custom-control-input" checked><label class="custom-control-label" for="Microsoft Word">Microsoft Word</label>
                 </div>
                 <div class="custom-checkbox custom-control">
                     <input type="checkbox"
@@ -178,4 +178,10 @@
 </div>
 @section Scripts{
     <script src="~/scripts/technicalskill/technicalskill.js"></script>
+    <script>
+        $(document).ready(function () {
+
+            setTimeout(function () { $("#ckbIsComplete").prop("disabled", false) }, 2000)
+        })
+    </script>
 }

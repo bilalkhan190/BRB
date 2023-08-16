@@ -10,7 +10,7 @@ function GenerateRadio() {
                 let html = `<div class="form-check">
                                     <label class="form-check-label">
                                         <input name="LivingSituationId"
-                                               type="radio" class="form-check-input" value="${value.livingSituationId}"/>   ${value.livingSituationDesc}
+                                               type="radio" class="form-check-input" value="${value.livingSituationId}" required/>   ${value.livingSituationDesc}
                                     </label>
                                          
                                 </div>`;
@@ -24,9 +24,17 @@ function GenerateRadio() {
 }
 
 $(document).ready(function () {
+   
     $('#btnSaveOverseasStudy').click(function () {
         $('#OverseasForm').validate();
         if ($('#OverseasForm').valid()) {
+            var from = $("#txtStartDate").val();
+            var to = $("#txtEndDate").val();
+
+            if (Date.parse(from) > Date.parse(to)) {
+                swal("Invalid Date Range", "Start date cannot be greater than end date", "error");
+                return false;
+            }
             let overseas = {
                 overseasStudyId: $('#hdfOverseasStudyId').val(),
                 collegeName: $('input[name="CollegeName"]').val(),
@@ -37,7 +45,7 @@ $(document).ready(function () {
                 classesCompleted: $('input[name="ClassesCompleted"]').val(),
                 otherInfo: $('input[name="OtherInfo"]').val(),
                 livingSituationOther: $('input[name="LivingSituationOther"]').val(),
-                livingSituationId: $('input[name="LivingSituationId"]').val()
+                livingSituationId: $('input[name="LivingSituationId"]:checked').val()
             }
             if (localStorage.getItem("pos-index") == null) {
                 overseasArray.push(overseas);
@@ -62,6 +70,8 @@ $(document).ready(function () {
             $("#DivSection").html("");
             $('#SummaryModal').modal('toggle')
             LoadData();
+            $("#OverseasForm").trigger("reset");
+            $("#noList").hide();
             
         }
         //$("#summaryBtn").click(function () {
@@ -75,7 +85,7 @@ $(document).ready(function () {
     });
     //filling the dropdown
     $('#ddlCountry').html("");
-    $('#ddlCountry').append('<option value="0" selected><b>Select Country</b></option>')
+    $('#ddlCountry').append('<option value="" selected><b>Select Country</b></option>')
     $.ajax({
         url: '/Common/GetCountryList',
         type: 'get',
@@ -139,14 +149,19 @@ $(document).ready(function () {
 
 
 $(document).on('change', 'input[type="radio"]', function () {
-    let input = "<input type='text' name='LivingSituationOther' class='form-control mt-2 mb-2' required id='txtLivingSituationOther'/>";
-    if ($(this).val() == 3) {
-        $('#cbDiv').after(input);
-    } else {
-        $('input[name="LivingSituationOther"]').remove();
-    }
+    generateOtherTextBox($(this));
 });
 
+function generateOtherTextBox(e) {
+    let input = "<input type='text' name='LivingSituationOther' class='form-control mt-2 mb-2' required id='txtLivingSituationOther'/>";
+    $('#otherpanel').html('');
+    if (e.val() == 3) {
+     
+        $('#otherpanel').append(input);
+    } else {
+        $('#otherpanel').html();
+    }
+}
 $('#sectionCheckBox').change(function () {
     if (this.checked) {
         $('#isOptSection').hide()
@@ -202,7 +217,10 @@ $(document).on('click', '#btnEditOverseas', function () {
     $('#txtEndDate').val(endDate)
     $('#txtClassSectionCompleted').val(response.classesCompleted)
     $('#txtOtherInfo').val(response.otherInfo)
-    $('input[name="LivingSituationId"]').val(response.livingSituationId)
+  
+    $('input[name="LivingSituationId"][value="' + response.livingSituationId + '"]').prop("checked", true);
+    generateOtherTextBox($('input[name="LivingSituationId"][value="' + response.livingSituationId + '"]'));
+    $('#txtLivingSituationOther').val(response.livingSituationOther)
     $('#SummaryModal').modal('show')
 });
 
@@ -214,6 +232,13 @@ $('#btnSaveAndContinue').click(function () {
         IsComplete: $('#cbkFinished').is(":checked"),
         IsOptOut: $('#sectionCheckBox').is(":checked")
     };
+
+    if (!data.IsOptOut) {
+        if (overseasArray.length == 0) {
+            swal("Positions Requried", "Please fill out studies to proceed", "error");
+            return false;
+        }
+    }
     $.ajax({
         url: '/OverseasStudy/postdata',
         type: 'post',
@@ -232,6 +257,12 @@ $('#btnSaveAndContinue').click(function () {
 
 function LoadData() {
     $("#DivSection").html("");
+    if (overseasArray.length > 0) {
+        $("#noList").hide();
+    }
+    else {
+        $("#noList").show();
+    }
    overseasArray =  covertArrayKeyIntoCamelCase(overseasArray)
     $.each(overseasArray, function (index, value) {
         let html = ` 

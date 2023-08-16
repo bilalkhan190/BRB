@@ -8,7 +8,7 @@
             data: $(this).serialize(),
             success: function (response) {
                 if (response.success) {
-                    swal("Created Successfull", response.message, "success");
+                    swal("Created Successful", response.message, "success");
 
                 } else {
                     swal("Error", response.message, "error");

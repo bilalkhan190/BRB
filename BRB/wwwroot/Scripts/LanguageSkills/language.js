@@ -71,7 +71,13 @@ $('#btnSaveAndContinue').click(function () {
         IsComplete: $('#cbIsComplete').val($('#cbIsComplete').is(':checked'))[0].checked,
         IsOptOut: $('#cbSectionNotApply').is(':checked')
     }
-
+    if (!data.IsOptOut) {
+        if (languageArray.length == 0) {
+            swal("Language Required", "Please fill out the language to proceed", "error");
+            return false;
+        }
+    }
+   
     $.ajax({
         url: '/Language/PostLanguageSkillData',
         type: 'POST',

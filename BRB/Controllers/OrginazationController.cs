@@ -46,14 +46,18 @@ namespace BRB.Controllers
                     }
                     ajaxResponse.Data = ListOfObjs;
                 }
-                
+                if (ajaxResponse.Data == null)
+                {
+                    ListOfObjs.Add(new OrganizationViewObject { OrgExperience = masterData });
+                    ajaxResponse.Data = ListOfObjs;
+                }
 
             }
             else
             {
                 ajaxResponse.Data = null;
             }
-
+           
 
 
             return Json(ajaxResponse);
@@ -90,75 +94,77 @@ namespace BRB.Controllers
             orgExperience.IsOptOut = organizationViewModel.IsOptOut;
             //orgExperience.IsOptOut = false;
             orgExperience.IsComplete = organizationViewModel.IsComplete;
-            using (var transection = _dbContext.Database.BeginTransaction())
+           
+            try
             {
-                try
+                var record = _dbContext.OrgExperiences.FirstOrDefault(x => x.ResumeId == sessionData.ResumeId);
+                if (record != null)
                 {
-                    var record = _dbContext.OrgExperiences.FirstOrDefault(x => x.ResumeId == sessionData.ResumeId);
-                    if (record != null)
-                    {
-                        record.ResumeId = orgExperience.ResumeId;
-                        record.CreatedDate = DateTime.Today;
-                        record.LastModDate = DateTime.Today;
-                        record.IsComplete = organizationViewModel.IsComplete;
-                        record.IsOptOut = organizationViewModel.IsOptOut;
-                        _dbContext.SaveChanges();
-                        orgExperience.OrgExperienceId = record.OrgExperienceId;    
+                    record.ResumeId = orgExperience.ResumeId;
+                    record.CreatedDate = DateTime.Today;
+                    record.LastModDate = DateTime.Today;
+                    record.IsComplete = organizationViewModel.IsComplete;
+                    record.IsOptOut = organizationViewModel.IsOptOut;
+                    _dbContext.SaveChanges();
+                    orgExperience.OrgExperienceId = record.OrgExperienceId;    
 
-                    }
-                    else
-                    {
-                        _dbContext.OrgExperiences.Add(orgExperience);
-                        _dbContext.SaveChanges();
+                }
+                else
+                {
+                    _dbContext.OrgExperiences.Add(orgExperience);
+                    _dbContext.SaveChanges();
                       
-                    }
-                    if (organizationViewModel.Organizations.Count > 0)
+                }
+                if (organizationViewModel.Organizations.Count > 0)
+                {
+                    foreach (var org in organizationViewModel.Organizations)
                     {
-                        foreach (var org in organizationViewModel.Organizations)
-                        {
                           
-                            if (org.OrganizationId > 0)
+                        if (org.OrganizationId > 0)
+                        {
+                            org.CreatedDate = DateTime.Now;
+                            org.LastModDate = DateTime.Now;
+                            _dbContext.Organizations.Update(org);
+                            _dbContext.SaveChanges();
+                        }
+                        else
+                        {
+                            org.OrgExperienceId = orgExperience.OrgExperienceId;
+                            org.CreatedDate = DateTime.Today;
+                            org.LastModDate = DateTime.Today;
+                            _dbContext.Organizations.Add(org);
+                            _dbContext.SaveChanges();   
+                        }
+                        if (organizationViewModel.OrgPositions.Count > 0)
+                        {
+                            foreach (var orgPosition in organizationViewModel.OrgPositions)
                             {
-                                _dbContext.Organizations.Update(org);
-                            }
-                            else
-                            {
-                                org.OrgExperienceId = orgExperience.OrgExperienceId;
-                                org.CreatedDate = DateTime.Today;
-                                org.LastModDate = DateTime.Today;
-                                _dbContext.Organizations.Add(org);
-                                _dbContext.SaveChanges();   
-                            }
-                            if (organizationViewModel.OrgPositions.Count > 0)
-                            {
-                                foreach (var orgPosition in organizationViewModel.OrgPositions)
-                                {
                                    
-                                    if (orgPosition.OrgPositionId > 0)
-                                    {
-                                        _dbContext.OrgPositions.Update(orgPosition);
-                                    }
-                                    else
-                                    {
-                                        orgPosition.OrganizationId = org.OrganizationId;
-                                        orgPosition.CreatedDate = DateTime.Today;
-                                        orgPosition.LastModDate = DateTime.Today;
-                                        _dbContext.OrgPositions.Add(orgPosition);
-                                    }
+                                if (orgPosition.OrgPositionId > 0)
+                                {
+                                    _dbContext.OrgPositions.Update(orgPosition);
+                                }
+                                else
+                                {
+                                    orgPosition.OrganizationId = org.OrganizationId;
+                                    orgPosition.CreatedDate = DateTime.Today;
+                                    orgPosition.LastModDate = DateTime.Today;
+                                    _dbContext.OrgPositions.Add(orgPosition);
                                 }
                             }
                         }
                     }
-                    _dbContext.Resumes.Update(resumeProfileData);
-                    _dbContext.SaveChanges();
-                    transection.Commit();
                 }
-                catch (Exception)
-                {
-
-                    transection.Rollback();
-                }
+                _dbContext.Resumes.Update(resumeProfileData);
+                _dbContext.SaveChanges();
+               
             }
+            catch (Exception ex)
+            {
+
+               
+            }
+            
         
            
             return Json(ajaxResponse);

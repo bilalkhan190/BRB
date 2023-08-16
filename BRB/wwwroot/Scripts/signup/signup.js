@@ -1,5 +1,5 @@
 ﻿$(document).ready(function () {
-
+    
     $('#ddlStateAbbr').html("");
     $('#ddlStateAbbr').append('<option value="" selected><b>Select State</b></option>');
 
@@ -28,8 +28,19 @@ $('#btnCreateUser').click(function () {
             success: function (response) {
               
                 if (response.success) {
-                    swal("Account Status", response.message, "success");
-                    setTimeout(function () { window.location.href = response.redirect; }, 1000);
+
+                    let div = document.createElement("div");
+                    div.innerHTML = response.message;
+                    swal({
+                        title: "Congratulations! ",
+                        content: div,
+                        icon: "success",
+                        buttons: true,
+                        successMode: true,
+                        type: "success"
+                    }).then(function () {
+                        window.location.href = response.redirect
+                    });
                 } else {
                     swal("Account Status", response.message, "error");
                 }

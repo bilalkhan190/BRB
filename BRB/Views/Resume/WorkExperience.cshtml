@@ -21,38 +21,60 @@
             internships are considered valuable for receiving practical work experience where
             transferable skills can be learned and developed.
         </p>
-        <p id="emptyListMessage" class="danger-text">
-            <i>You currently have no companies listed. Click the Add button below to add one.</i>
-        </p>
+        @if(Model.Companies.Count == 0)
+        {
+            <p id="noList" class="danger-text">
+                <i>You currently have no companies listed. Click the Add button below to add one.</i>
+            </p>
+        }
+       
         <div id="companiesPenal">
            @await Html.PartialAsync("_Companies",Model.Companies)
         </div>
-        <button type="button" class="btn btn-primary btn-sm custombtn w-auto" onclick="$('#SummaryModal').modal('toggle')">
+        <button type="button" class="btn btn-primary btn-sm custombtn w-auto" onclick="localStorage.clear();$(`input[name='CompanyId']`).val('');$('#companyForm').trigger('reset');$('#SummaryModal').modal('toggle')">
             Add a Company
         </button>
 
-        <p>
-            High school education information should only be included if it is the highest level of
-            education you have completed and/or you have not entered your third year of post-high school
-            education.
-        </p>
+     
 
         <hr>
         <form class="needs-validation" novalidate>
             <div class="form-check">
                 <label class="form-check-label">
                     @{
-                  string isComplete =  Model.IsComplete ? "checked" : "";
+                        string isComplete = Model.IsComplete ? "checked" : "";
+
                     }
-                    <input type="checkbox" id="cbIsComplete" @isComplete
-                           class="form-check-input"> I am finished with this section
+                    @if (Model.Companies.Count > 0 && Model.Companies.Where(x => x.Positions.Count > 0).Count() > 0)
+                    {
+                        <input type="checkbox" id="cbIsComplete" @isComplete
+                               class="form-check-input">
+                        <label for="cbIsComplete">I am finished with this section</label>
+                    }
+                    else
+                    {
+                        <input type="checkbox" id="cbIsComplete" disabled
+                               class="form-check-input" >
+                        <span>I am finished with this section</span>
+                    }
                 </label>
             </div>
             <div class="formbtn-Wrapper">
-                <button type="button" id="btnSaveOrContinue" class="btn btn-primary custombtn w-auto mt-2">
-                    Save and
-                    Continue
-                </button>
+                @if (Model.Companies.Count > 0 && Model.Companies.Where(x => x.Positions.Count > 0).Count() > 0)
+                {
+                    <button type="button" id="btnSaveOrContinue" class="btn btn-primary custombtn w-auto mt-2">
+                        Save and
+                        Continue
+                    </button>
+                }
+                else
+                {
+                    <button type="button" id="btnSaveOrContinue" disabled class="btn btn-primary custombtn w-auto mt-2">
+                        Save and
+                        Continue
+                    </button>
+                }
+
             </div>
         </form>
     </div>
@@ -64,7 +86,7 @@
         <div class="modal-content">
             <div class="modal-body">
                
-                <form id="companyForm" class="needs-validation" novalidate>
+                <form id="companyForm" class="needs-validation formSpace">
                     <input type="hidden" name="CompanyId" />
                     <div class="row">
                         <div class="col-md-12">
@@ -89,7 +111,7 @@
                                     <div class="col-6">
                                         <div class="form-group">
                                             <select name="StartMonth" id="selectform"
-                                                    class="form-control">
+                                                    class="form-control" required>
                                                 <option value="" selected=""></option>
                                                 <option value="January">January</option>
                                                 <option value="February">February</option>
@@ -109,7 +131,7 @@
                                     <div class="col-6">
                                         <div class="form-group">
                                             <select name="StartYear" id="selectform"
-                                                    class="form-control">
+                                                    class="form-control" required>
                                                 <option value="" selected=""></option>
                                                 <option value="2073">2073</option>
                                                 <option value="2072">2072</option>
@@ -282,7 +304,7 @@
                                     <div class="col-6">
                                         <div class="form-group">
                                             <select name="EndMonth" id="selectform"
-                                                    class="form-control">
+                                                    class="form-control" required>
                                                 <option value="" selected=""></option>
                                                 <option value="January">January</option>
                                                 <option value="February">February</option>
@@ -301,8 +323,7 @@
                                     </div>
                                     <div class="col-6">
                                         <div class="form-group">
-                                            <select name="EndYear" id="selectform" class="form-control">
-                                                <option value=""></option>
+                                            <select name="EndYear" id="selectform" class="form-control" required>
                                                 <option value=""></option>
                                                 <option value="2073">2073</option>
                                                 <option value="2072">2072</option>
@@ -560,7 +581,7 @@
                     <div class="form-group">
                         <input type="hidden" name="JobAwardId" id="hdfAwardId" />
                         <input type="hidden"  id="hdfPositionId" />
-                        <label for="t" class="">Job Award</label>
+                        <label for="t" class="">Job Award <span class="text-danger">*</span></label>
                         <input name="AwardDesc" id="txtJobAward"
                                type="text" class=" form-control" value="" required>
                     </div>

@@ -28,6 +28,9 @@ public partial class WorkPosition
 
     public int? JobResponsibilityId { get; set; }
 
+    [NotMapped]
+    public string? JobResponsibilityText { get; set; }
+
     public string? OtherResponsibility { get; set; }
 
 

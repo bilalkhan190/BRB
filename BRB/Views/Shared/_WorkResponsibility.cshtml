@@ -1,4 +1,4 @@
-﻿<form id="WorkPositionForm">
+﻿<form id="WorkPositionForm" class="needs-validation formSpace">
    <input type="hidden" name="PositionId" />
     <div class="row">
         <div class="col">
@@ -16,7 +16,7 @@
                     </p>
                     <div class="form-group">
                         <label for="Title" class="">Job Title</label>
-                        <input name="Title" id="t" type="text" class="is-invalid form-control" value="">
+                        <input name="Title" id="t" type="text" class=" form-control" value="" required>
                     </div>
                     <div class="form-group">
                         <label for="received" class="">Date Started</label>
@@ -24,7 +24,7 @@
                             <div class="col-6">
                                 <div class="form-group">
                                     <select name="StartMonth" id="selectform"
-                                            class="is-invalid form-control">
+                                            class=" form-control" required>
                                         <option value="" selected=""></option>
                                         <option value="January">January</option>
                                         <option value="February">February</option>
@@ -44,7 +44,7 @@
                             <div class="col-6">
                                 <div class="form-group">
                                     <select name="StartYear" id="selectform"
-                                            class="is-invalid form-control">
+                                            class=" form-control" required>
                                         <option value="" selected=""></option>
                                         <option value="2073">2073</option>
                                         <option value="2072">2072</option>
@@ -219,7 +219,7 @@
                         <div class="col-6">
                             <div class="mt-2 form-group">
                                 <select name="EndMonth" id="selectform"
-                                        class="is-invalid form-control">
+                                        class=" form-control" required>
                                     <option value="" selected=""></option>
                                     <option value=""></option>
                                     <option value="January">January</option>
@@ -241,7 +241,7 @@
                         <div class="col-6">
                             <div class="mt-2 form-group">
                                 <select name="EndYear" id="selectform"
-                                        class="is-invalid form-control">
+                                        class=" form-control" required>
                                     <option value="" selected=""></option>
                                     <option value=""></option>
                                     <option value="2073">2073</option>
@@ -455,8 +455,8 @@
                     <div class="form-group">
                         <label for="resp" class="">Job Responsibility</label>
                         <p class="danger-text"><em>You must select a responsibility.</em></p>
-                        <select name="JobResponsibilityId" id="ddlJobResponsibility" class="form-control-sm form-control">
-                            <option>-Select-</option>
+                        <select name="JobResponsibilityId" id="ddlJobResponsibility" class="form-control-sm form-control" required>
+                            <option value="">-Select-</option>
                             @foreach (var item in ViewBag.Responsibilities)
                             {
                                 <option value="@item.JobCategoryId">@item.JobCategoryDesc</option>

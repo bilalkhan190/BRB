@@ -20,7 +20,7 @@
             which contributed to your experience (for example: staying with a family that did not use
             English as their primary language.)
         </p>
-        <p class="danger-text">
+        <p class="danger-text" id="noList">
             <i>
                 You currently have no Overseas Studies listed. Click the Add button below to add
                 one.
@@ -28,7 +28,7 @@
         </p>
         <div id="DivSection" class="mb-2">
         </div>
-            <button type="button" class="btn btn-primary btn-sm custombtn w-auto mt-2 py-2" onclick="$('#SummaryModal').modal('toggle')">
+            <button type="button" class="btn btn-primary btn-sm custombtn w-auto mt-2 py-2" onclick="localStorage.clear();$('#OverseasForm').trigger('reset');$('#SummaryModal').modal('toggle')">
             Add an Overseas Study Experience
         </button>
         </div>
@@ -69,7 +69,7 @@
                                 <input name="City" id="City" type="text" class="form-control" required>
                             </div>
                             <div class="form-group">
-                                <label for="t" class="">Country<span class="text-danger">*</span></label>
+                                <label for="ddlCountry" class="">Country<span class="text-danger">*</span></label>
                                 <select name="CountryId"
                                         id="ddlCountry" class="form-control" required>
                                 </select>
@@ -110,6 +110,9 @@
                             <fieldset id="cbDiv" class="form-group">
                                 <legend id="livingSituationSection">Living Situation</legend>
                             </fieldset>
+                            <div id="otherpanel">
+
+                            </div>
                             <div class="form-group">
                                 <label for="t" class="">
                                     Other information that makes this
@@ -181,4 +184,11 @@
 @section Scripts
 {
     <script src="~/scripts/overseasstudy/overseasstudy.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            
+            setTimeout(function () { $("#cbkFinished").prop("disabled", false) }, 2000)
+        })
+    </script>
 }

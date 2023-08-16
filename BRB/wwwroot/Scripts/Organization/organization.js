@@ -13,6 +13,7 @@ function getFormData() {
         url: '/organization/GetData',
         type: 'get',
         success: function (response) {
+            console.log(response)
             $('#hdfOrgExperienceId').val(response.data[0].orgExperience.orgExperienceId);
             $('#cbSectionNotApply').prop("checked", response.data[0].orgExperience.isOptOut).trigger('change');
             $('#cbIsComplete').prop("checked", response.data[0].orgExperience.isComplete);
@@ -80,6 +81,16 @@ $('#cbPositionCurrentlyIn').click(function () {
 $('#btnSaveOrganization').click(function () {
     $('#orgForm').validate()
     if ($('#orgForm').valid()) {
+        $("#noList").hide();
+        var sMonth = $("#ddlStartedMonth").val();
+        var sYear = $("#ddlStartedYear").val();
+        var eMonth = $("#ddlEndedMonth").val();
+        var eYear = $("#ddlEndedYear").val();
+
+        if (Date.parse(sMonth + " " + sYear) > Date.parse(eMonth + " " + eYear)) {
+            swal("Invalid Date Range", "Start date cannot be greater than end date", "error");
+            return false;
+        }
         let organization = {
             OrgExperienceId: $('#hdfOrgExperienceId').val(),
             OrganizationId: $('#hdfOrganizationId').val(),
@@ -122,6 +133,15 @@ $('.modelPosition').click(function () {
 $(document).on('click', '#btnAddPosition', function () {
     $('#orgPositionForm').validate();
     if ($('#orgPositionForm').valid()) {
+        var sMonth = $("#ddlPositionStartedMonth").val();
+        var sYear = $("#ddlPositionStartedYear").val();
+        var eMonth = $("#ddlPositionEndedMonth").val();
+        var eYear = $("#ddlPositionEndedYear").val();
+
+        if (Date.parse(sMonth + " " + sYear) > Date.parse(eMonth + " " + eYear)) {
+            swal("Invalid Date Range", "Start date cannot be greater than end date", "error");
+            return false;
+        }
         $('#btnAddPosition').prop('disabled', true)
         let position = {
             OrganizationId: $('#hdfOrganizationId').val(),
@@ -153,7 +173,8 @@ $(document).on('click', '#btnAddPosition', function () {
 
 
 $('#btnSaveAndContinue').click(function () {
-    obj = {
+    
+    let obj = {
         OrgExperienceId: $('#hdfOrgExperienceId').val(),
         LastSectionVisitedId: $('#hdfLastSectionVisitedId').val(),
         OrgPositions: positionArray,
@@ -161,6 +182,14 @@ $('#btnSaveAndContinue').click(function () {
         IsComplete: $('#cbIsComplete').is(':checked'),
         IsOptOut: $('#cbSectionNotApply').is(':checked')
     };
+
+    if (!obj.IsOptOut) {
+        if (positionArray.length == 0 && organizationArr.length == 0) {
+            swal("Positions Required", "Please fill out the organizations and positions to proceed", "error");
+            return false;
+        }
+    }
+
     $.ajax({
         url: '/organization/PostOrganizationData',
         type: 'POST',
@@ -196,6 +225,9 @@ function LoadCards() {
     $('#divEditSection').html("")
     organizationArr = covertArrayKeyIntoCamelCase(organizationArr)
     $.each(organizationArr, function (index, value) {
+        $("#noList").hide();
+        let endMonth = "";
+        if (value.endedMonth && value.endedYear) { endMonth = value.endedMonth + " " + value.endedYear; } else { endMonth = "Present"; }
         let html = `<div class="card col-md-12 p-0 mb-3 cardWrapper mt-3">
     <div class="card-body">
         <div class="row mx-auto">
@@ -205,8 +237,7 @@ function LoadCards() {
                         <div class="col-md-6">
                             <h5 class="title-text">${value.orgName}</h5>
                             <p class="text-muted">
-                                ${value.startedMonth} ${value.startedYear} - ${value.endedMonth}
-                                ${value.endedYear}
+                                ${value.startedMonth} ${value.startedYear} - ${endMonth }
                             </p>
                             <p class="text-muted">${value.city}</p>
                         </div>
@@ -251,6 +282,8 @@ function LoadCards() {
     $('#positionDiv div.row').html("");
     positionArray = covertArrayKeyIntoCamelCase(positionArray)
     $.each(positionArray, function (index, value) {
+        let endMonth = "";
+        if (value.endedMonth && value.endedYear) { endMonth = value.endedMonth + " " + value.endedYear; } else { endMonth = "Present"; }
         let html = `<div class="card col-md-12 p-0 mb-3 cardWrapper mt-3"> 
                     <div class="card-body">
                        <div class="row mx-auto">
@@ -259,7 +292,7 @@ function LoadCards() {
                                 <div class="row">
                                 <div class="col-md-6">
                                 <h5 class="title-text">${value.title}</h5>
-                                    <p class="text-muted">${value.startedMonth} ${value.endedMonth} - ${value.endedMonth} ${value.endedYear}</p>
+                                    <p class="text-muted">${value.startedMonth} ${value.endedMonth} - ${endMonth}</p>
                                 </div>
                                   <div class="col-md-6">
                                     <div class="card-Btn">

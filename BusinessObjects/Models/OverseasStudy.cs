@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BusinessObjects.Models;
 
@@ -14,6 +15,8 @@ public partial class OverseasStudy
     public string? City { get; set; }
 
     public int? CountryId { get; set; }
+    [NotMapped]
+    public int? CountryName { get; set; }
 
     public DateTime? StartedDate { get; set; }
 

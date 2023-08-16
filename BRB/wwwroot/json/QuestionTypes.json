@@ -1,0 +1,939 @@
+{
+  "Server/Host Responsibilities": [
+    {
+      "question": "What type of restaurant is this?",
+      "responseType": "string",
+      "jobResponsibilities": [
+        "Create positive social environment for customers",
+        "Assist with banquet room service",
+        "Coordinate activities of serving team"
+      ]
+    },
+    {
+      "question": "How many customers do you take care of weekly?",
+      "responseType": "number",
+      "digits": 4,
+      "jobResponsibilities": [
+        "Manage customer flow",
+        "Organize seating arrangement in dining area",
+        "Communicate restaurant information via telephone to customers"
+      ]
+    },
+    {
+      "question": "What special training did you receive?",
+      "responseType": "string",
+      "jobResponsibilities": [
+
+      ]
+    },
+    {
+      "question": "What special training did you give to other employees?",
+      "responseType": "string",
+      "jobResponsibilities": [
+        "Trained new staff members"
+      ]
+    },
+    {
+      "question": "How many other employees did you train?",
+      "responseType": "number",
+      "digits": 3,
+      "jobResponsibilities": [
+        "Assist with banquet room service",
+        "Coordinate activities of serving team",
+        "Trained new staff members"
+      ]
+    },
+    {
+      "question": "How many menu items did you work with each shift?",
+      "responseType": "number",
+      "digits": 6,
+      "jobResponsibilities": [
+        "Increase revenue through promotion of additional items to customers",
+        "Promote special menu items"
+      ]
+    },
+    {
+      "question": "What are your weekly sales generated as a server?",
+      "responseType": "number",
+      "digits": 6,
+      "jobResponsibilities": [
+        "Manage daily cash flow"
+      ]
+    }
+  ],
+  "Restaurant Manager Responsibilities": [
+    {
+      "question": "What type of restaurant is this?",
+      "responseType": "string",
+      "jobResponsibilities": [
+        "Encourage open communication with kitchen and serving staff",
+        "Coordinate reservations and customer turn rate",
+        "Responsible for opening and closing"
+      ]
+    },
+    {
+      "question": "How many customers do you take care of weekly?",
+      "responseType": "number",
+      "digits": 4,
+      "jobResponsibilities": [
+        "Schedule wait staff",
+        "Coordinate reservations and customer turn rate"
+      ]
+    },
+    {
+      "question": "How many employees do you manage?",
+      "responseType": "number",
+      "digits": 3,
+      "jobResponsibilities": [
+        "Schedule wait staff",
+        "Schedule kitchen staff",
+        "Encourage open communication with kitchen and serving staff",
+        "Supervise team of employees",
+        "Conduct performance reviews for employees",
+        "Direct daily operations for wait and kitchen staff"
+      ]
+    },
+    {
+      "question": "What is the weekly revenue for the restaurant?",
+      "responseType": "number",
+      "digits": 6,
+      "jobResponsibilities": [
+        "Schedule kitchen staff",
+        "Supervise team of employees",
+        "Set sales goals"
+      ]
+    },
+    {
+      "question": "What special training did you receive?",
+      "responseType": "string",
+      "jobResponsibilities": [
+
+      ]
+    },
+    {
+      "question": "What special training did you give to other employees?",
+      "responseType": "string",
+      "jobResponsibilities": [
+        "Train new employees",
+        "Interview potential new employees"
+      ]
+    },
+    {
+      "question": "How many other employees did you train?",
+      "responseType": "number",
+      "digits": 7,
+      "jobResponsibilities": [
+        "Train new employees"
+      ]
+    }
+  ],
+  "Administrative Assistant Responsibilities": [
+    {
+      "question": "What type of company is this?",
+      "responseType": "string",
+      "jobResponsibilities": [
+        "Correspond with customers",
+        "Learned new systems or technology",
+        "Interact with customers"
+      ]
+    },
+    {
+      "question": "Who do you report to in the organization (title only)?",
+      "responseType": "string",
+      "jobResponsibilities": [
+        "Report directly to",
+        "Schedule appointments"
+      ]
+    },
+    {
+      "question": "How many customers do you interact with weekly?",
+      "responseType": "number",
+      "digits": 5,
+      "jobResponsibilities": [
+        "Respond to customer requests",
+        "Correspond with customers",
+        "Manage database",
+        "Interact with customers"
+      ]
+    },
+    {
+      "question": "What departments do you interact with?",
+      "responseType": "string",
+      "jobResponsibilities": [
+        "Purchase office materials",
+        "Schedule appointments",
+        "Coordinate administrative tasks including filing"
+      ]
+    },
+    {
+      "question": "What special computer or technology training did you receive?",
+      "responseType": "string",
+      "jobResponsibilities": [
+        "Learned new systems or technology"
+      ]
+    },
+    {
+      "question": "If you planned specific events, list details of theme, number of attendees, budget, location, as well as other specific information.",
+      "responseType": "string",
+      "jobResponsibilities": [
+        "Plan meetings"
+      ]
+    }
+  ],
+  "Outside Salesperson Responsibilities": [
+    {
+      "question": "What type of industry/products is/are this?",
+      "responseType": "string",
+      "jobResponsibilities": [
+        "Negotiate product placement"
+      ]
+    },
+    {
+      "question": "How many customers do you take care of weekly?",
+      "responseType": "number",
+      "digits": 5,
+      "jobResponsibilities": [
+        "Manage territory database information",
+        "Responsible for merchandising, sales, and account development",
+        "Develop relationships with accounts",
+        "Communicate product features and benefits to customers"
+      ]
+    },
+    {
+      "question": "How many products did you sell?",
+      "responseType": "number",
+      "digits": 5,
+      "jobResponsibilities": [
+        "Create visual displays",
+        "Merchandise product lines",
+        "Increase sales through promotion of new products"
+      ]
+    },
+    {
+      "question": "What are the monthly or quarterly sales for the territory?",
+      "responseType": "number",
+      "digits": 7,
+      "jobResponsibilities": [
+        "Report weekly activity",
+        "Communicate product features and benefits to customers"
+      ]
+    },
+    {
+      "question": "What special training did you receive?",
+      "responseType": "string",
+      "jobResponsibilities": [
+        "Launch new products"
+      ]
+    },
+    {
+      "question": "Did you demo your products for customers, if so, how often and how many?",
+      "responseType": "string",
+      "jobResponsibilities": [
+
+      ]
+    }
+  ],
+  "Retail Salesperson Responsibilities": [
+    {
+      "question": "What type of store is this?",
+      "responseType": "string",
+      "jobResponsibilities": [
+        "Create positive environment for customers"
+      ]
+    },
+    {
+      "question": "How many customers do you take care of weekly?",
+      "responseType": "number",
+      "digits": 5,
+      "jobResponsibilities": [
+        "Create positive environment for customers",
+        "Assist with fitting room management",
+        "Manage daily cash register balances"
+      ]
+    },
+    {
+      "question": "What are/were your weekly or monthly sales?",
+      "responseType": "number",
+      "digits": 6,
+      "jobResponsibilities": [
+        "Increase revenue through promotion of additional items to customers"
+      ]
+    },
+    {
+      "question": "How many items are sold at the store?",
+      "responseType": "number",
+      "digits": 6,
+      "jobResponsibilities": [
+        "Merchandise product lines on floor",
+        "Coordinate merchandise with customer needs",
+        "Promote special items"
+      ]
+    },
+    {
+      "question": "How often did you create floor or window displays?",
+      "responseType": "select",
+      "options": [
+        "",
+        "Weekly",
+        "Monthly",
+        "Quarterly",
+        "As Needed"
+      ],
+      "jobResponsibilities": [
+        "Create window and in-store displays"
+      ]
+    },
+    {
+      "question": "What special training did you give to other employees?",
+      "responseType": "string",
+      "jobResponsibilities": [
+        "Trained new sales personnel"
+      ]
+    },
+    {
+      "question": "How many other employees did you train?",
+      "responseType": "number",
+      "digits": 3,
+      "jobResponsibilities": [
+        "Trained new sales personnel"
+      ]
+    },
+    {
+      "question": "What special training did you receive?",
+      "responseType": "string",
+      "jobResponsibilities": [
+        "Develop clients"
+      ]
+    }
+  ],
+  "Retail Manager Responsibilities": [
+    {
+      "question": "What type of store is this?",
+      "responseType": "string",
+      "jobResponsibilities": [
+        "Coordinate sales and merchandising activities"
+      ]
+    },
+    {
+      "question": "How many customers do you take care of weekly?",
+      "responseType": "number",
+      "digits": 5,
+      "jobResponsibilities": [
+        "Supervise team of employees"
+      ]
+    },
+    {
+      "question": "How many employees do you manage?",
+      "responseType": "number",
+      "digits": 4,
+      "jobResponsibilities": [
+        "Coordinate sales and merchandising activities",
+        "Supervise team of employees",
+        "Set sales goals",
+        "Conduct performance reviews for employees"
+      ]
+    },
+    {
+      "question": "What is the weekly revenue at the store?",
+      "responseType": "number",
+      "digits": 6,
+      "jobResponsibilities": [
+        "Responsible for opening and closing",
+        "Set sales goals"
+      ]
+    },
+    {
+      "question": "What special training did you recieve?",
+      "responseType": "string",
+      "jobResponsibilities": [
+        "Direct store personnel on daily operations"
+      ]
+    },
+    {
+      "question": "What special training did you give to other employees?",
+      "responseType": "string",
+      "jobResponsibilities": [
+        "Train new employees",
+        "Interview potential new employees"
+      ]
+    },
+    {
+      "question": "How many other employees did you train?",
+      "responseType": "number",
+      "digits": 3,
+      "jobResponsibilities": [
+        "Train new employees"
+      ]
+    }
+  ],
+  "Public Relations Responsibilities": [
+    {
+      "question": "What type of company is this?",
+      "responseType": "string",
+      "jobResponsibilities": [
+        "Write press releases"
+      ]
+    },
+    {
+      "question": "Who do you report to in the organization (title only)?",
+      "responseType": "string",
+      "jobResponsibilities": [
+        "Develop media lists",
+        "Update website"
+      ]
+    },
+    {
+      "question": "How many customers do you interact with weekly?",
+      "responseType": "number",
+      "digits": 5,
+      "jobResponsibilities": [
+        "Manage client database",
+        "Develop media lists"
+      ]
+    },
+    {
+      "question": "How many internal employees do you interact with?",
+      "responseType": "number",
+      "digits": 4,
+      "jobResponsibilities": [
+        "Develop client relationships"
+      ]
+    },
+    {
+      "question": "What departments do you interact with?",
+      "responseType": "string",
+      "jobResponsibilities": [
+        "Communicate with media contacts"
+      ]
+    },
+    {
+      "question": "Which clients did you develop media kits for (names or categories/industries)?",
+      "responseType": "string",
+      "jobResponsibilities": [
+        "Construct media kits",
+        "Compile articles"
+      ]
+    },
+    {
+      "question": "Which clients did you write press releases or promotional based information for (names or categories/industries)?",
+      "responseType": "string",
+      "jobResponsibilities": [
+        "Write press releases",
+        "Compile articles"
+      ]
+    },
+    {
+      "question": "What specific technical or computer training did you receive?",
+      "responseType": "string",
+      "jobResponsibilities": [
+        "Learn database systems (Cision, ProfNet, PRNewswire)"
+      ]
+    }
+  ],
+  "Event Planning Responsibilities": [
+    {
+      "question": "What type of company is this?",
+      "responseType": "string",
+      "jobResponsibilities": [
+        "Manage client requests"
+      ]
+    },
+    {
+      "question": "Who do you report to in the organization (title only)?",
+      "responseType": "string",
+      "jobResponsibilities": [
+        "Create thematic events"
+      ]
+    },
+    {
+      "question": "How many clients do you interact with weekly?",
+      "responseType": "number",
+      "digits": 4,
+      "jobResponsibilities": [
+        "Research venue or entertainment information",
+        "Communicate with clients",
+        "Manage database"
+      ]
+    },
+    {
+      "question": "Which clients did you develop or execute events for (names or categories/industries) with names of events?",
+      "responseType": "string",
+      "jobResponsibilities": [
+        "Set up event materials",
+        "Budget event details for clients"
+      ]
+    },
+    {
+      "question": "For specific events you planned or assisted in planning, list details of theme, number of attendees, budget, location, as well as other specific information.",
+      "responseType": "string",
+      "jobResponsibilities": [
+        "Coordinate event day activities",
+        "Develop client relationships",
+        "Plan specific parts of an event"
+      ]
+    }
+  ],
+  "Marketing Responsibilities": [
+    {
+      "question": "What type of company is this?",
+      "responseType": "string",
+      "jobResponsibilities": [
+        "Conduct customer surveys"
+      ]
+    },
+    {
+      "question": "How many customers do you interact with weekly?",
+      "responseType": "number",
+      "digits": 4,
+      "jobResponsibilities": [
+        "Develop database",
+        "Prepare presentations"
+      ]
+    },
+    {
+      "question": "Which departments internally have you worked on projects with?",
+      "responseType": "string",
+      "jobResponsibilities": [
+        "Create promotional pieces"
+      ]
+    },
+    {
+      "question": "Which clients did you assist in development/execution of marketing plans (names or categories/industries)?",
+      "responseType": "string",
+      "jobResponsibilities": [
+        "Create marketing plan",
+        "Execute focus group research",
+        "Prepare presentations"
+      ]
+    },
+    {
+      "question": "Which clients did you create pieces or promotional based information for and how much additional revenue did it generate?",
+      "responseType": "string",
+      "jobResponsibilities": [
+        "Research competitive market information",
+        "Update website"
+      ]
+    },
+    {
+      "question": "For specific events you planned or assisted in planning, list details of theme, number of attendees, budget, location, as well as other specific information.",
+      "responseType": "string",
+      "jobResponsibilities": [
+        "Communicate with customers"
+      ]
+    }
+  ],
+  "Teaching Responsibilities": [
+    {
+      "question": "What level/type of educational setting is this?",
+      "responseType": "string",
+      "jobResponsibilities": [
+        "Guide daily activities and play",
+        "Implement safety procedures"
+      ]
+    },
+    {
+      "question": "How many children do you interact with in a class?",
+      "responseType": "number",
+      "digits": 3,
+      "jobResponsibilities": [
+        "Guide daily activities and play",
+        "Update student records",
+        "Create age appropriate activities",
+        "Communicate with parents"
+      ]
+    },
+    {
+      "question": "What are the primary topics of curriculum you teach?",
+      "responseType": "string",
+      "jobResponsibilities": [
+        "Establish classroom expectations",
+        "Develop curriculum"
+      ]
+    },
+    {
+      "question": "For specific events you planned or assisted in planning, list details of theme, number of attendees, budget, location, as well as other specific information.",
+      "responseType": "string",
+      "jobResponsibilities": [
+        "Update student records",
+        "Coordinate group activities"
+      ]
+    },
+    {
+      "question": "What special curriculum do you teach?",
+      "responseType": "string",
+      "jobResponsibilities": [
+        "Establish classroom expectations"
+      ]
+    },
+    {
+      "question": "Are you on any committees or special projects for the school?",
+      "responseType": "string",
+      "jobResponsibilities": [
+        "Update student records"
+      ]
+    }
+  ],
+  "Childcare/Camp Counselor Responsibilities": [
+    {
+      "question": "What type of setting is this (home, school, camp)?",
+      "responseType": "string",
+      "jobResponsibilities": [
+        "Guide daily activities and play"
+      ]
+    },
+    {
+      "question": "How many children do you interact with?",
+      "responseType": "number",
+      "digits": 3,
+      "jobResponsibilities": [
+        "Coordinate group activities",
+        "Communicate with parents",
+        "Maintain daily schedule for children"
+      ]
+    },
+    {
+      "question": "What are the primary activities you manage for the children?",
+      "responseType": "string",
+      "jobResponsibilities": [
+        "Create age appropriate activities"
+      ]
+    },
+    {
+      "question": "For specific outings or special experiences you planned, please list the event and what you did.",
+      "responseType": "string",
+      "jobResponsibilities": [
+        "Manage children's safety"
+      ]
+    }
+  ],
+  "Research Responsibilities": [
+    {
+      "question": "What type of company is this?",
+      "responseType": "string",
+      "jobResponsibilities": [
+        "Develop database",
+        "Update website"
+      ]
+    },
+    {
+      "question": "What departments do you interact with for projects?",
+      "responseType": "string",
+      "jobResponsibilities": [
+        "Conduct customer surveys",
+        "Collaborate with other departments on projects"
+      ]
+    },
+    {
+      "question": "Which clients did you assist in research for (names or categories/industries)?",
+      "responseType": "string",
+      "jobResponsibilities": [
+        "Research competitive market information",
+        "Prepare presentations"
+      ]
+    },
+    {
+      "question": "What was the goal/purpose/use of the research you conducted?",
+      "responseType": "string",
+      "jobResponsibilities": [
+        "Research competitive market information",
+        "Communicate with internal management"
+      ]
+    }
+  ],
+  "Political-based Responsibilities": [
+    {
+      "question": "Which departments have you worked with on projects?",
+      "responseType": "string",
+      "jobResponsibilities": [
+        "Collaborate with internal office teams",
+        "Research political transcript information, party policy and interests"
+      ]
+    },
+    {
+      "question": "Who do you report to (title only)?",
+      "responseType": "string",
+      "jobResponsibilities": [
+        "Manage database",
+        "Write news updates",
+        "Track media information"
+      ]
+    },
+    {
+      "question": "Which constituents/parties did you conduct research for?",
+      "responseType": "string",
+      "jobResponsibilities": [
+        "Prepare informational materials",
+        "Maintain relationships with constituency"
+      ]
+    },
+    {
+      "question": "For specific events you planned or assisted in planning, list details of theme, number of attendees, budget, location, as well as other specific information.",
+      "responseType": "string",
+      "jobResponsibilities": [
+        "Coordinate event activities"
+      ]
+    }
+  ],
+  "Sports Organization Responsibilities": [
+    {
+      "question": "Who do you report to in the organization (title only)?",
+      "responseType": "string",
+      "jobResponsibilities": [
+        "Maintain relationships with fans"
+      ]
+    },
+    {
+      "question": "How many clients do you interact with weekly?",
+      "responseType": "number",
+      "digits": 5,
+      "jobResponsibilities": [
+        "Manage database"
+      ]
+    },
+    {
+      "question": "Which clients did you develop or execute events for (names or industries)?",
+      "responseType": "string",
+      "jobResponsibilities": [
+        "Write news updates on team",
+        "Update website information"
+      ]
+    },
+    {
+      "question": "For specific events you planned or assisted in planning, list details of theme, number of attendees, budget, location, as well as other specific information.",
+      "responseType": "string",
+      "jobResponsibilities": [
+        "Coordinate event activities",
+        "Coordinate game day activities",
+        "Communicate with sponsors"
+      ]
+    },
+    {
+      "question": "If you were involved in gameday activities, what did you do?",
+      "responseType": "string",
+      "jobResponsibilities": [
+        "Execute promotions during games"
+      ]
+    }
+  ],
+  "Financial Organization Responsibilities": [
+    {
+      "question": "What type of company is this?",
+      "responseType": "string",
+      "jobResponsibilities": [
+        "Collaborate with internal office teams"
+      ]
+    },
+    {
+      "question": "How many customers do you interact with weekly?",
+      "responseType": "number",
+      "digits": 4,
+      "jobResponsibilities": [
+        "Manage database",
+        "Interact with clients"
+      ]
+    },
+    {
+      "question": "What departments have you worked with internally on projects?",
+      "responseType": "string",
+      "jobResponsibilities": [
+        "Update internal documents",
+        "Research information"
+      ]
+    },
+    {
+      "question": "Which clients did you conduct research or projects for?",
+      "responseType": "string",
+      "jobResponsibilities": [
+        "Analyze numerical information"
+      ]
+    },
+    {
+      "question": "What was the goal/purpose/use of the research conducted?",
+      "responseType": "string",
+      "jobResponsibilities": [
+        "Research information"
+      ]
+    }
+  ],
+  "Scientific Organization Responsibilities": [
+    {
+      "question": "What type of company is this?",
+      "responseType": "string",
+      "jobResponsibilities": [
+        "Analyze numerical information"
+      ]
+    },
+    {
+      "question": "How many customers do you interact with weekly?",
+      "responseType": "number",
+      "digits": 5,
+      "jobResponsibilities": [
+        "Update internal documents",
+        "Interact with clients"
+      ]
+    },
+    {
+      "question": "What departments have you worked on projects with?",
+      "responseType": "string",
+      "jobResponsibilities": [
+        "Manage client information"
+      ]
+    },
+    {
+      "question": "Which clients did you conduct research for?",
+      "responseType": "string",
+      "jobResponsibilities": [
+        "Collaborate with internal office teams"
+      ]
+    },
+    {
+      "question": "What was the goal/purpose/use of the research you conducted?",
+      "responseType": "string",
+      "jobResponsibilities": [
+        "Research information"
+      ]
+    }
+  ],
+  "Community or Public Service Responsibilities": [
+    {
+      "question": "What type of organization is this?",
+      "responseType": "string",
+      "jobResponsibilities": [
+        "Knowledgeable about policies, rules and directives of the organization",
+        "Direct others while under stress and duress"
+      ]
+    },
+    {
+      "question": "How many customers/people in the public do you interact with weekly?",
+      "responseType": "number",
+      "digits": 6,
+      "jobResponsibilities": [
+        "Serve the public",
+        "Provide continuing education to the public"
+      ]
+    },
+    {
+      "question": "What departments have you worked on projects with?",
+      "responseType": "string",
+      "jobResponsibilities": [
+        "Work with a team"
+      ]
+    },
+    {
+      "question": "How many people do you lead?",
+      "responseType": "number",
+      "digits": 3,
+      "jobResponsibilities": [
+        "Motivate and lead a team"
+      ]
+    },
+    {
+      "question": "How many internal department members do you interact with?",
+      "responseType": "number",
+      "digits": 4,
+      "jobResponsibilities": [
+        "Work with a team",
+        "Provide mentorship to team members in other departments",
+        "Collaborate with internal department members"
+      ]
+    },
+    {
+      "question": "What special computer or technology training did you receive?",
+      "responseType": "string",
+      "jobResponsibilities": [
+        "Learned new systems or technology"
+      ]
+    },
+    {
+      "question": "Who do you report to (title only)?",
+      "responseType": "string",
+      "jobResponsibilities": [
+        "Report daily or weekly information"
+      ]
+    },
+    {
+      "question": "For specific programs or projects you worked on, list details about the content of the project and your role along with other relevant specific information.",
+      "responseType": "string",
+      "jobResponsibilities": [
+        "Initiate programs or projects"
+      ]
+    },
+    {
+      "question": "What other special training did you receive in this position?",
+      "responseType": "string",
+      "jobResponsibilities": [
+        "Completed special training courses"
+      ]
+    }
+  ],
+  "Technically Based Responsiblities": [
+    {
+      "question": "What type of organization is this?",
+      "responseType": "string",
+      "jobResponsibilities": [
+        "Work on a team"
+      ]
+    },
+    {
+      "question": "How many customers/people in the public do you interact with weekly?",
+      "responseType": "number",
+      "digits": 6,
+      "jobResponsibilities": [
+        "Install equipment",
+        "Work on a team"
+      ]
+    },
+    {
+      "question": "How many inventory items do you manage?",
+      "responseType": "number",
+      "digits": 6,
+      "jobResponsibilities": [
+        "Control inventory"
+      ]
+    },
+    {
+      "question": "How many people do you lead?",
+      "responseType": "number",
+      "digits": 4,
+      "jobResponsibilities": [
+        "Manage people"
+      ]
+    },
+    {
+      "question": "What equipment did you install or repair?",
+      "responseType": "string",
+      "jobResponsibilities": [
+        "Install equipment",
+        "Repair machinery or systems"
+      ]
+    },
+    {
+      "question": "What special computer or technology training did you receive?",
+      "responseType": "string",
+      "jobResponsibilities": [
+        "Completed special training courses"
+      ]
+    },
+    {
+      "question": "What upgrades have you participated in?",
+      "responseType": "string",
+      "jobResponsibilities": [
+        "Upgrade company systems"
+      ]
+    },
+    {
+      "question": "For specific programs or projects you worked on, list details about the content of the project and your role along with other relevant specific information.",
+      "responseType": "string",
+      "jobResponsibilities": [
+        "Analyze ways to improve programs"
+      ]
+    },
+    {
+      "question": "What other special training did you receive in this position?",
+      "responseType": "string",
+      "jobResponsibilities": [
+        "Completed special training courses"
+      ]
+    }
+  ]
+}

@@ -32,7 +32,7 @@ $(document).ready(function () {
 
 function LoadDropdowns() {
     $('#ddlStateAbbr').html("");
-    $('#ddlStateAbbr').append('<option value="0" selected><b>Select State</b></option>')
+    $('#ddlStateAbbr').append('<option value="" selected><b>Select State</b></option>')
     $.ajax({
         url: '/Common/GetStateList',
         type: 'get',
@@ -51,6 +51,16 @@ function LoadDropdowns() {
 $('#btnSaveOrganization').click(function () {
     $('#orgForm').validate()
     if ($('#orgForm').valid()) {
+        $("#noList").hide();
+        var sMonth = $("#ddlStartedMonth").val();
+        var sYear = $("#ddlStartedYear").val();
+        var eMonth = $("#ddlEndedMonth").val();
+        var eYear = $("#ddlEndedYear").val();
+
+        if (Date.parse(sMonth + " " + sYear) > Date.parse(eMonth + " " + eYear)) {
+            swal("Invalid Date Range", "Start date cannot be greater than end date", "error");
+            return false;
+        }
         $('#btnSaveOrganization').prop('disabled', true)
         let orginazation = {
             VolunteerOrgId: $('#hdfVolunteerOrgId').val(),
@@ -128,6 +138,16 @@ function getFormData() {
 $(document).on('click', '#btnAddPosition', function () {
     $('#orgPositionForm').validate();
     if ($('#orgPositionForm').valid()) {
+        var sMonth = $("#ddlPositionStartedMonth").val();
+        var sYear = $("#ddlPositionStartedYear").val();
+        var eMonth = $("#ddlPositionEndedMonth").val();
+        var eYear = $("#ddlPositionEndedYear").val();
+
+        if (Date.parse(sMonth + " " + sYear) > Date.parse(eMonth + " " + eYear)) {
+            swal("Invalid Date Range", "Start date cannot be greater than end date", "error");
+            return false;
+        }
+
         $('#btnAddPosition').prop('disabled', true)
         let position = {
             VolunteerPositionId: $('#hdfVolunteerPositionId').val(),
@@ -158,7 +178,8 @@ $(document).on('click', '#btnAddPosition', function () {
 });
 
 $('#btnSaveAndContinue').click(function () {
-    obj = {
+   
+    let obj = {
         VolunteerExperienceId: $('#hdfVolunteerExperienceId').val(),
         VolunteerPositions: positionArray,
         VolunteerOrgs: organizationArr,
@@ -166,6 +187,13 @@ $('#btnSaveAndContinue').click(function () {
         IsOptOut: $('#cbSectionNotApply').is(":checked"),
         LastSectionVisitedId: $('#hdfLastSectionVisitedId').val()
     };
+    if (!obj.IsOptOut) {
+        if (positionArray.length == 0 && organizationArr.length == 0) {
+            swal("Required", "Please fill out the organization and positions to proceed", "error");
+            return false;
+        }
+    }
+   
     $.ajax({
         url: '/communityservice/PostCommunityService',
         type: 'POST',
@@ -191,7 +219,54 @@ $('#cbSectionNotApply').change(function () {
 function LoadCards() {
     $('#divEditSection div.row').html("");
     organizationArr = covertArrayKeyIntoCamelCase(organizationArr)
+    positionArray = covertArrayKeyIntoCamelCase(positionArray);
     $.each(organizationArr, function (index, value) {
+        let positionHTML = "";
+        let posArr = positionArray.filter(x => x.volunteerOrgId == value.volunteerOrgId);
+        $.each(posArr, function (_index, _value) {
+            let _endMonth = "";
+            if (_value.endedMonth && _value.endedYear) { _endMonth = _value.endedMonth + " " + _value.endedYear; } else { _endMonth = "Present"; }
+            positionHTML += `<div class="card col-md-12 p-0 mb-3 cardWrapper mt-3"> 
+                    <div class="card-body">
+                       <div class="row mx-auto">
+                        <div class="col-md-12 p-0">
+                                <span class="card-text">
+                                <div class="row">
+                                <div class="col-md-6">
+                                <h5 class="title-text">${_value.title}</h5>
+                                    <p class="text-muted">${_value.startedMonth} ${_value.startedYear} - ${_endMonth}</p>
+                                </div>
+                                  <div class="col-md-6">
+                                    <div class="card-Btn">
+                                <button type="button"  class="btn custombtn w-auto ms-2" id="btnDeletePosition" data-item='${_value.volunteerPositionId}' pos-index='${_index}'>
+                                    <svg stroke="currentColor" fill="currentColor" stroke-width="0"
+                                         viewBox="0 0 24 24" height="1em" width="1em"
+                                         xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z">
+                                        </path>
+                                    </svg>
+                                </button>
+                                <button type="button" id="btnEditPosition" data-item='${_value.volunteerPositionId}' pos-index='${_index}' class="btn custombtn customBtn-light w-auto ms-1">
+                                    <svg stroke="currentColor" fill="currentColor" stroke-width="0"
+                                         viewBox="0 0 24 24" height="1em" width="1em"
+                                         xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z">
+                                        </path>
+                                    </svg>
+                                   
+                                </button>
+                                </div>
+                                  </div>
+                                </div>
+                                    
+                                </span>
+                            </div>
+                    </div>
+                </div>`;
+        });
+        $("#noList").hide();
+        let endMonth = "";
+        if (value.endedMonth && value.endedYear) { endMonth = value.endedMonth + " " + value.endedYear; } else { endMonth = "Present"; }
         let html = `
                 <div class="card ml-4 mt-3 p-0"> 
                     <div class="card-body">
@@ -201,7 +276,7 @@ function LoadCards() {
                              <div class="row">
                              <div class="col-md-6">
                                     <h5 class="title-text">${value.volunteerOrg1}</h5>
-                                    <p class="text-muted">${value.startedMonth} ${value.startedYear} - ${value.endedMonth} ${value.endedYear} </p>
+                                    <p class="text-muted">${value.startedMonth} ${value.startedYear} - ${endMonth} </p>
                                     <p class="text-muted"> ${value.city}</p>
                             </div>
                             <div class="col-md-6">
@@ -226,9 +301,8 @@ function LoadCards() {
                              </div>
                             </div>
                         </span>
-                           
-                                <div id="positionDiv">
-                                     </div>  
+
+                                ${positionHTML} 
                          <button type="button" class="btn btn-primary btn-sm custombtn w-auto" onclick="$('#PositionModel').modal('toggle')">
                                 Add an Position of ${value.volunteerOrg1}
                             </button>
@@ -240,82 +314,10 @@ function LoadCards() {
  `
         $('#divEditSection div.row').append(html)
     });
-    $('').html("");
-    positionArray = covertArrayKeyIntoCamelCase(positionArray);
-    console.log(positionArray)
-    $.each(positionArray, function (index, value) {
-        let html = `<div class="card col-md-12 p-0 mb-3 cardWrapper mt-3"> 
-                    <div class="card-body">
-                       <div class="row mx-auto">
-                        <div class="col-md-12 p-0">
-                                <span class="card-text">
-                                <div class="row">
-                                <div class="col-md-6">
-                                <h5 class="title-text">${value.title}</h5>
-                                    <p class="text-muted">${value.startedMonth} ${value.startedYear} - ${value.endedMonth} ${value.endedYear}</p>
-                                </div>
-                                  <div class="col-md-6">
-                                    <div class="card-Btn">
-                                <button type="button"  class="btn custombtn w-auto ms-2" id="btnDeletePosition" data-item='${value.volunteerOrgId}' pos-index='${index}'>
-                                    <svg stroke="currentColor" fill="currentColor" stroke-width="0"
-                                         viewBox="0 0 24 24" height="1em" width="1em"
-                                         xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z">
-                                        </path>
-                                    </svg>
-                                </button>
-                                <button type="button" id="btnEditPosition" data-item='${value.volunteerOrgId}' pos-index='${index}' class="btn custombtn customBtn-light w-auto ms-1">
-                                    <svg stroke="currentColor" fill="currentColor" stroke-width="0"
-                                         viewBox="0 0 24 24" height="1em" width="1em"
-                                         xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z">
-                                        </path>
-                                    </svg>
-                                   
-                                </button>
-                                </div>
-                                  </div>
-                                </div>
-                                    
-                                </span>
-                            </div>
-                    </div>
-                </div>`
-        //let html = `<div class="card ml-4 "> 
-        //            <div class="card-body">
-        //               <div class="row">
-        //                <div class="col-md-10">
-        //                        <span class="card-text">
-        //                            <h5 class="title-text">${value.title}</h5>
-        //                            <p class="text-muted">${value.startedMonth} ${value.startedYear} - ${value.endedMonth} ${value.endedYear}</p>
-        //                        </span>
-        //                    </div>
-        //                    <div class="col-md-2">
-        //                    <div class="card-Btn">
-        //                        <button type="button" id="btnDeletePosition" data-item='${value.volunteerPositionId}' pos-index=${index} class="btn custombtn w-auto ms-2">
-        //                            <svg stroke="currentColor" fill="currentColor" stroke-width="0"
-        //                                 viewBox="0 0 24 24" height="1em" width="1em"
-        //                                 xmlns="http://www.w3.org/2000/svg">
-        //                                <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z">
-        //                                </path>
-        //                            </svg>
-        //                        </button>
-        //                        <button type="button" id="btnEditPosition" data-item='${value.volunteerPositionId}' pos-index=${index} class="btn custombtn customBtn-light w-auto ms-1">
-        //                            <svg stroke="currentColor" fill="currentColor" stroke-width="0"
-        //                                 viewBox="0 0 24 24" height="1em" width="1em"
-        //                                 xmlns="http://www.w3.org/2000/svg">
-        //                                <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z">
-        //                                </path>
-        //                            </svg>
-                                   
-        //                        </button>
-        //                        </div>
-        //                    </div>
-        //                </div>
-        //            </div>
-        //        </div>`
-        $('#positionDiv').append(html)
-    });
+   /* $('#positionDiv').html("");*/
+   
+  
+  
 }
 
 $(document).on('click', '#btnEditOrg', function () {

@@ -35,6 +35,7 @@ namespace BRB.Controllers
                     {
                         context.Result = new RedirectResult(Url.Action("VoucherVerification", "Resume"));
                     }
+
                     ViewBag.UserRecord = sessionData;
                 }
                 else

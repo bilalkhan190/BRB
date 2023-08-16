@@ -6,6 +6,7 @@ using BusinessObjects.Services;
 using BusinessObjects.Services.interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace BRB.Controllers
 {
@@ -13,10 +14,12 @@ namespace BRB.Controllers
     {
         private readonly IDropdownService _dropdownService;
         private readonly IWorkExperienceService _workExperienceService;
-        public WorkExperienceController(IDropdownService dropdownService, IWorkExperienceService workExperienceService)
+        private readonly IWebHostEnvironment _webHostEnvironment;
+        public WorkExperienceController(IDropdownService dropdownService, IWorkExperienceService workExperienceService, IWebHostEnvironment webHostEnvironment)
         {
             _dropdownService = dropdownService;
             _workExperienceService = workExperienceService;
+            _webHostEnvironment = webHostEnvironment;
         }
         public IActionResult GetJobResponsibility()
         {
@@ -28,6 +31,7 @@ namespace BRB.Controllers
             AjaxResponse ajaxResponse = new AjaxResponse();
             ajaxResponse.Data = null;
             ResponsibilityViewModel responsibilityViewModel = new ResponsibilityViewModel();
+            var respData = _dbContext.JobCategoryLists.FirstOrDefault(x => x.JobCategoryId == jobCategoryId);
             var data = _workExperienceService.GetResponsibilityOptions(jobCategoryId);
             if (data != null)
             {
@@ -36,6 +40,20 @@ namespace BRB.Controllers
             var Questions = _workExperienceService.GetResponsibilityQuestions(jobCategoryId);
             if (data != null)
             {
+                //approach 2
+                string jsonStr = System.IO.File.ReadAllText(_webHostEnvironment.WebRootPath + "/json/QuestionTypes.json");
+
+                JObject json = JObject.Parse(jsonStr);
+
+                var currentResponsibilityQuestionList = json[respData.JobCategoryDesc];
+                foreach (var question in Questions)
+                {
+                    var q = JsonConvert.DeserializeObject<List<QuestionType>>(currentResponsibilityQuestionList.ToString());
+                    question.Responsibilities = q.FirstOrDefault(x => x.question == question.Caption)?.jobResponsibilities;
+                    question.ResponseType = q.FirstOrDefault(x => x.question == question.Caption)?.responseType;
+                }
+
+                
                 responsibilityViewModel.ResponsibilityQuestions = Questions;
             }
             ajaxResponse.Data = responsibilityViewModel;
@@ -62,6 +80,7 @@ namespace BRB.Controllers
                 }
                 else
                 {
+                    company.WorkExperienceId = master.WorkExperienceId;
                     _dbContext.WorkCompanies.Update(company);
                 }
                 _dbContext.SaveChanges();
@@ -88,8 +107,8 @@ namespace BRB.Controllers
 
 
 
-
-        public async Task<IActionResult> deleteCompany(int companyId)
+        [HttpPost]
+        public async Task<IActionResult> deleteCompany(int Id)
         {
             var sessionData = JsonConvert.DeserializeObject<UserSessionData>(HttpContext.Session.GetString("_userData"));
             var contactInfo = new ContactInfo();
@@ -97,11 +116,27 @@ namespace BRB.Controllers
             ajaxResponse.Success = false;
             ajaxResponse.Message = string.Empty;
             var master = _dbContext.WorkExperiences.FirstOrDefault(x => x.ResumeId == sessionData.ResumeId);
-            if (companyId > 0)
+            if (Id > 0)
             {
-
+                var recordToDelete = _dbContext.WorkCompanies.FirstOrDefault(x => x.CompanyId == Id);
+                if(recordToDelete != null)
+                {
+                    _dbContext.WorkCompanies.Remove(recordToDelete);
+                    _dbContext.SaveChanges();
+                }
             }
             var companyList = _dbContext.WorkCompanies.Where(x => x.WorkExperienceId == master.WorkExperienceId).ToList();
+            companyList.ForEach(record =>
+            {
+                var positionList = _dbContext.WorkPositions.Where(x => record.CompanyId == x.CompanyId).ToList();
+                positionList.ForEach(f =>
+                {
+                    f.workRespQuestions = _dbContext.WorkRespQuestions.Where(x => x.PositionId == f.PositionId).ToList();
+                    f.responsibilityOptions = _dbContext.ResponsibilityOptionsResponses.Where(x => x.PositionId == f.PositionId).ToList();
+                    f.JobAwards = _dbContext.JobAwards.Where(x => x.CompanyJobId == f.PositionId).ToList();
+                });
+                record.Positions = positionList;
+            });
             var html = await ApplicationHelper.RenderViewAsync(this, "_Companies", companyList, true);
             ajaxResponse.Data = html;
             ajaxResponse.Success = true;
@@ -252,5 +287,94 @@ namespace BRB.Controllers
             }
             return Json(ajaxResponse);
         }
+
+
+        [HttpPost]
+        public async Task<IActionResult> deletePosition(int Id)
+        {
+            var sessionData = JsonConvert.DeserializeObject<UserSessionData>(HttpContext.Session.GetString("_userData"));
+            var contactInfo = new ContactInfo();
+            AjaxResponse ajaxResponse = new AjaxResponse();
+            ajaxResponse.Success = false;
+            ajaxResponse.Message = string.Empty;
+            var master = _dbContext.WorkExperiences.FirstOrDefault(x => x.ResumeId == sessionData.ResumeId);
+            if (Id > 0)
+            {
+                var recordToDelete = _dbContext.WorkPositions.FirstOrDefault(x => x.PositionId == Id);
+                if (recordToDelete != null)
+                {
+                    _dbContext.WorkPositions.Remove(recordToDelete);
+                    _dbContext.SaveChanges();
+                }
+            }
+            var companyList = _dbContext.WorkCompanies.Where(x => x.WorkExperienceId == master.WorkExperienceId).ToList();
+            companyList.ForEach(record =>
+            {
+                var positionList = _dbContext.WorkPositions.Where(x => record.CompanyId == x.CompanyId).ToList();
+                positionList.ForEach(f =>
+                {
+                    f.workRespQuestions = _dbContext.WorkRespQuestions.Where(x => x.PositionId == f.PositionId).ToList();
+                    f.responsibilityOptions = _dbContext.ResponsibilityOptionsResponses.Where(x => x.PositionId == f.PositionId).ToList();
+                    f.JobAwards = _dbContext.JobAwards.Where(x => x.CompanyJobId == f.PositionId).ToList();
+                });
+                record.Positions = positionList;
+            });
+            var html = await ApplicationHelper.RenderViewAsync(this, "_Companies", companyList, true);
+            ajaxResponse.Data = html;
+            ajaxResponse.Success = true;
+
+
+            return Json(ajaxResponse);
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> deleteAward(int Id)
+        {
+            var sessionData = JsonConvert.DeserializeObject<UserSessionData>(HttpContext.Session.GetString("_userData"));
+            var contactInfo = new ContactInfo();
+            AjaxResponse ajaxResponse = new AjaxResponse();
+            ajaxResponse.Success = false;
+            ajaxResponse.Message = string.Empty;
+            var master = _dbContext.WorkExperiences.FirstOrDefault(x => x.ResumeId == sessionData.ResumeId);
+            if (Id > 0)
+            {
+                var recordToDelete = _dbContext.JobAwards.FirstOrDefault(x => x.JobAwardId == Id);
+                if (recordToDelete != null)
+                {
+                    _dbContext.JobAwards.Remove(recordToDelete);
+                    _dbContext.SaveChanges();
+                }
+            }
+            var companyList = _dbContext.WorkCompanies.Where(x => x.WorkExperienceId == master.WorkExperienceId).ToList();
+            companyList.ForEach(record =>
+            {
+                var positionList = _dbContext.WorkPositions.Where(x => record.CompanyId == x.CompanyId).ToList();
+                positionList.ForEach(f =>
+                {
+                    f.workRespQuestions = _dbContext.WorkRespQuestions.Where(x => x.PositionId == f.PositionId).ToList();
+                    f.responsibilityOptions = _dbContext.ResponsibilityOptionsResponses.Where(x => x.PositionId == f.PositionId).ToList();
+                    f.JobAwards = _dbContext.JobAwards.Where(x => x.CompanyJobId == f.PositionId).ToList();
+                });
+                record.Positions = positionList;
+            });
+            var html = await ApplicationHelper.RenderViewAsync(this, "_Companies", companyList, true);
+            ajaxResponse.Data = html;
+            ajaxResponse.Success = true;
+
+
+            return Json(ajaxResponse);
+        }
     }
+
+ 
+    public class QuestionType
+    {
+        public string question { get; set; }
+        public string responseType { get; set; }
+        public List<string> jobResponsibilities { get; set; }
+        public int? digits { get; set; }
+    }
+
+   
 }

@@ -18,6 +18,10 @@ public partial class College
     public string? CollegeStateAbbr { get; set; }
 
     public DateTime? GradDate { get; set; }
+    [NotMapped]
+    public string? Month { get; set; }
+    [NotMapped]
+    public string? Year { get; set; }
 
     public string? SchoolName { get; set; }
 
@@ -63,4 +67,12 @@ public partial class College
     public DateTime CreatedDate { get; set; }
 
     public DateTime LastModDate { get; set; }
+
+
+    [NotMapped]
+    public List<AcademicHonor> AcademicHonors { get; set; } = new List<AcademicHonor>();
+
+    [NotMapped]
+
+    public List<AcademicScholarship> AcademicScholarships { get; set; } = new List<AcademicScholarship>();
 }

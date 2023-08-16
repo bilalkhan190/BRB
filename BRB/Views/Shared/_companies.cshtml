@@ -10,11 +10,11 @@
                 <div class="col-md-8">
                     <span class="card-text">
                         <p>@item.CompanyName</p>
-                        <p class="text-muted">@item.StartMonth-@item.StartYear</p>
+                        <p class="text-muted">@item.StartMonth @item.StartYear - @item.EndMonth @item.EndYear</p>
                     </span>
                 </div>
                 <div class="col-md-4">
-                    <button type="button" class="btn btn-outline-danger">
+                    <button type="button" class="btn btn-outline-danger btnDeleteCompany" data-company-id="@item.CompanyId">
                         <svg stroke="currentColor" fill="currentColor" stroke-width="0"
                              viewBox="0 0 24 24" height="1em" width="1em"
                              xmlns="http://www.w3.org/2000/svg">
@@ -30,10 +30,10 @@
                         </svg>
                     </button>
                 </div>
-                <div class="" id="_@item.CompanyId">
+                <div class="pnlPositions" id="_@item.CompanyId">
                     @await Html.PartialAsync("_positions", item.Positions)
                 </div>
-                <button type="button" id="btnAddJob" data-company-id="@item.CompanyId" class="btn btn-secondary custombtn w-auto">Add a Job in @item.CompanyName</button>
+                <button type="button" id="btnAddJob" data-company-id="@item.CompanyId" class="btn btn-secondary custombtn w-auto">Add a position at @item.CompanyName</button>
             </div>
           
         </div>
@@ -41,3 +41,25 @@
 }
 
 
+<script>
+    $(document).on("click", ".btnDeleteCompany", function () {
+       
+        let id = $(this).attr("data-company-id");
+        DeleteCompany(id);
+    });
+
+
+    function DeleteCompany(id) {
+        $.ajax({
+            url: '/WorkExperience/deleteCompany?id=' + id,
+            type: 'post',
+            success: function (response) {
+                $('#companiesPenal').html(response.data);
+            },
+            error: function (err) {
+
+            }
+        })
+    }
+
+</script>

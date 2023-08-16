@@ -72,7 +72,3 @@ $('#btnSaveContactInfo').click(function () {
     
 
 
-$('input[type="checkbox"]').change(function () {
-   
-    $('input[name="IsComplete"]').prop('checked',true)
-})

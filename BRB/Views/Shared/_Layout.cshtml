@@ -253,11 +253,11 @@
     </main>
     </div>*@
 
-    @*    <footer>
-    <p class="mt-4"><a href="#">www.successfulimpressions.net</a></p>
+   <footer>
+        <p class="mt-4"><a href="https://www.successfulimpressions.net" target="_blank">www.successfulimpressions.net</a></p>
     <p>"Best Resume Builder" is a registered trademark of Successful Impressions LLC.</p>
-    <p>Copyright © 2019 SUCCESSFUL IMPRESSIONS LLC All rights reserved.</p>
-    </footer>*@
+    <p>Copyright © 2023 SUCCESSFUL IMPRESSIONS LLC All rights reserved.</p>
+    </footer>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
@@ -272,6 +272,7 @@
 
     <script src="~/theme/assets/js/notify.min.js"></script>
     <script>
+       
         (function () {
             'use strict'
             var forms = document.querySelectorAll('.needs-validation')
@@ -395,6 +396,11 @@
                 })
             }
             $('#loader').fadeOut(250);
+        })
+
+        $(document).ready(function () {
+            setTimeout(function () { $("#cbkIsComplete").prop("disabled", false) }, 1000)
+
         })
     </script>
 </body>

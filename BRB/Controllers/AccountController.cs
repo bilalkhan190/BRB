@@ -105,15 +105,17 @@ namespace BRB.Controllers
                                 ZipCode = model.ZipCode,
                                 LastModDate = DateTime.Now,
                                 StateAbbr = model.StateAbbr,
-                                IsComplete = true,
+                                IsComplete = false,
                                 ResumeId = resumeData.ResumeId
                             });
                             _context.SaveChanges();
                             //email verification here
                             string link = $@"{Request.Scheme}://{Request.Host}/Verification/{model.UserId}";
-                            SendEmail(model.UserName, $@"Dear {model.FirstName} <br/><br/><a href='{link}'>Click here</a> for verification", "Best Resume Builder - User Verification");
+                            SendEmail(model.UserName, $@"{model.FirstName}, <br/><br/>Your Best Resume Builder account has been created.
+You must activate it before you can start building your resume.
+<a href='{link}'> Click here </a> to activate your account.", "Best Resume Builder - new account activation");
                             ajaxResponse.Success = true;
-                            ajaxResponse.Message = "User Has been Created Successfully!";
+                            ajaxResponse.Message = "<p style='text-align:center !important'>Your new account has been created and an activation email has been sent to "+model.UserName+". Please click on the link in the email in order to activate your account.\r\n<br />To gain access to the Best Resume Builder program, please check the email address that you used for your username. It is necessary to activate your account at that email address BEFORE logging into the program. Once you have received the activation email and activated your account, you can use the serial code you received after your purchase to access the program. Go to login page.\r\n<br />Best Resume Builder 2.1</p>";
                             ajaxResponse.Redirect = "/Resume/ContactInfo";
                         }
                         else

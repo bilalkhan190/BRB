@@ -73,17 +73,16 @@
                 </label>
                     <input name="CurrentCompanyType" id="CurrentCompanyType" type="text" class="form-control" value="" required>
             </div>
-                <div class="form-group mt-2">
+                @*<div class="form-group mt-2">
                     <label for="FieldsOfExperience">
                         What Fields you are experienced in?
                         <span class="text-danger">*</span>
                     </label>
                     <input name="FieldsOfExperience" id="FieldsOfExperience" type="text" class="form-control" value="" required>
-                </div>
+                </div>*@
             <div class="form-group mt-2">
                 <label for="State">
-                    What types of positive changes do you want to make for a
-                    company?
+                        What type of positive impact do you want to make at a company?
                         <span class="text-danger">*</span>
                 </label>
                     <select name="ChangeTypeId" id="ddlChangeTypeList" class="form-control" required>
@@ -190,4 +189,11 @@
 </div>
 @section Scripts{
     <script src="~/scripts/objectivesummary/objectivesummary.js"></script>
+
+    <script>
+        $(document).ready(function () {
+
+            setTimeout(function () { $("#ckbIsComplete").prop("disabled", false) }, 1000)
+        })
+    </script>
 }

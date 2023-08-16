@@ -6,11 +6,11 @@ let lastSectionCompletedId = $('#hdfLastSectionCompletedId').val();
 $('#btnGenResume').click(function () {
     debugger
     $.ajax({
-        url: '/Resume/GenerateResumeOnWord?font=' + $("input[name='Font']:checked").val(),
+        url: '/Resume/GenerateWordDocument?font=' + $("input[name='Font']:checked").val(),
         type: 'get',
         success: function (response) {
             if (response.success) {
-                swal("Resume Generated Successfullyl", response.message, "success");
+                swal("Resume Generated Successfully!", response.message, "success");
                 let a = document.createElement("a");
                 a.href = "/downloads/" + response.data;
                 a.download = response.data;
@@ -20,7 +20,8 @@ $('#btnGenResume').click(function () {
                 a.classList.add("btn-primary");
                 a.classList.add("custombtn");
                 a.classList.add("w-auto");
-                $("#btnGenResume").remove();
+                a.id = "btnDownloadResume";
+                $("#btnGenResume").hide();
                 document.getElementById("panel").append(a);
 
 
@@ -34,3 +35,10 @@ $('#btnGenResume').click(function () {
         }
     });
 })
+
+$('input[name="Font"]').change(function () {
+    $("#btnGenResume").show();
+    $("#btnDownloadResume").remove();
+});
+
+

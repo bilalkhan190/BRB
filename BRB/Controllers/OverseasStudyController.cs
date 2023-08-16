@@ -28,7 +28,7 @@ namespace BRB.Controllers
             AjaxResponse ajaxResponse = new AjaxResponse();
             ajaxResponse.Data = null;
             ajaxResponse.Message = string.Empty;
-            ajaxResponse.Redirect = "/resume/military";
+            ajaxResponse.Redirect = "/resume/WorkExperience";
             var overseasExperienceData = new OverseasExperience();
             Resume resume = _dbContext.Resumes.FirstOrDefault(x => x.ResumeId == sessionData.ResumeId);
             resume.ResumeId = sessionData.ResumeId;
@@ -38,18 +38,19 @@ namespace BRB.Controllers
             resume.CreatedDate = DateTime.Today;
             resume.GeneratedFileName = null;
             resume.LastSectionCompletedId = overseasStudyViewModel.IsComplete == true ? overseasStudyViewModel.LastSectionVisitedId : 0;
-            OverseasExperience overseasExperience = new OverseasExperience();
+            OverseasExperience overseasExperience = null;
             using (var transection = _dbContext.Database.BeginTransaction())
             {
                 try
                 {
-                    var data = _dbContext.OverseasExperiences.FirstOrDefault(x => x.ResumeId == sessionData.ResumeId);
+                    overseasExperience = _dbContext.OverseasExperiences.FirstOrDefault(x => x.ResumeId == sessionData.ResumeId);
                     if (sessionData != null)
                     {
                        
-                        if (data == null)
+                        if (overseasExperience == null)
                         {
-                           
+
+                            overseasExperience = new OverseasExperience();
                             overseasExperience.IsOptOut = overseasStudyViewModel.IsOptOut;
                             overseasExperience.ResumeId = sessionData.ResumeId;
                             overseasExperience.IsComplete = overseasStudyViewModel.IsComplete;
@@ -62,12 +63,12 @@ namespace BRB.Controllers
                         {
 
 
-                            data.IsOptOut = overseasStudyViewModel.IsOptOut;
-                            data.ResumeId = sessionData.ResumeId;
-                            data.IsComplete = overseasStudyViewModel.IsComplete;
-                            data.CreatedDate = DateTime.Today;
-                            data.LastModDate = DateTime.Today;
-                            _dbContext.OverseasExperiences.Update(data);
+                            overseasExperience.IsOptOut = overseasStudyViewModel.IsOptOut;
+                            overseasExperience.ResumeId = sessionData.ResumeId;
+                            overseasExperience.IsComplete = overseasStudyViewModel.IsComplete;
+                            overseasExperience.CreatedDate = DateTime.Today;
+                            overseasExperience.LastModDate = DateTime.Today;
+                            _dbContext.OverseasExperiences.Update(overseasExperience);
                         }
                         if (overseasStudyViewModel.OverseasStudies.Count > 0)
                         {
@@ -78,13 +79,15 @@ namespace BRB.Controllers
                                
                                 if (overseas.OverseasStudyId > 0)
                                 {
-                                    overseas.OverseasExperienceId = data.OverseasExperienceId;
+                                    overseas.OverseasExperienceId = overseasExperience.OverseasExperienceId;
                                     _dbContext.OverseasStudies.Update(overseas);
+                                    _dbContext.SaveChanges();
                                 }
                                 else
                                 {
-                                    overseas.OverseasExperienceId = data.OverseasExperienceId;
+                                    overseas.OverseasExperienceId = overseasExperience.OverseasExperienceId;
                                     _dbContext.OverseasStudies.Add(overseas);
+                                    _dbContext.SaveChanges();
                                 }
                             }
                             _dbContext.SaveChanges();

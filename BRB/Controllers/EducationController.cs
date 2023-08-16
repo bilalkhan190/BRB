@@ -92,7 +92,7 @@ namespace BRB.Controllers
             TableIdentities ids = new TableIdentities();
             List<EducationViewObject> ListOfObjs = new List<EducationViewObject>();
             var sessionData = JsonSerializer.Deserialize<UserSessionData>(HttpContext.Session.GetString("_userData"));
-            EducationViewObject educationObj = new EducationViewObject();
+       
             var data = _dbContext.Educations.FirstOrDefault(x => x.ResumeId == sessionData.ResumeId);
             if (data != null)
             {
@@ -101,7 +101,7 @@ namespace BRB.Controllers
                 {
                     foreach (var c in colleges)
                     {
-
+                        EducationViewObject educationObj = new EducationViewObject();
                         educationObj.Education = data;
                         educationObj.College = c;
                         educationObj.AcademicHonors = GetAcademicHonors(c.CollegeId);
@@ -154,7 +154,9 @@ namespace BRB.Controllers
                             MajorSpecialtyOther = c.MajorSpecialtyOther,
                             MinorId = c.MinorId,
                             SchoolName = c.SchoolName,
-                            MinorOther = c.MinorOther
+                            MinorOther = c.MinorOther,
+                            AcademicHonors = _dbContext.AcademicHonors.Where(x => x.CollegeId == c.CollegeId).ToList(),
+                            AcademicScholarships = _dbContext.AcademicScholarships.Where(x => x.CollegeId == c.CollegeId).ToList(),
                         }).ToList();
             return data;
         }
@@ -194,103 +196,101 @@ namespace BRB.Controllers
             resumeProfileData.LastSectionCompletedId = educationViewModel.IsComplete == true ? educationViewModel.LastSectionVisitedId : 0;
             
            
-            using (var transection = _dbContext.Database.BeginTransaction())
+          
+            try
             {
-                try
-                {
 
-                    var record = _dbContext.Educations.FirstOrDefault(x => x.ResumeId == sessionData.ResumeId);
+                var record = _dbContext.Educations.FirstOrDefault(x => x.ResumeId == sessionData.ResumeId);
                    
                   
-                    if (record == null)
+                if (record == null)
+                {
+                    education.ResumeId = sessionData.ResumeId;
+                    education.IsComplete = educationViewModel.IsComplete == true ? educationViewModel.IsComplete : false;
+                    education.CreatedDate = DateTime.Today;
+                    _dbContext.Educations.Add(education);
+                    _dbContext.SaveChanges();
+                }
+                else
+                {
+                    record.LastModDate = DateTime.Today;
+                    record.IsComplete = educationViewModel.IsComplete;
+                    _dbContext.SaveChanges();
+                    education.EducationId = record.EducationId;
+                }
+                ajaxResponse.Redirect = "/Resume/OverseasStudy";
+                if (educationViewModel.College.Count > 0)
+                {
+                    foreach (var college in educationViewModel.College)
                     {
-                        education.ResumeId = sessionData.ResumeId;
-                        education.IsComplete = educationViewModel.IsComplete == true ? educationViewModel.IsComplete : false;
-                        education.CreatedDate = DateTime.Today;
-                        _dbContext.Educations.Add(education);
-                        _dbContext.SaveChanges();
-                    }
-                    else
-                    {
-                        record.LastModDate = DateTime.Today;
-                        record.IsComplete = educationViewModel.IsComplete;
-                        _dbContext.SaveChanges();
-                        education.EducationId = record.EducationId;
-                    }
-                    ajaxResponse.Redirect = "/Resume/OverseasStudy";
-                    if (educationViewModel.College.Count > 0)
-                    {
-                        foreach (var college in educationViewModel.College)
+                        college.GradDate = Convert.ToDateTime(college.Month + " " + college.Year);
+                        college.EducationId = education.EducationId;
+                        college.CreatedDate = DateTime.Today;
+                        college.LastModDate = DateTime.Today;
+                        if (college.EducationId > 0)
                         {
-                            college.EducationId = education.EducationId;
-                            college.CreatedDate = DateTime.Today;
-                            college.LastModDate = DateTime.Today;
-                            if (college.EducationId > 0)
+                            _dbContext.Colleges.Update(college);
+                            _dbContext.SaveChanges();
+                        }
+                        else
+                        {
+                            _dbContext.Colleges.Add(college);
+                            _dbContext.SaveChanges();
+                        }
+                        if (college.AcademicHonors.Count > 0)
+                        {
+                            foreach (var honor in college.AcademicHonors)
                             {
-                                _dbContext.Colleges.Update(college);
-                                _dbContext.SaveChanges();
-                            }
-                            else
-                            {
-                                _dbContext.Colleges.Add(college);
-                                _dbContext.SaveChanges();
-                            }
-                            if (educationViewModel.AcademicHonors.Count > 0)
-                            {
-                                foreach (var honor in educationViewModel.AcademicHonors)
+                                honor.CollegeId = college.CollegeId;
+                                honor.CreatedDate = DateTime.Today;
+                                honor.LastModDate = DateTime.Today;
+                                if (honor.CollegeId > 0)
                                 {
-                                    honor.CollegeId = college.CollegeId;
-                                    honor.CreatedDate = DateTime.Today;
-                                    honor.LastModDate = DateTime.Today;
-                                    if (honor.CollegeId > 0)
-                                    {
-                                        _dbContext.AcademicHonors.Update(honor);
-                                    }
-                                    else
-                                    {
-                                        _dbContext.AcademicHonors.Add(honor);
-                                    }
-                                  
+                                    _dbContext.AcademicHonors.Update(honor);
+                                    _dbContext.SaveChanges();
                                 }
-                            }
-                            if (educationViewModel.AcademicScholarships.Count > 0)
-                            {
-                                foreach (var scholarship in educationViewModel.AcademicScholarships)
+                                else
                                 {
-                                    scholarship.CollegeId = college.CollegeId;
-                                    scholarship.CreatedDate = DateTime.Today;
-                                    scholarship.LastModDate = DateTime.Today;
-                                    if (scholarship.CollegeId > 0)
-                                    {
-                                        _dbContext.AcademicScholarships.Update(scholarship);
-                                    }
-                                    else
-                                    {
-                                        _dbContext.AcademicScholarships.Add(scholarship);
-                                    }
+                                    _dbContext.AcademicHonors.Add(honor);
+                                    _dbContext.SaveChanges();
+                                }
+                                  
+                            }
+                        }
+                        if (college.AcademicScholarships.Count > 0)
+                        {
+                            foreach (var scholarship in college.AcademicScholarships)
+                            {
+                                scholarship.CollegeId = college.CollegeId;
+                                scholarship.CreatedDate = DateTime.Today;
+                                scholarship.LastModDate = DateTime.Today;
+                                if (scholarship.CollegeId > 0)
+                                {
+                                    _dbContext.AcademicScholarships.Update(scholarship);
+                                    _dbContext.SaveChanges();
+                                }
+                                else
+                                {
+                                    _dbContext.AcademicScholarships.Add(scholarship);
+                                    _dbContext.SaveChanges();
                                 }
                             }
                         }
-                      
-                        ajaxResponse.Data = educationViewModel;
-                       
                     }
-                    _dbContext.Resumes.Update(resumeProfileData);
-                    _dbContext.SaveChanges();
-                    transection.Commit();
-
+                      
+                    ajaxResponse.Data = educationViewModel;
+                       
                 }
-                catch (Exception ex)
-                {
-                    transection.Rollback();
-
-                    throw;
-                }
-
-
-
+                _dbContext.Resumes.Update(resumeProfileData);
+                _dbContext.SaveChanges();
 
             }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+
 
             return Json(ajaxResponse);
         }

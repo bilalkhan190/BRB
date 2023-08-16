@@ -10,6 +10,7 @@ using System.Text;
 using System.Web.Mvc;
 using System.Net;
 using System.Web.Helpers;
+using AutoMapper.Mappers;
 
 namespace BusinessObjects.Helper
 {
@@ -238,6 +239,29 @@ namespace BusinessObjects.Helper
             {
                 throw;
             }
+        }
+
+        //public static object GetQuestionType(string Question)
+        //{
+        //    Dictionary<string, string> dic = new Dictionary<string, string>();
+        //    dic.Add("What type of restaurant is this?", "Create positive social environment for customers,Assist with banquet room service,Coordinate activities of serving team");
+        //    dic.Add("How many customers do you take care of weekly?", "Manage customer flow,Organize seating arrangement in dining area,Communicate restaurant information via telephone to customers");
+        //    dic.Add("What special training did you receive?", "");
+        //    dic.Add("What special training did you give to other employees?", "Trained new staff members");
+        //    dic.Add("How many other employees did you train?", "Assist with banquet room service,Coordinate activities of serving team,Trained new staff members");
+        //    dic.Add("How many menu items did you work with each shift?", "Increase revenue through promotion of additional items to customers,Promote special menu items");
+        //    dic.Add("What are your weekly sales generated as a server?", "Manage daily cash flow");
+        //    dic.Add("How many menu items did you work with each shift?", "Increase revenue through promotion of additional items to customers,Promote special menu items");
+        //    dic.Add("How many menu items did you work with each shift?", "Increase revenue through promotion of additional items to customers,Promote special menu items");
+        //    dic.Add("How many menu items did you work with each shift?", "Increase revenue through promotion of additional items to customers,Promote special menu items");
+        //    dic.Add("How many menu items did you work with each shift?", "Increase revenue through promotion of additional items to customers,Promote special menu items");
+        //    return "";
+        //}
+
+
+        public class QuestionDetails
+        {
+
         }
 
     }

@@ -8,7 +8,7 @@ $('#btnLogin').click(function () {
             data: { UserName: $('#email').val(), Password: $('#pwd').val() },
             success: function (response) {
                 if (response.success) {
-                    swal("Login Successfull", response.message, "success");
+                    swal("Login Successful", response.message, "success");
                     window.location.href = response.redirect;
                 } else {
                     swal("Invalid Username or Password", response.message, "error");

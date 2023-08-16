@@ -1,6 +1,7 @@
 ﻿var positionArray = [];
 
 $(document).ready(function () {
+
     $('#ddlCountry').html("");
     $('#ddlCountry').append('<option value="" selected><b>Select Country</b></option>')
     $.ajax({
@@ -57,13 +58,11 @@ $('#cbCurrentlyIn').click(function () {
 $(document).on('click', '#cbPositionCurrentlyIn', function () {
     $('#mainForm').validate();
     if ($(this).is(':checked')) {
-        $('#ddlPositionEndedMonth').hide();
-        $('#ddlPositionEndedYear').hide();
-        $('#LabelEndedPositionDate').hide();
+        
+        $('#pnlEndDate').hide();
     } else {
-        $('#ddlPositionEndedMonth').show();
-        $('#ddlPositionEndedYear').show();
-        $('#LabelEndedPositionDate').show();
+        
+        $('#pnlEndDate').show();
     }
 });
 
@@ -92,6 +91,24 @@ $(document).on('click', '#btnAddOrContinue', function () {
     };
     if (!$('#cbSectionNotApply').prop('checked')) {
         if ($('#mainForm').valid()) {
+
+            var sMonth = $("#txtStartedMonth").val();
+            var sYear = $("#txtStartedYear").val();
+            var eMonth = $("#ddlEndedMonth").val();
+            var eYear = $("#ddlEndedYear").val();
+
+            if (Date.parse(sMonth + " " + sYear) > Date.parse(eMonth + " " + eYear)) {
+                swal("Invalid Date Range", "Start date cannot be greater than end date", "error");
+                return false;
+            }
+
+            if (!masterData.IsOptOut) {
+                if (!positionArray.length > 0) {
+                    swal("Positions Requried", "Please add a military position to proceed", "error");
+                    return false;
+                }
+            }
+         
             $.ajax({
                 url: '/Military/PostMilitaryData',
                 type: 'POST',
@@ -130,6 +147,16 @@ $(document).on('click', '#btnAddOrContinue', function () {
 $('#btnAddPosition').click(function () {
     $('#militaryPositionForm').validate();
     if ($('#militaryPositionForm').valid()) {
+        $("#noList").hide();
+        var sMonth = $("#ddlPositionStartedMonth").val();
+        var sYear = $("#ddlPositionStartedYear").val();
+        var eMonth = $("#ddlPositionEndedMonth").val();
+        var eYear = $("#ddlPositionEndedYear").val();
+
+        if (Date.parse(sMonth + " " + sYear) > Date.parse(eMonth + " " + eYear)) {
+            swal("Invalid Date Range", "Start date cannot be greater than end date", "error");
+            return false;
+        }
         $('#btnAddPosition').prop('disabled', true);
         let position = {
             MilitaryPositionId: $('#hdfMilitaryPositionId').val(),
@@ -212,6 +239,12 @@ $('.closeModal').click(function () {
     $('#btnAddPosition').prop('disabled', false);
 })
 function loadData(response) {
+    if (response.data.militaryPositions.length > 0) {
+        $("#noList").hide();
+    }
+    else {
+        $("#noList").show();
+    }
     if (response.data != null) {
         $('#hdfMilitaryExperienceId').val(response.data.militaryExperienceId);
         $('#txtCity').val(response.data.city);
@@ -291,10 +324,8 @@ $(document).on('click', '#btnEditMilitary', function () {
     $('#ddlPositionStartedMonth').val(response.startedMonth)
     $('#ddlPositionStartedYear').val(response.startedYear)
     if (response.endedMonth == null && response.endedYear == null) {
-        $('#cbPositionCurrentlyIn').prop('checked', true);
-        $('#ddlPositionEndedMonth').hide();
-        $('#ddlPositionEndedYear').hide();
-        $('#LabelEndedPositionDate').hide();
+        $('#cbPositionCurrentlyIn').prop('checked', true);         
+        $('#pnlEndDate').hide();
     }
     $('#ddlPositionEndedMonth').val(response.endedMonth)
     $('#ddlPositionEndedYear').val(response.endedYear)
@@ -309,7 +340,7 @@ $(document).on('click', '#btnEditMilitary', function () {
 
 
 $(document).on('click', '#btnDelete', function () {
-
+      
     localStorage.setItem("mil-index", $(this).attr('data-edit'));
     let id = $(this).attr('data-item')
     $.ajax({

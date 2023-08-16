@@ -99,20 +99,7 @@ namespace BusinessObjects.Services
 
         public bool VerifyVoucher(string voucherCode,int userId)
         {
-            var voucherExists = _dbContext.Vouchers.FirstOrDefault(x => x.Code == voucherCode);
-            if (voucherExists != null)
-            {
-                Resume resume = _dbContext.Resumes.FirstOrDefault(x => x.UserId == userId);
-                resume.VoucherCode = voucherCode;
-                _dbContext.Resumes.Update(resume);
-
-                UserProfile user = _dbContext.UserProfiles.FirstOrDefault(x => x.UserId == userId);
-                user.IsActive = true;
-                _dbContext.UserProfiles.Update(user);
-
-                _dbContext.SaveChanges();
-                return true;
-            }
+            
             return false;
         }
 

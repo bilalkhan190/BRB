@@ -34,42 +34,74 @@ $(document).ready(function () {
 
 
 $(document).on("click", "#btnSavePosition", function () {
+    var sMonth = $("select[name='StartMonth']").val();
+    var sYear = $("select[name='StartYear']").val();
+    var eMonth = $("select[name='EndMonth']").val();
+    var eYear = $("select[name='EndYear']").val();
+
+    
     let companyId = localStorage.getItem("CompanyId");
-    $.ajax({
-        url: '/WorkExperience/AddPosition?CompanyId=' + companyId + "&" + $('#WorkPositionForm').serialize(),
-        type: 'get',
-        success: function (response) {
-            console.log(response);
-            if (response.success) {
-                $("#btnCancelJob").click();
-                $('#' + response.fieldName).html(response.data);
-                $('#WorkPositionForm').trigger("reset");
-
-
-            }
-        },
-        error: function (err) {
-            alert(err)
+    $('#WorkPositionForm').validate()
+    if ($('#WorkPositionForm').valid()) {
+        if (Date.parse(sMonth + " " + sYear) > Date.parse(eMonth + " " + eYear)) {
+            swal("Invalid Date Range", "Start date cannot be greater than end date", "error");
+            return false;
         }
-    });
+        if ($(".cbResp:checked").length < 3) {
+            swal("Required", "Choose up to your Top Three responsibilities you had in this position", "error");
+            return false;
+        }
+        $.ajax({
+            url: '/WorkExperience/AddPosition?CompanyId=' + companyId + "&" + $('#WorkPositionForm').serialize(),
+            type: 'get',
+            success: function (response) {
+                console.log(response);
+                if (response.success) {
+                    $("#btnCancelJob").click();
+                    $('#' + response.fieldName).html(response.data);
+                    $('#WorkPositionForm').trigger("reset");
+                        $("#btnSaveOrContinue").attr("disabled", false);
+                        $("#cbIsComplete").attr("disabled", false);
+                    
+
+                }
+            },
+            error: function (err) {
+                alert(err)
+            }
+        });
+    }
+   
 });
     $('#btnAddCompany').click(function () {
+        var sMonth = $("select[name='StartMonth']").val();
+        var sYear = $("select[name='StartYear']").val();
+        var eMonth = $("select[name='EndMonth']").val();
+        var eYear = $("select[name='EndYear']").val();
 
-    $.ajax({
-        url: '/WorkExperience/AddCompany?' + $('#companyForm').serialize(),
-        type: 'get',
-        success: function (response) {
-            console.log(response);
-            if (response.success) {
-                $('#companiesPenal').html(response.data);
-                $('#companyForm').trigger("reset");
-                $('#SummaryModal').modal('toggle')
-            }
-        },
-        error: function (err) {
-            alert(err)
+        if (Date.parse(sMonth + " " + sYear) > Date.parse(eMonth + " " + eYear)) {
+            swal("Invalid Date Range", "Start date cannot be greater than end date", "error");
+            return false;
         }
-    });
+        $("#companyForm").validate();
+        if ($("#companyForm").valid()) {
+            $.ajax({
+                url: '/WorkExperience/AddCompany?' + $('#companyForm').serialize(),
+                type: 'get',
+                success: function (response) {
+                    console.log(response);
+                    if (response.success) {
+                        $('#companiesPenal').html(response.data);
+                        $('#companyForm').trigger("reset");
+                        $('#SummaryModal').modal('toggle')
+                        $('#noList').hide();
+                    }
+                },
+                error: function (err) {
+                    alert(err)
+                }
+            });
+        }     
 
 
     //companyArray.push(company);
@@ -121,6 +153,9 @@ $(document).on('click', '#btnCancelJob', function () {
 });
 
 $('#btnSaveOrContinue').click(function () {
+    if (!($(".pnlPositions").find("cardWrapper").length > 0)) {
+        swal("Required", "Please fill out job positions to proceed");
+    }
     $.ajax({
         url: '/WorkExperience/UpdateExperienceMaster?isComplete=' + $('#cbIsComplete').is(":checked"),
         type: 'get',
@@ -172,7 +207,7 @@ $(document).on('change', '#ddlJobResponsibility', function () {
                     console.log(value)
                     let html = ` <div id="ooption-${index}" class="form-check">
                     <input id="${index}-option" name="responsibilityOptions[${index}].ResponsibilityOption" value="${value.respOptionId}"
-                           type="checkbox" class="form-check-input"><label for="${index}-option"
+                           type="checkbox" data-map='${value.caption}' class="form-check-input cbResp"><label for="${index}-option"
                                                                            class="">${value.caption}</label>
                 </div>`;
                     $('#optionsDiv').append(html)
@@ -183,12 +218,13 @@ $(document).on('change', '#ddlJobResponsibility', function () {
                 $('#divQuestions').html("")
                 $.each(response.data.responsibilityQuestions, function (index, value) {
                     console.log(value);
+                    let inputType = value.responseType == 'string' ? 'text' : 'number';
                     let html = ` <div class="form-group">
-                    <label for="t" class="">
+                    <label for="workRespQuestions[${index}].RespQuestionId" class="">
                        ${value.caption}
                        
                        <input type="hidden" name="workRespQuestions[${index}].RespQuestionId" value="${value.respQuestionId}"/>
-                    </label><input name="workRespQuestions[${index}].Answer" id="t" type="text" class="form-control"
+                    </label><input data-map='${value.responsibilities}' name="workRespQuestions[${index}].Answer" id="workRespQuestions[${index}].RespQuestionId" type="${inputType}" class="form-control txtrespAnswers"
                                    value="">
                 </div>`;
 
@@ -214,24 +250,27 @@ $(document).on('click', '.btnAddAward', function () {
 
 //hit kr k check krna hai 
 $('#btnSaveAward').click(function () {
-    let positionId = localStorage.getItem("PositionId");
-    console.log($('#formAward').serialize());
-      $.ajax({
-          url: '/WorkExperience/AddAward?' + $('#formAward').serialize() + '&CompanyJobId=' + positionId,
-        type: 'get',
-        success: function (response) {
-            console.log(response);
-            if (response.success) {
-                console.log(response.fieldName)
-                $('#' + response.fieldName).html(response.data);
-                $('#formAward').trigger("reset");
-                $('#awardModal').modal('toggle')
+    let positionId = localStorage.getItem("PositionId");    
+    $('#formAward').validate();
+    if ($('#formAward').valid()) {
+        $.ajax({
+            url: '/WorkExperience/AddAward?' + $('#formAward').serialize() + '&CompanyJobId=' + positionId,
+            type: 'get',
+            success: function (response) {
+                console.log(response);
+                if (response.success) {
+                    console.log(response.fieldName)
+                    $('#' + response.fieldName).html(response.data);
+                    $('#formAward').trigger("reset");
+                    $('#awardModal').modal('toggle')
+                }
+            },
+            error: function (err) {
+                alert(err)
             }
-        },
-        error: function (err) {
-            alert(err)
-        }
-    });
+        });
+    }
+    
     //'/WorkExperience/AddAward?CompanyJobId=' + positionId + "&" + $('#formAward').serialize(),
 });
 
@@ -319,7 +358,94 @@ $(document).on("click", "button.btnEditPosition", function () {
     
 })
 
+$(document).on("click", ".cbResp", function () {
+    let elemArr = $(document).find(".cbResp:checked");
+    let inputsArray = $(document).find(".txtrespAnswers");
+    if (elemArr.length >= 3)
+        $(".cbResp:not(:checked)").prop("disabled", true);
+    else
+        $(".cbResp").prop("disabled", false);
 
+  
+
+
+
+    //$.each(elemArr, function (index, cbR) {
+    //    let cbMap = $(cbR).attr("data-map");
+    //    let cb = $(cbR);
+    //    $.each(inputsArray, function (index, record) {
+    //        let inpMap = $(record).attr("data-map");
+    //        if (inpMap.includes(cbMap)) {
+    //            if (cb.is(":checked")) {
+    //                $(record).attr("required", true);
+    //                $(record).addClass("is-invalid");
+    //            }
+    //            else {
+    //                $(record).attr("required", false);
+    //                $(record).removeClass("is-invalid");
+    //            }
+
+
+    //        }
+    //    })
+    //})
+
+    $.each(inputsArray, function (index, record) {
+        $(record).attr("required", false);
+        $(record).prev("#required-tag").remove();
+    })
+    $.each(elemArr, function (index, cbR) {
+        
+
+        let cbMap = $(cbR).attr("data-map");
+        let cb = $(cbR);
+        $.each(inputsArray, function (index, Inputrecord) {
+            let inpMap = $(Inputrecord).attr("data-map");
+           
+            if (inpMap.includes(cbMap)) {
+                $(Inputrecord).attr("required", true);
+                if (!($(Inputrecord).prev("#required-tag").length > 0))
+                    $(Inputrecord).before(" <b class='text-danger' id='required-tag'>*</b> ")          
+            }
+        })
+    })
+
+
+
+    
+
+    
+
+
+   
+})
+
+
+
+    $(document).on("click", ".btnDeletePosition", function () {
+
+        let id = $(this).attr("data-position-id");
+        DeletePosition(id);
+    });
+
+
+function DeletePosition(id) {
+    $.ajax({
+        url: '/WorkExperience/deletePosition?id=' + id,
+        type: 'post',
+        success: function (response) {
+            $('#companiesPenal').html(response.data);
+            if ($('.pnlPositions').find(".cardWrapper").length == 0) {
+                $("#btnSaveOrContinue").attr("disabled", true);            
+                $("#cbIsComplete").prop("checked", false);
+                $("#cbIsComplete").attr("disabled", true);
+            }
+        },
+        error: function (err) {
+
+        }
+    })
+}
 
 
 //$(document).on('click', 'input[type="checkbox"]', function () {

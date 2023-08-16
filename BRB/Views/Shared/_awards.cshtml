@@ -14,7 +14,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="card-Btn">
-                                <button type="button" class="btn custombtn w-auto ms-2">
+                                <button type="button" class="btn custombtn w-auto ms-2 btnDeleteAward" data-award-id="@item.JobAwardId">
                                     <svg stroke="currentColor" fill="currentColor" stroke-width="0"
                                          viewBox="0 0 24 24" height="1em" width="1em"
                                          xmlns="http://www.w3.org/2000/svg">
@@ -42,3 +42,28 @@
         </div>
     </div>
 }
+
+
+
+<script>
+    $(document).on("click", ".btnDeleteAward", function () {
+
+        let id = $(this).attr("data-award-id");
+        DeleteAward(id);
+    });
+
+
+    function DeleteAward(id) {
+        $.ajax({
+            url: '/WorkExperience/deleteAward?id=' + id,
+            type: 'post',
+            success: function (response) {
+                $('#companiesPenal').html(response.data);
+            },
+            error: function (err) {
+
+            }
+        })
+    }
+
+</script>
