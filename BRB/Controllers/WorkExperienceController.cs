@@ -40,12 +40,18 @@ namespace BRB.Controllers
             var Questions = _workExperienceService.GetResponsibilityQuestions(jobCategoryId);
             if (data != null)
             {
-                //approach 2
+                
                 string jsonStr = System.IO.File.ReadAllText(_webHostEnvironment.WebRootPath + "/json/QuestionTypes.json");
 
                 JObject json = JObject.Parse(jsonStr);
 
                 var currentResponsibilityQuestionList = json[respData.JobCategoryDesc];
+                if(Questions.Count == 0)
+                {
+                    Questions = new List<ResponsibilityQuestion>();
+                    Questions.Add(new ResponsibilityQuestion() { Caption = "Describe Your responsibility at your company", ResponsibilityId = jobCategoryId });
+                    Questions.Add(new ResponsibilityQuestion() { Caption = "Describe Your responsibility at your company 2", ResponsibilityId = jobCategoryId });
+                }
                 foreach (var question in Questions)
                 {
                     var q = JsonConvert.DeserializeObject<List<QuestionType>>(currentResponsibilityQuestionList.ToString());

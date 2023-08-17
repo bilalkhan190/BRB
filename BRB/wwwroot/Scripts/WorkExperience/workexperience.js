@@ -32,6 +32,15 @@ $(document).ready(function () {
     });
 });
 
+$("#cbCurrentlyIn").click(function () {
+    alert();
+    if ($("#cbCurrentlyIn").is(":checked")) {
+        $(".pnlEndDate").hide();
+    }
+    else {
+        $(".pnlEndDate").show();
+    }
+})
 
 $(document).on("click", "#btnSavePosition", function () {
     var sMonth = $("select[name='StartMonth']").val();
@@ -47,9 +56,11 @@ $(document).on("click", "#btnSavePosition", function () {
             swal("Invalid Date Range", "Start date cannot be greater than end date", "error");
             return false;
         }
-        if ($(".cbResp:checked").length < 3) {
-            swal("Required", "Choose up to your Top Three responsibilities you had in this position", "error");
-            return false;
+        if ($(".cbResp").length > 0) {
+            if ($(".cbResp:checked").length < 3) {
+                swal("Required", "Choose up to your Top Three responsibilities you had in this position", "error");
+                return false;
+            }
         }
         $.ajax({
             url: '/WorkExperience/AddPosition?CompanyId=' + companyId + "&" + $('#WorkPositionForm').serialize(),
@@ -155,6 +166,7 @@ $(document).on('click', '#btnCancelJob', function () {
 $('#btnSaveOrContinue').click(function () {
     if (!($(".pnlPositions").find("cardWrapper").length > 0)) {
         swal("Required", "Please fill out job positions to proceed");
+        $("#errorText").show();
     }
     $.ajax({
         url: '/WorkExperience/UpdateExperienceMaster?isComplete=' + $('#cbIsComplete').is(":checked"),
@@ -201,8 +213,9 @@ $(document).on('change', '#ddlJobResponsibility', function () {
         type: 'get',
         data: { jobCategoryId: id },
         success: function (response) {
+            $('#optionsDiv').html("");
             if (response.data.responsibilityOptions.length > 0) {
-                $('#optionsDiv').html("");
+               
                 $.each(response.data.responsibilityOptions, function (index, value) {
                     console.log(value)
                     let html = ` <div id="ooption-${index}" class="form-check">
@@ -214,8 +227,9 @@ $(document).on('change', '#ddlJobResponsibility', function () {
 
                 });
             }
+            $('#divQuestions').html("")
             if (response.data.responsibilityQuestions.length > 0) {
-                $('#divQuestions').html("")
+               
                 $.each(response.data.responsibilityQuestions, function (index, value) {
                     console.log(value);
                     let inputType = value.responseType == 'string' ? 'text' : 'number';
@@ -320,8 +334,7 @@ $(document).on("click", "button.btnEditPosition", function () {
             $(document).find("#ddlJobResponsibility").val(json.jobResponsibilityId);
             $(document).find("#ddlJobResponsibility").trigger("change");
       
-            $("input[name='PositionId']").val(json.positionId);
-      
+            $("input[name='PositionId']").val(json.positionId);      
             $(`input[name='Title']`).val(json.title);
             $(`select[name='StartMonth']`).val(json.startMonth);
             $(`select[name='StartYear']`).val(json.startYear);
@@ -332,7 +345,13 @@ $(document).on("click", "button.btnEditPosition", function () {
             $(`input[name='ImproveProductivity']`).val(json.improveProductivity);
             $(`input[name='IncreaseRevenue']`).val(json.increaseRevenue);
             $(`input[name='PercentageImprovement']`).val(json.percentageImprovement);
-
+            $("#cbCurrentlyIn").prop("checked", true)
+            if ($("#cbCurrentlyIn").is(":checked")) {
+                $(".pnlEndDate").hide();
+            }
+            else {
+                $(".pnlEndDate").show();
+            }
             setTimeout(function () {
                 if (json.workRespQuestions) {
                     $.each(json.workRespQuestions, function (index, value) {
@@ -359,12 +378,18 @@ $(document).on("click", "button.btnEditPosition", function () {
 })
 
 $(document).on("click", ".cbResp", function () {
+    $("#errorText").hide();
     let elemArr = $(document).find(".cbResp:checked");
     let inputsArray = $(document).find(".txtrespAnswers");
-    if (elemArr.length >= 3)
+
+    if (elemArr.length >= 3) {
         $(".cbResp:not(:checked)").prop("disabled", true);
-    else
+        $("#errorText").hide();
+    }
+    else {
         $(".cbResp").prop("disabled", false);
+        $("#errorText").show();
+    }
 
   
 

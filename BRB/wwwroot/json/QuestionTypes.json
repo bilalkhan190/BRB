@@ -935,5 +935,21 @@
         "Completed special training courses"
       ]
     }
+  ],
+  "Other": [
+    {
+      "question": "Describe Your responsibility at your company",
+      "responseType": "string",
+      "jobResponsibilities": [
+        
+      ]
+    },
+    {
+      "question": "Describe Your responsibility at your company 2",
+      "responseType": "string",
+      "jobResponsibilities": [
+
+      ]
+    }
   ]
 }

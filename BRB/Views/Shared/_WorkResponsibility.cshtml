@@ -15,11 +15,11 @@
                         be learned and developed.
                     </p>
                     <div class="form-group">
-                        <label for="Title" class="">Job Title</label>
+                        <label for="Title" class="">Job Title <span class="text-danger">*</span></label>
                         <input name="Title" id="t" type="text" class=" form-control" value="" required>
                     </div>
                     <div class="form-group">
-                        <label for="received" class="">Date Started</label>
+                        <label for="received" class="">Date Started <span class="text-danger">*</span></label>
                         <div class="row">
                             <div class="col-6">
                                 <div class="form-group">
@@ -205,17 +205,17 @@
                         <div class="col">
                             <div class="form-check">
                                 <label class="form-check-label">
-                                    <input id="exampleCustomSwitch" name="customSwitch"
+                                    <input id="cbCurrentlyIn" name="customSwitch"
                                            label="Currently In" type="checkbox" class="form-check-input">
                                     Currently In
                                 </label>
                             </div>
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row pnlEndDate">
                         <div class="col"><label for="received" class="">Date Ended</label></div>
                     </div>
-                    <div class="row">
+                    <div class="row pnlEndDate">
                         <div class="col-6">
                             <div class="mt-2 form-group">
                                 <select name="EndMonth" id="selectform"
@@ -492,4 +492,3 @@
     </div>
 
 </form>
-
