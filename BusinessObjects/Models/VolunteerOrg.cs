@@ -29,4 +29,6 @@ public partial class VolunteerOrg
     public DateTime CreatedDate { get; set; }
 
     public DateTime LastModDate { get; set; }
+
+    public List<VolunteerPosition> VolunteerPositions { get; set; } = new List<VolunteerPosition>();
 }

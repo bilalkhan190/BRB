@@ -5,7 +5,7 @@ var positionArray = []
 $(document).ready(function () {
     LoadDropdowns();
     getFormData();
-   
+
 });
 
 function getFormData() {
@@ -32,7 +32,7 @@ function getFormData() {
                 }
                 LoadCards()
             }
-           
+
         },
         error: function (err) {
 
@@ -116,7 +116,7 @@ $('#btnSaveOrganization').click(function () {
         LoadCards();
         console.log(organizationArr);
     }
-   
+
 
 });
 
@@ -168,16 +168,23 @@ $(document).on('click', '#btnAddPosition', function () {
         $('#PositionModel').modal('toggle')
         $('#btnAddPosition').prop('disabled', false)
     }
-   
+
 });
 
 
 $('#btnSaveAndContinue').click(function () {
-    
+    organizationArr.map((item, index) => {
+        let res = positionArray.filter((x) => x.organizationId == item.organizationId)
+        if (res) {
+            item.OrgPositions = res
+        }
+
+    })
+
     let obj = {
         OrgExperienceId: $('#hdfOrgExperienceId').val(),
         LastSectionVisitedId: $('#hdfLastSectionVisitedId').val(),
-        OrgPositions: positionArray,
+        //OrgPositions: positionArray,
         Organizations: organizationArr,
         IsComplete: $('#cbIsComplete').is(':checked'),
         IsOptOut: $('#cbSectionNotApply').is(':checked')
@@ -228,6 +235,57 @@ function LoadCards() {
         $("#noList").hide();
         let endMonth = "";
         if (value.endedMonth && value.endedYear) { endMonth = value.endedMonth + " " + value.endedYear; } else { endMonth = "Present"; }
+        let htmlPosition = ''
+        positionArray = covertArrayKeyIntoCamelCase(positionArray)
+        debugger
+        let posArr = positionArray.filter(x => x.organizationId == value.organizationId);
+        $.each(posArr, function (index, _value) {
+            let _endMonth = "";
+            if (_value.endedMonth && _value.endedYear) { _endMonth = _value.endedMonth + " " + _value.endedYear; } else { _endMonth = "Present"; }
+            htmlPosition += `<div class="card col-md-12 p-0 mb-3 cardWrapper mt-3"> 
+                    <div class="card-body">
+                       <div class="row mx-auto">
+                        <div class="col-md-12 p-0">
+                                <span class="card-text">
+                                <div class="row">
+                                <div class="col-md-6">
+                                <h5 class="title-text">${_value.title}</h5>
+                                    <p class="text-muted">${_value.startedMonth} ${_value.endedMonth} - ${_endMonth}</p>
+                                </div>
+                                  <div class="col-md-6">
+                                    <div class="card-Btn">
+                                <button type="button"  class="btn custombtn w-auto ms-2" id="btnDeletePosition" data-item='${_value.orgPositionId}' pos-index='${index}'>
+                                    <svg stroke="currentColor" fill="currentColor" stroke-width="0"
+                                         viewBox="0 0 24 24" height="1em" width="1em"
+                                         xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z">
+                                        </path>
+                                    </svg>
+                                </button>
+                                <button type="button" id="btnEditPosition" data-item='${_value.orgPositionId}' pos-index='${index}' class="btn custombtn customBtn-light w-auto ms-1">
+                                    <svg stroke="currentColor" fill="currentColor" stroke-width="0"
+                                         viewBox="0 0 24 24" height="1em" width="1em"
+                                         xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z">
+                                        </path>
+                                    </svg>
+                                   
+                                </button>
+                                </div>
+                                  </div>
+                                </div>
+                                    
+                                </span>
+                            </div>
+                    </div>
+                </div>`
+
+            //$('#positionDiv').append(html)
+        });
+
+
+
+
         let html = `<div class="card col-md-12 p-0 mb-3 cardWrapper mt-3">
     <div class="card-body">
         <div class="row mx-auto">
@@ -237,7 +295,7 @@ function LoadCards() {
                         <div class="col-md-6">
                             <h5 class="title-text">${value.orgName}</h5>
                             <p class="text-muted">
-                                ${value.startedMonth} ${value.startedYear} - ${endMonth }
+                                ${value.startedMonth} ${value.startedYear} - ${endMonth}
                             </p>
                             <p class="text-muted">${value.city}</p>
                         </div>
@@ -266,69 +324,93 @@ function LoadCards() {
                     </div>
                 </span>
             </div>
-             <div id="positionDiv"></div>
-        <button type="button" class="btn btn-primary btn-sm custombtn w-auto mt-2" onclick="$('#PositionModel').modal('toggle')">
+             <div id="positionDiv">${htmlPosition}</div>
+        <!--<button type="button" class="btn btn-primary btn-sm custombtn w-auto mt-2" onclick="$('#PositionModel').modal('toggle')">-->
+        <button type="button" class="btn btn-primary btn-sm custombtn w-auto" onclick="OpenPositionModel('${value.organizationId}');">
+
             Add an Position of ${value.orgName}
         </button>
         </div>
        
     </div>
 </div>
-      
          `
         $('#divEditSection').append(html)
     });
 
-    $('#positionDiv div.row').html("");
-    positionArray = covertArrayKeyIntoCamelCase(positionArray)
-    $.each(positionArray, function (index, value) {
-        let endMonth = "";
-        if (value.endedMonth && value.endedYear) { endMonth = value.endedMonth + " " + value.endedYear; } else { endMonth = "Present"; }
-        let html = `<div class="card col-md-12 p-0 mb-3 cardWrapper mt-3"> 
-                    <div class="card-body">
-                       <div class="row mx-auto">
-                        <div class="col-md-12 p-0">
-                                <span class="card-text">
-                                <div class="row">
-                                <div class="col-md-6">
-                                <h5 class="title-text">${value.title}</h5>
-                                    <p class="text-muted">${value.startedMonth} ${value.endedMonth} - ${endMonth}</p>
-                                </div>
-                                  <div class="col-md-6">
-                                    <div class="card-Btn">
-                                <button type="button"  class="btn custombtn w-auto ms-2" id="btnDeletePosition" data-item='${value.orgPositionId}' pos-index='${index}'>
-                                    <svg stroke="currentColor" fill="currentColor" stroke-width="0"
-                                         viewBox="0 0 24 24" height="1em" width="1em"
-                                         xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z">
-                                        </path>
-                                    </svg>
-                                </button>
-                                <button type="button" id="btnEditPosition" data-item='${value.orgPositionId}' pos-index='${index}' class="btn custombtn customBtn-light w-auto ms-1">
-                                    <svg stroke="currentColor" fill="currentColor" stroke-width="0"
-                                         viewBox="0 0 24 24" height="1em" width="1em"
-                                         xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z">
-                                        </path>
-                                    </svg>
-                                   
-                                </button>
-                                </div>
-                                  </div>
-                                </div>
-                                    
-                                </span>
-                            </div>
-                    </div>
-                </div>`
-     
-        $('#positionDiv').append(html)
-    });
+    // #region junk
+    //$('#positionDiv div.row').html("");
+    //positionArray = covertArrayKeyIntoCamelCase(positionArray)
+    //$.each(positionArray, function (index, value) {
+    //    let endMonth = "";
+    //    if (value.endedMonth && value.endedYear) { endMonth = value.endedMonth + " " + value.endedYear; } else { endMonth = "Present"; }
+    //    let htmlPosition = `<div class="card col-md-12 p-0 mb-3 cardWrapper mt-3">
+    //                <div class="card-body">
+    //                   <div class="row mx-auto">
+    //                    <div class="col-md-12 p-0">
+    //                            <span class="card-text">
+    //                            <div class="row">
+    //                            <div class="col-md-6">
+    //                            <h5 class="title-text">${value.title}</h5>
+    //                                <p class="text-muted">${value.startedMonth} ${value.endedMonth} - ${endMonth}</p>
+    //                            </div>
+    //                              <div class="col-md-6">
+    //                                <div class="card-Btn">
+    //                            <button type="button"  class="btn custombtn w-auto ms-2" id="btnDeletePosition" data-item='${value.orgPositionId}' pos-index='${index}'>
+    //                                <svg stroke="currentColor" fill="currentColor" stroke-width="0"
+    //                                     viewBox="0 0 24 24" height="1em" width="1em"
+    //                                     xmlns="http://www.w3.org/2000/svg">
+    //                                    <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z">
+    //                                    </path>
+    //                                </svg>
+    //                            </button>
+    //                            <button type="button" id="btnEditPosition" data-item='${value.orgPositionId}' pos-index='${index}' class="btn custombtn customBtn-light w-auto ms-1">
+    //                                <svg stroke="currentColor" fill="currentColor" stroke-width="0"
+    //                                     viewBox="0 0 24 24" height="1em" width="1em"
+    //                                     xmlns="http://www.w3.org/2000/svg">
+    //                                    <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z">
+    //                                    </path>
+    //                                </svg>
+
+    //                            </button>
+    //                            </div>
+    //                              </div>
+    //                            </div>
+
+    //                            </span>
+    //                        </div>
+    //                </div>
+    //            </div>`
+
+    //    //$('#positionDiv').append(html)
+    //});
+
+    // #endregion
 
     if (positionArray != null && positionArray.length > 3) {
         $("#positionDiv").addClass("BoxHeight");
     }
 }
+
+function guid() {
+    return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, c =>
+        (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+    );
+}
+
+
+const OpenOrgModel = (id) => {
+    $('#hdfOrganizationId').val(id)
+    $('#SummaryModal').modal('toggle')
+}
+
+const OpenPositionModel = (id) => {
+    $('#hdfOrganizationId').val(id)
+    $('#PositionModel').modal('toggle')
+
+    $('#orgPositionForm')[0].reset()
+}
+
 
 
 $(document).on('click', '#btnEditOrg', function () {

@@ -135,9 +135,9 @@ namespace BRB.Controllers
 
                             }
 
-                            if (communityViewModel.VolunteerPositions.Count > 0)
+                            if (org.VolunteerPositions.Count > 0)
                             {
-                                foreach (var position in communityViewModel.VolunteerPositions)
+                                foreach (var position in org.VolunteerPositions)
                                 {
                                    
                                     if (position.VolunteerPositionId > 0)

@@ -11,7 +11,7 @@ namespace BusinessObjects.Models.MetaData
        public List<License> Licenses { get; set; } = new List<License>();
        public List<Certificate> Certificates { get; set; } = new List<Certificate>();
         public List<Affiliation> Affiliations { get; set; } = new List<Affiliation>();
-        public List<AffiliationPosition> AffiliationPositions { get; set; } = new List<AffiliationPosition>();
+        //public List<AffiliationPosition> AffiliationPositions { get; set; } = new List<AffiliationPosition>();
         public bool IsComplete { get; set; }
         public bool IsOptOut { get; set; }
     }

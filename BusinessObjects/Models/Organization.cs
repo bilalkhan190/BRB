@@ -29,4 +29,5 @@ public partial class Organization
     public DateTime CreatedDate { get; set; }
 
     public DateTime LastModDate { get; set; }
+    public List<OrgPosition> OrgPositions { get; set; } = new List<OrgPosition>();
 }

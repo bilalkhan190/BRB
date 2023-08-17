@@ -51,6 +51,7 @@ function LoadDropdowns() {
 $('#btnSaveOrganization').click(function () {
     $('#orgForm').validate()
     if ($('#orgForm').valid()) {
+
         $("#noList").hide();
         var sMonth = $("#ddlStartedMonth").val();
         var sYear = $("#ddlStartedYear").val();
@@ -72,7 +73,7 @@ $('#btnSaveOrganization').click(function () {
             EndedMonth: $('#ddlEndedMonth').val(),
             EndedYear: $('#ddlEndedYear').val(),
         };
-        
+
         if (localStorage.getItem("org-index") == null) {
             organizationArr.push(orginazation);
         }
@@ -127,7 +128,7 @@ function getFormData() {
                 }
                 LoadCards()
             }
-          
+
         },
         error: function (err) {
 
@@ -138,6 +139,7 @@ function getFormData() {
 $(document).on('click', '#btnAddPosition', function () {
     $('#orgPositionForm').validate();
     if ($('#orgPositionForm').valid()) {
+
         var sMonth = $("#ddlPositionStartedMonth").val();
         var sYear = $("#ddlPositionStartedYear").val();
         var eMonth = $("#ddlPositionEndedMonth").val();
@@ -149,6 +151,7 @@ $(document).on('click', '#btnAddPosition', function () {
         }
 
         $('#btnAddPosition').prop('disabled', true)
+        debugger
         let position = {
             VolunteerPositionId: $('#hdfVolunteerPositionId').val(),
             VolunteerOrgId: $('#hdfVolunteerOrgId').val(),
@@ -162,7 +165,7 @@ $(document).on('click', '#btnAddPosition', function () {
             Responsibility3: $('#txtResponsibility3').val(),
             OtherInfo: $('#txtOtherInfo').val(),
         };
-       
+
         if (localStorage.getItem("pos-index") == null) {
             positionArray.push(position);
         }
@@ -173,15 +176,26 @@ $(document).on('click', '#btnAddPosition', function () {
 
         $('#PositionModel').modal('toggle')
         $('#btnAddPosition').prop('disabled', false)
+        debugger
         LoadCards();
     }
 });
 
 $('#btnSaveAndContinue').click(function () {
-   
+    debugger
+
+    //organizationArr.VolunteerPositions = []
+    organizationArr.map((item, index) => {
+        let res = positionArray.filter((x) => x.volunteerOrgId == item.volunteerOrgId)
+        if (res) {
+            item.VolunteerPositions = res
+        }
+
+    })
+
     let obj = {
         VolunteerExperienceId: $('#hdfVolunteerExperienceId').val(),
-        VolunteerPositions: positionArray,
+        //VolunteerPositions: positionArray,
         VolunteerOrgs: organizationArr,
         IsComplete: $('#cbIsComplete').is(":checked"),
         IsOptOut: $('#cbSectionNotApply').is(":checked"),
@@ -193,7 +207,7 @@ $('#btnSaveAndContinue').click(function () {
             return false;
         }
     }
-   
+
     $.ajax({
         url: '/communityservice/PostCommunityService',
         type: 'POST',
@@ -219,7 +233,9 @@ $('#cbSectionNotApply').change(function () {
 function LoadCards() {
     $('#divEditSection div.row').html("");
     organizationArr = covertArrayKeyIntoCamelCase(organizationArr)
+    debugger
     positionArray = covertArrayKeyIntoCamelCase(positionArray);
+    let html = ''
     $.each(organizationArr, function (index, value) {
         let positionHTML = "";
         let posArr = positionArray.filter(x => x.volunteerOrgId == value.volunteerOrgId);
@@ -267,7 +283,7 @@ function LoadCards() {
         $("#noList").hide();
         let endMonth = "";
         if (value.endedMonth && value.endedYear) { endMonth = value.endedMonth + " " + value.endedYear; } else { endMonth = "Present"; }
-        let html = `
+        html += `
                 <div class="card ml-4 mt-3 p-0"> 
                     <div class="card-body">
                        <div class="row">
@@ -303,7 +319,7 @@ function LoadCards() {
                         </span>
 
                                 ${positionHTML} 
-                         <button type="button" class="btn btn-primary btn-sm custombtn w-auto" onclick="$('#PositionModel').modal('toggle')">
+                         <button type="button" class="btn btn-primary btn-sm custombtn w-auto" onclick="OpenPositionModel('${value.volunteerOrgId}');">
                                 Add an Position of ${value.volunteerOrg1}
                             </button>
                             </div>
@@ -312,18 +328,37 @@ function LoadCards() {
 
                 </div>
  `
-        $('#divEditSection div.row').append(html)
+
     });
-   /* $('#positionDiv').html("");*/
-   
-  
-  
+    $('#divEditSection div.row').html(html)
+    /* $('#positionDiv').html("");*/
+
+}
+
+
+function guid() {
+    return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, c =>
+        (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+    );
+}
+
+
+const OpenOrgModel = (id) => {
+    $('#hdfVolunteerOrgId').val(id)
+    $('#SummaryModal').modal('toggle')
+}
+
+const OpenPositionModel = (id) => {
+    $('#hdfVolunteerOrgId').val(id)
+    $('#PositionModel').modal('toggle')
+
+    $('#orgPositionForm')[0].reset()
 }
 
 $(document).on('click', '#btnEditOrg', function () {
     var response = organizationArr[$(this).attr('org-index')];
     localStorage.setItem("org-index", $(this).attr('org-index'));
-        $('#hdfVolunteerOrgId').val(response.volunteerOrgId),
+    $('#hdfVolunteerOrgId').val(response.volunteerOrgId),
         $('#txtOrgName').val(response.volunteerOrg1),
         $('#txtCity').val(response.city),
         $('#ddlStateAbbr').val(response.stateAbbr),
@@ -335,9 +370,9 @@ $(document).on('click', '#btnEditOrg', function () {
 });
 
 $(document).on('click', '#btnEditPosition', function () {
-        var response = positionArray[$(this).attr('pos-index')];
-        localStorage.setItem("pos-index", $(this).attr('pos-index'));
-        $('#hdfVolunteerPositionId').val(response.volunteerPositionId),
+    var response = positionArray[$(this).attr('pos-index')];
+    localStorage.setItem("pos-index", $(this).attr('pos-index'));
+    $('#hdfVolunteerPositionId').val(response.volunteerPositionId),
         $('#txtTitle').val(response.title),
         $('#ddlPositionStartedMonth').val(response.startedMonth),
         $('#ddlPositionStartedYear').val(response.startedYear),
@@ -347,7 +382,7 @@ $(document).on('click', '#btnEditPosition', function () {
         $('#txtResponsibility2').val(response.responsibility2),
         $('#txtResponsibility3').val(response.responsibility3),
         $('#txtOtherInfo').val(response.otherInfo)
-        $('#PositionModel').modal('show')
+    $('#PositionModel').modal('show')
 });
 
 
