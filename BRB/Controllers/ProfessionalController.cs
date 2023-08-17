@@ -140,7 +140,7 @@ namespace BRB.Controllers
                       
                       
 
-                        if (professionalViewModel.AffiliationPositions.Count > 0)
+                        if (affilation.AffiliationPositions.Count > 0)
                         {
                             var rangeRecord = _dbContext.AffiliationPositions.Where(x =>x.AffiliationId == affilationData.AffiliationId).ToList();
                             if (rangeRecord.Count > 0)
@@ -148,7 +148,7 @@ namespace BRB.Controllers
                                 _dbContext.AffiliationPositions.RemoveRange(rangeRecord);
                                 _dbContext.SaveChanges();
                             }
-                            foreach (var affilationPosition in professionalViewModel.AffiliationPositions)
+                            foreach (var affilationPosition in affilation.AffiliationPositions)
                             {
                                 affilationPosition.AffiliationId = affilationData.AffiliationId;
                                 affilationPosition.CreatedDate = DateTime.Today;

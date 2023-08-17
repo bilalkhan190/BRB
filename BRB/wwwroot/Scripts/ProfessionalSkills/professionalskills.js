@@ -68,7 +68,7 @@ $('#btnSaveLicense').click(function () {
             ReceivedMonth: $('#ddllicenseReceivedMonth').val(),
             ReceivedYear: $('#ddllicenseReceivedYear').val(),
         };
-       
+
         if (localStorage.getItem("edit-license") === null) {
             licenseArray.push(license);
 
@@ -95,7 +95,7 @@ $('.closeLicense').click(function () {
 
 function LoadLicenseCards() {
     $('#divLicenseCard div.row-cstm').html('');
-   licenseArray = covertArrayKeyIntoCamelCase(licenseArray)
+    licenseArray = covertArrayKeyIntoCamelCase(licenseArray)
     console.log(licenseArray)
     $.each(licenseArray, function (index, value) {
         $("#noList").hide();
@@ -142,7 +142,7 @@ function LoadLicenseCards() {
 }
 function LoadCertCards() {
     $('#divCertificateCard div.row-cstm').html('');
-   certificateArray = covertArrayKeyIntoCamelCase(certificateArray)
+    certificateArray = covertArrayKeyIntoCamelCase(certificateArray)
     $.each(certificateArray, function (index, value) {
         $("#noListCert").hide();
         let html = `
@@ -188,14 +188,18 @@ function LoadCertCards() {
 }
 
 function LoadaffCards() {
+
+    
     $('#divAffilateCard div.row-cstm').html('');
- affilationArray = covertArrayKeyIntoCamelCase(affilationArray)
+    affilationArray = covertArrayKeyIntoCamelCase(affilationArray)
     $.each(affilationArray, function (index, affilation) {
         let endMonth = "";
         if (affilation.endedMonth && affilation.endedYear) { endMonth = affilation.endedMonth + " " + affilation.endedYear; } else { endMonth = "Present"; }
         $("#noListAff").hide();
         let PositionHtml = '';
-        $.each(positionArray, function (index, position) {
+        debugger
+        let posArr = positionArray.filter(x => x.affiliationId == affilation.affiliationId);
+        $.each(posArr, function (index, position) {
             PositionHtml += `
          <div class="card p-0 mt-2 mb-2 cardWrapper cardWrapper-affPos"> 
     <div class= "card-body">
@@ -288,10 +292,10 @@ function LoadaffCards() {
                 </div >
         `
         $('#divAffilateCard div.row-cstm').append(html);
-        
+
     });
-   // $('.positionDiv').html('');
-   
+    // $('.positionDiv').html('');
+
     if (affilationArray != null && affilationArray.length > 3) {
         $("#divAffilateCard").addClass("BoxHeight");
     }
@@ -304,7 +308,7 @@ $(document).on("click", ".btnEditLicense", function () {
     let index = $(this).attr("data-item");
     let editRecord = licenseArray[index];
     console.log(editRecord)
-       $('#txtlicenseTitle').val(editRecord.title),
+    $('#txtlicenseTitle').val(editRecord.title),
         $('#ddllicenseState').val(editRecord.stateAbbr),
         $('#ddllicenseReceivedMonth').val(editRecord.receivedMonth),
         $('#ddllicenseReceivedYear').val(editRecord.receivedYear),
@@ -353,7 +357,7 @@ $(document).on("click", ".btnDeleteCertificate", function () {
                 certificateArray.splice(index, 1);
                 LoadCertCards();
             }
-           
+
 
         },
         error: function (error) { }
@@ -388,7 +392,7 @@ $(document).on("click", "button.btnEditAffilationPosition", function () {
     let index = $(this).attr("data-identity");
     let editRecord = JSON.parse($(this).attr("data-json"));
     console.log(editRecord)
-    
+
     $('#txtpositionTitle').val(editRecord.title);
     $('#ddlPositionStartedMonth').val(editRecord.startedMonth);
     $('#ddlPositionStartedYear').val(editRecord.startedYear);
@@ -454,7 +458,7 @@ $('#btnSaveCertificate').click(function () {
             ReceivedMonth: $('#ddlCertificateReceivedMonth').val(),
             ReceivedYear: $('#ddlCertificateReceivedYear').val(),
         };
-       
+
         if (localStorage.getItem("edit-cert") === null) {
             certificateArray.push(certificate)
         }
@@ -490,7 +494,7 @@ $('#btnSaveAffilation').click(function () {
             swal("Invalid Date Range", "Start date cannot be greater than end date", "error");
             return false;
         }
-       
+
         let affilation = {
             affiliationName: $('#txtAffiliationName').val(),
             city: $('#txtAffilationCity').val(),
@@ -505,7 +509,7 @@ $('#btnSaveAffilation').click(function () {
             affilation.endedMonth = null;
             affilation.endedYear = null;
         }
-        $('#btnSaveAffilation').prop('disabled',true)
+        $('#btnSaveAffilation').prop('disabled', true)
         if (localStorage.getItem("edit-aff") === null) {
             affilationArray.push(affilation)
             affilationArray = covertArrayKeyIntoCamelCase(affilationArray)
@@ -590,14 +594,14 @@ function GetCompleteData() {
                     $.each(response.data.licenses, function (index, value) {
                         licenseArray.push(value)
                     });
-                   
+
                     LoadLicenseCards();
                 }
                 if (response.data.certificates.length > 0) {
                     $.each(response.data.certificates, function (index, value) {
                         certificateArray.push(value)
                     });
-                   
+
                     LoadCertCards();
                 }
                 if (response.data.affilationWithPositions.length > 0) {
@@ -607,12 +611,12 @@ function GetCompleteData() {
                             positionArray.push(v)
                         })
                     });
-                   
+
                     LoadaffCards();
                 }
 
             }
-          
+
         },
         error: function (err) {
             alert(err)
@@ -667,7 +671,7 @@ function LoadDropdowns() {
     });
 }
 
-$(document).on('click','#btnAddPosition',function () {
+$(document).on('click', '#btnAddPosition', function () {
     $('#positionForm').validate();
     if ($('#positionForm').valid()) {
         let position = {
@@ -681,7 +685,7 @@ $(document).on('click','#btnAddPosition',function () {
             responsibility3: $('#txtResponsibility3').val(),
             otherInfo: $('#txtOtherInfo').val(),
         };
-        $('#btnAddPosition').prop('disabled',true)
+        $('#btnAddPosition').prop('disabled', true)
         positionArray.push(position);
         //LoadaffCards();
 
@@ -836,7 +840,7 @@ $('#btnSaveAndContinue').click(function () {
             return false;
         }
     }
-    
+
     $.ajax({
         url: '/Professional/PostProfessionalSkillsData',
         type: 'POST',

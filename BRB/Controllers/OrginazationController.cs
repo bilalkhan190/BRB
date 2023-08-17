@@ -135,9 +135,9 @@ namespace BRB.Controllers
                             _dbContext.Organizations.Add(org);
                             _dbContext.SaveChanges();   
                         }
-                        if (organizationViewModel.OrgPositions.Count > 0)
+                        if (org.OrgPositions.Count > 0)
                         {
-                            foreach (var orgPosition in organizationViewModel.OrgPositions)
+                            foreach (var orgPosition in org.OrgPositions)
                             {
                                    
                                 if (orgPosition.OrgPositionId > 0)
