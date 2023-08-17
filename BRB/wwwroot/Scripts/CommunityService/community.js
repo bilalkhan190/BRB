@@ -343,8 +343,8 @@ function guid() {
 }
 
 
-const OpenOrgModel = (id) => {
-    $('#hdfVolunteerOrgId').val(id)
+const OpenOrgModel = () => {
+    $('#hdfVolunteerOrgId').val(guid())
     $('#SummaryModal').modal('toggle')
 }
 
