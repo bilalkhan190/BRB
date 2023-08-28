@@ -3,6 +3,28 @@ var acadmicHonorArray = [];
 var collegeArray = [];
 var objArray = [];
 
+
+$(document).on('keydown', 'input[pattern]', function (e) {
+    var input = $(this);
+    var oldVal = input.val();
+    var regex = new RegExp(input.attr('pattern'), 'g');
+
+    setTimeout(function () {
+        var newVal = input.val();
+        if (!regex.test(newVal) && newVal.length > 2) {
+            input.val('0');
+        }
+    }, 1);
+});
+
+$(document).on('blur', 'input[pattern]', function (e) {
+    var input = $(this);
+    var oldVal = input.val();
+    if (oldVal > 5) {
+        input.val('5.0');
+    }
+});
+
 $('#ddlDegree').change(function () {
     let input = `<input name="DegreeOther" id="DegreeOther" placeholder="Other Degree" type="text" class="form-control mt-2" value="" required/>`
     let ddlSelectedValue = $('#ddlDegree option:selected').val()
@@ -184,7 +206,7 @@ $('#btnCollageSave').click(function () {
       
 });
 $('#Gpa').on('change', function () {
-    this.value = parseFloat(this.value).toFixed(2);
+    this.value = parseFloat(this.value).toFixed(1);
 });
 function LoadCards() {
     $('#divEditSection').html("")
@@ -252,7 +274,7 @@ function LoadCards() {
                             <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z">
                             </path>
                         </svg>
-                    </button><button type="button" data-item='${schol.academicScholarshipId}' data-json='${JSON.stringify(schol)}' data-item="${schol.academicScholarshipId}" class="btn custombtn customBtn-light w-auto ms-1 btnEditAcademicScholarship">
+                    </button><button type="button" data-item='${schol.academicScholarshipId}' data-json='${JSON.stringify(schol)}' data-identity="${guid()}" class="btn custombtn customBtn-light w-auto ms-1 btnEditAcademicScholarship">
                         <svg stroke="currentColor" fill="currentColor" stroke-width="0"
                                 viewBox="0 0 24 24" height="1em" width="1em"
                                 xmlns="http://www.w3.org/2000/svg">
@@ -268,7 +290,7 @@ function LoadCards() {
                     <input type="hidden" class="ScholarshipMonth" value="${schol.scholarshipMonth}">
                     <input type="hidden" class="ScholarshipYear" value="${schol.scholarshipYear}">
                 </div>
-                       </div>`;
+                       </div></div>`;
         })
 
 
@@ -305,30 +327,28 @@ function LoadCards() {
                                                     </div>
                                                    
                                                     <h5>Academic Honors</h5>
-                                                    <p class="ErrMessage">
+                                                    ${honorHtml != "" ? "" : ` <p class="ErrMessage">
                                                        <em>
                                                             You currently have no Academic Honors listed. Click the Add
                                                             button below to add one.
                                                         </em>
-                                                    </p>
-                                                       <div id="DivAcademicHonor">
-                           
-                                                       </div>
+                                                    </p>`}
+                                                   
+                                                       
                                                        ${honorHtml}
                                                     <button type="button"
                                                                 class="btn btn-primary custombtn w-auto mt-2 mb-2" onclick='clearStorage(this);showModal("#HonorModal")' data-item='${guid()}'>
                                                         Add an Academic Honor
                                                     </button>
                                                     <h5 class="mt-2">Scholarships</h5>
-                                                   <p class="ErrMessageScholarship">
+                                                    ${scholHtml != "" ? "" : ` <p class="ErrMessageScholarship">
                                                         <em>
                                                             You currently have no Academic Scholarships listed. Click the
                                                           Add button below to add one.
                                                       </em>
-                                                   </p>
-                                                     <div id="divAcademicScholarship">
-                           
-                                                     </div>
+                                                   </p>`}
+                                                  
+                                                     
                                                      ${scholHtml}
                                                         <button type="button"
                                                                class="btn btn-primary custombtn w-auto mt-2" onclick="clearStorage(this, 'schol');$('#ScholarshipModal').modal('toggle');" data-item='${guid()}'>
@@ -491,7 +511,7 @@ $('#btnSaveHonor').click(function () {
                                                                     <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z">
                                                                     </path>
                                                                 </svg>
-                                                            </button><button type="button" id="btnEditHonor" data-item='${value.academicHonorId}' data-json='${JSON.stringify(value)}' data-identity="${guid()}" class="btn custombtn customBtn-light w-auto ms-1">
+                                                            </button><button type="button" data-item='${value.academicHonorId}' data-json='${JSON.stringify(value)}' data-identity="${guid()}" class="btn custombtn customBtn-light w-auto ms-1 btnEditHonor">
                                                                 <svg stroke="currentColor" fill="currentColor" stroke-width="0"
                                                                      viewBox="0 0 24 24" height="1em" width="1em"
                                                                      xmlns="http://www.w3.org/2000/svg">
@@ -553,6 +573,8 @@ $('#btnSaveHonor').click(function () {
                                                
                                                  </div>`
             let id = localStorage.getItem("add-honor");
+           
+            $("button[data-item='" + id + "']").prev(".ErrMessage").remove();
             $("button[data-item='" + id + "']").before(html);
             //$('#noPosition').parent().append(html);
         }
@@ -599,7 +621,7 @@ $('#btnSaveScholarship').click(function () {
                             <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z">
                             </path>
                         </svg>
-                    </button><button type="button" id="btnEditAcademicScholarship" data-item='${value.academicScholarshipId}' data-json='${JSON.stringify(value)}' data-identity="${guid()}" class="btn custombtn customBtn-light w-auto ms-1">
+                    </button><button type="button" data-item='${value.academicScholarshipId}' data-json='${JSON.stringify(value)}' data-identity="${guid()}" class="btn custombtn customBtn-light w-auto ms-1 btnEditAcademicScholarship">
                         <svg stroke="currentColor" fill="currentColor" stroke-width="0"
                                 viewBox="0 0 24 24" height="1em" width="1em"
                                 xmlns="http://www.w3.org/2000/svg">
@@ -659,6 +681,7 @@ $('#btnSaveScholarship').click(function () {
                 </div>
                        </div>`
             let id = localStorage.getItem("add-schol");
+            $("button[data-item='" + id + "']").prev(".ErrMessageScholarship").remove();
             $("button[data-item='" + id + "']").before(html);
             //$('#noPosition').parent().append(html);
         }
@@ -762,11 +785,7 @@ function arrayLookup(array, prop, val) {
 }
 
 $('#btnSaveAndContinue').click(function () {
-    let obj = {
-        LastSectionVisitedId: $('#hdfLastSectionVisitedId').val(),
-        IsComplete: $('#cbkIsComplete').is(':checked'),
-        College: collegeArray,
-    };
+   
     debugger;
 
     if (collegeArray == 0) {
@@ -776,7 +795,7 @@ $('#btnSaveAndContinue').click(function () {
     else {
         $.each(collegeArray, function (index, record) {
             let honors = [];
-            $($(".crd-wrp-olg")[index]).find(".cardWrapper").each(function (index, value) {
+            $($(".crd-wrp-olg")[index]).find(".cardWrapper-hnr").each(function (index, value) {
                 let honor = {
                     HonorName: $(this).find(".HonorName").val(),
                     HonorMonth: $(this).find(".HonorMonth").val(),
@@ -786,7 +805,7 @@ $('#btnSaveAndContinue').click(function () {
 
                 honors.push(honor);
             });
-            record.AcademicHonors = honors;
+            record.academicHonors = honors;
 
             let schols = [];
             $($(".crd-wrp-olg")[index]).find(".cardWrapper-schols").each(function (index, value) {
@@ -800,10 +819,14 @@ $('#btnSaveAndContinue').click(function () {
 
                 schols.push(schol);
             });
-            record.AcademicScholarships = schols;
+            record.academicScholarships = schols;
         });
         console.log(collegeArray)
-
+        let obj = {
+            LastSectionVisitedId: $('#hdfLastSectionVisitedId').val(),
+            IsComplete: $('#cbkIsComplete').is(':checked'),
+            College: collegeArray,
+        };
         $.ajax({
             url: '/Education/PostEducationData',
             type: 'POST',
@@ -867,7 +890,7 @@ function FillDropdowns() {
     });
 
     $('#ddlMinor').html("");
-    $('#ddlMinor').append('<option value="" selected><b>Select Minors</b></option>')
+    $('#ddlMinor').append('<option value="" selected><b>Select Minor</b></option>')
     $.ajax({
         url: '/Education/GetAllMinors',
         type: 'get',
@@ -1005,7 +1028,15 @@ $(document).on('click', '#btnDeleteCollege', function () {
 });
 
 $(document).on('click', '#btnDeleteHonor', function () {
-
+    if ($(this).closest(".crd-wrp-olg").find(".cardWrapper-hnr").length == 1) {
+        $(this).closest(".cardWrapper-hnr").before(`<p class="ErrMessage">
+                                                       <em>
+                                                            You currently have no Academic honor listed. Click the Add
+                                                            button below to add one.
+                                                        </em>
+                                                    </p>`);
+    }
+    $(this).closest(".cardWrapper-hnr").remove();
     localStorage.setItem("acad-index", $(this).attr('acad-edit'));
     localStorage.setItem("acad-parent-index", $(this).attr('data-parent'));
     let id = $(this).attr('data-item')
@@ -1017,10 +1048,10 @@ $(document).on('click', '#btnDeleteHonor', function () {
             console.log(acadmicHonorArray)
             let index = parseInt(localStorage.getItem("acad-index"));
             let parent = parseInt(localStorage.getItem("acad-parent-index"));
-            acadmicHonorArray.splice(index, 1);
+            //acadmicHonorArray.splice(index, 1);
             
-            collegeArray[parent].academicHonors.splice(index, 1);
-            LoadCards();
+            //collegeArray[parent].academicHonors.splice(index, 1);
+            //LoadCards();
         },
         error: function (err) {
 
@@ -1029,7 +1060,15 @@ $(document).on('click', '#btnDeleteHonor', function () {
 });
 
 $(document).on('click', '#btnDeleteAcademicScholarship', function () {
-
+    if ($(this).closest(".crd-wrp-olg").find(".cardWrapper-schols").length == 1) {
+        $(this).closest(".cardWrapper-schols").before(`<p class="ErrMessageScholarship">
+                                                       <em>
+                                                            You currently have no Academic Scholarship listed. Click the Add
+                                                            button below to add one.
+                                                        </em>
+                                                    </p>`);
+    }
+    $(this).closest(".cardWrapper-schols").remove();
     localStorage.setItem("sch-index", $(this).attr('sch-edit'));
     localStorage.setItem("sch-parent", $(this).attr('sch-parent'));
     let id = $(this).attr('data-item')
@@ -1039,8 +1078,8 @@ $(document).on('click', '#btnDeleteAcademicScholarship', function () {
         success: function (response) {
             let index = parseInt(localStorage.getItem("sch-index"));
             let parent = parseInt(localStorage.getItem("sch-parent"));
-            collegeArray[parent].academicScholarships.splice(index, 1);
-            LoadCards();
+            //collegeArray[parent].academicScholarships.splice(index, 1);
+            ////LoadCards();
         },
         error: function (err) {
 

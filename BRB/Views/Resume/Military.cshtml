@@ -35,7 +35,7 @@
                         <select name="CountryId" id="ddlCountry" class="form-control" required>
                         </select>
                     </div>
-                    <div class="form-group mb-0">
+                    <div class="form-group mb-0" >
                         <label for="received">Date Started<span class="text-danger">*</span></label>
                         <div class="row">
                             <div class="col-6">
@@ -232,7 +232,7 @@
                     <div class="row" >
                         <div class="col"><label for="received" id="labelEndedDate" class="">Date Ended<span class="text-danger">*</span></label></div>
                     </div>
-                    <div class="row">
+                    <div class="row" id="pnlMilatExp">
                         <div class="col-6">
                             <div class="mt-2 form-group">
                                 <select name="EndedMonth" id="ddlEndedMonth"
@@ -425,7 +425,7 @@
                             add one.
                         </i>
                     </p>
-                    <button type="button" class="btn btn-primary btn-sm custombtn w-auto" onclick="$('#SummaryModal').modal('toggle')">
+                    <button type="button" class="btn btn-primary btn-sm custombtn w-auto" onclick="clearPosition()">
                         Add a Military
                         Position
                     </button>
@@ -863,11 +863,11 @@
                                     <input name="Responsibility1" id="txtResponsibility1" type="text" class="form-control" value="" required>
                                 </div>
                                 <div class="form-group">
-                                    <label for="t" class="">Responsibility #2<span class="text-danger">*</span></label>
+                                    <label for="t" class="">Responsibility #2</label>
                                     <input name="Responsibility2" id="txtResponsibility2" type="text" class="form-control" value="">
                                 </div>
                                 <div class="form-group">
-                                    <label for="t" class="">Responsibility #3<span class="text-danger">*</span></label>
+                                    <label for="t" class="">Responsibility #3</label>
                                     <input name="Responsibility3" id="txtResponsibility3" type="text" class="form-control" value="">
                                 </div>
                             </div>
@@ -875,7 +875,7 @@
                             <div class="form-group">
                                 <label for="t" class="">
                                     Other information that makes this
-                                    experience unique<span class="text-danger">*</span>
+                                    experience unique
                                 </label><input name="OtherInfo" id="txtOtherInfo" type="text" class="form-control"
                                                value="">
                             </div>

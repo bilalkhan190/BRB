@@ -30,5 +30,7 @@ public partial class VolunteerOrg
 
     public DateTime LastModDate { get; set; }
 
+    [NotMapped]
+
     public List<VolunteerPosition> VolunteerPositions { get; set; } = new List<VolunteerPosition>();
 }

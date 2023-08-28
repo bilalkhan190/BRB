@@ -15,6 +15,8 @@ function showall() {
 }
 $('#cbAffilationCurrentlyIn').click(function () {
     if ($(this).is(':checked')) {
+        $('#txtAffilationEndedMonth').val('');
+        $('#txtAffilationEndedYear').val('');
         $('#txtAffilationEndedMonth').hide();
         $('#txtAffilationEndedYear').hide();
         $('#labelAffilationEndedDate').hide();
@@ -32,6 +34,8 @@ $('#cbPositionCurrentlyIn').click(function () {
     if ($(this).is(':checked')) {
         $('#ddlPositionEndedMonth').hide();
         $('#ddlPositionEndedYear').hide();
+        $('#ddlPositionEndedMonth').val('');
+        $('#ddlPositionEndedYear').val('');
         $('#LabelEndedPositionDate').hide();
         $('#pnlPositionEndDate').hide();
     } else {
@@ -211,7 +215,7 @@ function LoadaffCards() {
                     </div>
                     <div class="col-md-6">
                         <div class="card-Btn">
-                            <button type="button"  class="btnDeletePosition btn custombtn w-auto ms-2">
+                            <button type="button"  class="btnDeletePosition btn custombtn w-auto ms-2" data-json='${JSON.stringify(position)}'>
                                 <svg stroke="currentColor" fill="currentColor" stroke-width="0"
                                     viewBox="0 0 24 24" height="1em" width="1em"
                                     xmlns="http://www.w3.org/2000/svg">
@@ -317,15 +321,18 @@ $(document).on("click", ".btnEditLicense", function () {
 })
 
 $(document).on("click", ".btnDeleteLicense", function () {
+    $(this).closest(".cardWrapper").remove();
+  
     let index = $(this).attr("data-item");
     let editRecord = licenseArray[index];
+    licenseArray.splice(index, 1);
+    LoadLicenseCards();
     $.ajax({
         url: '/professional/DeleteLicense?id=' + editRecord.licenseId,
         type: 'post',
         success: function (response) {
             if (response.success) {
-                licenseArray.splice(index, 1);
-                LoadLicenseCards();
+                
             }
         },
         error: function (error) { }
@@ -346,16 +353,18 @@ $(document).on("click", ".btnEditCertificate", function () {
 })
 
 $(document).on("click", ".btnDeleteCertificate", function () {
+    $(this).closest(".cardWrapper").remove();
     let index = $(this).attr("data-item");
     let editRecord = certificateArray[index];
+    certificateArray.splice(index, 1);
+    LoadCertCards();
     console.log(editRecord)
     $.ajax({
         url: '/professional/DeleteCertificate?id=' + editRecord.certificateId,
         type: 'post',
         success: function (response) {
             if (response.success) {
-                certificateArray.splice(index, 1);
-                LoadCertCards();
+               
             }
 
 
@@ -376,6 +385,9 @@ $(document).on("click", ".btnEditAffilation", function () {
     $('#txtAffilationStartedYear').val(editRecord.startedYear);
     debugger;
     if (editRecord.endedMonth != null && editRecord.endedYear != null) {
+        $('#txtAffilationEndedMonth').show();
+        $('#txtAffilationEndedYear').show();
+        $('#labelAffilationEndedDate').show();
         $('#txtAffilationEndedMonth').val(editRecord.endedMonth);
         $('#txtAffilationEndedYear').val(editRecord.endedYear);
     }
@@ -383,6 +395,7 @@ $(document).on("click", ".btnEditAffilation", function () {
         $("#cbAffilationCurrentlyIn").prop("checked", true);
         $('#txtAffilationEndedMonth').hide();
         $('#txtAffilationEndedYear').hide();
+        $('#labelAffilationEndedDate').hide();
     }
     localStorage.setItem("edit-aff", index);
     $("#AffilationModal").modal("show");
@@ -402,21 +415,37 @@ $(document).on("click", "button.btnEditAffilationPosition", function () {
     $('#txtResponsibility2').val(editRecord.responsibility2);
     $('#txtResponsibility3').val(editRecord.responsibility3);
     $('#txtOtherInfo').val(editRecord.otherInfo);
+    if (!(editRecord.endedMonth && editRecord.endedYear)) {
+        $("#cbPositionCurrentlyIn").prop("checked", true);
+        $('#ddlPositionEndedMonth').hide();
+        $('#ddlPositionEndedYear').hide();
+        $('#ddlPositionEndedMonth').val('');
+        $('#ddlPositionEndedYear').val('');
+        $('#LabelEndedPositionDate').hide();
+        $('#pnlPositionEndDate').hide();
+    } else {
+        $('#ddlPositionEndedMonth').show();
+        $('#ddlPositionEndedYear').show();
+        $('#LabelEndedPositionDate').show();
+        $('#pnlPositionEndDate').show();
+    }
     localStorage.setItem("edit-position", index);
     $("#PositionModel").modal("show");
 });
 
 $(document).on("click", ".btnDeleteAffiliation", function () {
+    $(this).closest(".cardWrapper-aff").remove();
     let index = $(this).attr("data-item");
     let editRecord = JSON.parse($(this).attr("data-json"));
+    affilationArray.splice(index, 1);
+    LoadaffCards();
     console.log(editRecord)
     $.ajax({
         url: '/professional/DeleteAffilation?id=' + editRecord.affiliationId,
         type: 'post',
         success: function (response) {
             if (response.success) {
-                affilationArray.splice(index, 1);
-                LoadaffCards();
+               
             }
         },
         error: function (error) { }
@@ -427,6 +456,10 @@ $(document).on("click", ".btnDeleteAffiliation", function () {
 
 
 $(document).on("click", ".btnDeletePosition", function () {
+    if ($(this).closest(".cardWrapper-aff").find(".cardWrapper-affPos").length == 1) {
+        $(this).closest(".cardWrapper-affPos").before("<p class='noPosition'><em>You currently have no positions listed. Either add a position to the organization or delete the organization.</em></p>");
+    }
+    $(this).closest(".cardWrapper-affPos").remove();
     let index = $(this).attr("data-item");
     let editRecord = JSON.parse($(this).attr("data-json"));
     console.log(editRecord)
@@ -436,7 +469,7 @@ $(document).on("click", ".btnDeletePosition", function () {
         success: function (response) {
             if (response.success) {
                 positionArray.splice(index, 1);
-                LoadaffCards();
+                /*LoadaffCards();*/
             }
         },
         error: function (error) { }
@@ -445,7 +478,9 @@ $(document).on("click", ".btnDeletePosition", function () {
 });
 
 $(document).on('click', '#btnAddPositions', function () {
-    $('#PositionModel').modal('show')
+    $('#PositionModel').modal('show');
+   
+
 });
 $('#btnSaveCertificate').click(function () {
     $('#certificateForm').validate();
@@ -482,19 +517,19 @@ $('.closeCertificate').click(function () {
 })
 
 $('#btnSaveAffilation').click(function () {
+    debugger;
+    var sMonth = $("#txtAffilationStartedMonth").val();
+    var sYear = $("#txtAffilationStartedYear").val();
+    var eMonth = $("#txtAffilationEndedMonth").val();
+    var eYear = $("#txtAffilationEndedYear").val();
+    if (Date.parse(sMonth + " " + sYear) > Date.parse(eMonth + " " + eYear)) {
+        swal("Invalid Date Range", "Start date cannot be greater than end date", "error");
+        return
+    }
+    
     $('#affilationform').validate();
     if ($('#affilationform').valid()) {
-        $("#noListAff").hide();
-        var sMonth = $("#txtAffilationStartedMonth").val();
-        var sYear = $("#txtAffilationStartedYear").val();
-        var eMonth = $("#txtAffilationEndedMonth").val();
-        var eYear = $("#txtAffilationEndedYear").val();
-
-        if (Date.parse(sMonth + " " + sYear) > Date.parse(eMonth + " " + eYear)) {
-            swal("Invalid Date Range", "Start date cannot be greater than end date", "error");
-            return false;
-        }
-
+        $("#noListAff").hide();            
         let affilation = {
             affiliationName: $('#txtAffiliationName').val(),
             city: $('#txtAffilationCity').val(),
@@ -505,16 +540,18 @@ $('#btnSaveAffilation').click(function () {
             endedYear: $('#txtAffilationEndedYear').val(),
             affiliationPositions: []
         };
+        let endDate = affilation.endedMonth + " " + affilation.endedYear;
         if ($("#cbAffilationCurrentlyIn").is(":checked")) {
             affilation.endedMonth = null;
             affilation.endedYear = null;
-        }
+            endDate = "Present";
+        }       
         $('#btnSaveAffilation').prop('disabled', true)
         if (localStorage.getItem("edit-aff") === null) {
             affilationArray.push(affilation)
             affilationArray = covertArrayKeyIntoCamelCase(affilationArray)
             $('#noAffilation').hide();
-            $('#affilationform').trigger('reset');
+            
             let html = `
         <div class= "card p-0 mt-2 mb-2 cardWrapper cardWrapper-aff">
         <div class="card-body">
@@ -526,7 +563,7 @@ $('#btnSaveAffilation').click(function () {
                         </div>
                         <div class="col-md-6">
                             <div class="card-Btn">
-                                <button type="button" class="btn custombtn w-auto ms-2">
+                                <button type="button"  class="btnDeleteAffiliation btn custombtn w-auto ms-2" data-json='${JSON.stringify(affilation)}' data-item='${affilationArray.length - 1}'>
                                     <svg stroke="currentColor" fill="currentColor" stroke-width="0"
                                         viewBox="0 0 24 24" height="1em" width="1em"
                                         xmlns="http://www.w3.org/2000/svg">
@@ -544,14 +581,14 @@ $('#btnSaveAffilation').click(function () {
                                 </button>
                             </div>
                         </div>
-                        <p class="HasEndDate" class="text-muted">${affilation.startedMonth} ${affilation.startedYear} - ${affilation.endedMonth} ${affilation.endedYear} </p>
+                        <p class="HasEndDate" class="text-muted">${affilation.startedMonth} ${affilation.startedYear} - ${endDate}</p>
                     </span>
                     <span>
                         <p class="noPosition" class="danger-text"><em>You currently have no positions listed. Either add a position to the organization or delete the organization.</em></p>
 
                         <button type="button" class="btn btn-primary btn-sm custombtn w-auto mt-2" onclick="clearStorage(this);$('#PositionModel').modal('toggle')" data-item='${guid()}'
                             >
-                            Add an Position of ${affilation.affiliationName}
+                            Add a Position at ${affilation.affiliationName}
                         </button>
                 </div>
             </div>
@@ -565,7 +602,7 @@ $('#btnSaveAffilation').click(function () {
             let index = localStorage.getItem("edit-aff");
             affilationArray[index] = affilation;
             $($(".cardWrapper-aff")[index]).find(".title-text").html(affilation.affiliationName)
-            $($(".cardWrapper-aff")[index]).find(".HasEndDate").html(`${affilation.startedMonth} ${affilation.startedYear} - ${affilation.endedMonth} ${affilation.endedYear}`);
+            $($(".cardWrapper-aff")[index]).find(".HasEndDate").html(`${affilation.startedMonth} ${affilation.startedYear} - ${endDate}`);
             $($(".cardWrapper-aff")[index]).find(".btnEditAffilation").attr("data-json", JSON.stringify(affilation));
             localStorage.clear();
         }
@@ -576,7 +613,7 @@ $('#btnSaveAffilation').click(function () {
 
 
 $('.closeAffilation').click(function () {
-    $('#affilationform').trigger('reset');
+   
     $('#btnSaveAffilation').prop('disabled', false)
 })
 function GetCompleteData() {
@@ -672,6 +709,15 @@ function LoadDropdowns() {
 }
 
 $(document).on('click', '#btnAddPosition', function () {
+    var sMonth = $("#ddlPositionStartedMonth").val();
+    var sYear = $("#ddlPositionStartedYear").val();
+    var eMonth = $("#ddlPositionEndedMonth").val();
+    var eYear = $("#ddlPositionEndedYear").val();
+    if (Date.parse(sMonth + " " + sYear) > Date.parse(eMonth + " " + eYear)) {
+        swal("Invalid Date Range", "Start date cannot be greater than end date", "error");
+        return;
+    }
+
     $('#positionForm').validate();
     if ($('#positionForm').valid()) {
         let position = {
@@ -700,7 +746,7 @@ $(document).on('click', '#btnAddPosition', function () {
                                                         </div>
                                                         <div class="col-md-6">
                                                             <div class="card-Btn">
-                                                                <button type="button"  class="btnDeletePosition btn custombtn w-auto ms-2">
+                                                                <button type="button"  class="btnDeletePosition btn custombtn w-auto ms-2" data-json='${JSON.stringify(position)}'>
                                 <svg stroke="currentColor" fill="currentColor" stroke-width="0"
                                     viewBox="0 0 24 24" height="1em" width="1em"
                                     xmlns="http://www.w3.org/2000/svg">
@@ -734,6 +780,7 @@ $(document).on('click', '#btnAddPosition', function () {
                                                                             </div>
                                                                         </div>`;
             let id = localStorage.getItem("edit-position");
+          
             $("button[data-identity='" + id + "']").closest(".cardWrapper-affPos").html(html);
             localStorage.clear();
         }
@@ -748,7 +795,7 @@ $(document).on('click', '#btnAddPosition', function () {
                                                         </div>
                                                         <div class="col-md-6">
                                                             <div class="card-Btn">
-                                                                <button type="button"  class="btnDeletePosition btn custombtn w-auto ms-2">
+                                                                <button type="button"  class="btnDeletePosition btn custombtn w-auto ms-2" data-json='${JSON.stringify(position)}'>
                                 <svg stroke="currentColor" fill="currentColor" stroke-width="0"
                                     viewBox="0 0 24 24" height="1em" width="1em"
                                     xmlns="http://www.w3.org/2000/svg">
@@ -782,6 +829,7 @@ $(document).on('click', '#btnAddPosition', function () {
                                                                             </div>
                                                                         </div></div>`;
             let id = localStorage.getItem("add-position");
+            $("button[data-item='" + id + "']").prev("p").remove();
             $("button[data-item='" + id + "']").before(html);
             //$('#noPosition').parent().append(html);
         }
@@ -860,7 +908,7 @@ function editPosition(json) {
 }
 
 $(document).on("click", "button.btnEditPosition", function () {
-    parsedJson = JSON.parse($(this).attr("data-json"));
+    let parsedJson = JSON.parse($(this).attr("data-json"));
     $('#txtpositionTitle').val(parsedJson.Title);
     $('#ddlPositionStartedMonth').val(parsedJson.StartedMonth);
     $('#ddlPositionStartedYear').val(parsedJson.StartedYear);
@@ -870,6 +918,8 @@ $(document).on("click", "button.btnEditPosition", function () {
     $('#txtResponsibility2').val(parsedJson.Responsibility2);
     $('#txtResponsibility3').val(parsedJson.Responsibility3);
     $('#txtOtherInfo').val(parsedJson.OtherInfo);
+   
+   
     localStorage.setItem("edit-position", $(this).attr("data-identity"));
 })
 
@@ -884,5 +934,12 @@ function guid() {
 function clearStorage(btn) {
     localStorage.clear();
     localStorage.setItem("add-position", $(btn).attr("data-item"));
+    $('#cbPositionCurrentlyIn').prop('checked', false);
+    $('#ddlPositionEndedMonth').show();
+    $('#ddlPositionEndedYear').show();
+    $('#LabelEndedPositionDate').show();
+    $('#pnlPositionEndDate').show();
+    $('#positionForm').trigger('reset');
+  
 }
 

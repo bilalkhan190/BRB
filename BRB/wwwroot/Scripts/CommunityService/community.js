@@ -1,8 +1,11 @@
 ﻿$('#cbCurrentlyIn').click(function () {
-    if ($(this).is(':checked')) {
+    if ($("#cbCurrentlyIn").is(':checked')) {
+        $('#ddlEndedMonth').val('');
+        $('#ddlEndedYear').val('');
         $('#ddlEndedMonth').hide();
         $('#ddlEndedYear').hide();
         $('#labelEndedDate').hide();
+      
     } else {
         $('#ddlEndedMonth').show();
         $('#ddlEndedYear').show();
@@ -14,7 +17,9 @@ var organizationArr = [];
 var positionArray = []
 
 $('#cbPositionCurrentlyIn').click(function () {
-    if ($(this).is(':checked')) {
+    if ($("#cbPositionCurrentlyIn").is(':checked')) {
+        $('#ddlPositionEndedMonth').val('');
+        $('#ddlPositionEndedYear').val('');
         $('#ddlPositionEndedMonth').hide();
         $('#ddlPositionEndedYear').hide();
         $('#LabelEndedPositionDate').hide();
@@ -72,13 +77,17 @@ $('#btnSaveOrganization').click(function () {
             StartedYear: $('#ddlStartedYear').val(),
             EndedMonth: $('#ddlEndedMonth').val(),
             EndedYear: $('#ddlEndedYear').val(),
+            volunteerPositions : []
         };
 
         if (localStorage.getItem("org-index") == null) {
             organizationArr.push(orginazation);
         }
         else {
+            let positions = organizationArr[parseInt(localStorage.getItem("org-index"))] ? organizationArr[parseInt(localStorage.getItem("org-index"))].volunteerPositions : [];
+            orginazation.volunteerPositions = positions;
             organizationArr[parseInt(localStorage.getItem("org-index"))] = orginazation;
+            //organizationArr[parseInt(localStorage.getItem("org-index"))] = orginazation;
             localStorage.clear();
         }
         $('#orgForm').trigger('reset');
@@ -93,6 +102,7 @@ $('#btnSaveOrganization').click(function () {
 $('.closeModal').click(function () {
     $('#orgForm').trigger('reset')
     $('#btnSaveOrganization').prop('disabled', false)
+
 })
 
 $('.modelPosition').click(function () {
@@ -153,24 +163,27 @@ $(document).on('click', '#btnAddPosition', function () {
         $('#btnAddPosition').prop('disabled', true)
         debugger
         let position = {
-            VolunteerPositionId: $('#hdfVolunteerPositionId').val(),
-            VolunteerOrgId: $('#hdfVolunteerOrgId').val(),
-            Title: $('#txtTitle').val(),
-            StartedMonth: $('#ddlPositionStartedMonth').val(),
-            StartedYear: $('#ddlPositionStartedYear').val(),
-            EndedMonth: $('#ddlPositionEndedMonth').val(),
-            EndedYear: $('#ddlPositionEndedYear').val(),
-            Responsibility1: $('#txtResponsibility1').val(),
-            Responsibility2: $('#txtResponsibility2').val(),
-            Responsibility3: $('#txtResponsibility3').val(),
-            OtherInfo: $('#txtOtherInfo').val(),
+            volunteerPositionId: $('#hdfVolunteerPositionId').val(),
+            volunteerOrgId: $('#hdfVolunteerOrgId').val(),
+            title: $('#txtTitle').val(),
+            startedMonth: $('#ddlPositionStartedMonth').val(),
+            startedYear: $('#ddlPositionStartedYear').val(),
+            endedMonth: $('#ddlPositionEndedMonth').val(),
+            endedYear: $('#ddlPositionEndedYear').val(),
+            responsibility1: $('#txtResponsibility1').val(),
+            responsibility2: $('#txtResponsibility2').val(),
+            responsibility3: $('#txtResponsibility3').val(),
+            otherInfo: $('#txtOtherInfo').val(),
         };
 
         if (localStorage.getItem("pos-index") == null) {
-            positionArray.push(position);
+            organizationArr.filter(x => x.volunteerOrgId == position.volunteerOrgId)[0].volunteerPositions.push(position);
+           // positionArray.push(position);
         }
         else {
-            positionArray[parseInt(localStorage.getItem("pos-index"))] = position;
+            organizationArr.filter(x => x.volunteerOrgId == position.volunteerOrgId)[0].volunteerPositions[localStorage.getItem("pos-index")] = position;
+            
+           // positionArray[parseInt(localStorage.getItem("pos-index"))] = position;
             localStorage.clear();
         }
 
@@ -239,7 +252,7 @@ function LoadCards() {
     $.each(organizationArr, function (index, value) {
         let positionHTML = "";
         let posArr = positionArray.filter(x => x.volunteerOrgId == value.volunteerOrgId);
-        $.each(posArr, function (_index, _value) {
+        $.each(value.volunteerPositions, function (_index, _value) {
             let _endMonth = "";
             if (_value.endedMonth && _value.endedYear) { _endMonth = _value.endedMonth + " " + _value.endedYear; } else { _endMonth = "Present"; }
             positionHTML += `<div class="card col-md-12 p-0 mb-3 cardWrapper mt-3"> 
@@ -254,7 +267,7 @@ function LoadCards() {
                                 </div>
                                   <div class="col-md-6">
                                     <div class="card-Btn">
-                                <button type="button"  class="btn custombtn w-auto ms-2" id="btnDeletePosition" data-item='${_value.volunteerPositionId}' pos-index='${_index}'>
+                                <button type="button"  class="btn custombtn w-auto ms-2" id="btnDeletePosition" data-json='${JSON.stringify(_value) }' data-item='${_value.volunteerPositionId}' pos-index='${_index}'>
                                     <svg stroke="currentColor" fill="currentColor" stroke-width="0"
                                          viewBox="0 0 24 24" height="1em" width="1em"
                                          xmlns="http://www.w3.org/2000/svg">
@@ -262,7 +275,7 @@ function LoadCards() {
                                         </path>
                                     </svg>
                                 </button>
-                                <button type="button" id="btnEditPosition" data-item='${_value.volunteerPositionId}' pos-index='${_index}' class="btn custombtn customBtn-light w-auto ms-1">
+                                <button type="button" id="btnEditPosition" data-json='${JSON.stringify(_value) }' data-item='${ _value.volunteerPositionId }' pos-index='${ _index }' class="btn custombtn customBtn-light w-auto ms-1">
                                     <svg stroke="currentColor" fill="currentColor" stroke-width="0"
                                          viewBox="0 0 24 24" height="1em" width="1em"
                                          xmlns="http://www.w3.org/2000/svg">
@@ -278,7 +291,7 @@ function LoadCards() {
                                 </span>
                             </div>
                     </div>
-                </div>`;
+                </div></div>`;
         });
         $("#noList").hide();
         let endMonth = "";
@@ -318,9 +331,9 @@ function LoadCards() {
                             </div>
                         </span>
 
-                                ${positionHTML} 
+                                ${positionHTML == "" ? `<p>You currently have no positions listed is not showing.</p>` : positionHTML} 
                          <button type="button" class="btn btn-primary btn-sm custombtn w-auto" onclick="OpenPositionModel('${value.volunteerOrgId}');">
-                                Add an Position of ${value.volunteerOrg1}
+                                Add a Position at ${value.volunteerOrg1}
                             </button>
                             </div>
                          </div>
@@ -346,6 +359,10 @@ function guid() {
 const OpenOrgModel = () => {
     $('#hdfVolunteerOrgId').val(guid())
     $('#SummaryModal').modal('toggle')
+    $('#ddlEndedMonth').show();
+    $('#ddlEndedYear').show();
+    $('#labelEndedDate').show();
+    $('#orgForm').trigger('reset');
 }
 
 const OpenPositionModel = (id) => {
@@ -353,35 +370,70 @@ const OpenPositionModel = (id) => {
     $('#PositionModel').modal('toggle')
 
     $('#orgPositionForm')[0].reset()
+    $('#ddlPositionEndedMonth').show();
+    $('#ddlPositionEndedYear').show();
+    $('#LabelEndedPositionDate').show();
 }
 
 $(document).on('click', '#btnEditOrg', function () {
     var response = organizationArr[$(this).attr('org-index')];
     localStorage.setItem("org-index", $(this).attr('org-index'));
-    $('#hdfVolunteerOrgId').val(response.volunteerOrgId),
-        $('#txtOrgName').val(response.volunteerOrg1),
-        $('#txtCity').val(response.city),
-        $('#ddlStateAbbr').val(response.stateAbbr),
-        $('#ddlStartedMonth').val(response.startedMonth),
-        $('#ddlStartedYear').val(response.startedYear),
-        $('#ddlEndedMonth').val(response.endedMonth),
-        $('#ddlEndedYear').val(response.endedYear),
+    $('#hdfVolunteerOrgId').val(response.volunteerOrgId);
+        $('#txtOrgName').val(response.volunteerOrg1);
+        $('#txtCity').val(response.city);
+        $('#ddlStateAbbr').val(response.stateAbbr);
+        $('#ddlStartedMonth').val(response.startedMonth);
+        $('#ddlStartedYear').val(response.startedYear);
+        $('#ddlEndedMonth').val(response.endedMonth);
+        $('#ddlEndedYear').val(response.endedYear);
+    if (!(response.endedMonth && response.endedYear)) {
+        $("#cbCurrentlyIn").prop("checked", true);
+           
+    }
+
+    if ($("#cbCurrentlyIn").is(':checked')) {
+        $('#ddlEndedMonth').val('');
+        $('#ddlEndedYear').val('');
+        $('#ddlEndedMonth').hide();
+        $('#ddlEndedYear').hide();
+        $('#labelEndedDate').hide();
+
+    } else {
+        $('#ddlEndedMonth').show();
+        $('#ddlEndedYear').show();
+        $('#labelEndedDate').show();
+    }
         $('#SummaryModal').modal('show');
 });
 
 $(document).on('click', '#btnEditPosition', function () {
-    var response = positionArray[$(this).attr('pos-index')];
+    var response = JSON.parse($(this).attr("data-json"));
     localStorage.setItem("pos-index", $(this).attr('pos-index'));
-    $('#hdfVolunteerPositionId').val(response.volunteerPositionId),
-        $('#txtTitle').val(response.title),
-        $('#ddlPositionStartedMonth').val(response.startedMonth),
-        $('#ddlPositionStartedYear').val(response.startedYear),
-        $('#ddlPositionEndedMonth').val(response.endedMonth),
-        $('#ddlPositionEndedYear').val(response.endedYear),
-        $('#txtResponsibility1').val(response.responsibility1),
-        $('#txtResponsibility2').val(response.responsibility2),
-        $('#txtResponsibility3').val(response.responsibility3),
-        $('#txtOtherInfo').val(response.otherInfo)
+    $('#hdfVolunteerPositionId').val(response.volunteerPositionId);
+    $('#hdfVolunteerOrgId').val(response.volunteerOrgId)
+        $('#txtTitle').val(response.title);
+        $('#ddlPositionStartedMonth').val(response.startedMonth);
+        $('#ddlPositionStartedYear').val(response.startedYear);
+        $('#ddlPositionEndedMonth').val(response.endedMonth);
+        $('#ddlPositionEndedYear').val(response.endedYear);
+        $('#txtResponsibility1').val(response.responsibility1);
+        $('#txtResponsibility2').val(response.responsibility2);
+        $('#txtResponsibility3').val(response.responsibility3);
+        $('#txtOtherInfo').val(response.otherInfo);
+    if (!(response.endedMonth && response.endedYear)) {
+        $("#cbPositionCurrentlyIn").prop('checked', true);
+    }
+    if ($("#cbPositionCurrentlyIn").is(':checked')) {
+        $('#ddlPositionEndedMonth').val('');
+        $('#ddlPositionEndedYear').val('');
+        $('#ddlPositionEndedMonth').hide();
+        $('#ddlPositionEndedYear').hide();
+        $('#LabelEndedPositionDate').hide();
+    } else {
+        $('#ddlPositionEndedMonth').show();
+        $('#ddlPositionEndedYear').show();
+        $('#LabelEndedPositionDate').show();
+    }
     $('#PositionModel').modal('show')
 });
 
@@ -406,7 +458,10 @@ $(document).on('click', '#btnDeleteOrg', function () {
 });
 
 $(document).on('click', '#btnDeletePosition', function () {
-
+    debugger;
+    $(this).closest(".cardWrapper").remove();
+    let data = JSON.parse($(this).attr("data-json"));
+    organizationArr.filter(x => x.volunteerOrgId == data.volunteerOrgId)[0].volunteerPositions.splice($(this).attr('pos-index'), 1);
     localStorage.setItem("pos-index", $(this).attr('pos-index'));
     let id = $(this).attr('data-item')
     $.ajax({

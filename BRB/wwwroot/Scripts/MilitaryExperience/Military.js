@@ -44,13 +44,18 @@ $(document).ready(function () {
 
 $('#cbCurrentlyIn').click(function () {
     if ($(this).is(':checked')) {
+        $('#ddlEndedMonth').val('');
+        $('#ddlEndedYear').val('');
         $('#ddlEndedMonth').hide();
         $('#ddlEndedYear').hide();
         $('#labelEndedDate').hide();
+        $('#pnlMilatExp').hide();
+
     } else {
         $('#ddlEndedMonth').show();
         $('#ddlEndedYear').show();
         $('#labelEndedDate').show();
+        $('#pnlMilatExp').show();
     }
 });
 
@@ -59,6 +64,8 @@ $(document).on('click', '#cbPositionCurrentlyIn', function () {
     $('#mainForm').validate();
     if ($(this).is(':checked')) {
         
+        $('#ddlPositionEndedMonth').val('');
+        $('#ddlPositionEndedYear').val('');
         $('#pnlEndDate').hide();
     } else {
         
@@ -188,12 +195,18 @@ $('#btnAddPosition').click(function () {
 
         positionArray = positionArray.map(el => _.mapKeys(el, (val, key) => _.camelCase(key)));
         $.each(positionArray, function (index, value) {
+            let endDate = '';
+            if (!(value.endedMonth && value.endedYear)) {
+                endDate = "Present";
+            }
+            else {
+                endDate = value.endedMonth + " " + value.endedYear;
+            }
             let html = ` <div class="col-md-12 positionInnerBox">
                                 <span class="card-text row pt-3">
                                 <div class="col-md-8">
                                  <p class="text-muted"> ${value.title}</p>
-                                    <p class="text-muted"  id="messageCurrentlyNotIn">${value.startedMonth} ${value.startedYear} - ${value.endedMonth} ${value.endedYear} </p>
-                                    <p class="text-muted" id="messageCurrentlyIn">${value.startedMonth} ${value.startedYear} - Current </p>
+                                    <p class="text-muted" >${value.startedMonth} ${value.startedYear} - ${endDate} </p>
                                     <p class="text-muted">Training Completed: ${value.mainTraining}</p>
                                     </div>
                                     <div class="col-md-4">
@@ -258,7 +271,7 @@ function loadData(response) {
         $('#cbIsComplete').prop('checked', response.data.isComplete);
         $('#cbSectionNotApply').prop("checked", response.data.isOptOut)
         if (response.data.endedMonth == null && response.data.endedYear == null) {
-            //$('#cbCurrentlyIn').prop('checked', true);
+            $('#cbCurrentlyIn').prop('checked', true);
             $('#ddlEndedMonth').hide();
             $('#ddlEndedYear').hide();
             $('#labelEndedDate').hide();
@@ -279,12 +292,19 @@ function loadData(response) {
 function LoadCards() {
     $('#divEditSection div.row').html("")
     $.each(positionArray, function (index, value) {
+        let endDate = '';
+        if (!(value.endedMonth && value.endedYear)) {
+            endDate = 'Present';
+        }
+        else {
+            endDate = value.endedMonth + " " + value.endedYear;
+        }
         let html = ` <div class="col-md-12 positionInnerBox">
                                 <span class="card-text row pt-3">
                                 <div class="col-md-8">
                                  <p class="text-muted"> ${value.title}</p>
-                                    <p class="text-muted"  id="messageCurrentlyNotIn">${value.startedMonth} ${value.startedYear} - ${value.endedMonth} ${value.endedYear} </p>
-                                    <p class="text-muted" id="messageCurrentlyIn">${value.startedMonth} ${value.startedYear} - Current </p>
+                                    <p class="text-muted">${value.startedMonth} ${value.startedYear} - ${endDate} </p>
+                                    
                                     <p class="text-muted">Training Completed: ${value.mainTraining}</p>
                                     </div>
                                     <div class="col-md-4">
@@ -338,6 +358,13 @@ $(document).on('click', '#btnEditMilitary', function () {
 
 });
 
+function clearPosition() {
+    $("#militaryPositionForm").trigger("reset");
+    localStorage.clear();
+    $('#pnlEndDate').show();
+    $('#cbPositionCurrentlyIn').prop('checked', false);     
+    $('#SummaryModal').modal('toggle');
+}
 
 $(document).on('click', '#btnDelete', function () {
       

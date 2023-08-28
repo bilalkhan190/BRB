@@ -50,17 +50,17 @@
                     <legend>Resume Font</legend>
                     <div class="form-check ps-0">
                         <label class="form-check-label">
-                            <input name="Font" type="radio" checked value="Arial" @enable> Arial
+                            <input name="Font" type="radio" checked value="Arial"> Arial
                         </label>
                     </div>
                     <div class="form-check ps-0">
                         <label class="form-check-label">
-                            <input name="Font" type="radio" value="Calibri" @enable> Calibri
+                            <input name="Font" type="radio" value="Calibri"> Calibri
                         </label>
                     </div>
                     <div class="form-check ps-0">
                         <label class="form-check-label">
-                            <input name="Font" type="radio" value="Times New Roman" @enable> Times New Roman
+                            <input name="Font" type="radio" value="Times New Roman"> Times New Roman
                         </label>
                     </div>
                 </fieldset>
@@ -75,7 +75,7 @@
                     }
                     else
                     {
-                        <a href="~/downloads/@ViewBag.GeneratedFileName" download="@ViewBag.GeneratedFileName" class="btn btn-primary custombtn w-auto">Download</a>
+                        <a href="~/downloads/@ViewBag.GeneratedFileName" id="btnDownloadResume" download="@ViewBag.GeneratedFileName" class="btn btn-primary custombtn w-auto">Download</a>
                     }
                 </div>
             </div>

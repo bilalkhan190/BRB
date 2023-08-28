@@ -10,12 +10,13 @@ function GenerateRadio() {
                 let html = `<div class="form-check">
                                     <label class="form-check-label">
                                         <input name="LivingSituationId"
-                                               type="radio" class="form-check-input" value="${value.livingSituationId}" required/>   ${value.livingSituationDesc}
+                                               type="radio" class="form-check-input" ${value.livingSituationId == 1 ? `checked` : ``} value="${value.livingSituationId}" required/>   ${value.livingSituationDesc}
                                     </label>
                                          
                                 </div>`;
                 $('#livingSituationSection').after(html);
             });
+
         },
         error: function (err) {
             alert(err)

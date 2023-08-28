@@ -259,7 +259,7 @@
                                     <label for="t" class="">
                                         Name of program or school within
                                         college
-                                        <span class="text-danger">*</span>
+                                       
                                     </label><input name="SchoolName" id="txtSchoolName" type="text" class="form-control" value=""
                                                    >
                                 </div>
@@ -278,7 +278,7 @@
                                 <div class="form-group">
                                     <label for="t" class="">
                                         Major <span class="text-danger">*</span> <button type="button"
-                                                      class="btn btn-outline-primary btn-sm questionBtn ms-0">
+                                                                                         class="btn btn-outline-primary btn-sm questionBtn ms-0" data-bs-toggle="modal" data-bs-target="#EarnedModal">
                                             ?
                                         </button>
                                     </label><select name="MajorId" id="ddlMajor" class="form-control" required>
@@ -289,19 +289,19 @@
                                     <label for="t" class="">
                                         Specialty within
                                         Major
-                                        <span class="text-danger">*</span>
+                                      
                                     </label><select name="MajorSpecialtyId" id="ddlMajorSpeciality" class="form-control"
                                                     >
                                     </select>
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="t" class="">Minor <span class="text-danger">*</span></label><select name="MinorId" id="ddlMinor" class="form-control">
+                                    <label for="t" class="">Minor </label><select name="MinorId" id="ddlMinor" class="form-control">
                                     </select>
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="t" class="">Other Certificates <span class="text-danger">*</span></label><select name="CertificateId" id="ddlOtherCertificates" class="form-control">
+                                    <label for="t" class="">Other Certificates </label><select name="CertificateId" id="ddlOtherCertificates" class="form-control">
                                     </select>
                                 </div>
 
@@ -309,7 +309,7 @@
                                     <label for="t" class="">
                                         What is your Cumulative
                                         GPA <span class="text-danger">*</span>
-                                    </label><input name="Gpa" id="Gpa" type="number" class="form-control" value="" min="0" max="5" required>
+                                    </label><input name="Gpa" id="Gpa" type="number" class="form-control" value="" pattern="^[0-4].[0-9]|[5].[0]$" min="0" max="5" maxlength="3" required>
                                 </div>
 
                             </div>
@@ -352,6 +352,7 @@
         </div>
     </div>
 </div>
+
 <div class="modal fade" id="modalExample" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">

@@ -106,6 +106,8 @@ namespace BRB.Controllers
                         educationObj.College = c;
                         educationObj.AcademicHonors = GetAcademicHonors(c.CollegeId);
                         educationObj.AcademicScholarships = GetAcademicScholarship(c.CollegeId);
+                        c.Month = c.GradDate?.ToString("MMMM");
+                        c.Year = c.GradDate?.ToString("yyyy");
                         ListOfObjs.Add(educationObj);
                     }
                     ajaxResponse.Data = ListOfObjs;

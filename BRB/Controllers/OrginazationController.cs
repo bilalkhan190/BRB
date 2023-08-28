@@ -41,6 +41,7 @@ namespace BRB.Controllers
                         OrganizationViewObject viewObject = new OrganizationViewObject();
                         viewObject.OrgExperience = _dbContext.OrgExperiences.FirstOrDefault(x => x.ResumeId == sessionData.ResumeId);
                         viewObject.Organization = o;
+                        viewObject.Organization.OrgPositions = GetOrgPositions(o.OrganizationId);
                         viewObject.orgPositions = GetOrgPositions(o.OrganizationId);
                         ListOfObjs.Add(viewObject);
                     }
@@ -142,6 +143,8 @@ namespace BRB.Controllers
                                    
                                 if (orgPosition.OrgPositionId > 0)
                                 {
+                                    orgPosition.CreatedDate = DateTime.Now;
+                                    orgPosition.LastModDate= DateTime.Now;
                                     _dbContext.OrgPositions.Update(orgPosition);
                                 }
                                 else

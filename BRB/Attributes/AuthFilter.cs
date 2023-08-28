@@ -39,11 +39,7 @@ namespace BRB.Attributes
                         context.Result = new RedirectResult("/account/index");
                     }
 
-                    var dtIsOptOut = SqlHelper.GetDataTable("Data Source=A2NWPLSK14SQL-v02.shr.prod.iad2.secureserver.net;Initial Catalog=WH4LProd;User Id=brbdbuser; Password=brb!!!***;;Encrypt=False;TrustServerCertificate=True", "SP_GetIsOptOut", CommandType.StoredProcedure, new SqlParameter("ResumeId", userRecord.ResumeId));
-                    if (dtIsOptOut.Rows.Count > 0)
-                    {
-                        string IsOptOutJson = JsonConvert.SerializeObject(dtIsOptOut);                        
-                    }
+                   
                 }
                
             }

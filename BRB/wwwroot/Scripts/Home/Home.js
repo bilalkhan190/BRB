@@ -3,7 +3,7 @@ let lastSelectedVisitedId = $('#hdfLastSelectedVisitedId').val();
 let lastSectionCompletedId = $('#hdfLastSectionCompletedId').val();
 
 
-$('#btnGenResume').click(function () {
+$(document).on("click", '#btnGenResume', function () {
     debugger
     $.ajax({
         url: '/Resume/GenerateWordDocument?font=' + $("input[name='Font']:checked").val(),
@@ -36,9 +36,18 @@ $('#btnGenResume').click(function () {
     });
 })
 
-$('input[name="Font"]').change(function () {
-    $("#btnGenResume").show();
+$('input[name="Font"]').change(function () {    
     $("#btnDownloadResume").remove();
+    let btn = document.createElement("button");
+    btn.classList.add("btn");
+    btn.classList.add("btn-primary");
+    btn.classList.add("custombtn");
+    btn.classList.add("w-auto");
+    btn.id = "btnGenResume";
+    btn.innerText = "Generate Resume";
+    $("#panel").html('')
+    document.getElementById("panel").append(btn);
+
 });
 
 

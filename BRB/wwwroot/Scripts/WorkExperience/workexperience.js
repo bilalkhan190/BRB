@@ -15,6 +15,17 @@ $(document).on('click', '#btnAddJob', function () {
     }
 });
 
+$("#cbCurrentlyInCompany").click(function () {
+
+    if ($("#cbCurrentlyInCompany").is(":checked")) {
+        $("#pnlEndDate").hide();
+        $("select[name='EndMonth']").val('')
+        $("select[name='EndYear']").val('')
+    }
+    else {
+        $("#pnlEndDate").show();
+    }
+})
 $(document).ready(function () {
     $('#ddlStateAbbr').html("");
     $('#ddlStateAbbr').append('<option value="" selected><b>Select State</b></option>')
@@ -32,15 +43,7 @@ $(document).ready(function () {
     });
 });
 
-$("#cbCurrentlyIn").click(function () {
-    alert();
-    if ($("#cbCurrentlyIn").is(":checked")) {
-        $(".pnlEndDate").hide();
-    }
-    else {
-        $(".pnlEndDate").show();
-    }
-})
+
 
 $(document).on("click", "#btnSavePosition", function () {
     var sMonth = $("select[name='StartMonth']").val();
@@ -164,9 +167,9 @@ $(document).on('click', '#btnCancelJob', function () {
 });
 
 $('#btnSaveOrContinue').click(function () {
-    if (!($(".pnlPositions").find("cardWrapper").length > 0)) {
-        swal("Required", "Please fill out job positions to proceed");
-        $("#errorText").show();
+    if (!($(".pnlPositions").find(".cardWrapper").length > 0)) {
+        swal("Required", "Please fill out job positions to proceed", "error");
+        return;
     }
     $.ajax({
         url: '/WorkExperience/UpdateExperienceMaster?isComplete=' + $('#cbIsComplete').is(":checked"),
@@ -299,6 +302,14 @@ $(document).on("click", "button.btnEditCompany", function () {
     $("select[name='StartYear']").val(json.startYear);
     $("select[name='EndMonth']").val(json.endMonth);
     $("select[name='EndYear']").val(json.endYear);
+    if ($("#cbCurrentlyInCompany").is(":checked")) {
+        $("#pnlEndDate").hide();
+        $("select[name='EndMonth']").val('')
+        $("select[name='EndYear']").val('')
+    }
+    else {
+        $("#pnlEndDate").show();
+    }
     $("#SummaryModal").modal('show');
 })
 
@@ -345,13 +356,16 @@ $(document).on("click", "button.btnEditPosition", function () {
             $(`input[name='ImproveProductivity']`).val(json.improveProductivity);
             $(`input[name='IncreaseRevenue']`).val(json.increaseRevenue);
             $(`input[name='PercentageImprovement']`).val(json.percentageImprovement);
-            $("#cbCurrentlyIn").prop("checked", true)
-            if ($("#cbCurrentlyIn").is(":checked")) {
-                $(".pnlEndDate").hide();
+            if (!json.endMonth) {
+                $("#cbCurrentlyIn").prop("checked", true)
+                if ($("#cbCurrentlyIn").is(":checked")) {
+                    $(".pnlEndDate").hide();
+                }
+                else {
+                    $(".pnlEndDate").show();
+                }
             }
-            else {
-                $(".pnlEndDate").show();
-            }
+          
             setTimeout(function () {
                 if (json.workRespQuestions) {
                     $.each(json.workRespQuestions, function (index, value) {

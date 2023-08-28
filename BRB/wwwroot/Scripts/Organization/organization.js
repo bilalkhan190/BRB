@@ -5,6 +5,7 @@ var positionArray = []
 $(document).ready(function () {
     LoadDropdowns();
     getFormData();
+   
 
 });
 
@@ -18,10 +19,13 @@ function getFormData() {
             $('#cbSectionNotApply').prop("checked", response.data[0].orgExperience.isOptOut).trigger('change');
             $('#cbIsComplete').prop("checked", response.data[0].orgExperience.isComplete);
             $('#cbIsComplete').prop("disabled", response.data[0].orgExperience.isComplete);
+            console.log(response.data)
             if (response.data != null) {
                 if (response.data.length > 0) {
                     $.each(response.data, function (index, value) {
-                        organizationArr.push(value.organization)
+                        if (value.organization != null) {
+                            organizationArr.push(value.organization)
+                        }
                         if (value.orgPositions.length > 0) {
                             for (var i = 0; i < value.orgPositions.length; i++) {
                                 positionArray.push(value.orgPositions[i]);
@@ -51,6 +55,8 @@ $('#cbSectionNotApply').change(function () {
 
 $('#cbCurrentlyIn').click(function () {
     if ($(this).is(':checked')) {
+        $('#ddlEndedMonth').val('');
+        $('#ddlEndedYear').val('');
         $('#ddlEndedMonth').hide();
         $('#ddlEndedYear').hide();
         $('#labelEndedDate').hide();
@@ -62,7 +68,9 @@ $('#cbCurrentlyIn').click(function () {
 });
 
 $('#cbPositionCurrentlyIn').click(function () {
-    if ($(this).is(':checked')) {
+    if ($("#cbPositionCurrentlyIn").is(':checked')) {
+        $('#ddlPositionEndedMonth').val('');
+        $('#ddlPositionEndedYear').val('');
         $('#ddlPositionEndedMonth').hide();
         $('#ddlPositionEndedYear').hide();
         $('#LabelEndedPositionDate').hide();
@@ -100,6 +108,7 @@ $('#btnSaveOrganization').click(function () {
             StartedMonth: $('#ddlStartedMonth').val(),
             StartedYear: $('#ddlStartedYear').val(),
             EndedMonth: $('#ddlEndedMonth').val(),
+            orgPositions: [],
             EndedYear: $('#ddlEndedYear').val(),
         };
         $('#btnSaveOrganization').prop('disabled', true)
@@ -107,6 +116,8 @@ $('#btnSaveOrganization').click(function () {
             organizationArr.push(organization);
         }
         else {
+            let positions = organizationArr[parseInt(localStorage.getItem("org-index"))] ? organizationArr[parseInt(localStorage.getItem("org-index"))].orgPositions : [];
+            organization.orgPositions = positions;
             organizationArr[parseInt(localStorage.getItem("org-index"))] = organization;
             localStorage.clear();
         }
@@ -144,22 +155,25 @@ $(document).on('click', '#btnAddPosition', function () {
         }
         $('#btnAddPosition').prop('disabled', true)
         let position = {
-            OrganizationId: $('#hdfOrganizationId').val(),
-            OrgPositionId: $('#hdfOrgPositionId').val(),
-            Title: $('#txtTitle').val(),
-            StartedMonth: $('#ddlPositionStartedMonth').val(),
-            StartedYear: $('#ddlPositionStartedYear').val(),
-            EndedMonth: $('#ddlPositionEndedMonth').val(),
-            EndedYear: $('#ddlPositionEndedYear').val(),
-            Responsibility1: $('#txtResponsibility1').val(),
-            Responsibility2: $('#txtResponsibility2').val(),
-            Responsibility3: $('#txtResponsibility3').val(),
-            OtherInfo: $('#txtOtherInfo').val(),
+            organizationId: $('#hdfOrganizationId').val(),
+            orgPositionId: $('#hdfOrgPositionId').val(),
+            title: $('#txtTitle').val(),
+            startedMonth: $('#ddlPositionStartedMonth').val(),
+            startedYear: $('#ddlPositionStartedYear').val(),
+            endedMonth: $('#ddlPositionEndedMonth').val(),
+            endedYear: $('#ddlPositionEndedYear').val(),
+            responsibility1: $('#txtResponsibility1').val(),
+            responsibility2: $('#txtResponsibility2').val(),
+            responsibility3: $('#txtResponsibility3').val(),
+            otherInfo: $('#txtOtherInfo').val(),
         };
+        debugger;
         if (localStorage.getItem("pos-index") == null) {
+            organizationArr.filter(x => x.organizationId == position.organizationId)[0].orgPositions.push(position);
             positionArray.push(position);
         }
         else {
+            organizationArr.filter(x => x.organizationId == position.organizationId)[0].orgPositions[localStorage.getItem("pos-index")] = position;
             positionArray[parseInt(localStorage.getItem("pos-index"))] = position;
             localStorage.clear();
         }
@@ -173,13 +187,18 @@ $(document).on('click', '#btnAddPosition', function () {
 
 
 $('#btnSaveAndContinue').click(function () {
-    organizationArr.map((item, index) => {
-        let res = positionArray.filter((x) => x.organizationId == item.organizationId)
-        if (res) {
-            item.OrgPositions = res
-        }
+    debugger;
+    if (!(organizationArr.length > 0 && positionArray.length > 0)) {
 
-    })
+        $("#cbIsComplete").prop("checked", false);
+    }
+    //organizationArr.map((item, index) => {
+    //    let res = positionArray.filter((x) => x.organizationId == item.organizationId)
+    //    if (res) {
+    //        item.OrgPositions = res
+    //    }
+
+    //})
 
     let obj = {
         OrgExperienceId: $('#hdfOrgExperienceId').val(),
@@ -191,7 +210,8 @@ $('#btnSaveAndContinue').click(function () {
     };
 
     if (!obj.IsOptOut) {
-        if (positionArray.length == 0 && organizationArr.length == 0) {
+        let positionsLength = organizationArr.filter(x => x.orgPositions.length > 0) ? organizationArr.filter(x => x.orgPositions.length > 0).length : 0;
+        if (organizationArr.length == 0 || positionsLength != organizationArr.length) {
             swal("Positions Required", "Please fill out the organizations and positions to proceed", "error");
             return false;
         }
@@ -231,6 +251,8 @@ function LoadDropdowns() {
 function LoadCards() {
     $('#divEditSection').html("")
     organizationArr = covertArrayKeyIntoCamelCase(organizationArr)
+    console.log(organizationArr)
+    let pos_index = 0;
     $.each(organizationArr, function (index, value) {
         $("#noList").hide();
         let endMonth = "";
@@ -239,7 +261,8 @@ function LoadCards() {
         positionArray = covertArrayKeyIntoCamelCase(positionArray)
         debugger
         let posArr = positionArray.filter(x => x.organizationId == value.organizationId);
-        $.each(posArr, function (index, _value) {
+        
+        $.each(value.orgPositions, function (_index, _value) {
             let _endMonth = "";
             if (_value.endedMonth && _value.endedYear) { _endMonth = _value.endedMonth + " " + _value.endedYear; } else { _endMonth = "Present"; }
             htmlPosition += `<div class="card col-md-12 p-0 mb-3 cardWrapper mt-3"> 
@@ -250,11 +273,11 @@ function LoadCards() {
                                 <div class="row">
                                 <div class="col-md-6">
                                 <h5 class="title-text">${_value.title}</h5>
-                                    <p class="text-muted">${_value.startedMonth} ${_value.endedMonth} - ${_endMonth}</p>
+                                    <p class="text-muted">${_value.startedMonth} ${_value.startedYear} - ${_endMonth}</p>
                                 </div>
                                   <div class="col-md-6">
                                     <div class="card-Btn">
-                                <button type="button"  class="btn custombtn w-auto ms-2" id="btnDeletePosition" data-item='${_value.orgPositionId}' pos-index='${index}'>
+                                <button type="button"  class="btn custombtn w-auto ms-2" id="btnDeletePosition" data-item='${_value.orgPositionId}' pos-index='${_index}'>
                                     <svg stroke="currentColor" fill="currentColor" stroke-width="0"
                                          viewBox="0 0 24 24" height="1em" width="1em"
                                          xmlns="http://www.w3.org/2000/svg">
@@ -262,7 +285,7 @@ function LoadCards() {
                                         </path>
                                     </svg>
                                 </button>
-                                <button type="button" id="btnEditPosition" data-item='${_value.orgPositionId}' pos-index='${index}' class="btn custombtn customBtn-light w-auto ms-1">
+                                <button type="button" data-item='${_value.orgPositionId}' data-json='${JSON.stringify(_value)}' pos-index='${_index}' class="btnEditPosition btn custombtn customBtn-light w-auto ms-1">
                                     <svg stroke="currentColor" fill="currentColor" stroke-width="0"
                                          viewBox="0 0 24 24" height="1em" width="1em"
                                          xmlns="http://www.w3.org/2000/svg">
@@ -278,7 +301,8 @@ function LoadCards() {
                                 </span>
                             </div>
                     </div>
-                </div>`
+                </div>`;
+            pos_index++;
 
             //$('#positionDiv').append(html)
         });
@@ -328,7 +352,7 @@ function LoadCards() {
         <!--<button type="button" class="btn btn-primary btn-sm custombtn w-auto mt-2" onclick="$('#PositionModel').modal('toggle')">-->
         <button type="button" class="btn btn-primary btn-sm custombtn w-auto" onclick="OpenPositionModel('${value.organizationId}');">
 
-            Add an Position of ${value.orgName}
+            Add a Position at ${value.orgName}
         </button>
         </div>
        
@@ -402,6 +426,10 @@ function guid() {
 const OpenOrgModel = () => {
     $('#hdfOrganizationId').val(guid())
     $('#SummaryModal').modal('toggle')
+    $('#ddlEndedMonth').show();
+    $('#ddlEndedYear').show();
+    $('#labelEndedDate').show();
+    $('#orgForm').trigger('reset');
 }
 
 const OpenPositionModel = (id) => {
@@ -409,6 +437,9 @@ const OpenPositionModel = (id) => {
     $('#PositionModel').modal('toggle')
 
     $('#orgPositionForm')[0].reset()
+    $('#ddlPositionEndedMonth').show();
+    $('#ddlPositionEndedYear').show();
+    $('#LabelEndedPositionDate').show();
 }
 
 
@@ -426,24 +457,60 @@ $(document).on('click', '#btnEditOrg', function () {
     $('#ddlStartedYear').val(response.startedYear)
     $('#ddlEndedMonth').val(response.endedMonth)
     $('#ddlEndedYear').val(response.endedYear);
+    if (!(response.endedMonth && response.endedYear)) {
+        $("#cbCurrentlyIn").prop("checked", true);
+
+    }
+    else {
+        $("#cbCurrentlyIn").prop("checked", false);
+    }
+
+    if ($("#cbCurrentlyIn").is(':checked')) {
+        $('#ddlEndedMonth').val('');
+        $('#ddlEndedYear').val('');
+        $('#ddlEndedMonth').hide();
+        $('#ddlEndedYear').hide();
+        $('#labelEndedDate').hide();
+    } else {
+        $('#ddlEndedMonth').show();
+        $('#ddlEndedYear').show();
+        $('#labelEndedDate').show();
+    }
     $('#SummaryModal').modal('show');
 });
 
-$(document).on('click', '#btnEditPosition', function () {
-    var response = positionArray[$(this).attr('pos-index')];
-    console.log(response)
+$(document).on('click', '.btnEditPosition', function () {
+    var response = JSON.parse($(this).attr("data-json"));
     localStorage.setItem("pos-index", $(this).attr('pos-index'));
-    $('#hdfOrganizationId').val(response.organizationId),
-        $('#hdfOrgPositionId').val(response.orgPositionId),
-        $('#txtTitle').val(response.title),
-        $('#ddlPositionStartedMonth').val(response.startedMonth),
-        $('#ddlPositionStartedYear').val(response.startedYear),
-        $('#ddlPositionEndedMonth').val(response.endedMonth),
-        $('#ddlPositionEndedYear').val(response.endedYear),
-        $('#txtResponsibility1').val(response.responsibility1),
-        $('#txtResponsibility2').val(response.responsibility2),
-        $('#txtResponsibility3').val(response.responsibility3),
-        $('#txtOtherInfo').val(response.otherInfo),
+    $('#hdfOrganizationId').val(response.organizationId);
+        $('#hdfOrgPositionId').val(response.orgPositionId);
+        $('#txtTitle').val(response.title);
+        $('#ddlPositionStartedMonth').val(response.startedMonth);
+        $('#ddlPositionStartedYear').val(response.startedYear);
+        $('#ddlPositionEndedMonth').val(response.endedMonth);
+        $('#ddlPositionEndedYear').val(response.endedYear);
+        $('#txtResponsibility1').val(response.responsibility1);
+        $('#txtResponsibility2').val(response.responsibility2);
+        $('#txtResponsibility3').val(response.responsibility3);
+        $('#txtOtherInfo').val(response.otherInfo);
+    if (!(response.endedMonth && response.endedYear)) {
+        $("#cbPositionCurrentlyIn").prop("checked", true);
+   
+    }
+    else {
+        $("#cbPositionCurrentlyIn").prop("checked", false);
+    }
+    if ($("#cbPositionCurrentlyIn").is(':checked')) {
+        $('#ddlPositionEndedMonth').val('');
+        $('#ddlPositionEndedYear').val('');
+        $('#ddlPositionEndedMonth').hide();
+        $('#ddlPositionEndedYear').hide();
+        $('#LabelEndedPositionDate').hide();
+    } else {
+        $('#ddlPositionEndedMonth').show();
+        $('#ddlPositionEndedYear').show();
+        $('#LabelEndedPositionDate').show();
+    }
         $('#PositionModel').modal('show');
 });
 

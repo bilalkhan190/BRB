@@ -91,22 +91,22 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group mb-2">
-                                <label for="validationCustom01">Name</label>
-                                <input type="text" class="form-control" id="validationCustom01" name="CompanyName"
+                                <label for="t">Name <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="CompanyName" name="CompanyName"
                                        required>
                             </div>
                             <div class="form-group mb-2">
-                                <label for="City" class="">City</label>
+                                <label for="City" class="">City <span class="text-danger">*</span></label>
                                 <input name="City" id="City" type="text" class="form-control" required>
                             </div>
                             <div class="form-group mb-2">
-                                <label for="State" class="">State</label>
-                                <select name="State" id="ddlStateAbbr" class="form-control" required>
+                                <label for="State" class="">State <span class="text-danger">*</span></label>
+                                <select name="State" id="ddlStateAbbr" class="form-control" required>l
                                     
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label for="received" class="">Date Started</label>
+                                <label for="received" class="">Date Started <span class="text-danger">*</span></label>
                                 <div class="row">
                                     <div class="col-6">
                                         <div class="form-group">
@@ -292,13 +292,13 @@
                                 <div class="col">
                                     <div class="form-check mt-2">
                                         <label class="form-check-label">
-                                            <input id="exampleCustomSwitch" name="customSwitch" label="Currently In"
+                                            <input id="cbCurrentlyInCompany" name="customSwitch" label="Currently In"
                                                    type="checkbox" class="form-check-input"> Currently In
                                         </label>
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group" id="pnlEndDate">
                                 <label for="received" class="">Date Ended</label>
                                 <div class="row">
                                     <div class="col-6">

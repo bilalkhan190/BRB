@@ -4,6 +4,7 @@
  @foreach (var item in Model)
 {
     var json = Html.Raw(Json.Serialize(item));
+    string endDate = string.IsNullOrEmpty(item.EndMonth) && string.IsNullOrEmpty(item.EndYear.ToString()) ? "Present" : item.EndMonth + " " + item.EndYear;
     <div class="card p-0 mt-4 mb-2 cardWrapper">
         <div class="card-body">
             <div class="row">
@@ -11,7 +12,7 @@
                     <span class="card-text row">
                         <div class="col-md-6">
                             <h5 class="title-text">@item.Title</h5>
-                            <p class="text-muted">@item.StartMonth-@item.StartYear</p>
+                            <p class="text-muted">@item.StartMonth @item.StartYear - @endDate</p>
                         </div>
                         <div class="col-md-6">
                             <div class="card-Btn">

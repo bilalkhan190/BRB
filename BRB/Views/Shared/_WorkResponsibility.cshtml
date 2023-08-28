@@ -492,3 +492,16 @@
     </div>
 
 </form>
+
+                            <script>
+    $("#cbCurrentlyIn").click(function () {
+        if ($("#cbCurrentlyIn").is(":checked")) {
+            $(".pnlEndDate").hide();
+            $("select[name='EndMonth']").val('')
+            $("select[name='EndYear']").val('')
+        }
+        else {
+            $(".pnlEndDate").show();
+        }
+    })
+                            </script>

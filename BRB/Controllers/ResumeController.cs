@@ -485,7 +485,13 @@ namespace BRB.Controllers
                 {
                     throw;
                 }
-
+                ViewBag.GeneratedFileName = str + ".doc";
+                var record = _dbContext.Resumes.FirstOrDefault(x => x.ResumeId == sessionData.ResumeId);
+                record.GeneratedFileName = str + ".doc";
+                record.ChosenFont = font;
+                record.LastModDate = DateTime.Today;
+                record.GeneratedDate = DateTime.Today;
+                _dbContext.SaveChanges();
                 SendEmailAttachment(sessionData.UserName, new Attachment(_webHostEnvironment.WebRootPath + "/downloads/" + str + ".doc"));
                 ajaxResponse.Message = $"Email has been sent to your email address {sessionData.UserName} ";
                 ajaxResponse.Data = str + ".doc";

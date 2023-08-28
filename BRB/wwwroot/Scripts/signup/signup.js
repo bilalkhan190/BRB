@@ -30,6 +30,7 @@ $('#btnCreateUser').click(function () {
                 if (response.success) {
 
                     let div = document.createElement("div");
+                    div.style.textAlign = "left";
                     div.innerHTML = response.message;
                     swal({
                         title: "Congratulations! ",
