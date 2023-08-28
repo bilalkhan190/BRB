@@ -49,8 +49,9 @@ namespace BRB.Controllers
                 if(Questions.Count == 0)
                 {
                     Questions = new List<ResponsibilityQuestion>();
-                    Questions.Add(new ResponsibilityQuestion() { Caption = "Describe Your responsibility at your company", ResponsibilityId = jobCategoryId });
-                    Questions.Add(new ResponsibilityQuestion() { Caption = "Describe Your responsibility at your company 2", ResponsibilityId = jobCategoryId });
+                    Questions.Add(new ResponsibilityQuestion() { Caption = "Responsibility #1", ResponsibilityId = jobCategoryId });
+                    Questions.Add(new ResponsibilityQuestion() { Caption = "Responsibility #2", ResponsibilityId = jobCategoryId });
+                    Questions.Add(new ResponsibilityQuestion() { Caption = "Responsibility #3", ResponsibilityId = jobCategoryId });
                 }
                 foreach (var question in Questions)
                 {

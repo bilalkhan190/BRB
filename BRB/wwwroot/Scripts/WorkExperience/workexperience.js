@@ -10,6 +10,7 @@ $(document).on('click', '#btnAddJob', function () {
     } else {
         $('#mainDisplayPage').hide();
         $('#divJobForm').load(url);
+        $('.respheading').hide();
         fillDropdown();
         //setTimeout(function () { fillDropdown() }, 2000)
     }
@@ -217,10 +218,19 @@ $(document).on('change', '#ddlJobResponsibility', function () {
         data: { jobCategoryId: id },
         success: function (response) {
             $('#optionsDiv').html("");
+            if (response.data.responsibilityOptions.length == 0) {
+                let input = ' <input type="text" class="form-control mt-2 txtOtherCategory"  name="OtherResponsibility">';
+                $('#ddlJobResponsibility').after(input)
+                $('.otherRespDiv').hide();
+                $('.respheading').show();
+                
+            }
+           
             if (response.data.responsibilityOptions.length > 0) {
-               
+                $('.txtOtherCategory').remove();
+                $('.respheading').hide();
+                $('.otherRespDiv').show();
                 $.each(response.data.responsibilityOptions, function (index, value) {
-                    console.log(value)
                     let html = ` <div id="ooption-${index}" class="form-check">
                     <input id="${index}-option" name="responsibilityOptions[${index}].ResponsibilityOption" value="${value.respOptionId}"
                            type="checkbox" data-map='${value.caption}' class="form-check-input cbResp"><label for="${index}-option"
@@ -356,6 +366,7 @@ $(document).on("click", "button.btnEditPosition", function () {
             $(`input[name='ImproveProductivity']`).val(json.improveProductivity);
             $(`input[name='IncreaseRevenue']`).val(json.increaseRevenue);
             $(`input[name='PercentageImprovement']`).val(json.percentageImprovement);
+       
             if (!json.endMonth) {
                 $("#cbCurrentlyIn").prop("checked", true)
                 if ($("#cbCurrentlyIn").is(":checked")) {
@@ -366,7 +377,8 @@ $(document).on("click", "button.btnEditPosition", function () {
                 }
             }
           
-            setTimeout(function () {
+        setTimeout(function () {
+            $(document).find('.txtOtherCategory').val(json.otherResponsibility);
                 if (json.workRespQuestions) {
                     $.each(json.workRespQuestions, function (index, value) {
 

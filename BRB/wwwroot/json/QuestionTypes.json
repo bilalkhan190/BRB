@@ -866,7 +866,7 @@
       ]
     }
   ],
-  "Technically Based Responsiblities": [
+  "Technically Based Responsibilities": [
     {
       "question": "What type of organization is this?",
       "responseType": "string",
@@ -938,14 +938,21 @@
   ],
   "Other": [
     {
-      "question": "Describe Your responsibility at your company",
+      "question": "Responsibility #1",
       "responseType": "string",
       "jobResponsibilities": [
-        
+
       ]
     },
     {
-      "question": "Describe Your responsibility at your company 2",
+      "question": "Responsibility #2",
+      "responseType": "string",
+      "jobResponsibilities": [
+
+      ]
+    },
+    {
+      "question": "Responsibility #3",
       "responseType": "string",
       "jobResponsibilities": [
 
