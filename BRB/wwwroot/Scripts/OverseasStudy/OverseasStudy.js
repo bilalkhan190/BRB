@@ -266,14 +266,17 @@ function LoadData() {
     }
    overseasArray =  covertArrayKeyIntoCamelCase(overseasArray)
     $.each(overseasArray, function (index, value) {
+        let _endMonth = "";
+        if (value.endedMonth && value.endedYear) { endMonth = value.endedMonth + " " + value.endedYear; } else { _endMonth = "Present"; }
         let html = ` 
                 <div class="card col-md-12 p-0 mb-3 cardWrapper"> 
                     <div class="card-body">
                        <div class="row">
                             <div class="col-md-8">
                                 <span class="card-text">
-                                    <h5 class="title-text">${value.collegeName}</h5><br/>
-                                    <h5 class="title-text">${value.city}</h5>
+                                    <div class="title-text">${value.collegeName}</div>
+                                    <div class="text-muted">${value.city}</div>
+                                    <div class="text-muted">${value.startedDate} - ${_endMonth}</div>
                                 </span>
                             </div>
                             <div class="col-md-4">

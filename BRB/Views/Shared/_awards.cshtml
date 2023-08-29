@@ -59,6 +59,9 @@
             type: 'post',
             success: function (response) {
                 $('#companiesPenal').html(response.data);
+                if ($('.awardList').find(".cardWrapper").length == 0) {
+                    $('#awardErrMessage').show();
+                }
             },
             error: function (err) {
 
