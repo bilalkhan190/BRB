@@ -110,7 +110,7 @@ function LoadLicenseCards() {
                            <div class="col-md-8">
                                 <span class="card-text">
                                     <h5 class="title-text">${value.title}</h5>
-                                    <p class="text-muted"> ${value.receivedMonth} - ${value.receivedYear} </p>
+                                    <p class="text-muted">${value.stateName} ${value.receivedMonth} - ${value.receivedYear} </p>
                                 </span>
                             </div>
                             <div class="col-md-4">
