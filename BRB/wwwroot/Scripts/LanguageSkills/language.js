@@ -130,6 +130,7 @@ function LoadCards() {
     $("#divEditSection").html("");
     languageArray = languageArray.map(el => _.mapKeys(el, (val, key) => _.camelCase(key)));
     $.each(languageArray, function (index, value) {
+        $('#emptyListMessage').hide();
         let html = ` 
                 <div class="card p-0 mt-2 mb-2 cardWrapper"> 
                     <div class="card-body">
@@ -164,9 +165,12 @@ function LoadCards() {
                       </div>
                 </div>`
 
-        $('#emptyListMessage').hide();
+       
         $('#divEditSection').append(html);
     });
+    if (languageArray.length == 0) {
+        $('#emptyListMessage').show();
+    }
     if (languageArray != null && languageArray.length > 3) {
         $("#divEditSection").addClass("BoxHeight");
     }
@@ -182,6 +186,9 @@ $(document).on('click', '#btnDeleteLanguage', function () {
         success: function (response) {
             let index = parseInt(localStorage.getItem("lan-index"));
             languageArray.splice(index, 1);
+            if ($("#divEditSection").children().length == 0) {
+                $('#emptyListMessage').show();
+            }
             LoadCards();
         },
         error: function (err) {
