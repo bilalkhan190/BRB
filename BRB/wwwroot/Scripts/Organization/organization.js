@@ -178,9 +178,11 @@ $(document).on('click', '#btnAddPosition', function () {
             localStorage.clear();
         }
         $('#orgPositionForm').trigger('reset');
+       
         LoadCards();
         $('#PositionModel').modal('toggle')
         $('#btnAddPosition').prop('disabled', false)
+
     }
 
 });
@@ -300,7 +302,7 @@ function LoadCards() {
                                 </span>
                             </div>
                     </div>
-                </div>`;
+                </div> </div>`;
             pos_index++;
 
             //$('#positionDiv').append(html)
@@ -347,6 +349,7 @@ function LoadCards() {
                     </div>
                 </span>
             </div>
+            ${ htmlPosition ? ``: `<p class="noPosition" class="danger-text"><em>You currently have no positions listed. Either add a position to the organization or delete the organization.</em></p>` }
              <div id="positionDiv">${htmlPosition}</div>
         <!--<button type="button" class="btn btn-primary btn-sm custombtn w-auto mt-2" onclick="$('#PositionModel').modal('toggle')">-->
         <button type="button" class="btn btn-primary btn-sm custombtn w-auto" onclick="OpenPositionModel('${value.organizationId}');">
@@ -358,9 +361,10 @@ function LoadCards() {
     </div>
 </div>
          `
+       
         $('#divEditSection').append(html)
     });
-
+   // $('#positionDiv').before(`<p class="noPosition" class="danger-text"><em>You currently have no positions listed. Either add a position to the organization or delete the organization.</em></p>`)
     // #region junk
     //$('#positionDiv div.row').html("");
     //positionArray = covertArrayKeyIntoCamelCase(positionArray)

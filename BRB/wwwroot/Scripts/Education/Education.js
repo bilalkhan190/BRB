@@ -1019,6 +1019,9 @@ $(document).on('click', '#btnDeleteCollege', function () {
             console.log(collegeArray)
             let index = parseInt(localStorage.getItem("col-index"));
             collegeArray.splice(index, 1);
+            if (collegeArray.length == 0) {
+                $('#collegeErrMessage').show();
+            }
             LoadCards();
         },
         error: function (err) {

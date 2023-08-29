@@ -4,7 +4,7 @@
 {
     var json = Html.Raw(Json.Serialize(item));
     string endDate = string.IsNullOrEmpty(item.EndMonth) && string.IsNullOrEmpty(item.EndYear.ToString()) ? "Present" : item.EndMonth + " " + item.EndYear;
-    <div class="card ml-10 col-md-10">
+    <div class="card ml-10 col-md-10 cardWrapper ">
         <input type="hidden" id="hdfCompanyId" value="@item.CompanyId">
         <div class="card-body">
             <div class="row">
@@ -31,10 +31,20 @@
                         </svg>
                     </button>
                 </div>
+               
+                    @if (item.Positions.Count == 0)
+                    {
+                        <p class="danger-text m-0" id="positionErrMessage">
+                            <i>
+                                You currently have no jobs listed for Adam Case. Either click the Add button below to add a position or delete this company.
+                            </i>
+                        </p>
+                    }
+              
                 <div class="pnlPositions" id="_@item.CompanyId">
                     @await Html.PartialAsync("_positions", item.Positions)
                 </div>
-                <button type="button" id="btnAddJob" data-company-id="@item.CompanyId" class="btn btn-secondary custombtn w-auto">Add a position at @item.CompanyName</button>
+                <button type="button" id="btnAddJob" data-company-id="@item.CompanyId" class="btn btn-secondary custombtn w-auto mt-2">Add a position at @item.CompanyName</button>
             </div>
           
         </div>
@@ -56,7 +66,8 @@
             type: 'post',
             success: function (response) {
                 $('#companiesPenal').html(response.data);
-            },
+                if ($('#companiesPenal').children().length == 1) $('#noList').show();
+                },
             error: function (err) {
 
             }

@@ -77,7 +77,7 @@ $(document).on("click", "#btnSavePosition", function () {
                     $('#WorkPositionForm').trigger("reset");
                         $("#btnSaveOrContinue").attr("disabled", false);
                         $("#cbIsComplete").attr("disabled", false);
-                    
+                    $('#positionErrMessage').hide();
 
                 }
             },
@@ -272,6 +272,7 @@ $(document).on('click', '.btnAddAward', function () {
     let positionId = $(this).attr("data-position-id");
     localStorage.setItem("PositionId", positionId);
     $('#awardModal').modal('show');
+   
   
 });
 
@@ -290,6 +291,7 @@ $('#btnSaveAward').click(function () {
                     $('#' + response.fieldName).html(response.data);
                     $('#formAward').trigger("reset");
                     $('#awardModal').modal('toggle')
+                    $('#awardErrMessage').hide();
                 }
             },
             error: function (err) {
@@ -490,6 +492,7 @@ function DeletePosition(id) {
                 $("#btnSaveOrContinue").attr("disabled", true);            
                 $("#cbIsComplete").prop("checked", false);
                 $("#cbIsComplete").attr("disabled", true);
+                $('.positionErrMessage').show();
             }
         },
         error: function (err) {
