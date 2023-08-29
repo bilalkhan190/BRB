@@ -169,7 +169,7 @@ function LoadCards() {
         $('#divEditSection').append(html);
     });
     if (languageArray.length == 0) {
-        $('#emptyListMessage').show();
+        $('#emptyListMessage').show ();
     }
     if (languageArray != null && languageArray.length > 3) {
         $("#divEditSection").addClass("BoxHeight");
