@@ -204,6 +204,8 @@ function LoadaffCards() {
         debugger
         let posArr = positionArray.filter(x => x.affiliationId == affilation.affiliationId);
         $.each(posArr, function (index, position) {
+            let _endMonth = "";
+            if (position.endedMonth && position.endedYear) { _endMonth = position.endedMonth + " " + position.endedYear; } else { _endMonth = "Present"; }
             PositionHtml += `
          <div class="card p-0 mt-2 mb-2 cardWrapper cardWrapper-affPos"> 
     <div class= "card-body">
@@ -212,6 +214,7 @@ function LoadaffCards() {
                 <span class="card-text row">
                     <div class="col-md-6">
                         <h5 class="title-text">${position.title}</h5>
+                          
                     </div>
                     <div class="col-md-6">
                         <div class="card-Btn">
@@ -242,7 +245,7 @@ function LoadaffCards() {
                                             <input type='hidden' class='res2' value='${position.responsibility2}'/>
                                                 <input type='hidden' class='res3' value='${position.responsibility3}'/>
                                                     <input type='hidden' class='otherInfo' value='${position.otherInfo}'/>
-                                                        <p class="text-muted">${position.startedMonth} ${position.startedYear} - ${position.endedMonth} ${position.endedYear}</p>
+                                                        <p class="text-muted">${position.startedMonth} ${position.startedYear} - ${_endDate}</p>
                 </span>
                 </div>
             </div>
@@ -259,7 +262,7 @@ function LoadaffCards() {
                                 <div class="col-md-12">
                                 <span class="card-text row">
                                 <div class="col-md-6">
-                                    <h5 class="title-text">${affilation.affiliationName}</h5>
+                                    <h5 class="title-text affilationtitle">${affilation.affiliationName}</h5>
                                     </div>
                                         <div class="col-md-6">
                                  <div class="card-Btn">
@@ -334,6 +337,9 @@ $(document).on("click", ".btnDeleteLicense", function () {
             if (response.success) {
                 
             }
+            if ($('#divLicenseCard').find('.row-cstm').children().length == 0) {
+                $('#noList').show();
+            }
         },
         error: function (error) { }
     });
@@ -366,7 +372,9 @@ $(document).on("click", ".btnDeleteCertificate", function () {
             if (response.success) {
                
             }
-
+            if ($('#divCertificateCard').find('.row-cstm').children().length == 0) {
+                $('#noListCert').show();
+            }
 
         },
         error: function (error) { }
@@ -445,7 +453,11 @@ $(document).on("click", ".btnDeleteAffiliation", function () {
         type: 'post',
         success: function (response) {
             if (response.success) {
-               
+              
+                  
+            }
+            if ($('#divAffilateCard').find('.row-cstm').children().length == 0) {
+                $('#noListAff').show();
             }
         },
         error: function (error) { }
@@ -559,7 +571,7 @@ $('#btnSaveAffilation').click(function () {
                 <div class="col-md-12">
                     <span class="card-text row">
                         <div class="col-md-6">
-                            <h5 class="title-text">${affilation.affiliationName}</h5>
+                            <h5 class="title-text affilationtitle">${affilation.affiliationName}</h5>
                         </div>
                         <div class="col-md-6">
                             <div class="card-Btn">
@@ -601,7 +613,7 @@ $('#btnSaveAffilation').click(function () {
             debugger;
             let index = localStorage.getItem("edit-aff");
             affilationArray[index] = affilation;
-            $($(".cardWrapper-aff")[index]).find(".title-text").html(affilation.affiliationName)
+            $($(".cardWrapper-aff")[index]).find(".affilationtitle").html(affilation.affiliationName)
             $($(".cardWrapper-aff")[index]).find(".HasEndDate").html(`${affilation.startedMonth} ${affilation.startedYear} - ${endDate}`);
             $($(".cardWrapper-aff")[index]).find(".btnEditAffilation").attr("data-json", JSON.stringify(affilation));
             localStorage.clear();
@@ -735,8 +747,11 @@ $(document).on('click', '#btnAddPosition', function () {
         positionArray.push(position);
         //LoadaffCards();
 
-        $('#noPosition').hide();
+        $('#noPosition').hide(); 
+        let _endMonth = "";
+        if (position.endedMonth && position.endedYear) { _endMonth = position.endedMonth + " " + position.endedYear; } else { _endMonth = "Present"; }
         if (localStorage.getItem("edit-position")) {
+           
             let html = `  <div class="card-body">
                                             <div class="row">
                                                 <div class="col-md-12">
@@ -773,7 +788,7 @@ $(document).on('click', '#btnAddPosition', function () {
                                                                                 <input type='hidden' class='res2' value=${position.responsibility2}>
                                                                                     <input type='hidden' class='res3' value='${position.responsibility3}'>
                                                                                         <input type='hidden' class='otherInfo' value='${position.otherInfo}'>
-                                                                                            <p class="text-muted">${position.startedMonth} ${position.startedYear} - ${position.endedMonth} ${position.endedYear}</p>
+                                                                                            <p class="text-muted">${position.startedMonth} ${position.startedYear} - ${_endMonth}</p>
                                                                                         </span>
                                                                                     </div>
                                                                                 </div>
@@ -822,7 +837,7 @@ $(document).on('click', '#btnAddPosition', function () {
                                                                                 <input type='hidden' class='res2' value=${position.responsibility2}>
                                                                                     <input type='hidden' class='res3' value='${position.responsibility3}'>
                                                                                         <input type='hidden' class='otherInfo' value='${position.otherInfo}'>
-                                                                                            <p class="text-muted">${position.startedMonth} ${position.startedYear} - ${position.endedMonth} ${position.endedYear}</p>
+                                                                                            <p class="text-muted">${position.startedMonth} ${position.startedYear} - ${_endMonth}</p>
                                                                                         </span>
                                                                                     </div>
                                                                                 </div>
