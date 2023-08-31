@@ -12,7 +12,6 @@ namespace BusinessObjects.Models.DTOs
         public string FieldName { get; set; }
         public object Data { get; set; }
         public bool Success { get; set; }
-        public bool Error { get; set; }
         public string Redirect { get; set; }
     }
 }

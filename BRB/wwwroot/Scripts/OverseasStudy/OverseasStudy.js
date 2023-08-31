@@ -48,6 +48,10 @@ $(document).ready(function () {
                 livingSituationOther: $('input[name="LivingSituationOther"]').val(),
                 livingSituationId: $('input[name="LivingSituationId"]:checked').val()
             }
+
+            if ($(".cbCurrentlyIn").is(":checked")) {
+                overseas.EndedDate = null;
+            }
             if (localStorage.getItem("pos-index") == null) {
                 overseasArray.push(overseas);
             }
@@ -148,7 +152,20 @@ $(document).ready(function () {
 
 
 
-
+function clearField() {
+    localStorage.clear();
+    $('#OverseasForm').trigger('reset');
+    $('#SummaryModal').modal('toggle');
+    $(".cbCurrentlyIn").prop("checked", false);
+    if ($(".cbCurrentlyIn").is(':checked')) {
+        $('.lblEndedDate').hide();
+        $('#txtEndDate').hide();
+        $('#txtEndDate').val('');
+    } else {
+        $('.lblEndedDate').show();
+        $('#txtEndDate').show();
+    }
+}
 $(document).on('change', 'input[type="radio"]', function () {
     generateOtherTextBox($(this));
 });
@@ -207,18 +224,28 @@ $(document).on('click', '#btnEditOverseas', function () {
     localStorage.setItem("pos-index", $(this).attr('data-edit'));
     let endDate;
     let startDate = new Date(response.startedDate).toISOString().split('T')[0];
-    if (response.endedDate != null) {
-        endDate = new Date(response.endedDate).toISOString().split('T')[0];
-    }
     $('#hdfOverseasStudyId').val(response.overseasStudyId);
     $('#txtcollegeName').val(response.collegeName)
     $('#City').val(response.city);
     $('#ddlCountry').val(response.countryId)
     $('#txtStartDate').val(startDate)
-    $('#txtEndDate').val(endDate)
+    if (response.endedDate) {
+        endDate = new Date(response.endedDate).toISOString().split('T')[0];
+        $('#txtEndDate').val(endDate)
+    }
+    else {
+        $(".cbCurrentlyIn").prop("checked", true);
+    }
+    if ($(".cbCurrentlyIn").is(':checked')) {
+        $('.lblEndedDate').hide();
+        $('#txtEndDate').hide();
+    } else {
+        $('.lblEndedDate').show();
+        $('#txtEndDate').show();
+    }
     $('#txtClassSectionCompleted').val(response.classesCompleted)
     $('#txtOtherInfo').val(response.otherInfo)
-  
+   
     $('input[name="LivingSituationId"][value="' + response.livingSituationId + '"]').prop("checked", true);
     generateOtherTextBox($('input[name="LivingSituationId"][value="' + response.livingSituationId + '"]'));
     $('#txtLivingSituationOther').val(response.livingSituationOther)
@@ -255,7 +282,10 @@ $('#btnSaveAndContinue').click(function () {
         error: function () { }
     })
 });
-
+function getMonth(index) {
+    var mL = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    return mL[index];
+}
 function LoadData() {
     $("#DivSection").html("");
     if (overseasArray.length > 0) {
@@ -267,7 +297,7 @@ function LoadData() {
    overseasArray =  covertArrayKeyIntoCamelCase(overseasArray)
     $.each(overseasArray, function (index, value) {
         let _endMonth = "";
-        if (value.endedMonth && value.endedYear) { endMonth = value.endedMonth + " " + value.endedYear; } else { _endMonth = "Present"; }
+        if (value.endedDate) { _endMonth = getMonth(new Date(value.endedDate).getMonth()) + " " + new Date(value.endedDate).getFullYear(); } else { _endMonth = "Present"; }
         let html = ` 
                 <div class="card col-md-12 p-0 mb-3 cardWrapper"> 
                     <div class="card-body">
@@ -276,19 +306,19 @@ function LoadData() {
                                 <span class="card-text">
                                     <div class="title-text">${value.collegeName}</div>
                                     <div class="text-muted">${value.city}</div>
-                                    <div class="text-muted">${value.startedDate} - ${_endMonth}</div>
+                                    <div class="text-muted">${getMonth(new Date(value.startedDate).getMonth()) + " " + new Date(value.startedDate).getFullYear()} - ${ _endMonth }</div >
                                 </span>
                             </div>
                             <div class="col-md-4">
                             <div class="card-Btn">
-                                <button type="button"  class="btn custombtn w-auto ms-2" id="btnDeleteOverseas" data-item='${value.overseasStudyId}' data-edit='${index}'>
+                                <button type="button"  class="btn custombtn w-auto ms-2 btn-outline-danger" id="btnDeleteOverseas" data-item='${value.overseasStudyId}' data-edit='${index}'>
                                     <svg stroke="currentColor" fill="currentColor" stroke-width="0"
                                          viewBox="0 0 24 24" height="1em" width="1em"
                                          xmlns="http://www.w3.org/2000/svg">
                                         <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z">
                                         </path>
                                     </svg>
-                                </button><button type="button" id="btnEditOverseas" data-item='${value.overseasStudyId}' data-edit='${index}' class="btn custombtn customBtn-light w-auto ms-1">
+                                </button><button type="button" id="btnEditOverseas" data-item='${value.overseasStudyId}' data-edit='${index}' class="btn custombtn customBtn-light w-auto ms-1 ">
                                     <svg stroke="currentColor" fill="currentColor" stroke-width="0"
                                          viewBox="0 0 24 24" height="1em" width="1em"
                                          xmlns="http://www.w3.org/2000/svg">

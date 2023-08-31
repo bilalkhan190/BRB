@@ -278,7 +278,7 @@ function LoadCards() {
                                 </div>
                                   <div class="col-md-6">
                                     <div class="card-Btn">
-                                <button type="button"  class="btn custombtn w-auto ms-2" id="btnDeletePosition" data-org-id="${value.organizationId}" data-item='${_value.orgPositionId}' pos-index='${_index}'>
+                                <button type="button"  class="btn custombtn w-auto ms-2 btn-outline-danger" id="btnDeletePosition" data-org-id="${value.organizationId}" data-item='${_value.orgPositionId}' pos-index='${_index}'>
                                     <svg stroke="currentColor" fill="currentColor" stroke-width="0"
                                          viewBox="0 0 24 24" height="1em" width="1em"
                                          xmlns="http://www.w3.org/2000/svg">
@@ -326,7 +326,7 @@ function LoadCards() {
                         </div>
                         <div class="col-md-6">
                             <div class="card-Btn">
-                                <button type="button" class="btn custombtn w-auto ms-2" id="btnDeleteOrg"
+                                <button type="button" class="btn custombtn w-auto ms-2 btn-outline-danger" id="btnDeleteOrg"
                                     data-item="${value.organizationId}" org-index="${index}">
                                     <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24"
                                         height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
