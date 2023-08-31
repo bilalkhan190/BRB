@@ -102,6 +102,7 @@ function LoadLicenseCards() {
     licenseArray = covertArrayKeyIntoCamelCase(licenseArray)
     console.log(licenseArray)
     $.each(licenseArray, function (index, value) {
+        console.log(value, "test")
         $("#noList").hide();
         let html = ` 
                   <div class="card p-0 mt-2 mb-2 cardWrapper"> 
@@ -110,12 +111,13 @@ function LoadLicenseCards() {
                            <div class="col-md-8">
                                 <span class="card-text">
                                     <h5 class="title-text">${value.title}</h5>
+                                    <p class="text-muted"> ${value.stateAbbr} </p>
                                     <p class="text-muted"> ${value.receivedMonth} - ${value.receivedYear} </p>
                                 </span>
                             </div>
                             <div class="col-md-4">
                             <div class="card-Btn">
-                                <button type="button"  class="btnDeleteLicense btn custombtn w-auto ms-2" data-item='${index}'>
+                                <button type="button"  class="btnDeleteLicense btn custombtn w-auto ms-2 btn-outline-danger" data-item='${index}'>
                                     <svg stroke="currentColor" fill="currentColor" stroke-width="0"
                                          viewBox="0 0 24 24" height="1em" width="1em"
                                          xmlns="http://www.w3.org/2000/svg">
@@ -156,12 +158,12 @@ function LoadCertCards() {
                                 <div class="col-md-8">
                                 <span class="card-text">
                                     <h5 class="title-text">${value.title}</h5>
-                                    <p class="text-muted"> ${value.receivedYear} - ${value.receivedMonth} </p>
+                                    <p class="text-muted"> ${value.receivedMonth} - ${value.receivedYear}</p>
                                 </span>
                             </div>
                             <div class="col-md-4">
                             <div class="card-Btn">
-                               <button type="button" class="btnDeleteCertificate btn custombtn w-auto ms-2" data-item="${index}">
+                               <button type="button" class="btnDeleteCertificate btn custombtn w-auto ms-2 btn-outline-danger" data-item="${index}">
                                 <svg stroke="currentColor" fill="currentColor" stroke-width="0"
                                     viewBox="0 0 24 24" height="1em" width="1em"
                                     xmlns="http://www.w3.org/2000/svg">
@@ -219,7 +221,7 @@ function LoadaffCards() {
                     </div>
                     <div class="col-md-6">
                         <div class="card-Btn">
-                            <button type="button"  class="btnDeletePosition btn custombtn w-auto ms-2" data-json='${JSON.stringify(position)}'>
+                            <button type="button"  class="btnDeletePosition btn custombtn w-auto ms-2 btn-outline-danger" data-json='${JSON.stringify(position)}'>
                                 <svg stroke="currentColor" fill="currentColor" stroke-width="0"
                                     viewBox="0 0 24 24" height="1em" width="1em"
                                     xmlns="http://www.w3.org/2000/svg">
@@ -267,7 +269,7 @@ function LoadaffCards() {
                                     </div>
                                         <div class="col-md-6">
                                  <div class="card-Btn">
-                                <button type="button"  class="btnDeleteAffiliation btn custombtn w-auto ms-2" data-json='${JSON.stringify(affilation)}' data-item='${affilationArray.length - 1}'>
+                                <button type="button"  class="btnDeleteAffiliation btn custombtn w-auto ms-2 btn-outline-danger" data-json='${JSON.stringify(affilation)}' data-item='${affilationArray.length - 1}'>
                                     <svg stroke="currentColor" fill="currentColor" stroke-width="0"
                                          viewBox="0 0 24 24" height="1em" width="1em"
                                          xmlns="http://www.w3.org/2000/svg">
@@ -577,7 +579,7 @@ $('#btnSaveAffilation').click(function () {
                         </div>
                         <div class="col-md-6">
                             <div class="card-Btn">
-                                <button type="button"  class="btnDeleteAffiliation btn custombtn w-auto ms-2" data-json='${JSON.stringify(affilation)}' data-item='${affilationArray.length - 1}'>
+                                <button type="button"  class="btnDeleteAffiliation btn custombtn w-auto ms-2 btn-outline-danger" data-json='${JSON.stringify(affilation)}' data-item='${affilationArray.length - 1}'>
                                     <svg stroke="currentColor" fill="currentColor" stroke-width="0"
                                         viewBox="0 0 24 24" height="1em" width="1em"
                                         xmlns="http://www.w3.org/2000/svg">
@@ -763,7 +765,7 @@ $(document).on('click', '#btnAddPosition', function () {
                                                         </div>
                                                         <div class="col-md-6">
                                                             <div class="card-Btn">
-                                                                <button type="button"  class="btnDeletePosition btn custombtn w-auto ms-2" data-json='${JSON.stringify(position)}'>
+                                                                <button type="button"  class="btnDeletePosition btn custombtn w-auto ms-2 btn-outline-danger" data-json='${JSON.stringify(position)}'>
                                 <svg stroke="currentColor" fill="currentColor" stroke-width="0"
                                     viewBox="0 0 24 24" height="1em" width="1em"
                                     xmlns="http://www.w3.org/2000/svg">
@@ -812,7 +814,7 @@ $(document).on('click', '#btnAddPosition', function () {
                                                         </div>
                                                         <div class="col-md-6">
                                                             <div class="card-Btn">
-                                                                <button type="button"  class="btnDeletePosition btn custombtn w-auto ms-2" data-json='${JSON.stringify(position)}'>
+                                                                <button type="button"  class="btnDeletePosition btn custombtn w-auto ms-2 btn-outline-danger" data-json='${JSON.stringify(position)}'>
                                 <svg stroke="currentColor" fill="currentColor" stroke-width="0"
                                     viewBox="0 0 24 24" height="1em" width="1em"
                                     xmlns="http://www.w3.org/2000/svg">

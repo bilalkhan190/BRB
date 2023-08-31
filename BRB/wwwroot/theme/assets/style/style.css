@@ -394,17 +394,6 @@ select {
     border-color: #04586b;
 }
 
-button.btn.btn-secondary.modalClose {
-    background: #727272;
-    transition: .3s;
-}
-
-button.btn.btn-secondary.modalClose:hover {
-    background: transparent;
-    color: #727272;
-    border-color: #727272;
-}
-
 .modal-footer .btn.custombtn {
     border-radius: 5px;
     padding: 6px 12px;
@@ -763,7 +752,22 @@ ul.navbar-nav .dropdown-menu {
     padding-right: 15px;
 }
 
-/*.modal.show {
-    background:#000;
-    opacity: 0.5;
-}*/
+.card-Btn .btn.custombtn.btn-outline-danger {
+    background-color: #dc3545;
+    border-color: #dc3545;
+}
+
+.card-Btn .btn.custombtn.btn-outline-danger:hover {
+    background: transparent;
+    color: #dc3545;
+}
+
+.card-Btn .btn.custombtn.btn-outline-danger:focus {
+    background: transparent;
+    color: #dc3545 !important;
+    border-color: #dc3545 !important;
+}
+
+.card-Btn .btn.custombtn.btn-outline-danger:hover svg {
+    fill: #dc3545;
+}

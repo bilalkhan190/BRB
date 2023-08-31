@@ -214,8 +214,7 @@ $('#btnSaveAndContinue').click(function () {
     if (!obj.IsOptOut) {
         let positionsLength = organizationArr.filter(x => x.orgPositions.length > 0) ? organizationArr.filter(x => x.orgPositions.length > 0).length : 0;
         if (organizationArr.length == 0 || positionsLength != organizationArr.length) {
-            swal("Positions Required", "Please fill out the organizations and positions to proceed", "error");
-            return false;
+            $("#cbIsComplete").prop("checked", false);          
         }
     }
 
@@ -279,7 +278,7 @@ function LoadCards() {
                                 </div>
                                   <div class="col-md-6">
                                     <div class="card-Btn">
-                                <button type="button"  class="btn custombtn w-auto ms-2" id="btnDeletePosition" data-item='${_value.orgPositionId}' pos-index='${_index}'>
+                                <button type="button"  class="btn custombtn w-auto ms-2 btn-outline-danger" id="btnDeletePosition" data-org-id="${value.organizationId}" data-item='${_value.orgPositionId}' pos-index='${_index}'>
                                     <svg stroke="currentColor" fill="currentColor" stroke-width="0"
                                          viewBox="0 0 24 24" height="1em" width="1em"
                                          xmlns="http://www.w3.org/2000/svg">
@@ -327,7 +326,7 @@ function LoadCards() {
                         </div>
                         <div class="col-md-6">
                             <div class="card-Btn">
-                                <button type="button" class="btn custombtn w-auto ms-2" id="btnDeleteOrg"
+                                <button type="button" class="btn custombtn w-auto ms-2 btn-outline-danger" id="btnDeleteOrg"
                                     data-item="${value.organizationId}" org-index="${index}">
                                     <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24"
                                         height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
@@ -523,12 +522,14 @@ $(document).on('click', '#btnDeleteOrg', function () {
 
     localStorage.setItem("org-index", $(this).attr('org-index'));
     let id = $(this).attr('data-item')
+    
     $.ajax({
         url: '/Organization/delete?id=' + id,
         type: 'post',
         success: function (response) {
             let index = parseInt(localStorage.getItem("org-index"));
             organizationArr.splice(index, 1);
+          
             LoadCards();
         },
         error: function (err) {
@@ -539,14 +540,16 @@ $(document).on('click', '#btnDeleteOrg', function () {
 
 $(document).on('click', '#btnDeletePosition', function () {
 
-    localStorage.setItem("pos-index", $(this).attr('pos-index'));
-    let id = $(this).attr('data-item')
+    let index = $(this).attr('pos-index');
+    let id = $(this).attr('data-item');
+    let Orgid = $(this).attr('data-org-id');
     $.ajax({
         url: '/Organization/delete?positionId=' + id,
         type: 'post',
         success: function (response) {
-            let index = parseInt(localStorage.getItem("pos-index"));
-            positionArray.splice(index, 1);
+
+            organizationArr.filter(x => x.organizationId == Orgid)[0].orgPositions.splice(parseInt(index), 1);
+           
             LoadCards();
         },
         error: function (err) {

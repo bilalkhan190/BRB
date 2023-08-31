@@ -44,10 +44,10 @@ namespace BusinessObjects.Models.MetaData
         [Required]
         public string? StateAbbr { get; set; }
         [Required]
-        [StringLength(5, ErrorMessage = "zip code should be consist  5 characters")]
+        [StringLength(5, MinimumLength = 5, ErrorMessage = "zip code should be consist  5 characters")]
         public string? ZipCode { get; set; }
         [Required]
-        [StringLength(10, ErrorMessage = "phone number should be consist on  10 characters")]
+        [StringLength(10, MinimumLength = 10, ErrorMessage = "phone number should be consist on  10 characters")]
         public string? Phone { get; set; }
     }
 }

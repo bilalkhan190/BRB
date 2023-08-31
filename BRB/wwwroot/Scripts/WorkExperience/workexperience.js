@@ -219,7 +219,7 @@ $(document).on('change', '#ddlJobResponsibility', function () {
         success: function (response) {
             $('#optionsDiv').html("");
             if (response.data.responsibilityOptions.length == 0) {
-                let input = ' <input type="text" class="form-control mt-2 txtOtherCategory"  name="OtherResponsibility">';
+                let input = ' <input type="text" class="form-control mt-2 txtOtherCategory"  name="OtherResponsibility" required>';
                 $('#ddlJobResponsibility').after(input)
                 $('.otherRespDiv').hide();
                 $('.respheading').show();
@@ -258,7 +258,11 @@ $(document).on('change', '#ddlJobResponsibility', function () {
                     $('#divQuestions').append(html);
                 });
             }
-
+          
+            if (id == "19") {
+                $(document).find("input[name='workRespQuestions[0].Answer']").attr("required", true);
+                $(document).find("input[name='workRespQuestions[0].Answer']").prev("label").append("<b class='text-danger' id='required-tag'>*</b>");
+            }
 
 
         },
@@ -377,8 +381,11 @@ $(document).on("click", "button.btnEditPosition", function () {
                 else {
                     $(".pnlEndDate").show();
                 }
-            }
-          
+
+                
+        }
+
+       
         setTimeout(function () {
             $(document).find('.txtOtherCategory').val(json.otherResponsibility);
                 if (json.workRespQuestions) {
@@ -393,7 +400,21 @@ $(document).on("click", "button.btnEditPosition", function () {
 
                         $(`input[name='responsibilityOptions[${index}].ResponsibilityOption'][value='${value.responsibilityOption}']`).prop("checked", true);
                     })
-                }
+
+                 
+            }
+
+            $("#errorText").hide();
+            let elemArr = $(document).find(".cbResp:checked");
+
+            if (elemArr.length >= 3) {
+                $(".cbResp:not(:checked)").prop("disabled", true);
+                $("#errorText").hide();
+            }
+            else {
+                $(".cbResp").prop("disabled", false);
+                $("#errorText").show();
+            }
                 $('#loader').fadeOut(250)
             }, 1000);
 
@@ -406,6 +427,7 @@ $(document).on("click", "button.btnEditPosition", function () {
 })
 
 $(document).on("click", ".cbResp", function () {
+    debugger;
     $("#errorText").hide();
     let elemArr = $(document).find(".cbResp:checked");
     let inputsArray = $(document).find(".txtrespAnswers");

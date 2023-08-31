@@ -144,7 +144,7 @@ function LoadCards() {
                             <div class="col-md-4">
                                 <span class="card-text row">
                                      <div class="card-Btn">
-                                            <button type="button" id="btnDeleteLanguage"  class="btn custombtn w-auto ms-2" data-item='${value.languageId}' data-edit='${index}'>
+                                            <button type="button" id="btnDeleteLanguage"  class="btn custombtn w-auto ms-2 btn-outline-danger" data-item='${value.languageId}' data-edit='${index}'>
                                                 <svg stroke="currentColor" fill="currentColor" stroke-width="0"
                                                      viewBox="0 0 24 24" height="1em" width="1em"
                                                      xmlns="http://www.w3.org/2000/svg">
