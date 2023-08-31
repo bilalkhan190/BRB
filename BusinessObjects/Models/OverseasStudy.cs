@@ -16,7 +16,7 @@ public partial class OverseasStudy
 
     public int? CountryId { get; set; }
     [NotMapped]
-    public int? CountryName { get; set; }
+    public string? CountryName { get; set; }
 
     public DateTime? StartedDate { get; set; }
 
@@ -25,6 +25,8 @@ public partial class OverseasStudy
     public string? ClassesCompleted { get; set; }
 
     public int? LivingSituationId { get; set; }
+    [NotMapped]
+    public string? LivingSituationName { get; set; }
 
     public string? LivingSituationOther { get; set; }
 

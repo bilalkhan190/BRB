@@ -111,8 +111,11 @@ namespace BusinessObjects.APIModels
     public class Langauge
     {
         public string id { get; set; }
+        public int LanguageSkillId { get; set; }
         public string language { get; set; }
         public string ability { get; set; }
+        public string LanguageName { get; set; }
+        public int LanguageAbilityId { get; set; }
     }
 
     public class Languages
