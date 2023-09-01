@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using BusinessObjects.APIModels;
 using ContactInfo = BusinessObjects.Models.ContactInfo;
 using Microsoft.EntityFrameworkCore;
+using BusinessObjects.Models.MetaData;
 
 namespace BRB.Controllers
 {
@@ -338,6 +339,86 @@ namespace BRB.Controllers
                         languageSkills.Add(langauge);
                     }
                     _dbContext.Languages.AddRange(languageSkills);
+
+
+                    Professional professional = new Professional
+                    {
+                        IsComplete = data.lcas.sectionComplete,
+                        IsOptOut = data.lcas.doesNotApply,
+                        CreatedDate = DateTime.Today,
+                    };
+                    _dbContext.Professionals.Add(professional);
+                    List<License> licenses = new List<License>();
+                    foreach (var license in data.lcas.liscenses)
+                    {
+                        License lcs = new License
+                        {
+                            Title = license.title,
+                            StateAbbr = license.state,
+                            CreatedDate = DateTime.Now,
+                            ReceivedMonth = license.month,
+                            ReceivedYear = license.year,
+                            ProfessionalId = professional.ProfessionalId
+                        };
+                        licenses.Add(lcs);
+                    }
+                    _dbContext.Licenses.AddRange(licenses);
+                    List<Certificate> certificates = new List<Certificate>();
+                    foreach (var c in data.lcas.certs)
+                    {
+                        Certificate cert = new Certificate
+                        {
+                            Title = c.title,
+                            StateAbbr = _dbContext.StateLists.FirstOrDefault(x => x.StateName.Contains(c.state)).StateAbbr,
+                        CreatedDate = DateTime.Now,
+                            ReceivedMonth = c.month,
+                            ReceivedYear = c.year,
+                            ProfessionalId = professional.ProfessionalId
+                        };
+                        certificates.Add(cert);
+                    }
+                    _dbContext.Certificates.AddRange(certificates);
+
+                    List<Affiliation> affiliations = new List<Affiliation>();
+                    List<AffiliationPosition> affiliationPositions = new List<AffiliationPosition>();
+                    foreach (var aff in data.lcas.orgs)
+                    {
+                        Affiliation affiliation = new Affiliation
+                        {
+                            AffiliationName = aff.name,
+                            City = aff.city,
+                            StateAbbr = _dbContext.StateLists.FirstOrDefault(x => x.StateName.Contains(aff.state)).StateAbbr,
+                            CreatedDate = DateTime.Now,
+                            StartedMonth = aff.startMonth,
+                            StartedYear = aff.startYear,
+                            EndedMonth = aff.endMonth,
+                            EndedYear = aff.endYear,
+                            ProfessionalId = professional.ProfessionalId
+                        };
+                       _dbContext.Affiliations.Add(affiliation);
+                        //affiliations.Add(affiliation);
+                       
+                        foreach (var p in aff.positions)
+                        {
+                            AffiliationPosition affiliationPosition = new AffiliationPosition
+                            {
+                                Title = p.title,
+                                StartedMonth = p.startMonth,
+                                StartedYear = p.startYear,
+                                EndedMonth = p.endMonth,
+                                EndedYear = p.endYear,
+                                CreatedDate = DateTime.Now,
+                                OtherInfo = p.otherInfo,
+                                Responsibility1 = p.responsibilities.responsibility1,
+                                Responsibility2 = p.responsibilities.responsibility2,
+                                Responsibility3 = p.responsibilities.responsibility3,
+                                AffiliationId = affiliation.AffiliationId
+                            };
+                            affiliationPositions.Add(affiliationPosition);
+                        }
+                        _dbContext.AffiliationPositions.AddRange(affiliationPositions); 
+                    }
+                      
                 }
             }
           

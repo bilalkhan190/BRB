@@ -25,8 +25,7 @@ public partial class OverseasStudy
     public string? ClassesCompleted { get; set; }
 
     public int? LivingSituationId { get; set; }
-    [NotMapped]
-    public string? LivingSituationName { get; set; }
+
 
     public string? LivingSituationOther { get; set; }
 
