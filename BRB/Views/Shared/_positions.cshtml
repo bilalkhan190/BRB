@@ -4,7 +4,7 @@
  @foreach (var item in Model)
 {
     var json = Html.Raw(Json.Serialize(item));
-    string endDate = string.IsNullOrEmpty(item.EndMonth) && string.IsNullOrEmpty(item.EndYear.ToString()) ? "Present" : item.EndMonth + " " + item.EndYear;
+    string endDate = string.IsNullOrEmpty(item.EndMonth) && item.EndYear == null? "Present" : item.EndMonth + " " + item.EndYear;
     <div class="card p-0 mt-4 mb-2 cardWrapper">
         <div class="card-body">
             <div class="row">

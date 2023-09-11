@@ -108,6 +108,7 @@ $(document).on("click", "#btnSavePosition", function () {
                     if (response.success) {
                         $('#companiesPenal').html(response.data);
                         $('#companyForm').trigger("reset");
+                        $("#pnlEndDate").show();
                         $('#SummaryModal').modal('toggle')
                         $('#noList').hide();
                     }
