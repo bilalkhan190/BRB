@@ -1,18 +1,22 @@
 ﻿@model BusinessObjects.Models.WorkExperience
 <div class="formWrapper">
+    <form class="needs-validation formSpace" novalidate>
+   
     <div id="mainDisplayPage">
+        <div class="alignContent">
         <h1>
-            Work Experience <button type="button" class="btn btn-outline-primary btn-sm"
+                Work Experience    </h1>
+                <button type="button" class="btn btn-outline-primary btn-sm questionBtn"
                                     data-bs-toggle="modal" data-bs-target="#experienceModal">
                 ?
             </button>
-        </h1>
-        <button type="button" class="mb-2 btn btn-outline-primary btn-sm" data-bs-toggle="modal"
+    
+            <button type="button" class="btn custombtn customBtn-light w-auto ms-2" data-bs-toggle="modal"
                 data-bs-target="#modalExample">
             Example
         </button>
-
-        <p>
+            </div>
+            <p class="mt-3">
             Work Experience will follow with chronological listing (most recent to least) of overall work
             experience. If you had multiple positions within the same organization, the organization
             will be listed and then chronological listing of the positions held below it. Internships,
@@ -31,15 +35,12 @@
         <div id="companiesPenal">
            @await Html.PartialAsync("_Companies",Model.Companies)
         </div>
-        <button type="button" class="btn btn-primary btn-sm custombtn w-auto mt-2" onclick="localStorage.clear();$(`input[name='CompanyId']`).val('');$('#companyForm').trigger('reset');$('#SummaryModal').modal('toggle')">
+        <button type="button" class="btn btn-primary btn-sm custombtn w-auto mt-3" onclick="localStorage.clear();$(`input[name='CompanyId']`).val('');$('#companyForm').trigger('reset');$('#SummaryModal').modal('toggle')">
             Add a Company
         </button>
 
-     
-
-        <hr>
         <form class="needs-validation" novalidate>
-            <div class="form-check">
+            <div class="form-check p-0">
                 <label class="form-check-label">
                     @{
                         string isComplete = Model.IsComplete ? "checked" : "";
@@ -47,9 +48,16 @@
                     }
                     @if (Model.Companies.Count > 0 && Model.Companies.Where(x => x.Positions.Count > 0).Count() > 0)
                     {
-                        <input type="checkbox" id="cbIsComplete" @isComplete
+                        @*<input type="checkbox" id="cbIsComplete" @isComplete
                                class="form-check-input">
-                        <label for="cbIsComplete">I am finished with this section</label>
+                        <label for="cbIsComplete">I am finished with this section</label>*@
+
+                            <div class="custom-checkbox custom-control mt-3">
+                                <input type="checkbox" class="custom-control-input" id="cbIsComplete" @isComplete>
+                                <label class="custom-control-label" for="cbIsComplete">
+                                    I am finished with this section
+                                </label>
+                            </div>
                     }
                     else
                     {
@@ -78,34 +86,33 @@
             </div>
         </form>
     </div>
-
+    </form>
 </div>
 <div id="divJobForm"></div>
 <div class="modal fade" id="SummaryModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-body">
-               
-                <form id="companyForm" class="needs-validation formSpace">
+            <div class="modal-body formWrapper">
+                <form id="companyForm" class="needs-validation formSpace p-0">
                     <input type="hidden" name="CompanyId" />
                     <div class="row">
                         <div class="col-md-12">
-                            <div class="form-group mb-2">
+                            <div class="form-group">
                                 <label for="t">Name <span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="CompanyName" name="CompanyName"
                                        required>
                             </div>
-                            <div class="form-group mb-2">
+                            <div class="form-group">
                                 <label for="City" class="">City <span class="text-danger">*</span></label>
                                 <input name="City" id="City" type="text" class="form-control" required>
                             </div>
-                            <div class="form-group mb-2">
+                            <div class="form-group">
                                 <label for="State" class="">State <span class="text-danger">*</span></label>
                                 <select name="State" id="ddlStateAbbr" class="form-control" required>l
                                     
                                 </select>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group mb-0">
                                 <label for="received" class="">Date Started <span class="text-danger">*</span></label>
                                 <div class="row">
                                     <div class="col-6">
@@ -290,15 +297,13 @@
                             </div>
                             <div class="row">
                                 <div class="col">
-                                    <div class="form-check mt-2">
-                                        <label class="form-check-label">
-                                            <input id="cbCurrentlyInCompany" name="customSwitch" label="Currently In"
-                                                   type="checkbox" class="form-check-input"> Currently In
-                                        </label>
+                                    <div class="custom-checkbox custom-control mb-2">
+                                        <input type="checkbox" name="customSwitch" class="custom-control-input" id="cbCurrentlyInCompany" label="Currently In">
+                                        <label class="custom-control-label" for="cbCurrentlyInCompany">Include GPA </label>
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-group" id="pnlEndDate">
+                            <div class="form-group mb-0" id="pnlEndDate">
                                 <label for="received" class="">Date Ended <span class="text-danger">*</span></label>
                                 <div class="row">
                                     <div class="col-6">
@@ -485,7 +490,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary custombtn w-auto"
+                <button type="button" class="btn btn-secondary modalClose w-auto"
                         data-bs-dismiss="modal">
                     Close
                 </button>

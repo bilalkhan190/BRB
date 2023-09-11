@@ -1,4 +1,5 @@
-﻿<form id="WorkPositionForm" class="needs-validation formSpace">
+﻿<div class="formWrapper">
+<form id="WorkPositionForm" class="needs-validation formSpace">
    <input type="hidden" name="PositionId" />
     <div class="row">
         <div class="col">
@@ -18,7 +19,7 @@
                         <label for="Title" class="">Job Title <span class="text-danger">*</span></label>
                         <input name="Title" id="t" type="text" class=" form-control" value="" required>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group mb-0">
                         <label for="received" class="">Date Started <span class="text-danger">*</span></label>
                         <div class="row">
                             <div class="col-6">
@@ -203,13 +204,19 @@
                     </div>
                     <div class="row">
                         <div class="col">
-                            <div class="form-check">
+                       @*     <div class="form-check">
                                 <label class="form-check-label">
                                     <input id="cbCurrentlyIn" name="customSwitch"
                                            label="Currently In" type="checkbox" class="form-check-input">
                                     Currently In
                                 </label>
-                            </div>
+                            </div>*@
+
+
+                                <div class="custom-checkbox custom-control mb-2">
+                                    <input type="checkbox" name="customSwitch" class="custom-control-input" id="cbCurrentlyIn" label="Currently In">
+                                    <label class="custom-control-label" for="cbCurrentlyIn">Include GPA </label>
+                                </div>
                         </div>
                     </div>
                     <div class="row pnlEndDate">
@@ -399,10 +406,8 @@
                         </div>
                     </div>
                     <h5>
-                        <strong>
                             What special projects or additional responsibility did you take on?
                             (Optional)
-                        </strong>
                     </h5>
                     <div class="form-group">
                         <label for="Project1" class="">Project 1</label><input name="Project1"
@@ -412,9 +417,9 @@
                         <label for="Project2" class="">Project 2</label><input name="Project2"
                                                                         id="t" type="text" class="form-control" value="">
                     </div>
-                    <h5><strong>Process Improvement (Optional)</strong></h5>
+                    <h5>Process Improvement (Optional)</h5>
                     <div class="form-group">
-                        <label for="ImproveProductivity" class="">
+                        <label for="ImproveProductivity" class="pb-3">
                             How did you improve productivity,
                             efficiency, or revenue through recommendations or your skills?
                         </label><input name="ImproveProductivity" id="t" type="text" class="form-control" value="">
@@ -434,11 +439,12 @@
                                        class="form-control" value="">
                     </div>
                     <div class="row">
-                        <div class="col mt-3">
+                        <div class="col mt-2">
                             <button type="button"
-                                    class="float-left btn btn-outline-secondary custombtn w-auto me-3" id="btnCancelJob">
+                                        class="float-left btn btn-secondary modalClose w-auto" id="btnCancelJob">
                                 Cancel
-                            </button><button type="button" id="btnSavePosition" class="btn btn-primary custombtn w-auto">
+                                </button>
+                                <button type="button" id="btnSavePosition" class="btn btn-secondary custombtn w-auto" style="padding: 6px 12px;font-size: initial;">
                                 Save
                             </button>
                         </div>
@@ -446,7 +452,7 @@
                 </div>
 
                 <div class="col-md-6">
-                    <h5><strong>Job Responsibilities, Descriptions, and Details</strong></h5>
+                    <h5>Job Responsibilities, Descriptions, and Details</h5>
                     <p>
                         This is the 'guts' of this section, and really separates a good resume from a
                         great one. Try to be SPECIFIC and MEASURABLE in describing what you actually
@@ -454,7 +460,7 @@
                     </p>
                     <div class="form-group">
                         <label for="resp" class="">Job Responsibility</label>
-                        <p class="danger-text"><em>You must select a responsibility.</em></p>
+                        <p class="danger-text" id="respError"><em>You must select a responsibility.</em></p>
                         <select name="JobResponsibilityId" id="ddlJobResponsibility" class="form-control-sm form-control" required>
                             <option value="">-Select-</option>
                             @foreach (var item in ViewBag.Responsibilities)
@@ -465,25 +471,21 @@
                     </div>
                     <div class="otherRespDiv">
                         <h5>
-                            <strong>
                                 Choose up to your Top Three responsibilities you had in this
                                 position
-                            </strong>
                         </h5>
                         <p id="errorText" class="danger-text"><em>You must select 2-3 responsibilities.</em></p>
                         <div id="optionsDiv">
                         </div>
                         <p>
-                            <strong>
                                 For this position, please answer the following questions if they apply to
                                 your job. If you do not have the specific numbers or information, please
                                 give an estimate where possible. The more accurate and specific you can be,
                                 the more impactful your resume will be to prospective employers. If the
                                 question does not apply, please leave the text box blank.
-                            </strong>
                         </p>
                     </div>
-                    <h3 class="respheading">Top three primary responsibilities</h3>
+                    <h4>Top three primary responsibilities</h4>
                     <div id="divQuestions">
                     </div>
 
@@ -495,7 +497,7 @@
     </div>
 
 </form>
-
+</div>
                             <script>
     $("#cbCurrentlyIn").click(function () {
         if ($("#cbCurrentlyIn").is(":checked")) {

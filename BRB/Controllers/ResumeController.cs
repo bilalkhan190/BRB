@@ -1976,7 +1976,9 @@ namespace BRB.Controllers
         }
 
         public static string GetMilitaryExperienceContent(MilitaryExperience resume, List<MilitaryPosition> positions)
-        {          
+        {
+            if (resume == null)
+                return "";
             if (resume.IsOptOut)
                 return "";
             StringBuilder stringBuilder = new StringBuilder();

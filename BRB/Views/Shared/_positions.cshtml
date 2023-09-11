@@ -16,7 +16,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="card-Btn">
-                                <button type="button" class="btn custombtn w-auto ms-2 btnDeletePosition" data-position-id="@item.PositionId">
+                                <button type="button" class="btn custombtn w-auto ms-2 btn-outline-danger btnDeletePosition" data-position-id="@item.PositionId">
                                     <svg stroke="currentColor" fill="currentColor" stroke-width="0"
                                          viewBox="0 0 24 24" height="1em" width="1em"
                                          xmlns="http://www.w3.org/2000/svg">
@@ -24,7 +24,7 @@
                                         </path>
                                     </svg>
                                 </button>
-                                <button type="button" data-item='@json' class="btnEditPosition btn customBtn-light w-auto ms-1">
+                                <button type="button" data-item='@json' class="btnEditPosition btn custombtn customBtn-light w-auto ms-1">
                                     <svg stroke="currentColor" fill="currentColor" stroke-width="0"
                                          viewBox="0 0 24 24" height="1em" width="1em"
                                          xmlns="http://www.w3.org/2000/svg">
@@ -45,7 +45,9 @@
                                 <i> You currently have no awards listed for this company. Click the Add button below to add one.</i>
                             </p>
                         }
+                        <div class="col-md-12">
                         <button type="button" data-position-id="@item.PositionId" class="btnAddAward btn btn-secondary custombtn w-auto mt-2">Add Recognition/Award in @item.Title</button>
+                        </div>
                     </span>
                 </div>
             </div>
@@ -54,3 +56,4 @@
 }   
 
 
+                                    
