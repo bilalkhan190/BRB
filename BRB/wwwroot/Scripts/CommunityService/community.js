@@ -206,6 +206,15 @@ $('#btnSaveAndContinue').click(function () {
 
     })
 
+    if (!$('#cbSectionNotApply').is(":checked")) {
+        let posLength = organizationArr.filter(x => x.VolunteerPositions.length > 0);
+        if (posLength != organizationArr.length) {
+            //swal("Required", "Please fill out the organization and positions to proceed", "error");
+            //return false;
+            $('#cbIsComplete').prop('checked', false)
+        }
+    }
+
     let obj = {
         VolunteerExperienceId: $('#hdfVolunteerExperienceId').val(),
         //VolunteerPositions: positionArray,
@@ -214,12 +223,7 @@ $('#btnSaveAndContinue').click(function () {
         IsOptOut: $('#cbSectionNotApply').is(":checked"),
         LastSectionVisitedId: $('#hdfLastSectionVisitedId').val()
     };
-    if (!obj.IsOptOut) {
-        if (positionArray.length == 0 && organizationArr.length == 0) {
-            swal("Required", "Please fill out the organization and positions to proceed", "error");
-            return false;
-        }
-    }
+  
 
     $.ajax({
         url: '/communityservice/PostCommunityService',
@@ -449,6 +453,9 @@ $(document).on('click', '#btnDeleteOrg', function () {
         success: function (response) {
             let index = parseInt(localStorage.getItem("org-index"));
             organizationArr.splice(index, 1);
+            if ($('#divEditSection').find('mx-auto').children().length == 0) {
+                $('#noList').show();
+            }
             LoadCards();
         },
         error: function (err) {

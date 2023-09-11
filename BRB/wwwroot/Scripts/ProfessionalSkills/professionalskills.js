@@ -206,6 +206,7 @@ function LoadaffCards() {
         debugger
         let posArr = positionArray.filter(x => x.affiliationId == affilation.affiliationId);
         $.each(posArr, function (index, position) {
+          
             let _endMonth = "";
             if (position.endedMonth && position.endedYear) { _endMonth = position.endedMonth + " " + position.endedYear; } else { _endMonth = "Present"; }
             PositionHtml += `
@@ -247,7 +248,7 @@ function LoadaffCards() {
                                             <input type='hidden' class='res2' value='${position.responsibility2}'/>
                                                 <input type='hidden' class='res3' value='${position.responsibility3}'/>
                                                     <input type='hidden' class='otherInfo' value='${position.otherInfo}'/>
-                                                        <p class="text-muted">${position.startedMonth} ${position.startedYear} - ${_endDate}</p>
+                                                        <p class="text-muted">${position.startedMonth} ${position.startedYear} - ${_endMonth}</p>
                 </span>
                 </div>
             </div>
@@ -289,7 +290,8 @@ function LoadaffCards() {
                                     <p class="HasEndDate" class="text-muted">${affilation.startedMonth} ${affilation.startedYear} - ${endMonth}</p>
                                 </span>
                                 <span>
-                                 <p class="noPosition" class="danger-text"><em>You currently have no positions listed. Either add a position to the organization or delete the organization.</em></p>
+                                ${PositionHtml ? "" : `   <p class="noPosition" class="danger-text"><em>You currently have no positions listed. Either add a position to the organization or delete the organization.</em></p>`}
+                              
                                ${PositionHtml}
                              <button type="button" id="btnAddPositions" class= "btn custombtn customBtn-light w-auto ms-1 " data - bs - toggle="modal" onclick = "clearStorage(this)" data-item='${guid()}'
                                     data-bs-target="#PositionModel">
