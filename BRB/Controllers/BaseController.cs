@@ -44,14 +44,14 @@ namespace BRB.Controllers
                         var record = _dbContext.Resumes.FirstOrDefault(x => x.ResumeId == sessionData.ResumeId);
                         if (record != null)
                         {
-                            if (!string.IsNullOrEmpty(record.GeneratedFileName))
-                            {
-                                if (((Microsoft.AspNetCore.Mvc.Controllers.ControllerActionDescriptor)context.ActionDescriptor).ActionName != "Home")
-                                {
-                                    context.Result = new RedirectResult(Url.Action("home", "Resume"));
-                                }
+                            //if (!string.IsNullOrEmpty(record.GeneratedFileName) && sessionData.UserType != "Admin")
+                            //{
+                            //    if (((Microsoft.AspNetCore.Mvc.Controllers.ControllerActionDescriptor)context.ActionDescriptor).ActionName != "Home")
+                            //    {
+                            //        context.Result = new RedirectResult(Url.Action("home", "Resume"));
+                            //    }
 
-                            }
+                            //}
 
                         }
                         ViewBag.UserRecord = sessionData;

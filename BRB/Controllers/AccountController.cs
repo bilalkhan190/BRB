@@ -183,11 +183,7 @@ You must activate it before you can start building your resume.
                     ajaxResponse.Success = true;
                     ajaxResponse.Message = "Login successfully .. redirecting";
 
-                    if (record.IsActive == false)
-                    {
-                        return Json(ajaxResponse);
-                    }
-                    else if (sessionRecord.UserType != "Admin")
+                    if (sessionRecord.UserType != "Admin")
                     {
                         if (sessionRecord != null)
                         {

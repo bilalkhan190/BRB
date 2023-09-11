@@ -34,7 +34,7 @@ namespace BRB.Controllers
                     _dbContext.ObjectiveSummaries.Add(new ObjectiveSummary
                     {
                         ChangeTypeDesc = data.objective.positiveChange,
-                        //ChangeTypeId = data.objective.
+                        
                     });
                     
                 }

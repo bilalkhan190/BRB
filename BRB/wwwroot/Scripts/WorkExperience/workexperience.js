@@ -42,6 +42,17 @@ $(document).ready(function () {
             alert(err)
         }
     });
+    let elemArr = $(document).find(".cbResp:checked");
+    let inputsArray = $(document).find(".txtrespAnswers");
+
+    if (elemArr.length >= 3) {
+        $(".cbResp:not(:checked)").prop("disabled", true);
+        $("#errorText").hide();
+    }
+    else {
+        $(".cbResp").prop("disabled", false);
+        $("#errorText").show();
+    }
 });
 
 
@@ -108,6 +119,7 @@ $(document).on("click", "#btnSavePosition", function () {
                     if (response.success) {
                         $('#companiesPenal').html(response.data);
                         $('#companyForm').trigger("reset");
+                        $("#pnlEndDate").show();
                         $('#SummaryModal').modal('toggle')
                         $('#noList').hide();
                     }
@@ -212,6 +224,12 @@ function fillDropdown(val) {
 
 $(document).on('change', '#ddlJobResponsibility', function () {
     let id = $(this).val();
+    if (id) {
+        $("#respError").hide();
+    }
+    else {
+        $("#respError").show();
+    }
     $.ajax({
         url: '/WorkExperience/GetResponsibilityFAQ',
         type: 'get',
@@ -219,7 +237,7 @@ $(document).on('change', '#ddlJobResponsibility', function () {
         success: function (response) {
             $('#optionsDiv').html("");
             if (response.data.responsibilityOptions.length == 0) {
-                let input = ' <input type="text" class="form-control mt-2 txtOtherCategory"  name="OtherResponsibility" required>';
+                let input = ' <input type="text" class="form-control mt-3 txtOtherCategory"  name="OtherResponsibility" required>';
                 $('#ddlJobResponsibility').after(input)
                 $('.otherRespDiv').hide();
                 $('.respheading').show();
@@ -231,10 +249,10 @@ $(document).on('change', '#ddlJobResponsibility', function () {
                 $('.respheading').hide();
                 $('.otherRespDiv').show();
                 $.each(response.data.responsibilityOptions, function (index, value) {
-                    let html = ` <div id="ooption-${index}" class="form-check">
+                    let html = ` <div id="ooption-${index}" class="custom-checkbox custom-control mb-2">
                     <input id="${index}-option" name="responsibilityOptions[${index}].ResponsibilityOption" value="${value.respOptionId}"
-                           type="checkbox" data-map='${value.caption}' class="form-check-input cbResp"><label for="${index}-option"
-                                                                           class="">${value.caption}</label>
+                           type="checkbox" data-map='${value.caption}' class="custom-control-input cbResp"><label for="${index}-option"
+                                                                           class="custom-control-label">${value.caption}</label>
                 </div>`;
                     $('#optionsDiv').append(html)
 
