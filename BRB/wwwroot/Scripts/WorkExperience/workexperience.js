@@ -263,7 +263,7 @@ $(document).on('change', '#ddlJobResponsibility', function () {
                
                 $.each(response.data.responsibilityQuestions, function (index, value) {
                     console.log(value);
-                    let inputType = value.responseType == 'string' ? 'text' : 'number';
+                    let inputType = value.responseType == 'number' ? 'number' : 'text';
                     let html = ` <div class="form-group">
                     <label for="workRespQuestions[${index}].RespQuestionId" class="">
                        ${value.caption}

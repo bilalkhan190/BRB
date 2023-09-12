@@ -15,6 +15,7 @@ namespace BRB.Controllers
     public class CommonController : BaseController
     {
         private readonly IDropdownService _dropdownService;
+      
         public CommonController(IDropdownService dropdownService)
         {
             _dropdownService = dropdownService;
@@ -229,6 +230,21 @@ namespace BRB.Controllers
             {
                 ajaxResponse.Data = null;
             }
+            return Json(ajaxResponse);
+        }
+
+        public IActionResult GetStateName(string stateAbbr)
+        {
+            AjaxResponse ajaxResponse = new AjaxResponse();
+            ajaxResponse.Data = null;
+            var stateName = _dbContext.StateLists.FirstOrDefault(x => x.StateAbbr == stateAbbr).StateName;
+            if (!string.IsNullOrEmpty(stateName))
+            {
+                ajaxResponse.Data = stateName;
+                ajaxResponse.Success = true;
+            }
+
+            
             return Json(ajaxResponse);
         }
 

@@ -177,6 +177,7 @@ $(document).on('click', '#btnAddPosition', function () {
         };
 
         if (localStorage.getItem("pos-index") == null) {
+            debugger;
             organizationArr.filter(x => x.volunteerOrgId == position.volunteerOrgId)[0].volunteerPositions.push(position);
            // positionArray.push(position);
         }
@@ -189,7 +190,7 @@ $(document).on('click', '#btnAddPosition', function () {
 
         $('#PositionModel').modal('toggle')
         $('#btnAddPosition').prop('disabled', false)
-        debugger
+       
         LoadCards();
     }
 });
@@ -207,11 +208,15 @@ $('#btnSaveAndContinue').click(function () {
     })
 
     if (!$('#cbSectionNotApply').is(":checked")) {
-        let posLength = organizationArr.filter(x => x.VolunteerPositions.length > 0);
-        if (posLength != organizationArr.length) {
-            //swal("Required", "Please fill out the organization and positions to proceed", "error");
-            //return false;
-            $('#cbIsComplete').prop('checked', false)
+        let posLength = organizationArr.filter(x => x.volunteerPositions.length > 0);
+        //if (posLength != organizationArr.length) {
+        //    //swal("Required", "Please fill out the organization and positions to proceed", "error");
+        //    //return false;
+        //    $('#cbIsComplete').prop('checked', false)
+        //}
+        if (!(organizationArr.length > 0 && posLength.length > 0)) {
+
+            $("#cbIsComplete").prop("checked", false);
         }
     }
 
@@ -370,6 +375,7 @@ const OpenOrgModel = () => {
 }
 
 const OpenPositionModel = (id) => {
+    localStorage.clear();
     $('#hdfVolunteerOrgId').val(id)
     $('#PositionModel').modal('toggle')
 
@@ -477,7 +483,9 @@ $(document).on('click', '#btnDeletePosition', function () {
         success: function (response) {
             let index = parseInt(localStorage.getItem("pos-index"));
             positionArray.splice(index, 1);
+            localStorage.clear();
             LoadCards();
+           
         },
         error: function (err) {
 

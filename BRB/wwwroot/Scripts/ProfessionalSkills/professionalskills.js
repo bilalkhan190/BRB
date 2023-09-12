@@ -69,6 +69,7 @@ $('#btnSaveLicense').click(function () {
         let license = {
             Title: $('#txtlicenseTitle').val(),
             StateAbbr: $('#ddllicenseState').val(),
+            StateName: $('#ddllicenseState option:selected').text(),
             ReceivedMonth: $('#ddllicenseReceivedMonth').val(),
             ReceivedYear: $('#ddllicenseReceivedYear').val(),
         };
@@ -98,21 +99,27 @@ $('.closeLicense').click(function () {
 
 
 function LoadLicenseCards() {
+    let stateName = '';
     $('#divLicenseCard div.row-cstm').html('');
     licenseArray = covertArrayKeyIntoCamelCase(licenseArray)
     console.log(licenseArray)
     $.each(licenseArray, function (index, value) {
-        console.log(value, "test")
-        $("#noList").hide();
-        let html = ` 
+        $.ajax({
+            url: '/Common/GetStateName?stateAbbr=' + value.stateAbbr,
+            type: 'GET',
+            success: function (resp) {
+                value.stateName = resp.data;
+                console.log(stateName + '--state name---')
+                $("#noList").hide();
+                let html = ` 
                   <div class="card p-0 mt-2 mb-2 cardWrapper"> 
                     <div class="card-body">
                        <div class="row">
                            <div class="col-md-8">
                                 <span class="card-text">
                                     <h5 class="title-text">${value.title}</h5>
-                                    <p class="text-muted"> ${value.stateAbbr} </p>
                                     <p class="text-muted"> ${value.receivedMonth} - ${value.receivedYear} </p>
+                                    <p class="text-muted"> ${value.stateName}</p>
                                 </span>
                             </div>
                             <div class="col-md-4">
@@ -137,8 +144,14 @@ function LoadLicenseCards() {
                                 </div>
                             </div>
 </div></div></div> `;
-        $('#noLicense').hide();
-        $('#divLicenseCard div.row-cstm').append(html);
+                $('#noLicense').hide();
+                $('#divLicenseCard div.row-cstm').append(html);
+            },
+            error: function (err) {
+
+            }
+        });
+      
     })
 
     if (licenseArray != null && licenseArray.length > 3) {
@@ -150,15 +163,21 @@ function LoadCertCards() {
     $('#divCertificateCard div.row-cstm').html('');
     certificateArray = covertArrayKeyIntoCamelCase(certificateArray)
     $.each(certificateArray, function (index, value) {
-        $("#noListCert").hide();
-        let html = `
+        $.ajax({
+            url: '/Common/GetStateName?stateAbbr=' + value.stateAbbr,
+            type: 'GET',
+            success: function (resp) {
+                value.stateName = resp.data
+                $("#noListCert").hide();
+                let html = `
                 <div class="card p-0 mt-2 mb-2 cardWrapper"> 
                     <div class="card-body">
                        <div class="row">
                                 <div class="col-md-8">
                                 <span class="card-text">
                                     <h5 class="title-text">${value.title}</h5>
-                                    <p class="text-muted"> ${value.receivedMonth} - ${value.receivedYear}</p>
+                                    <p class="text-muted">${value.receivedMonth} - ${value.receivedYear}</p>
+                                    <p class="text-muted">${value.stateName}</p>
                                 </span>
                             </div>
                             <div class="col-md-4">
@@ -184,8 +203,12 @@ function LoadCertCards() {
                             </div>
 </div></div></div>
   `
-        $('#noCertificate').hide();
-        $('#divCertificateCard div.row-cstm').append(html);
+                $('#noCertificate').hide();
+                $('#divCertificateCard div.row-cstm').append(html);
+            },
+            error: function (err) { }
+        });
+      
     })
     if (certificateArray != null && certificateArray.length > 3) {
         $("#divCertificateCard").addClass("BoxHeight");
@@ -199,17 +222,22 @@ function LoadaffCards() {
     $('#divAffilateCard div.row-cstm').html('');
     affilationArray = covertArrayKeyIntoCamelCase(affilationArray)
     $.each(affilationArray, function (index, affilation) {
-        let endMonth = "";
-        if (affilation.endedMonth && affilation.endedYear) { endMonth = affilation.endedMonth + " " + affilation.endedYear; } else { endMonth = "Present"; }
-        $("#noListAff").hide();
-        let PositionHtml = '';
-        debugger
-        let posArr = positionArray.filter(x => x.affiliationId == affilation.affiliationId);
-        $.each(posArr, function (index, position) {
-          
-            let _endMonth = "";
-            if (position.endedMonth && position.endedYear) { _endMonth = position.endedMonth + " " + position.endedYear; } else { _endMonth = "Present"; }
-            PositionHtml += `
+        $.ajax({
+            url: '/Common/GetStateName?stateAbbr=' + affilation.stateAbbr,
+            type: 'GET',
+            success: function (resp) {
+                affilation.stateName = resp.data
+                let endMonth = "";
+                if (affilation.endedMonth && affilation.endedYear) { endMonth = affilation.endedMonth + " " + affilation.endedYear; } else { endMonth = "Present"; }
+                $("#noListAff").hide();
+                let PositionHtml = '';
+                debugger
+                let posArr = positionArray.filter(x => x.affiliationId == affilation.affiliationId);
+                $.each(posArr, function (index, position) {
+                    console.log(position,'-----position array-----')
+                    let _endMonth = "";
+                    if (position.endedMonth && position.endedYear && position.endedMonth != "null" && position.endedYear != "null") { _endMonth = position.endedMonth + " " + position.endedYear; } else { _endMonth = "Present"; }
+                    PositionHtml += `
          <div class="card p-0 mt-2 mb-2 cardWrapper cardWrapper-affPos"> 
     <div class= "card-body">
        <div class="row">
@@ -256,9 +284,9 @@ function LoadaffCards() {
     </div>
     </div>
                                     `
-            //$('.positionDiv').append(html);
-        })
-        let html = `
+                    //$('.positionDiv').append(html);
+                })
+                let html = `
                 <div class="card p-0 mt-2 mb-2 cardWrapper cardWrapper-aff"> 
                     <div class="card-body">
                        <div class="row">
@@ -288,6 +316,7 @@ function LoadaffCards() {
                                    </div>
                                 </div>
                                     <p class="HasEndDate" class="text-muted">${affilation.startedMonth} ${affilation.startedYear} - ${endMonth}</p>
+                                    <p  class="text-muted">${affilation.stateName}, ${affilation.city}</p>
                                 </span>
                                 <span>
                                 ${PositionHtml ? "" : `   <p class="noPosition" class="danger-text"><em>You currently have no positions listed. Either add a position to the organization or delete the organization.</em></p>`}
@@ -302,7 +331,11 @@ function LoadaffCards() {
                     </div >
                 </div >
         `
-        $('#divAffilateCard div.row-cstm').append(html);
+                $('#divAffilateCard div.row-cstm').append(html);
+            },
+            error: function () { }
+        })
+      
 
     });
     // $('.positionDiv').html('');

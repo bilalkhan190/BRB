@@ -190,7 +190,7 @@ $(document).on('click', '#btnAddPosition', function () {
 
 $('#btnSaveAndContinue').click(function () {
     debugger;
-    if (!(organizationArr.length > 0 && positionArray.length > 0)) {
+    if (!(organizationArr.length > 0 && organizationArr[0].orgPositions.length > 0)) {
 
         $("#cbIsComplete").prop("checked", false);
     }
