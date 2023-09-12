@@ -38,6 +38,7 @@ namespace BRB.Controllers
             resume.CreatedDate = DateTime.Today;
             resume.GeneratedFileName = null;
             resume.LastSectionCompletedId = overseasStudyViewModel.IsComplete == true ? overseasStudyViewModel.LastSectionVisitedId : 0;
+            
             OverseasExperience overseasExperience = null;
             using (var transection = _dbContext.Database.BeginTransaction())
             {

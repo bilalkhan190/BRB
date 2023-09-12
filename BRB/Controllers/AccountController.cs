@@ -192,37 +192,48 @@ You must activate it before you can start building your resume.
                                 switch (sessionRecord.LastSectionCompletedId)
                                 {
                                     case 15:
-                                        ajaxResponse.Redirect = "/Resume/ContactInfo";
-                                        break;
-                                    case 20:
+                                        //ajaxResponse.Redirect = "/Resume/ContactInfo";
                                         ajaxResponse.Redirect = "/Resume/Objective";
                                         break;
-                                    case 25:
+                                    case 20:
+                                        // ajaxResponse.Redirect = "/Resume/Objective";
                                         ajaxResponse.Redirect = "/Resume/Education";
                                         break;
-                                    case 30:
+                                    case 25:
+                                        //ajaxResponse.Redirect = "/Resume/Education";
                                         ajaxResponse.Redirect = "/Resume/OverseasStudy";
                                         break;
-                                    case 35:
+                                    case 30:
+                                        //ajaxResponse.Redirect = "/Resume/OverseasStudy";
                                         ajaxResponse.Redirect = "/Resume/WorkExperience";
                                         break;
-                                    case 40:
+                                    case 35:
+                                        //ajaxResponse.Redirect = "/Resume/WorkExperience";
                                         ajaxResponse.Redirect = "/Resume/Military";
                                         break;
-                                    case 45:
+                                    case 40:
+                                        //ajaxResponse.Redirect = "/Resume/Military";
                                         ajaxResponse.Redirect = "/Resume/Organizations";
                                         break;
-                                    case 50:
+                                    case 45:
+                                        //ajaxResponse.Redirect = "/Resume/Organizations";
                                         ajaxResponse.Redirect = "/Resume/CommunityService";
                                         break;
-                                    case 60:
+                                    case 50:
+                                        //ajaxResponse.Redirect = "/Resume/CommunityService";
                                         ajaxResponse.Redirect = "/Resume/Certifications";
                                         break;
-                                    case 55:
+                                    case 60:
+                                        //ajaxResponse.Redirect = "/Resume/Certifications";
                                         ajaxResponse.Redirect = "/Resume/ComputerAndTechnicalSkills";
                                         break;
-                                    case 65:
+                                    case 55:
+                                        //ajaxResponse.Redirect = "/Resume/ComputerAndTechnicalSkills";
                                         ajaxResponse.Redirect = "/Resume/LanguagesSKills";
+                                        break;
+                                    case 65:
+                                        //ajaxResponse.Redirect = "/Resume/LanguagesSKills";
+                                        ajaxResponse.Redirect = "/Resume/Home";
                                         break;
                                     
                                     default: ajaxResponse.Redirect = "/Resume/Home";
