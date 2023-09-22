@@ -431,16 +431,14 @@ $(document).on("click", "button.btnEditAffilationPosition", function () {
     let index = $(this).attr("data-identity");
     let editRecord = JSON.parse($(this).attr("data-json"));
     console.log(editRecord, 'edit record')
-
     $('#txtpositionTitle').val(editRecord.title);
     $('#ddlPositionStartedMonth').val(editRecord.startedMonth);
     $('#ddlPositionStartedYear').val(editRecord.startedYear);
-
     $('#txtResponsibility1').val(editRecord.responsibility1);
     $('#txtResponsibility2').val(editRecord.responsibility2);
     $('#txtResponsibility3').val(editRecord.responsibility3);
     $('#txtOtherInfo').val(editRecord.otherInfo);
-    if (editRecord.endedMonth == null && editRecord.endedYear == null || editRecord.endedMonth == "null" && editRecord.endedYear == "null") {
+    if (editRecord.endedMonth == null && editRecord.endedYear == null || editRecord.endedMonth == "null" && editRecord.endedYear == "null" || editRecord.endedMonth == "" && editRecord.endedYear == "" ) {
         $("#cbPositionCurrentlyIn").prop("checked", true);
         $('#ddlPositionEndedMonth').hide();
         $('#ddlPositionEndedYear').hide();
@@ -970,6 +968,7 @@ function editPosition(json) {
 }
 
 $(document).on("click", "button.btnEditPosition", function () {
+    alert()
     let parsedJson = JSON.parse($(this).attr("data-json"));
     $('#txtpositionTitle').val(parsedJson.Title);
     $('#ddlPositionStartedMonth').val(parsedJson.StartedMonth);
@@ -980,6 +979,8 @@ $(document).on("click", "button.btnEditPosition", function () {
     $('#txtResponsibility2').val(parsedJson.Responsibility2 == "null" || parsedJson.Responsibility2 == null ? "" : parsedJson.responsibility2);
     $('#txtResponsibility3').val(parsedJson.Responsibility3 == "null" || parsedJson.Responsibility3 == null ? "" : parsedJson.responsibility3);
     $('#txtOtherInfo').val(parsedJson.OtherInfo == "null" || parsedJson.OtherInfo == null ? "" : parsedJson.OtherInfo);
+   
+ 
     localStorage.setItem("edit-position", $(this).attr("data-identity"));
 })
 
