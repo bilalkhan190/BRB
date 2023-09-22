@@ -38,6 +38,7 @@ namespace BRB.Controllers
                 {
                     foreach (var o in record)
                     {
+                        o.StateName = _dbContext.StateLists.FirstOrDefault(x => x.StateAbbr == o.StateAbbr).StateName;
                         OrganizationViewObject viewObject = new OrganizationViewObject();
                         viewObject.OrgExperience = _dbContext.OrgExperiences.FirstOrDefault(x => x.ResumeId == sessionData.ResumeId);
                         viewObject.Organization = o;

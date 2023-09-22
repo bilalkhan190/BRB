@@ -771,3 +771,45 @@ ul.navbar-nav .dropdown-menu {
 .card-Btn .btn.custombtn.btn-outline-danger:hover svg {
     fill: #dc3545;
 }
+
+.closeBtn {
+    padding: 0 15px;
+    text-align: right;
+    font-size: 20px;
+}
+.closeBtn a.close svg {
+    fill: #727272;
+}
+.mobileBtn {
+    display:none;
+}
+.closeBtn {
+    display:none;
+}
+@media (max-width:576px) {
+    .mobileBtn {
+        display: block;
+    }
+    .closeBtn {
+        display: block;
+    }
+    .relate.sidebarMobile {
+        position: fixed;
+        left: 0;
+        padding: 0 !important;
+        width: 0;
+        overflow: auto;
+        z-index: 5;
+        top: 0;
+        height: 100%;
+        bottom: 0;
+        transition:.3s;
+    }
+
+    .sidebarMobile.sideBar-open {
+        width: 355px;
+    }
+    .row .contentWrapper {
+        width: 100%;
+    }
+}

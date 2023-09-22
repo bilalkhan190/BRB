@@ -196,15 +196,10 @@ namespace BRB.Controllers
             resumeProfileData.LastModDate = DateTime.Today;
             resumeProfileData.CreatedDate = DateTime.Today;
             resumeProfileData.LastSectionCompletedId = educationViewModel.IsComplete == true ? educationViewModel.LastSectionVisitedId : 0;
-            
            
-          
             try
             {
-
                 var record = _dbContext.Educations.FirstOrDefault(x => x.ResumeId == sessionData.ResumeId);
-                   
-                  
                 if (record == null)
                 {
                     education.ResumeId = sessionData.ResumeId;

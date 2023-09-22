@@ -41,6 +41,7 @@ namespace BRB.Controllers
                         }
 
 
+
                         var record = _dbContext.Resumes.FirstOrDefault(x => x.ResumeId == sessionData.ResumeId);
                         if (record != null)
                         {

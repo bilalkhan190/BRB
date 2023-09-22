@@ -105,6 +105,7 @@ $('#btnSaveOrganization').click(function () {
             OrgName: $('#txtOrgName').val(),
             City: $('#txtCity').val(),
             StateAbbr: $('#ddlStateAbbr').val(),
+            StateName: $('#ddlStateAbbr option:selected').text(),
             StartedMonth: $('#ddlStartedMonth').val(),
             StartedYear: $('#ddlStartedYear').val(),
             EndedMonth: $('#ddlEndedMonth').val(),
@@ -322,7 +323,7 @@ function LoadCards() {
                             <p class="text-muted">
                                 ${value.startedMonth} ${value.startedYear} - ${endMonth}
                             </p>
-                            <p class="text-muted">${value.city}</p>
+                            <p class="text-muted">${value.city} , ${value.stateName}</p>
                         </div>
                         <div class="col-md-6">
                             <div class="card-Btn">

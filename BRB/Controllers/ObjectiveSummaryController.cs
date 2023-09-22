@@ -78,15 +78,18 @@ namespace BRB.Controllers
             ajaxResponse.Data = null;
             var sessionData = JsonSerializer.Deserialize<UserSessionData>(HttpContext.Session.GetString("_userData"));
             var record = _dropdownService.GetObjectives();
+           
             var checkboxes = _dbContext.ObjectiveSummaries.FirstOrDefault(x => x.ResumeId == sessionData.ResumeId);
             if (checkboxes != null)
             {
                 record.Where(x => x.ObjectiveId == checkboxes.Objective1Id || x.ObjectiveId == checkboxes.Objective2Id || x.ObjectiveId == checkboxes.Objective3Id).ToList()
+                     
               .ForEach(record => record.Checked = true);
             }
            
             if (record != null)
             {
+               
                 ajaxResponse.Data = record;
             }
             return Json(ajaxResponse);

@@ -102,56 +102,44 @@ function LoadLicenseCards() {
     let stateName = '';
     $('#divLicenseCard div.row-cstm').html('');
     licenseArray = covertArrayKeyIntoCamelCase(licenseArray)
-    console.log(licenseArray)
-    $.each(licenseArray, function (index, value) {
-        $.ajax({
-            url: '/Common/GetStateName?stateAbbr=' + value.stateAbbr,
-            type: 'GET',
-            success: function (resp) {
-                value.stateName = resp.data;
-                console.log(stateName + '--state name---')
-                $("#noList").hide();
-                let html = ` 
-                  <div class="card p-0 mt-2 mb-2 cardWrapper"> 
-                    <div class="card-body">
-                       <div class="row">
-                           <div class="col-md-8">
-                                <span class="card-text">
-                                    <h5 class="title-text">${value.title}</h5>
-                                    <p class="text-muted"> ${value.receivedMonth} - ${value.receivedYear} </p>
-                                    <p class="text-muted"> ${value.stateName}</p>
-                                </span>
-                            </div>
-                            <div class="col-md-4">
-                            <div class="card-Btn">
-                                <button type="button"  class="btnDeleteLicense btn custombtn w-auto ms-2 btn-outline-danger" data-item='${index}'>
-                                    <svg stroke="currentColor" fill="currentColor" stroke-width="0"
-                                         viewBox="0 0 24 24" height="1em" width="1em"
-                                         xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z">
-                                        </path>
-                                    </svg>
-                                </button>
-                                <button type="button" id="btnEditLicense" class="btnEditLicense btn custombtn customBtn-light w-auto ms-1" data-item='${index}'>
-                                    <svg stroke="currentColor" fill="currentColor" stroke-width="0"
-                                         viewBox="0 0 24 24" height="1em" width="1em"
-                                         xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z">
-                                        </path>
-                                    </svg>
-                                   
-                                </button>
-                                </div>
-                            </div>
-</div></div></div> `;
-                $('#noLicense').hide();
-                $('#divLicenseCard div.row-cstm').append(html);
-            },
-            error: function (err) {
 
-            }
-        });
-      
+    // console.log(licenseArray)
+    $.each(licenseArray, function (index, value) {
+        $("#noList").hide();
+        let html = ` <div class="card p-0 mt-2 mb-2 cardWrapper">
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-8">
+        <h5 class="title-text"><span class="card-text">${value.title}</span></h5>
+        <p class="text-muted"><span class="card-text">${value.receivedMonth} - ${value.receivedYear}</span></p>
+        <p class="text-muted"><span class="card-text _stateName">${value.stateName}</span></p>
+      </div>
+      <div class="col-md-4">
+        <div class="card-Btn">
+          <button type="button" class="btnDeleteLicense btn custombtn w-auto ms-2 btn-outline-danger" data-item='${index}'><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewbox="0 0 24 24" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+          <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"></path></svg></button> <button type="button" id="btnEditLicense" class="btnEditLicense btn custombtn customBtn-light w-auto ms-1" data-item='${index}'><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewbox="0 0 24 24" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+          <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"></path></svg></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>`;
+        $('#noLicense').hide();
+
+        $('#divLicenseCard div.row-cstm').append(html);
+        //$.ajax({
+        //    url: '/Common/GetStateName?stateAbbr=' + value.stateAbbr,
+        //    type: 'GET',
+
+        //    success: function (resp) {
+        //        $("._stateName").html("");
+        //        $("._stateName").html(resp.data);
+        //    },
+        //    error: function (err) {
+
+        //    }
+        //});
+
     })
 
     if (licenseArray != null && licenseArray.length > 3) {
@@ -163,52 +151,42 @@ function LoadCertCards() {
     $('#divCertificateCard div.row-cstm').html('');
     certificateArray = covertArrayKeyIntoCamelCase(certificateArray)
     $.each(certificateArray, function (index, value) {
-        $.ajax({
-            url: '/Common/GetStateName?stateAbbr=' + value.stateAbbr,
-            type: 'GET',
-            success: function (resp) {
-                value.stateName = resp.data
-                $("#noListCert").hide();
-                let html = `
-                <div class="card p-0 mt-2 mb-2 cardWrapper"> 
-                    <div class="card-body">
-                       <div class="row">
-                                <div class="col-md-8">
-                                <span class="card-text">
-                                    <h5 class="title-text">${value.title}</h5>
-                                    <p class="text-muted">${value.receivedMonth} - ${value.receivedYear}</p>
-                                    <p class="text-muted">${value.stateName}</p>
-                                </span>
-                            </div>
-                            <div class="col-md-4">
-                            <div class="card-Btn">
-                               <button type="button" class="btnDeleteCertificate btn custombtn w-auto ms-2 btn-outline-danger" data-item="${index}">
-                                <svg stroke="currentColor" fill="currentColor" stroke-width="0"
-                                    viewBox="0 0 24 24" height="1em" width="1em"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z">
-                                    </path>
-                                </svg>
-                            </button>
-                                <button type="button" class="btnEditCertificate btn custombtn customBtn-light w-auto ms-1" data-item='${index}'>
-                                    <svg stroke="currentColor" fill="currentColor" stroke-width="0"
-                                         viewBox="0 0 24 24" height="1em" width="1em"
-                                         xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z">
-                                        </path>
-                                    </svg>
-                                   
-                                </button>
-                                </div>
-                            </div>
-</div></div></div>
+        $("#noListCert").hide();
+        let html = `
+               <div class="card p-0 mt-2 mb-2 cardWrapper">
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-8">
+        <h5 class="title-text"><span class="card-text">${value.title}</span></h5>
+        <p class="text-muted"><span class="card-text">${value.receivedMonth} - ${value.receivedYear}</span></p>
+        <p class="text-muted"><span class="card-text _stateNam">${value.stateName}</span></p>
+      </div>
+      <div class="col-md-4">
+        <div class="card-Btn">
+          <button type="button" class="btnDeleteCertificate btn custombtn w-auto ms-2 btn-outline-danger" data-item="${index}"><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewbox="0 0 24 24" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+          <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"></path></svg></button> <button type="button" class="btnEditCertificate btn custombtn customBtn-light w-auto ms-1" data-item='${index}'><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewbox="0 0 24 24" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+          <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"></path></svg></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
   `
-                $('#noCertificate').hide();
-                $('#divCertificateCard div.row-cstm').append(html);
-            },
-            error: function (err) { }
-        });
-      
+        $('#noCertificate').hide();
+        $('#divCertificateCard div.row-cstm').append(html);
+        //$.ajax({
+        //    url: '/Common/GetStateName?stateAbbr=' + value.stateAbbr,
+        //    type: 'GET',
+
+        //    success: function (resp) {
+        //        $("._stateName").html("");
+        //        $("._stateName").html(resp.data);
+        //    },
+        //    error: function (err) {
+
+        //    }
+        //});
+
     })
     if (certificateArray != null && certificateArray.length > 3) {
         $("#divCertificateCard").addClass("BoxHeight");
@@ -218,26 +196,22 @@ function LoadCertCards() {
 
 function LoadaffCards() {
 
-    
+
     $('#divAffilateCard div.row-cstm').html('');
     affilationArray = covertArrayKeyIntoCamelCase(affilationArray)
     $.each(affilationArray, function (index, affilation) {
-        $.ajax({
-            url: '/Common/GetStateName?stateAbbr=' + affilation.stateAbbr,
-            type: 'GET',
-            success: function (resp) {
-                affilation.stateName = resp.data
-                let endMonth = "";
-                if (affilation.endedMonth && affilation.endedYear) { endMonth = affilation.endedMonth + " " + affilation.endedYear; } else { endMonth = "Present"; }
-                $("#noListAff").hide();
-                let PositionHtml = '';
-                debugger
-                let posArr = positionArray.filter(x => x.affiliationId == affilation.affiliationId);
-                $.each(posArr, function (index, position) {
-                    console.log(position,'-----position array-----')
-                    let _endMonth = "";
-                    if (position.endedMonth && position.endedYear && position.endedMonth != "null" && position.endedYear != "null") { _endMonth = position.endedMonth + " " + position.endedYear; } else { _endMonth = "Present"; }
-                    PositionHtml += `
+        console.log(affilation,'---affilation ')
+        // affilation.stateName = resp.data
+        let endMonth = "";
+        if (affilation.endedMonth && affilation.endedYear) { endMonth = affilation.endedMonth + " " + affilation.endedYear; } else { endMonth = "Present"; }
+        $("#noListAff").hide();
+        let PositionHtml = '';
+        debugger
+        let posArr = positionArray.filter(x => x.affiliationId == affilation.affiliationId);
+        $.each(posArr, function (index, position) {
+            let _endMonth = "";
+            if (position.endedMonth && position.endedYear && position.endedMonth != "null" && position.endedYear != "null") { _endMonth = position.endedMonth + " " + position.endedYear; } else { _endMonth = "Present"; }
+            PositionHtml += `
          <div class="card p-0 mt-2 mb-2 cardWrapper cardWrapper-affPos"> 
     <div class= "card-body">
        <div class="row">
@@ -249,7 +223,7 @@ function LoadaffCards() {
                     </div>
                     <div class="col-md-6">
                         <div class="card-Btn">
-                            <button type="button"  class="btnDeletePosition btn custombtn w-auto ms-2 btn-outline-danger" data-json='${JSON.stringify(position)}'>
+                            <button type="button"  class="btnDeletePosition btn custombtn w-auto ms-2 btn-outline-danger" data-item='${positionArray.length - 1}' data-json='${JSON.stringify(position)}'>
                                 <svg stroke="currentColor" fill="currentColor" stroke-width="0"
                                     viewBox="0 0 24 24" height="1em" width="1em"
                                     xmlns="http://www.w3.org/2000/svg">
@@ -278,15 +252,12 @@ function LoadaffCards() {
                                                     <input type='hidden' class='otherInfo' value='${position.otherInfo}'/>
                                                         <p class="text-muted">${position.startedMonth} ${position.startedYear} - ${_endMonth}</p>
                 </span>
-                </div>
-            </div>
         </div>
     </div>
-    </div>
-                                    `
-                    //$('.positionDiv').append(html);
-                })
-                let html = `
+    </div></div>`
+            //$('.positionDiv').append(html);
+        })
+        let html = `
                 <div class="card p-0 mt-2 mb-2 cardWrapper cardWrapper-aff"> 
                     <div class="card-body">
                        <div class="row">
@@ -331,11 +302,21 @@ function LoadaffCards() {
                     </div >
                 </div >
         `
-                $('#divAffilateCard div.row-cstm').append(html);
-            },
-            error: function () { }
-        })
-      
+        $('#divAffilateCard div.row-cstm').append(html);
+
+
+
+
+
+        //$.ajax({
+        //    url: '/Common/GetStateName?stateAbbr=' + affilation.stateAbbr,
+        //    type: 'GET',
+        //    success: function (resp) {
+
+        //    },
+        //    error: function () { }
+        //})
+
 
     });
     // $('.positionDiv').html('');
@@ -362,7 +343,7 @@ $(document).on("click", ".btnEditLicense", function () {
 
 $(document).on("click", ".btnDeleteLicense", function () {
     $(this).closest(".cardWrapper").remove();
-  
+
     let index = $(this).attr("data-item");
     let editRecord = licenseArray[index];
     licenseArray.splice(index, 1);
@@ -372,7 +353,7 @@ $(document).on("click", ".btnDeleteLicense", function () {
         type: 'post',
         success: function (response) {
             if (response.success) {
-                
+
             }
             if ($('#divLicenseCard').find('.row-cstm').children().length == 0) {
                 $('#noList').show();
@@ -407,7 +388,7 @@ $(document).on("click", ".btnDeleteCertificate", function () {
         type: 'post',
         success: function (response) {
             if (response.success) {
-               
+
             }
             if ($('#divCertificateCard').find('.row-cstm').children().length == 0) {
                 $('#noListCert').show();
@@ -449,18 +430,17 @@ $(document).on("click", ".btnEditAffilation", function () {
 $(document).on("click", "button.btnEditAffilationPosition", function () {
     let index = $(this).attr("data-identity");
     let editRecord = JSON.parse($(this).attr("data-json"));
-    console.log(editRecord)
+    console.log(editRecord, 'edit record')
 
     $('#txtpositionTitle').val(editRecord.title);
     $('#ddlPositionStartedMonth').val(editRecord.startedMonth);
     $('#ddlPositionStartedYear').val(editRecord.startedYear);
-    $('#ddlPositionEndedMonth').val(editRecord.endedMonth);
-    $('#ddlPositionEndedYear').val(editRecord.endedYear);
+
     $('#txtResponsibility1').val(editRecord.responsibility1);
     $('#txtResponsibility2').val(editRecord.responsibility2);
     $('#txtResponsibility3').val(editRecord.responsibility3);
     $('#txtOtherInfo').val(editRecord.otherInfo);
-    if (!(editRecord.endedMonth && editRecord.endedYear)) {
+    if (editRecord.endedMonth == null && editRecord.endedYear == null || editRecord.endedMonth == "null" && editRecord.endedYear == "null") {
         $("#cbPositionCurrentlyIn").prop("checked", true);
         $('#ddlPositionEndedMonth').hide();
         $('#ddlPositionEndedYear').hide();
@@ -469,10 +449,13 @@ $(document).on("click", "button.btnEditAffilationPosition", function () {
         $('#LabelEndedPositionDate').hide();
         $('#pnlPositionEndDate').hide();
     } else {
+        $('#ddlPositionEndedMonth').val(editRecord.endedMonth);
+        $('#ddlPositionEndedYear').val(editRecord.endedYear);
         $('#ddlPositionEndedMonth').show();
         $('#ddlPositionEndedYear').show();
         $('#LabelEndedPositionDate').show();
         $('#pnlPositionEndDate').show();
+
     }
     localStorage.setItem("edit-position", index);
     $("#PositionModel").modal("show");
@@ -484,14 +467,14 @@ $(document).on("click", ".btnDeleteAffiliation", function () {
     let editRecord = JSON.parse($(this).attr("data-json"));
     affilationArray.splice(index, 1);
     LoadaffCards();
-    console.log(editRecord)
+
     $.ajax({
         url: '/professional/DeleteAffilation?id=' + editRecord.affiliationId,
         type: 'post',
         success: function (response) {
             if (response.success) {
-              
-                  
+
+
             }
             if ($('#divAffilateCard').find('.row-cstm').children().length == 0) {
                 $('#noListAff').show();
@@ -510,14 +493,21 @@ $(document).on("click", ".btnDeletePosition", function () {
     }
     $(this).closest(".cardWrapper-affPos").remove();
     let index = $(this).attr("data-item");
+    console.log(index, "---index-----")
     let editRecord = JSON.parse($(this).attr("data-json"));
-    console.log(editRecord)
+    console.log(editRecord, "---edit record for delete position")
     $.ajax({
         url: '/professional/DeleteAffilationPosition?id=' + editRecord.affiliationPositionId,
         type: 'post',
         success: function (response) {
             if (response.success) {
+                debugger;
                 positionArray.splice(index, 1);
+                //let record = affilationArray.affiliationPositions.filter(x => x.affiliationPositionId == editRecord.affiliationPositionId)
+                //let Affindex = affilationArray.affiliationPositions.findIndex(record);
+                //affilationArray.affiliationPositions.splice(Affindex, 1);
+                console.log(positionArray, '---position Array ---')
+                localStorage.clear();
                 /*LoadaffCards();*/
             }
         },
@@ -527,8 +517,9 @@ $(document).on("click", ".btnDeletePosition", function () {
 });
 
 $(document).on('click', '#btnAddPositions', function () {
+    $('#positionForm').trigger('reset');
     $('#PositionModel').modal('show');
-   
+
 
 });
 $('#btnSaveCertificate').click(function () {
@@ -539,6 +530,7 @@ $('#btnSaveCertificate').click(function () {
         let certificate = {
             Title: $('#txtCertificateTitle').val(),
             StateAbbr: $('#ddlCertificateState').val(),
+            StateName: $('#ddlCertificateState option:selected').text(),
             ReceivedMonth: $('#ddlCertificateReceivedMonth').val(),
             ReceivedYear: $('#ddlCertificateReceivedYear').val(),
         };
@@ -566,7 +558,6 @@ $('.closeCertificate').click(function () {
 })
 
 $('#btnSaveAffilation').click(function () {
-    debugger;
     var sMonth = $("#txtAffilationStartedMonth").val();
     var sYear = $("#txtAffilationStartedYear").val();
     var eMonth = $("#txtAffilationEndedMonth").val();
@@ -575,14 +566,15 @@ $('#btnSaveAffilation').click(function () {
         swal("Invalid Date Range", "Start date cannot be greater than end date", "error");
         return
     }
-    
+
     $('#affilationform').validate();
     if ($('#affilationform').valid()) {
-        $("#noListAff").hide();            
+        $("#noListAff").hide();
         let affilation = {
             affiliationName: $('#txtAffiliationName').val(),
             city: $('#txtAffilationCity').val(),
             stateAbbr: $('#txtAffilationStateAbbr').val(),
+            stateName: $('#txtAffilationStateAbbr option:selected').text(),
             startedMonth: $('#txtAffilationStartedMonth').val(),
             startedYear: $('#txtAffilationStartedYear').val(),
             endedMonth: $('#txtAffilationEndedMonth').val(),
@@ -594,13 +586,12 @@ $('#btnSaveAffilation').click(function () {
             affilation.endedMonth = null;
             affilation.endedYear = null;
             endDate = "Present";
-        }       
+        }
         $('#btnSaveAffilation').prop('disabled', true)
         if (localStorage.getItem("edit-aff") === null) {
             affilationArray.push(affilation)
             affilationArray = covertArrayKeyIntoCamelCase(affilationArray)
             $('#noAffilation').hide();
-            
             let html = `
         <div class= "card p-0 mt-2 mb-2 cardWrapper cardWrapper-aff">
         <div class="card-body">
@@ -631,6 +622,7 @@ $('#btnSaveAffilation').click(function () {
                             </div>
                         </div>
                         <p class="HasEndDate" class="text-muted">${affilation.startedMonth} ${affilation.startedYear} - ${endDate}</p>
+                        <p class="_stateName" class="text-muted">${affilation.city} , ${affilation.stateName}</p>
                     </span>
                     <span>
                         <p class="noPosition" class="danger-text"><em>You currently have no positions listed. Either add a position to the organization or delete the organization.</em></p>
@@ -647,11 +639,12 @@ $('#btnSaveAffilation').click(function () {
             $('#divAffilateCard div.row-cstm').append(html);
         }
         else {
-            debugger;
             let index = localStorage.getItem("edit-aff");
             affilationArray[index] = affilation;
+            console.log(affilationArray[index],'affiliation edit mode array')
             $($(".cardWrapper-aff")[index]).find(".affilationtitle").html(affilation.affiliationName)
             $($(".cardWrapper-aff")[index]).find(".HasEndDate").html(`${affilation.startedMonth} ${affilation.startedYear} - ${endDate}`);
+            $($(".cardWrapper-aff")[index]).find("._stateName").html(`${affilation.city} , ${affilation.stateName}`);
             $($(".cardWrapper-aff")[index]).find(".btnEditAffilation").attr("data-json", JSON.stringify(affilation));
             localStorage.clear();
         }
@@ -662,7 +655,7 @@ $('#btnSaveAffilation').click(function () {
 
 
 $('.closeAffilation').click(function () {
-   
+
     $('#btnSaveAffilation').prop('disabled', false)
 })
 function GetCompleteData() {
@@ -767,6 +760,7 @@ $(document).on('click', '#btnAddPosition', function () {
         return;
     }
 
+
     $('#positionForm').validate();
     if ($('#positionForm').valid()) {
         let position = {
@@ -784,11 +778,11 @@ $(document).on('click', '#btnAddPosition', function () {
         positionArray.push(position);
         //LoadaffCards();
 
-        $('#noPosition').hide(); 
+        $('#noPosition').hide();
         let _endMonth = "";
         if (position.endedMonth && position.endedYear) { _endMonth = position.endedMonth + " " + position.endedYear; } else { _endMonth = "Present"; }
         if (localStorage.getItem("edit-position")) {
-           
+
             let html = `  <div class="card-body">
                                             <div class="row">
                                                 <div class="col-md-12">
@@ -798,7 +792,7 @@ $(document).on('click', '#btnAddPosition', function () {
                                                         </div>
                                                         <div class="col-md-6">
                                                             <div class="card-Btn">
-                                                                <button type="button"  class="btnDeletePosition btn custombtn w-auto ms-2 btn-outline-danger" data-json='${JSON.stringify(position)}'>
+                                                                <button type="button"  class="btnDeletePosition btn custombtn w-auto ms-2 btn-outline-danger"  data-item='${positionArray.length - 1}' data-json='${JSON.stringify(position)}'>
                                 <svg stroke="currentColor" fill="currentColor" stroke-width="0"
                                     viewBox="0 0 24 24" height="1em" width="1em"
                                     xmlns="http://www.w3.org/2000/svg">
@@ -832,7 +826,7 @@ $(document).on('click', '#btnAddPosition', function () {
                                                                             </div>
                                                                         </div>`;
             let id = localStorage.getItem("edit-position");
-          
+
             $("button[data-identity='" + id + "']").closest(".cardWrapper-affPos").html(html);
             localStorage.clear();
         }
@@ -847,7 +841,7 @@ $(document).on('click', '#btnAddPosition', function () {
                                                         </div>
                                                         <div class="col-md-6">
                                                             <div class="card-Btn">
-                                                                <button type="button"  class="btnDeletePosition btn custombtn w-auto ms-2 btn-outline-danger" data-json='${JSON.stringify(position)}'>
+                                                                <button type="button"  class="btnDeletePosition btn custombtn w-auto ms-2 btn-outline-danger" data-item='${positionArray.length - 1} data-json='${JSON.stringify(position)}'>
                                 <svg stroke="currentColor" fill="currentColor" stroke-width="0"
                                     viewBox="0 0 24 24" height="1em" width="1em"
                                     xmlns="http://www.w3.org/2000/svg">
@@ -895,6 +889,14 @@ $('.closePosition').click(function () {
     $('#positionForm').trigger('reset');
     $('#btnAddPosition').prop('disabled', false)
 })
+
+$('.modalClose ').click(function () {
+    $('#positionForm').trigger('reset');
+})
+
+$('.closeCertificate ').click(function () {
+    $('#certificateForm').trigger('reset');
+})
 //$(document).on('click', '#cbSectionNotApply', function () {
 //    if (this.checked) {
 //        $('#professionalForm').hide();
@@ -907,6 +909,7 @@ $('.closePosition').click(function () {
 //});
 
 $('#btnSaveAndContinue').click(function () {
+    debugger
     $.each(affilationArray, function (index, record) {
         let positions = [];
         $($(".cardWrapper-aff")[index]).find(".cardWrapper-affPos").each(function (index, value) {
@@ -917,15 +920,22 @@ $('#btnSaveAndContinue').click(function () {
                 EndedMonth: $(this).find(".endMonth").val(),
                 EndedYear: $(this).find(".endYear").val(),
                 Responsibility1: $(this).find(".res1").val(),
-                Responsibility2: $(this).find(".res2").val(),
-                Responsibility3: $(this).find(".res3").val(),
-                OtherInfo: $(this).find(".otherInfo").val(),
+                Responsibility2: $(this).find(".res2").val() == "null" || $(this).find(".res2").val() == null ? "" : $(this).find(".res2").val(),
+                Responsibility3: $(this).find(".res3").val() == "null" || $(this).find(".res3").val() == null ? "" : $(this).find(".res3").val(),
+                OtherInfo: $(this).find(".otherInfo").val() == "null" || $(this).find(".otherInfo").val() == null ? "" : $(this).find(".otherInfo").val(),
             };
-
             positions.push(position);
         });
-        record.AffiliationPositions = positions;
+        console.log(index, '--save and continue loop')
+
+        record.affiliationPositions = positions; //this is the point
+
+
     });
+
+    //console.log(affilationArray)
+    //return;
+    //affilationArray.AffiliationPositions = positionArray
     let data = {
         Licenses: licenseArray, Certificates: certificateArray, Affiliations: affilationArray,
         AffiliationPositions: positionArray,
@@ -967,11 +977,9 @@ $(document).on("click", "button.btnEditPosition", function () {
     $('#ddlPositionEndedMonth').val(parsedJson.EndedMonth);
     $('#ddlPositionEndedYear').val(parsedJson.EndedYear);
     $('#txtResponsibility1').val(parsedJson.Responsibility1);
-    $('#txtResponsibility2').val(parsedJson.Responsibility2);
-    $('#txtResponsibility3').val(parsedJson.Responsibility3);
-    $('#txtOtherInfo').val(parsedJson.OtherInfo);
-   
-   
+    $('#txtResponsibility2').val(parsedJson.Responsibility2 == "null" || parsedJson.Responsibility2 == null ? "" : parsedJson.responsibility2);
+    $('#txtResponsibility3').val(parsedJson.Responsibility3 == "null" || parsedJson.Responsibility3 == null ? "" : parsedJson.responsibility3);
+    $('#txtOtherInfo').val(parsedJson.OtherInfo == "null" || parsedJson.OtherInfo == null ? "" : parsedJson.OtherInfo);
     localStorage.setItem("edit-position", $(this).attr("data-identity"));
 })
 
@@ -992,6 +1000,6 @@ function clearStorage(btn) {
     $('#LabelEndedPositionDate').show();
     $('#pnlPositionEndDate').show();
     $('#positionForm').trigger('reset');
-  
+
 }
 

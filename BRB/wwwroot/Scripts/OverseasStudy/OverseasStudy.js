@@ -27,22 +27,37 @@ function GenerateRadio() {
 $(document).ready(function () {
    
     $('#btnSaveOverseasStudy').click(function () {
+        var sMonth = $("#ddlStartedMonth").val();
+        var sYear = $("#ddlStartedYear").val();
+        var eMonth = $("#ddlEndedMonth").val();
+        var eYear = $("#ddlEndedYear").val();
+        if (Date.parse(sMonth + " " + sYear) > Date.parse(eMonth + " " + eYear)) {
+            swal("Invalid Date Range", "Start date cannot be greater than end date", "error");
+            return;
+        }
         $('#OverseasForm').validate();
         if ($('#OverseasForm').valid()) {
-            var from = $("#txtStartDate").val();
-            var to = $("#txtEndDate").val();
+            //var from = $("#txtStartDate").val();
+            //var to = $("#txtEndDate").val();
 
-            if (Date.parse(from) > Date.parse(to)) {
-                swal("Invalid Date Range", "Start date cannot be greater than end date", "error");
-                return false;
-            }
+            //if (Date.parse(from) > Date.parse(to)) {
+            //    swal("Invalid Date Range", "Start date cannot be greater than end date", "error");
+            //    return false;
+            //}
             let overseas = {
                 overseasStudyId: $('#hdfOverseasStudyId').val(),
                 collegeName: $('input[name="CollegeName"]').val(),
                 City: $('input[name="City"]').val(),
                 countryId: $('select[name="CountryId"]').val(),
-                startedDate: $('input[name="StartedDate"]').val(),
-                EndedDate: $('#txtEndDate').val(),
+                CountryName: $('select[name="CountryId"] option:selected').text(),
+                //startedDate: $('input[name="StartedDate"]').val(),
+                //EndedDate: $('#txtEndDate').val(),
+                StartedMonth:$('#ddlStartedMonth').val(),
+                StartedYear :$('#ddlStartedYear').val(),
+                EndedMonth : $('#ddlEndedMonth').val(),
+                EndedYear: $('#ddlEndedYear').val(),
+                StartedDate: new Date($('#ddlStartedMonth').val() + " " + $('#ddlStartedYear').val()),
+                EndedDate: $('#ddlEndedMonth').val() != "" ? new Date($('#ddlEndedMonth').val() + " " + $('#ddlEndedYear').val()) : "",
                 classesCompleted: $('input[name="ClassesCompleted"]').val(),
                 otherInfo: $('input[name="OtherInfo"]').val(),
                 livingSituationOther: $('input[name="LivingSituationOther"]').val(),
@@ -60,6 +75,7 @@ $(document).ready(function () {
                 localStorage.clear();
             }
             ResetForm();
+            console.log(overseasArray,'--add array')
             //$("#SummaryModal").removeClass('show').css("display", "none");
             //$(".modal-backdrop").css({
             //    zindex: "-1",
@@ -117,7 +133,9 @@ $(document).ready(function () {
                 if (response.data.overseasStudies.length > 0) {
                     $.each(response.data.overseasStudies, function (index, value) {
                         overseasArray.push(value)
+                       
                     })
+                    console.log(overseasArray,'--load array on load')
                 }
             }
             LoadData();
@@ -155,15 +173,23 @@ $(document).ready(function () {
 function clearField() {
     localStorage.clear();
     $('#OverseasForm').trigger('reset');
+    //$('input[type="radio"]').trigger('change');
+        $(document).find('#txtLivingSituationOther').remove();
+
     $('#SummaryModal').modal('toggle');
     $(".cbCurrentlyIn").prop("checked", false);
     if ($(".cbCurrentlyIn").is(':checked')) {
         $('.lblEndedDate').hide();
-        $('#txtEndDate').hide();
-        $('#txtEndDate').val('');
+        $('#ddlEndedMonth').hide();
+        $('#ddlEndedYear').hide();
+      
+        //$('#txtEndDate').val('');
     } else {
         $('.lblEndedDate').show();
-        $('#txtEndDate').show();
+        $('#ddlEndedMonth').show();
+        $('#ddlEndedYear').show();
+        $('#labelEndedDate').show();
+       // $('#txtEndDate').show();
     }
 }
 $(document).on('change', 'input[type="radio"]', function () {
@@ -192,17 +218,22 @@ $('#sectionCheckBox').change(function () {
 
 $('#btnClose').click(function () {
     $('#OverseasForm').trigger('reset')
-    $('input[name="LivingSituationOther"]').remove();
+    $(document).find('#txtLivingSituationOther').remove();
+    //$('input[name="LivingSituationOther"]').remove();
   
 });
 
 $('.cbCurrentlyIn').click(function () {
     if ($(this).is(':checked')) {
-        $('.lblEndedDate').hide();
-        $('#txtEndDate').hide();
+        $('#ddlEndedMonth').hide();
+        $('#ddlEndedMonth').val('');
+        $('#ddlEndedYear').hide();
+        $('#ddlEndedYear').val('');
+        $('#labelEndedDate').hide();
     } else {
-        $('.lblEndedDate').show();
-        $('#txtEndDate').show();
+        $('#ddlEndedMonth').show();
+        $('#ddlEndedYear').show();
+        $('#labelEndedDate').show();
     }
 });
 
@@ -211,7 +242,7 @@ function ResetForm() {
     $('#hdfOverseasStudyId').val('');
     $('input[type="CollegeName"]').val('')
     $('input[type="City"]').val('')
-    $('select[type="CountryId"]').val(0)
+    $('select[type="CountryId"]').val('')
     $('input[type="StartedDate"]').val('')
     $('input[type="EndedDate"]').val('')
     $('input[type="ClassesCompleted"]').val('')
@@ -223,25 +254,41 @@ $(document).on('click', '#btnEditOverseas', function () {
     var response = overseasArray[$(this).attr('data-edit')];
     localStorage.setItem("pos-index", $(this).attr('data-edit'));
     let endDate;
-    let startDate = new Date(response.startedDate).toISOString().split('T')[0];
+    //let startDate = new Date(response.startedDate).toISOString().split('T')[0];
+    console.log(response,'--overseas edit response')
     $('#hdfOverseasStudyId').val(response.overseasStudyId);
     $('#txtcollegeName').val(response.collegeName)
     $('#City').val(response.city);
-    $('#ddlCountry').val(response.countryId)
-    $('#txtStartDate').val(startDate)
-    if (response.endedDate) {
-        endDate = new Date(response.endedDate).toISOString().split('T')[0];
-        $('#txtEndDate').val(endDate)
-    }
-    else {
+    $('#ddlCountry').val(response.countryId);
+    $('#ddlStartedMonth').val(response.startedMonth);
+    $('#ddlStartedYear').val(response.startedYear);
+    $('#ddlEndedMonth').val(response.endedMonth);
+    $('#ddlEndedYear').val(response.endedYear);
+    //$('#txtStartDate').val(startDate)
+    if (response.endedMonth == "" || response.endedMonth == null  && response.endedYear == "" || response.endedYear == null) {
+        //endDate = new Date(response.endedDate).toISOString().split('T')[0];
+        //$('#txtEndDate').val(endDate)
         $(".cbCurrentlyIn").prop("checked", true);
-    }
-    if ($(".cbCurrentlyIn").is(':checked')) {
-        $('.lblEndedDate').hide();
-        $('#txtEndDate').hide();
+        $('#ddlEndedMonth').val('');
+        $('#ddlEndedYear').val('');
+
     } else {
-        $('.lblEndedDate').show();
-        $('#txtEndDate').show();
+        $('#ddlEndedMonth').val(response.endedMonth);
+        $('#ddlEndedYear').val(response.endedYear);
+    }
+  
+       
+    
+    if ($('.cbCurrentlyIn').is(':checked')) {
+        $('#ddlEndedMonth').hide();
+        $('#ddlEndedMonth').val('');
+        $('#ddlEndedYear').hide();
+        $('#ddlEndedYear').val('');
+        $('#labelEndedDate').hide();
+    }else {
+        $('#ddlEndedMonth').show();
+        $('#ddlEndedYear').show();
+        $('#labelEndedDate').show();
     }
     $('#txtClassSectionCompleted').val(response.classesCompleted)
     $('#txtOtherInfo').val(response.otherInfo)
@@ -294,19 +341,29 @@ function LoadData() {
     else {
         $("#noList").show();
     }
-   overseasArray =  covertArrayKeyIntoCamelCase(overseasArray)
+    overseasArray.reverse();
+    overseasArray = covertArrayKeyIntoCamelCase(overseasArray)
+   
+       // < div class="text-muted" > ${ getMonth(new Date(value.startedDate).getMonth()) + " " + new Date(value.startedDate).getFullYear() } - ${ _endMonth }</div >
     $.each(overseasArray, function (index, value) {
         let _endMonth = "";
+        let _countryName = "";
+        let html = "";
         if (value.endedDate) { _endMonth = getMonth(new Date(value.endedDate).getMonth()) + " " + new Date(value.endedDate).getFullYear(); } else { _endMonth = "Present"; }
-        let html = ` 
+        if (value.countryName) {
+            _countryName = value.countryName
+        } else { _countryName = $('#ddlCountry option:selected').text() }
+        //if (value.startedDate == null || value.startedDate == '' && value.endedDate == null || value.endedDate == '') {
+        if (value.endedDate == null || value.endedDate == '') {
+             html = ` 
                 <div class="card col-md-12 p-0 mb-3 cardWrapper"> 
                     <div class="card-body">
                        <div class="row">
                             <div class="col-md-8">
                                 <span class="card-text">
                                     <div class="title-text">${value.collegeName}</div>
-                                    <div class="text-muted">${value.city}</div>
-                                    <div class="text-muted">${getMonth(new Date(value.startedDate).getMonth()) + " " + new Date(value.startedDate).getFullYear()} - ${ _endMonth }</div >
+                                    <div class="text-muted">${value.city},${_countryName}</div>
+                                      <div class="text-muted">${value.startedMonth} ${value.startedYear} - ${_endMonth}</div>
                                 </span>
                             </div>
                             <div class="col-md-4">
@@ -331,6 +388,43 @@ function LoadData() {
                         </div>
                       </div>
                 </div>`
+        } else {
+             html = ` 
+                <div class="card col-md-12 p-0 mb-3 cardWrapper"> 
+                    <div class="card-body">
+                       <div class="row">
+                            <div class="col-md-8">
+                                <span class="card-text">
+                                    <div class="title-text">${value.collegeName}</div>
+                                    <div class="text-muted">${value.city},${value.countryName}</div>
+                                    <div class="text-muted"> ${ getMonth(new Date(value.startedDate).getMonth()) + " " + new Date(value.startedDate).getFullYear()} - ${getMonth(new Date(value.endedDate).getMonth()) + " " + new Date(value.endedDate).getFullYear()}
+</div>
+                                </span>
+                            </div>
+                            <div class="col-md-4">
+                            <div class="card-Btn">
+                                <button type="button"  class="btn custombtn w-auto ms-2 btn-outline-danger" id="btnDeleteOverseas" data-item='${value.overseasStudyId}' data-edit='${index}'>
+                                    <svg stroke="currentColor" fill="currentColor" stroke-width="0"
+                                         viewBox="0 0 24 24" height="1em" width="1em"
+                                         xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z">
+                                        </path>
+                                    </svg>
+                                </button><button type="button" id="btnEditOverseas" data-item='${value.overseasStudyId}' data-edit='${index}' class="btn custombtn customBtn-light w-auto ms-1 ">
+                                    <svg stroke="currentColor" fill="currentColor" stroke-width="0"
+                                         viewBox="0 0 24 24" height="1em" width="1em"
+                                         xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z">
+                                        </path>
+                                    </svg>
+                                </button>
+                                </div>
+                            </div>
+                        </div>
+                      </div>
+                </div>`
+        }
+     
         $("#DivSection").append(html);
     });
     if (overseasArray != null && overseasArray.length > 3) {

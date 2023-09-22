@@ -30,16 +30,21 @@ namespace BRB.Controllers
             var sessionData = JsonSerializer.Deserialize<UserSessionData>(HttpContext.Session.GetString("_userData"));
             ProfessionalViewObject professionalObj = new ProfessionalViewObject();
             professionalObj.ProfessionalExperience = _dbContext.Professionals.FirstOrDefault(x => x.ResumeId == sessionData.ResumeId);
+            var stateList = _dbContext.StateLists.ToList();
             if (professionalObj.ProfessionalExperience != null)
             {
-                professionalObj.Licenses = _dbContext.Licenses.Where(x => x.ProfessionalId == professionalObj.ProfessionalExperience.ProfessionalId).ToList();
-                professionalObj.Certificates = _dbContext.Certificates.Where(x => x.ProfessionalId == professionalObj.ProfessionalExperience.ProfessionalId).ToList();
+                professionalObj.Licenses = _dbContext.Licenses.Where(x => x.ProfessionalId == professionalObj.ProfessionalExperience.ProfessionalId).OrderBy(x => x.LicenseId).ToList();
+                professionalObj.Licenses.ForEach(x => x.StateName = stateList.FirstOrDefault(s => s.StateAbbr == x.StateAbbr)?.StateName );
+                professionalObj.Certificates = _dbContext.Certificates.Where(x => x.ProfessionalId == professionalObj.ProfessionalExperience.ProfessionalId).OrderBy(x =>x.CertificateId).ToList();
+                professionalObj.Certificates.ForEach(x => x.StateName = stateList.FirstOrDefault(s => s.StateAbbr == x.StateAbbr)?.StateName);
                 professionalObj.affilationWithPositions = _dbContext.Affiliations
                                                             .Where(x => x.ProfessionalId == professionalObj.ProfessionalExperience.ProfessionalId)
+                                                            .OrderBy(x =>x.AffiliationId)
                                                             .ToList();
+                professionalObj.affilationWithPositions.ForEach(x => x.StateName = stateList.FirstOrDefault(s => s.StateAbbr == x.StateAbbr)?.StateName);
                 professionalObj.affilationWithPositions.ForEach(x => {
                     x.AffiliationPositions = _dbContext.AffiliationPositions
-                     .Where(s => s.AffiliationId == x.AffiliationId).ToList();
+                     .Where(s => s.AffiliationId == x.AffiliationId).OrderBy(x => x.AffiliationPositionId).ToList();
                 });
                ajaxResponse.Data = professionalObj;
             }
@@ -137,9 +142,6 @@ namespace BRB.Controllers
                         affilation.LastModDate= DateTime.Today;
                         affilation.AffiliationId = 0;
                         affilationData = _professionalService.AddAffilation(affilation);
-                      
-                      
-
                         if (affilation.AffiliationPositions.Count > 0)
                         {
                             var rangeRecord = _dbContext.AffiliationPositions.Where(x =>x.AffiliationId == affilationData.AffiliationId).ToList();
@@ -162,6 +164,7 @@ namespace BRB.Controllers
                 }
 
                 _resumeService.UpdateResumeMaster(resumeProfileData);
+                _dbContext.SaveChanges();
 
             }
             ajaxResponse.Redirect = "/Resume/ComputerAndTechnicalSkills";
@@ -217,7 +220,7 @@ namespace BRB.Controllers
         }
 
         public IActionResult DeleteAffilationPosition(int id)
-        {
+            {
             var record = _dbContext.AffiliationPositions.FirstOrDefault(x => x.AffiliationPositionId == id);
             AjaxResponse ajaxResponse = new AjaxResponse();
             ajaxResponse.Success = false;

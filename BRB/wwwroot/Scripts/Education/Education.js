@@ -108,7 +108,7 @@ $('#btnCollageSave').click(function () {
             , majorId: $('#ddlMajor').val(), majorOther: $('#MajorOther').val(), majorSpecialtyId: $('#ddlMajorSpeciality').val(),
             majorSpecialtyOther: $('#MajorSpecialityOther').val(), minorId: $('#ddlMinor').val(), minorOther: $('#MinorOther').val(),
             certificateId: $('#ddlOtherCertificates').val(), certificateOther: $('#OtherCertificates').val(), honorProgram: $('#HonorProgram').val(),
-            gpa: $('#Gpa').val(), includeGpa: $('#cbkIncludeGpa').is(':checked'), isComplete: $('#cbkIsComplete').is(":checked"),
+            gpa: $('#Gpa').val(), includeGpa: $('.cbinclude').is(":checked"), isComplete: $('#cbkIsComplete').is(":checked"),
             month: $("#Month").val(), year: $("#Year").val()
         }
         if (localStorage.getItem("edit-college") === null) {
@@ -531,7 +531,7 @@ $('#btnSaveHonor').click(function () {
                                                  `
             let id = localStorage.getItem("edit-honor");
             $("button[data-identity='" + id + "']").closest(".cardWrapper-hnr").html(html);
-            localStorage.clear();
+          
         }
         else {
             $('#positionForm').trigger('reset');
@@ -573,9 +573,11 @@ $('#btnSaveHonor').click(function () {
                                                
                                                  </div>`
             let id = localStorage.getItem("add-honor");
-           
+           console.log(id,'honor id')
             $("button[data-item='" + id + "']").prev(".ErrMessage").remove();
             $("button[data-item='" + id + "']").before(html);
+            $('.ErrMessage').hide();
+           //$('.cardWrapper-hnr').find('#DivAcademicHonor').prev('.ErrMessage').remove()
             //$('#noPosition').parent().append(html);
         }
 
@@ -683,6 +685,7 @@ $('#btnSaveScholarship').click(function () {
             let id = localStorage.getItem("add-schol");
             $("button[data-item='" + id + "']").prev(".ErrMessageScholarship").remove();
             $("button[data-item='" + id + "']").before(html);
+            $('.ErrMessageScholarship').hide();
             //$('#noPosition').parent().append(html);
         }
 
@@ -765,9 +768,12 @@ $(document).on('click', '.btnEditCollege', function () {
     $('input[name="MajorSpecialityOther"]').val(response.majorSpecialtyOther);
     $('select[name="MinorId"]').val(response.minorId).trigger('change')
     $('input[name="MinorOther"]').val(response.minorOther);
-    if (response.includeGpa != null || response.includeGpa != false) {
-        $('input[name="IncludeGpa"]').prop('checked', true);
-    }
+    //if (response.includeGpa != null || response.includeGpa != false) {
+    //    $('#customCheckboxInclude').prop('checked', true);
+    //}
+    //else {
+        $('#customCheckboxInclude').prop('checked', response.includeGpa);
+    //}
     $('select[name="CertificateId"]').val(response.certificateId).trigger('change')
     $('input[name="CertificateOther"]').val(response.certificateOther);
     $('input[name="Gpa"]').val(response.gpa)
@@ -791,6 +797,7 @@ $('#btnSaveAndContinue').click(function () {
     if (collegeArray == 0) {
         
         swal("Education Required", "Please fill out the education to proceed", "error");
+        //$('#cbkIsComplete').prop('checked', false)
     }
     else {
         $.each(collegeArray, function (index, record) {

@@ -15,6 +15,8 @@ public partial class WorkCompany
     public string? City { get; set; }
 
     public string? State { get; set; }
+    [NotMapped]
+    public string? StateName { get; set; }
 
     public string? StartMonth { get; set; }
 

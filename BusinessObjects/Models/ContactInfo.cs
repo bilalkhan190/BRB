@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BusinessObjects.Models;
 
@@ -20,6 +21,8 @@ public partial class ContactInfo
     public string? City { get; set; }
 
     public string? StateAbbr { get; set; }
+    [NotMapped]
+    public string? StateName { get; set; }
 
     public string? ZipCode { get; set; }
 

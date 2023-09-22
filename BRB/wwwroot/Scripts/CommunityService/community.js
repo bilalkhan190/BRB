@@ -73,6 +73,7 @@ $('#btnSaveOrganization').click(function () {
             VolunteerOrg1: $('#txtOrgName').val(),
             City: $('#txtCity').val(),
             StateAbbr: $('#ddlStateAbbr').val(),
+            StateName: $('#ddlStateAbbr option:selected').text(),
             StartedMonth: $('#ddlStartedMonth').val(),
             StartedYear: $('#ddlStartedYear').val(),
             EndedMonth: $('#ddlEndedMonth').val(),
@@ -115,8 +116,9 @@ function getFormData() {
         url: '/CommunityService/GetData',
         type: 'get',
         success: function (response) {
-            if (response.data.length > 0) {
-                console.log(response.data)
+            console.log(response.data)
+            if (response.data.length > 0 && response.data != null) {
+           
                 $('#hdfVolunteerExperienceId').val(response.data[0].volunteerExperience.volunteerExperienceId);
                 $('#cbSectionNotApply').prop("checked", response.data[0].volunteerExperience.isOptOut).trigger('change');
                 $('#cbIsComplete').prop("checked", response.data[0].volunteerExperience.isComplete);
@@ -315,7 +317,7 @@ function LoadCards() {
                              <div class="col-md-6">
                                     <h5 class="title-text">${value.volunteerOrg1}</h5>
                                     <p class="text-muted">${value.startedMonth} ${value.startedYear} - ${endMonth} </p>
-                                    <p class="text-muted"> ${value.city}</p>
+                                    <p class="text-muted"> ${value.city} , ${value.stateName}</p>
                             </div>
                             <div class="col-md-6">
                                 <div class="card-Btn">
@@ -340,7 +342,7 @@ function LoadCards() {
                             </div>
                         </span>
 
-                                ${positionHTML == "" ? `<p>You currently have no positions listed is not showing.</p>` : positionHTML} 
+                                ${positionHTML == "" ? `<p>You currently have no positions listed for ${value.volunteerOrg1},Either click a Add button to add position</p>` : positionHTML} 
                          <button type="button" class="btn btn-primary btn-sm custombtn w-auto" onclick="OpenPositionModel('${value.volunteerOrgId}');">
                                 Add a Position at ${value.volunteerOrg1}
                             </button>

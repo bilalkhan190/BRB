@@ -349,9 +349,11 @@ $(document).on('click', '#btnEditMilitary', function () {
     $('#txtTitle').val(response.title)
     $('#ddlPositionStartedMonth').val(response.startedMonth)
     $('#ddlPositionStartedYear').val(response.startedYear)
-    if (response.endedMonth == null && response.endedYear == null) {
-        $('#cbPositionCurrentlyIn').prop('checked', true);         
+    if (response.endedMonth == null || response.endedMonth == "" && response.endedYear == null || response.endedYear == "" ) {
+        $('#cbPositionCurrentlyIn').prop('checked', true);
         $('#pnlEndDate').hide();
+    } else {
+        $('#pnlEndDate').show();
     }
     $('#ddlPositionEndedMonth').val(response.endedMonth)
     $('#ddlPositionEndedYear').val(response.endedYear)

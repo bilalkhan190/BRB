@@ -16,6 +16,8 @@ public partial class College
     public string? CollegeCity { get; set; }
 
     public string? CollegeStateAbbr { get; set; }
+    [NotMapped]
+    public string? StateName { get; set; }
 
     public DateTime? GradDate { get; set; }
     [NotMapped]

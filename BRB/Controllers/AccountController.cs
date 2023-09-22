@@ -34,7 +34,7 @@ namespace BRB.Controllers
 
         public IActionResult Index()
         {
-            System.IO.File.WriteAllText(_webHostEnvironment.WebRootPath + "/downloads/logs.txt", "Login Form Opened");
+            //System.IO.File.WriteAllText(_webHostEnvironment.WebRootPath + "/downloads/logs.txt", "Login Form Opened");
             if (HttpContext.Session.GetString(SessionKeyUserData) != null)
             {
                 return RedirectToAction("Home", "Resume");

@@ -38,6 +38,7 @@ namespace BRB.Controllers
                 {
                     foreach (var o in record)
                     {
+                        o.StateName = _dbContext.StateLists.FirstOrDefault(x => x.StateAbbr == o.StateAbbr).StateName;
                         VolunteerViewObject viewObject = new VolunteerViewObject();
                         viewObject.VolunteerExperience = masterRecord;
                         viewObject.VolunteerOrg = o;
@@ -126,7 +127,16 @@ namespace BRB.Controllers
                         {
                             if (org.VolunteerOrgId > 0)
                             {
-                                _dbContext.VolunteerOrgs.Update(org);
+                                var organizationData = _dbContext.VolunteerOrgs.FirstOrDefault(x => x.VolunteerOrgId == org.VolunteerOrgId);
+                                organizationData.LastModDate = DateTime.Today;
+                                organizationData.City = org.City;
+                                organizationData.EndedMonth = org.EndedMonth;
+                                organizationData.EndedYear = org.EndedYear;
+                                organizationData.StartedMonth = org.StartedMonth;
+                                organizationData.StartedYear = org.StartedYear;
+                                organizationData.StateAbbr = org.StateAbbr;
+                                organizationData.VolunteerOrg1 = org.VolunteerOrg1;
+
                             }
                             else
                             {
@@ -142,10 +152,21 @@ namespace BRB.Controllers
                             {
                                 foreach (var position in org.VolunteerPositions)
                                 {
-                                   
                                     if (position.VolunteerPositionId > 0)
                                     {
-                                        _dbContext.VolunteerPositions.Update(position);
+                                        var positionData = _dbContext.VolunteerPositions.FirstOrDefault(x => x.VolunteerPositionId == position.VolunteerPositionId);
+                                        positionData.StartedMonth = position.StartedMonth;
+                                        positionData.StartedYear = position.StartedYear;
+                                        positionData.EndedMonth = position.EndedMonth;
+                                        positionData.EndedYear = position.EndedYear;
+                                        positionData.LastModDate = DateTime.Now;
+                                        positionData.OtherInfo = position.OtherInfo;
+                                        positionData.Responsibility1 = position.Responsibility1;
+                                        positionData.Responsibility2 = position.Responsibility2;
+                                        positionData.Responsibility3 = position.Responsibility3;
+                                        positionData.Title = position.Title;
+                                        //positionData.VolunteerOrgId = position.VolunteerOrgId;
+                                        
                                     }
                                     else
                                     {

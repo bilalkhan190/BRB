@@ -6,6 +6,7 @@ using BusinessObjects.Services;
 //using BusinessObjects.Models.MetaData.New;
 using BusinessObjects.Services.interfaces;
 using DocumentFormat.OpenXml;
+using DocumentFormat.OpenXml.ExtendedProperties;
 using DocumentFormat.OpenXml.InkML;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
@@ -261,9 +262,9 @@ namespace BRB.Controllers
                         }
                     }
                 }
-                System.IO.File.WriteAllText(_webHostEnvironment.WebRootPath + "/downloads/logs.txt", "Data fetched");
+                //System.IO.File.WriteAllText(_webHostEnvironment.WebRootPath + "/downloads/logs.txt", "Data fetched");
                 string htmlValue = await this.RenderViewAsync("Resumepdf", model);
-                System.IO.File.WriteAllText(_webHostEnvironment.WebRootPath + "/downloads/logs.txt", "Html generated");
+                //System.IO.File.WriteAllText(_webHostEnvironment.WebRootPath + "/downloads/logs.txt", "Html generated");
                 using (MemoryStream generatedDocument = new MemoryStream())
                 {
                     using (WordprocessingDocument package = WordprocessingDocument.Create(
@@ -291,8 +292,9 @@ namespace BRB.Controllers
 
 
                     }
-                    System.IO.File.WriteAllText(_webHostEnvironment.WebRootPath + "/downloads/logs.txt", "word generated");
-                    string filename = "resume - " + Guid.NewGuid() + ".docx";
+                    //System.IO.File.WriteAllText(_webHostEnvironment.WebRootPath + "/downloads/logs.txt", "word generated");
+                    //string filename = "resume - " + Guid.NewGuid() + ".docx";
+                    string filename = $"{model.UserProfile.FirstName} {model.UserProfile.LastName} Resume {DateTime.Now.ToString("MMMM/yyyy")}";
                     System.IO.File.WriteAllBytes(_webHostEnvironment.WebRootPath + "/downloads/" + filename, generatedDocument.ToArray());
                     var record = _dbContext.Resumes.FirstOrDefault(x => x.ResumeId == sessionData.ResumeId);
                     record.GeneratedFileName = filename;
@@ -300,10 +302,10 @@ namespace BRB.Controllers
                     record.LastModDate = DateTime.Today;
                     record.GeneratedDate = DateTime.Today;
                     _dbContext.SaveChanges();
-                    System.IO.File.WriteAllText(_webHostEnvironment.WebRootPath + "/downloads/logs.txt", "attachement saved email started");
+                    //.IO.File.WriteAllText(_webHostEnvironment.WebRootPath + "/downloads/logs.txt", "attachement saved email started");
                     //SendResume(_webHostEnvironment.WebRootPath + "/downloads/" + filename, "bilalkhan.19@outlook.com");
                     SendEmailAttachment(sessionData.UserName, new Attachment(_webHostEnvironment.WebRootPath + "/downloads/" + filename));
-                    System.IO.File.WriteAllText(_webHostEnvironment.WebRootPath + "/downloads/logs.txt", "email sent");
+                    //System.IO.File.WriteAllText(_webHostEnvironment.WebRootPath + "/downloads/logs.txt", "email sent");
                     //SendEmail(sessionData.UserName,)
                     ajaxResponse.Message = $"Email has been sent to your email address {sessionData.UserName} ";
                     ajaxResponse.Data = filename;
@@ -398,7 +400,7 @@ namespace BRB.Controllers
             AjaxResponse ajaxResponse = new AjaxResponse();
             ajaxResponse.Message = "";
             var sessionData = JsonConvert.DeserializeObject<UserSessionData>(HttpContext.Session.GetString("_userData"));
-            System.IO.File.WriteAllText(_webHostEnvironment.WebRootPath + "/downloads/logs.txt", "Hit approved");
+            //System.IO.File.WriteAllText(_webHostEnvironment.WebRootPath + "/downloads/logs.txt", "Hit approved");
             ResumeGenerateModel model = new ResumeGenerateModel();
             try
             {
@@ -439,6 +441,7 @@ namespace BRB.Controllers
                     model.WorkExperience.Companies = _dbContext.WorkCompanies.Where(x => x.WorkExperienceId == model.WorkExperience.WorkExperienceId).ToList();
                     foreach (var company in model.WorkExperience.Companies)
                     {
+                        company.StateName = _dbContext.StateLists.FirstOrDefault(x => x.StateAbbr == company.State).StateName; 
                         company.Positions = _dbContext.WorkPositions.Where(x => x.CompanyId == company.CompanyId).ToList();
 
                         foreach (var job in company.Positions)
@@ -466,16 +469,22 @@ namespace BRB.Controllers
 
                 string resume = CreateResume(model, font);
 
-                string filename = "resume" + Guid.NewGuid();
+                //string filename = "resume" + Guid.NewGuid();
+                string filename = $"{model.Contact.FirstName} {model.Contact.LastName} Resume {DateTime.Now.ToString("MMMM yyyy")}";
                 string str = filename;
                 int num = 1;
-                System.IO.File.Create(_webHostEnvironment.WebRootPath + "/downloads/" + str + ".doc");
+               
                 while (System.IO.File.Exists(_webHostEnvironment.WebRootPath + "/downloads/" + str + ".doc"))
                     str = string.Format("{0}_{1}", (object)filename, (object)num++);
-                string fullFilename = _webHostEnvironment.WebRootPath + "/downloads/" + str + ".doc";                
+
+                string fullFilename = _webHostEnvironment.WebRootPath + "/downloads/" + str + ".doc";
+                System.IO.FileStream f = System.IO.File.Create(fullFilename);
+                f.Close();
+                               
                 try
                 {
-                    using (StreamWriter streamWriter = new StreamWriter(fullFilename, false))
+                    
+                    using (StreamWriter streamWriter = new StreamWriter(fullFilename, true))
                     {
                         streamWriter.Write(resume);
                         streamWriter.Close();
@@ -545,7 +554,7 @@ namespace BRB.Controllers
                 string str3 = "<w:p><w:pPr><w:jc w:val='center' /></w:pPr><w:r><w:rPr><w:sz w:val='20'/></w:rPr><w:t>[Address2]</w:t></w:r></w:p>".Replace("[Address2]", resume.Address2);
                 stringBuilder.Append(str3);
             }
-            string str4 = "<w:p><w:pPr><w:jc w:val='center' /></w:pPr><w:r><w:rPr><w:sz w:val='20'/></w:rPr><w:t>[City], [State] [Zip]</w:t></w:r></w:p>".Replace("[City]", resume.City).Replace("[State]", resume.StateAbbr).Replace("[Zip]", resume.ZipCode);
+            string str4 = "<w:p><w:pPr><w:jc w:val='center' /></w:pPr><w:r><w:rPr><w:sz w:val='20'/></w:rPr><w:t>[City], [State] [Zip]</w:t></w:r></w:p>".Replace("[City]", resume.City).Replace("[State]", resume.StateName).Replace("[Zip]", resume.ZipCode);
             stringBuilder.Append(str4);
             if (!string.IsNullOrEmpty(resume.Phone))
             {
@@ -559,8 +568,8 @@ namespace BRB.Controllers
         }
 
         public static string GetSummaryContent(ObjectiveSummary resume)
-        {
-            string str1 = $"<w:p><w:pPr> <w:jc w:val='center'/><w:ind w:left='1260' w:hanging='1260'/></w:pPr><w:r><w:rPr><w:b/><w:sz w:val='24'/><w:sz-cs w:val='24'/></w:rPr><w:t>{resume.ObjectiveType}:</w:t></w:r><w:r><w:rPr><w:b/></w:rPr><w:tab wx:wTab='225' wx:tlc='none' wx:cTlc='3'/></w:r><w:r><w:rPr><w:sz w:val='22'/></w:rPr><w:t>To utilize my {resume.ObjectiveDesc1}, {resume.ObjectiveDesc2} and {resume.ObjectiveDesc3} skills to secure a {resume.PositionTypeDesc} in a {resume.CurrentCompanyType} to increase revenue.</w:t></w:r></w:p>";
+        {                                                                                                                               //tab 225
+            string str1 = $"<w:p><w:pPr> <w:jc w:val='left'/><w:ind w:left='1225' w:hanging='1260'/></w:pPr><w:r><w:rPr><w:b/><w:sz w:val='24'/><w:sz-cs w:val='24'/></w:rPr><w:t>{resume.ObjectiveType}:</w:t></w:r><w:r><w:rPr><w:b/></w:rPr><w:tab wx:wTab='50' wx:tlc='none' wx:cTlc='3'/></w:r><w:r><w:rPr><w:sz w:val='22'/></w:rPr><w:t>To utilize my {resume.ObjectiveDesc1}, {resume.ObjectiveDesc2} and {resume.ObjectiveDesc3} skills to secure a {resume.PositionTypeDesc} in a {resume.CurrentCompanyType} to increase revenue.</w:t></w:r></w:p>";
             return str1;
         }
 
@@ -582,10 +591,10 @@ namespace BRB.Controllers
             {
                 if (num > 1 && num <= colleges.Count)
                     stringBuilder.Append("<w:p><w:pPr><w:rPr><w:sz w:val='10'/><w:sz-cs w:val='10'/></w:rPr></w:pPr><w:r><w:t>  </w:t></w:r></w:p>");
-                string str1 = "<w:p><w:pPr><w:tabs><w:tab w:val='center' w:pos='5400'/><w:tab w:val='right' w:pos='10800'/></w:tabs><w:rPr><w:sz w:val='22'/><w:sz-cs w:val='22'/></w:rPr></w:pPr><w:r><w:rPr><w:b/><w:sz w:val='22'/><w:sz-cs w:val='22'/></w:rPr><w:t>[CollegeName]</w:t></w:r><w:r><w:rPr><w:sz w:val='22'/><w:sz-cs w:val='22'/></w:rPr><w:tab/><w:t>[City], [State]</w:t></w:r><w:r><w:rPr><w:sz w:val='22'/><w:sz-cs w:val='22'/></w:rPr><w:tab/><w:t>[GradDate]</w:t></w:r></w:p>".Replace("[CollegeName]", college.CollegeName).Replace("[City]", college.CollegeCity).Replace("[State]", college.CollegeStateAbbr).Replace("[GradDate]",college.GradDate == null ? "" : Convert.ToDateTime(college.GradDate).ToString("MMMM") + " " + Convert.ToDateTime(college.GradDate).ToString("yyyy"));
+                string str1 = "<w:p><w:pPr><w:tabs><w:tab w:val='center' w:pos='5400'/><w:tab w:val='right' w:pos='10800'/></w:tabs><w:rPr><w:sz w:val='22'/><w:sz-cs w:val='22'/></w:rPr></w:pPr><w:r><w:rPr><w:b/><w:sz w:val='22'/><w:sz-cs w:val='22'/></w:rPr><w:t>[CollegeName]</w:t></w:r><w:r><w:rPr><w:sz w:val='22'/><w:sz-cs w:val='22'/></w:rPr><w:tab/><w:t>[City], [State]</w:t></w:r><w:r><w:rPr><w:sz w:val='22'/><w:sz-cs w:val='22'/></w:rPr><w:tab/><w:t>[GradDate]</w:t></w:r></w:p>".Replace("[CollegeName]", college.CollegeName).Replace("[City]", college.CollegeCity).Replace("[State]", college.StateName).Replace("[GradDate]",college.GradDate == null ? "" : Convert.ToDateTime(college.GradDate).ToString("MMMM") + " " + Convert.ToDateTime(college.GradDate).ToString("yyyy"));
                 stringBuilder.Append(str1);
                 if (!string.IsNullOrEmpty(college.HonorProgram))
-                    stringBuilder.Append("<w:p><w:r><w:rPr><w:sz w:val='22'/><w:sz-cs w:val='22'/></w:rPr><w:t>[Program]</w:t></w:r></w:p>".Replace("[Program]", college.HonorProgram));
+                    stringBuilder.Append("<w:p><w:r><w:rPr><w:sz w:val='22'/><w:sz-cs w:val='22'/></w:rPr><w:t>[Program]</w:t></w:r></w:p>".Replace("[Program]", college.SchoolName));
                 if (college.DegreeDesc.ToLower().Equals("general") && college.MajorDesc.ToLower().Equals("general"))
                 {
                     if (college.IncludeGpa == true)
@@ -692,7 +701,7 @@ namespace BRB.Controllers
             {
                 if (num > 1 && num <= overseasStudies.Count)
                     stringBuilder.Append("<w:p><w:pPr><w:rPr><w:sz w:val='10'/><w:sz-cs w:val='10'/></w:rPr></w:pPr><w:r><w:t>  </w:t></w:r></w:p>");
-                string str = "<w:p><w:pPr><w:tabs><w:tab w:val='center' w:pos='5400'/><w:tab w:val='right' w:pos='10800'/></w:tabs><w:rPr><w:sz w:val='22'/><w:sz-cs w:val='22'/></w:rPr></w:pPr><w:r><w:rPr><w:b/><w:sz w:val='22'/><w:sz-cs w:val='22'/></w:rPr><w:t>[CollegeName]</w:t></w:r><w:r><w:rPr><w:sz w:val='22'/><w:sz-cs w:val='22'/></w:rPr><w:tab/><w:t>[City], [CountryText]</w:t></w:r><w:r><w:rPr><w:sz w:val='22'/><w:sz-cs w:val='22'/></w:rPr><w:tab/><w:t>[StartedDate] - [EndedDate]</w:t></w:r></w:p>".Replace("[CollegeName]", overseasStudy.CollegeName).Replace("[City]", overseasStudy.City).Replace("[CountryText]", overseasStudy.CountryId.ToString()).Replace("[StartedDate]",overseasStudy.StartedDate == null ? "" : Convert.ToDateTime(overseasStudy.StartedDate).ToString("MMMM") + " " + Convert.ToDateTime(overseasStudy.StartedDate).ToString("yyyy")).Replace("[EndedDate]",overseasStudy.EndedDate == null ? "Present" : Convert.ToDateTime(overseasStudy.EndedDate).ToString("MMMM") + " " + Convert.ToDateTime(overseasStudy.EndedDate).ToString("yyyy"));
+                string str = "<w:p><w:pPr><w:tabs><w:tab w:val='center' w:pos='5400'/><w:tab w:val='right' w:pos='10800'/></w:tabs><w:rPr><w:sz w:val='22'/><w:sz-cs w:val='22'/></w:rPr></w:pPr><w:r><w:rPr><w:b/><w:sz w:val='22'/><w:sz-cs w:val='22'/></w:rPr><w:t>[CollegeName]</w:t></w:r><w:r><w:rPr><w:sz w:val='22'/><w:sz-cs w:val='22'/></w:rPr><w:tab/><w:t>[City], [CountryText]</w:t></w:r><w:r><w:rPr><w:sz w:val='22'/><w:sz-cs w:val='22'/></w:rPr><w:tab/><w:t>[StartedDate] - [EndedDate]</w:t></w:r></w:p>".Replace("[CollegeName]", overseasStudy.CollegeName).Replace("[City]", overseasStudy.City).Replace("[CountryText]", overseasStudy.CountryName).ToString().Replace("[StartedDate]",overseasStudy.StartedDate == null ? "" : Convert.ToDateTime(overseasStudy.StartedDate).ToString("MMMM") + " " + Convert.ToDateTime(overseasStudy.StartedDate).ToString("yyyy")).Replace("[EndedDate]",overseasStudy.EndedDate == null ? "Present" : Convert.ToDateTime(overseasStudy.EndedDate).ToString("MMMM") + " " + Convert.ToDateTime(overseasStudy.EndedDate).ToString("yyyy"));
                 stringBuilder.Append(str);
                 stringBuilder.Append("<w:p><w:pPr><w:listPr><w:ilvl w:val='0'/><w:ilfo w:val='5'/><wx:t wx:val='·' wx:wTabBefore='0' wx:wTabAfter='270'/><wx:font wx:val='Symbol'/></w:listPr><w:rPr><w:sz w:val='22'/><w:sz-cs w:val='22'/></w:rPr></w:pPr><w:r><w:rPr><w:sz w:val='22'/><w:sz-cs w:val='22'/></w:rPr><w:t>Successfully completed courses in [Classes].</w:t></w:r></w:p>".Replace("[Classes]", overseasStudy.ClassesCompleted));
                 string newValue = overseasStudy.LivingSituationId == 3 ? overseasStudy.LivingSituationOther : overseasStudy.LivingSituationId == 2 ? "lived in group housing with other students" : "lived with a family that only spoke the native language";
@@ -702,6 +711,7 @@ namespace BRB.Controllers
                 ++num;
             }
             return stringBuilder.ToString();
+           
         }
 
 
@@ -723,8 +733,9 @@ namespace BRB.Controllers
             {
                 if (num > 1 && num <= companies.Count)
                     stringBuilder.Append("<w:p><w:pPr><w:rPr><w:sz w:val='10'/><w:sz-cs w:val='10'/></w:rPr></w:pPr><w:r><w:t>  </w:t></w:r></w:p>");
-                string str1 = "<w:p><w:pPr><w:tabs><w:tab w:val='center' w:pos='5400'/><w:tab w:val='right' w:pos='10800'/></w:tabs><w:rPr><w:sz w:val='22'/><w:sz-cs w:val='22'/></w:rPr></w:pPr><w:r><w:rPr><w:b/><w:sz w:val='22'/><w:sz-cs w:val='22'/></w:rPr><w:t>[CompanyName]</w:t></w:r><w:r><w:rPr><w:sz w:val='22'/><w:sz-cs w:val='22'/></w:rPr><w:tab/><w:t>[City], [State]</w:t></w:r><w:r><w:rPr><w:sz w:val='22'/><w:sz-cs w:val='22'/></w:rPr><w:tab/><w:t>[StartedMonth] [StartedYear] - [EndedDate]</w:t></w:r></w:p>".Replace("[CompanyName]", company.CompanyName).Replace("[City]", company.City).Replace("[State]", company.State).Replace("[StartedMonth]", company.StartMonth).Replace("[StartedYear]", company.StartYear.ToString());
-                string str2 = !false ? str1.Replace("[EndedDate]", string.Format("{0} {1}", company.EndMonth, company.EndYear)) : str1.Replace("[EndedDate]", "Present");
+                string str1 = "<w:p><w:pPr><w:tabs><w:tab w:val='center' w:pos='5400'/><w:tab w:val='right' w:pos='10800'/></w:tabs><w:rPr><w:sz w:val='22'/><w:sz-cs w:val='22'/></w:rPr></w:pPr><w:r><w:rPr><w:b/><w:sz w:val='22'/><w:sz-cs w:val='22'/></w:rPr><w:t>[CompanyName]</w:t></w:r><w:r><w:rPr><w:sz w:val='22'/><w:sz-cs w:val='22'/></w:rPr><w:tab/><w:t>[City], [State]</w:t></w:r><w:r><w:rPr><w:sz w:val='22'/><w:sz-cs w:val='22'/></w:rPr><w:tab/><w:t>[StartedMonth] [StartedYear] - [EndedDate]</w:t></w:r></w:p>".Replace("[CompanyName]", company.CompanyName).Replace("[City]", company.City).Replace("[State]", company.StateName).Replace("[StartedMonth]", company.StartMonth).Replace("[StartedYear]", company.StartYear.ToString())
+                    .Replace("[EndedDate]",company.EndYear.ToString() == "" ? "Present" : company.EndYear.ToString());
+                string str2 = !(String.IsNullOrEmpty(company.EndMonth) && company.EndYear == null) ?  str1.Replace("[EndedDate]", string.Format("{0} {1}", company.EndMonth, company.EndYear)) : str1.Replace("[EndedDate]", "Present");
                 stringBuilder.Append(str2);
                 stringBuilder.Append(GetCompanyJobContent(company.Positions));
                 ++num;
@@ -741,7 +752,7 @@ namespace BRB.Controllers
                 if (num > 1 && num <= jobs.Count)
                     stringBuilder.Append("<w:p><w:pPr><w:rPr><w:sz w:val='6'/><w:sz-cs w:val='6'/></w:rPr></w:pPr><w:r><w:t>  </w:t></w:r></w:p>");
                 string str1 = "<w:p><w:pPr><w:tabs><w:tab w:val='right' w:pos='10800'/></w:tabs><w:rPr><w:sz w:val='22'/><w:sz-cs w:val='22'/></w:rPr></w:pPr><w:r><w:rPr><w:i/><w:sz w:val='22'/><w:sz-cs w:val='22'/></w:rPr><w:t>[Title]</w:t></w:r><w:r><w:rPr><w:sz w:val='22'/><w:sz-cs w:val='22'/></w:rPr><w:tab/><w:t>[StartedMonth] [StartedYear] - [EndedDate]</w:t></w:r></w:p>".Replace("[Title]", job.Title).Replace("[StartedMonth]", job.StartMonth).Replace("[StartedYear]", job.StartYear.ToString());
-                string str2 = !false ? str1.Replace("[EndedDate]", string.Format("{0} {1}", job.EndMonth, job.EndYear)) : str1.Replace("[EndedDate]", "Present");
+                string str2 = !(String.IsNullOrEmpty(job.EndMonth) && job.EndYear == null) ? str1.Replace("[EndedDate]", string.Format("{0} {1}", job.EndMonth, job.EndYear)) : str1.Replace("[EndedDate]", "Present");
                 stringBuilder.Append(str2);
                 stringBuilder.Append(GetJobResponsibilityContent(job));
                 stringBuilder.Append(GetJobAwardContent(job.JobAwards));
@@ -753,7 +764,7 @@ namespace BRB.Controllers
                 {
                     if (!string.IsNullOrEmpty(job.ImproveProductivity) && job.IncreaseRevenue != null)
                     {
-                        string str3 = "<w:p><w:pPr><w:listPr><w:ilvl w:val='0'/><w:ilfo w:val='5'/><wx:t wx:val='·' wx:wTabBefore='0' wx:wTabAfter='270'/><wx:font wx:val='Symbol'/></w:listPr><w:rPr><w:sz w:val='22'/><w:sz-cs w:val='22'/></w:rPr></w:pPr><w:r><w:rPr><w:sz w:val='22'/><w:sz-cs w:val='22'/></w:rPr><w:t>Used skills including [Description] which increased revenue by $[Revenue] and improved productivity by [Productivity] percent.</w:t></w:r></w:p>".Replace("[Description]", job.PercentageImprovement.ToString()).Replace("[Revenue]", job.IncreaseRevenue.ToString()).Replace("[Productivity]", job.ImproveProductivity);
+                        string str3 = "<w:p><w:pPr><w:listPr><w:ilvl w:val='0'/><w:ilfo w:val='5'/><wx:t wx:val='·' wx:wTabBefore='0' wx:wTabAfter='270'/><wx:font wx:val='Symbol'/></w:listPr><w:rPr><w:sz w:val='22'/><w:sz-cs w:val='22'/></w:rPr></w:pPr><w:r><w:rPr><w:sz w:val='22'/><w:sz-cs w:val='22'/></w:rPr><w:t>Used skills including [Productivity] which increased revenue by $[Revenue].</w:t></w:r></w:p>".Replace("[Revenue]", job.IncreaseRevenue.ToString()).Replace("[Productivity]", job.ImproveProductivity);
                         stringBuilder.Append(str3);
                     }
                     else if (job.IncreaseRevenue != null)
@@ -763,7 +774,7 @@ namespace BRB.Controllers
                     }
                     else
                     {
-                        string str5 = "<w:p><w:pPr><w:listPr><w:ilvl w:val='0'/><w:ilfo w:val='5'/><wx:t wx:val='·' wx:wTabBefore='0' wx:wTabAfter='270'/><wx:font wx:val='Symbol'/></w:listPr><w:rPr><w:sz w:val='22'/><w:sz-cs w:val='22'/></w:rPr></w:pPr><w:r><w:rPr><w:sz w:val='22'/><w:sz-cs w:val='22'/></w:rPr><w:t>Used skills including [Description] which improved productivity by [Productivity] percent.</w:t></w:r></w:p>".Replace("[Description]", job.PercentageImprovement.ToString()).Replace("[Productivity]", job.ImproveProductivity);
+                        string str5 = "<w:p><w:pPr><w:listPr><w:ilvl w:val='0'/><w:ilfo w:val='5'/><wx:t wx:val='·' wx:wTabBefore='0' wx:wTabAfter='270'/><wx:font wx:val='Symbol'/></w:listPr><w:rPr><w:sz w:val='22'/><w:sz-cs w:val='22'/></w:rPr></w:pPr><w:r><w:rPr><w:sz w:val='22'/><w:sz-cs w:val='22'/></w:rPr><w:t>Used skills including [Productivity]  which improvement in productivity by [Description] percent.</w:t></w:r></w:p>".Replace("[Productivity]",job.ImproveProductivity).Replace("[Description]", job.PercentageImprovement.ToString());
                         stringBuilder.Append(str5);
                     }
                 }
@@ -1983,7 +1994,9 @@ namespace BRB.Controllers
                 return "";
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.Append("<w:p><w:r><w:rPr><w:b/><w:sz w:val='24'/><w:sz-cs w:val='24'/></w:rPr><w:t>Military Experience:</w:t></w:r></w:p>");
-            stringBuilder.Append("<w:p><w:pPr><w:tabs><w:tab w:val='center' w:pos='5400'/><w:tab w:val='right' w:pos='10800'/></w:tabs><w:rPr><w:sz w:val='22'/><w:sz-cs w:val='22'/></w:rPr></w:pPr><w:r><w:rPr><w:b/><w:sz w:val='22'/><w:sz-cs w:val='22'/></w:rPr><w:t>[Branch]</w:t></w:r><w:r><w:rPr><w:b/><w:sz w:val='24'/><w:sz-cs w:val='24'/></w:rPr><w:t> [Rank]</w:t></w:r><w:r><w:rPr><w:sz w:val='22'/><w:sz-cs w:val='22'/></w:rPr><w:tab/><w:t>[City], [Country]</w:t></w:r><w:r><w:rPr><w:sz w:val='22'/><w:sz-cs w:val='22'/></w:rPr><w:tab/><w:t>[StartedMonth] [StartedYear] - [EndedMonth] [EndedYear]</w:t></w:r></w:p>".Replace("[Branch]", resume.Branch).Replace("[Rank]", resume.Rank).Replace("[City]", resume.City).Replace("[Country]", resume.CountryName).Replace("[StartedMonth]", resume.StartedMonth).Replace("[StartedYear]", resume.StartedYear).Replace("[EndedMonth]", resume.EndedMonth).Replace("[EndedYear]", resume.EndedYear));
+            string str1 = "<w:p><w:pPr >< w:tabs >< w:tab w:val='center'w:pos='5400' />< w:tab w:val = 'right' w: pos = '10800' /></w:tabs>< w:rPr >< w:sz w:val='22'/>< w:sz -cs w:val='22' /></ w:rPr ></ w:pPr >< w:r >< w:rPr >< w:b />< w:sz w:val = '22' />< w:sz - cs w: val = '22' /></ w:rPr >< w:t >[Branch]</w:t></w:r>< w:r >< w:rPr >< w:b />< w:sz w:val= '24' />< w:sz - cs w: val = '24' /></ w:rPr >< w:t > [Rank] </ w:t ></ w:r >< w:r >< w:rPr >< w:sz w:val = '22' />< w:sz - cs w: val = '22' /></ w:rPr >< w:tab />< w:t >[City], [Country]</ w:t ></ w:r >< w:r >< w:rPr >< w:sz w:val = '22' />< w:sz - cs w:val='22'/></w:rPr><w:tab/><w:t>[StartedMonth][StartedYear] - [EndedDate] </w:t></ w:r ></w:p>".Replace("[Branch]", resume.Branch).Replace("[Rank]", resume.Rank).Replace("[City]", resume.City).Replace("[Country]", resume.CountryName).Replace("[StartedMonth]", resume.StartedMonth).Replace("[StartedYear]", resume.StartedYear);/*.Replace("[EndedMonth]", resume.EndedMonth).Replace("[EndedYear]", resume.EndedYear);*/
+            string str2 = !(string.IsNullOrEmpty(resume.EndedMonth) && string.IsNullOrEmpty(resume.EndedYear)) ? str1.Replace("[EndedDate]", string.Format("{0} {1}", resume.EndedMonth, resume.EndedYear)) : str1.Replace("[EndedDate]", "Present");
+            stringBuilder.Append(str2);
             stringBuilder.Append(GetMilitaryPositionContent(positions));
             stringBuilder.Append("<w:p><w:pPr><w:rPr><w:sz w:val='12'/><w:sz-cs w:val='12'/></w:rPr></w:pPr><w:r><w:t>  </w:t></w:r></w:p>");
             return stringBuilder.ToString();
@@ -1998,9 +2011,11 @@ namespace BRB.Controllers
             foreach (var position in positions)
             {
                 if (num > 1 && num <= positions.Count)
-                    stringBuilder.Append("<w:p><w:pPr><w:rPr><w:sz w:val='6'/><w:sz-cs w:val='6'/></w:rPr></w:pPr><w:r><w:t>  </w:t></w:r></w:p>");
-                string str = "<w:p><w:pPr><w:tabs><w:tab w:val='right' w:pos='10800'/></w:tabs><w:rPr><w:sz w:val='22'/><w:sz-cs w:val='22'/></w:rPr></w:pPr><w:r><w:rPr><w:i/><w:sz w:val='22'/><w:sz-cs w:val='22'/></w:rPr><w:t>[Title]</w:t></w:r><w:r><w:rPr><w:sz w:val='22'/><w:sz-cs w:val='22'/></w:rPr><w:tab/><w:t>[StartedMonth] [StartedYear] - [EndedMonth] [EndedYear]</w:t></w:r></w:p>".Replace("[Title]", position.Title).Replace("[StartedMonth]", position.StartedMonth).Replace("[StartedYear]", position.StartedYear).Replace("[EndedMonth]", position.EndedMonth).Replace("[EndedYear]", position.EndedYear);
-                stringBuilder.Append(str);
+                    stringBuilder.Append("<w:p><w:pPr><w:rPr><w:sz w:val='6'/><w:sz-cs w:val='6'/></w:rPr></w:pPr><w:r><w:t></w:t></w:r></w:p>");
+                string str1 = "<w:p><w:pPr><w:tabs><w:tab w:val='right' w:pos='10800'/></w:tabs><w:rPr><w:sz w:val='22'/><w:sz-cs w:val='22'/></w:rPr></w:pPr><w:r><w:rPr><w:i/><w:sz w:val='22'/><w:sz-cs w:val='22'/></w:rPr><w:t>[Title]</w:t></w:r><w:r><w:rPr><w:sz w:val='22'/><w:sz-cs w:val='22'/></w:rPr><w:tab/><w:t>[StartedMonth] [StartedYear] - [EndedDate]</w:t></w:r></w:p>".Replace("[Title]", position.Title).Replace("[StartedMonth]", position.StartedMonth).Replace("[StartedYear]",position.StartedYear);
+                     //position.EndedMonth).Replace("[EndedYear]", position.EndedYear);
+                string str2 = !(string.IsNullOrEmpty(position.EndedMonth) && string.IsNullOrEmpty(position.EndedYear)) ? str1.Replace("[EndedDate]", string.Format("{0} {1}", position.EndedMonth, position.EndedYear)) : str1.Replace("[EndedDate]", "Present");
+                stringBuilder.Append(str2);
                 if (!string.IsNullOrEmpty(position.MainTraining))
                     stringBuilder.Append("<w:p><w:pPr><w:listPr><w:ilvl w:val='0'/><w:ilfo w:val='5'/><wx:t wx:val='·' wx:wTabBefore='0' wx:wTabAfter='270'/><wx:font wx:val='Symbol'/></w:listPr><w:rPr><w:sz w:val='22'/><w:sz-cs w:val='22'/></w:rPr></w:pPr><w:r><w:rPr><w:sz w:val='22'/><w:sz-cs w:val='22'/></w:rPr><w:t>[Value].</w:t></w:r></w:p>".Replace("[Value]", position.MainTraining));
                 if (!string.IsNullOrEmpty(position.Responsibility1))
@@ -2057,7 +2072,7 @@ namespace BRB.Controllers
                 if (num > 1 && num <= orgs.Count)
                     stringBuilder.Append("<w:p><w:pPr><w:rPr><w:sz w:val='10'/><w:sz-cs w:val='10'/></w:rPr></w:pPr><w:r><w:t>  </w:t></w:r></w:p>");
                 string str1 = "<w:p><w:pPr><w:tabs><w:tab w:val='center' w:pos='5400'/><w:tab w:val='right' w:pos='10800'/></w:tabs><w:rPr><w:sz w:val='22'/><w:sz-cs w:val='22'/></w:rPr></w:pPr><w:r><w:rPr><w:b/><w:sz w:val='22'/><w:sz-cs w:val='22'/></w:rPr><w:t>[OrgName]</w:t></w:r><w:r><w:rPr><w:sz w:val='22'/><w:sz-cs w:val='22'/></w:rPr><w:tab/><w:t>[City], [State]</w:t></w:r><w:r><w:rPr><w:sz w:val='22'/><w:sz-cs w:val='22'/></w:rPr><w:tab/><w:t>[StartedMonth] [StartedYear] - [EndedDate]</w:t></w:r></w:p>".Replace("[OrgName]", org.OrgName).Replace("[City]", org.City).Replace("[State]", org.StateName).Replace("[StartedMonth]", org.StartedMonth).Replace("[StartedYear]", org.StartedYear);
-                string str2 = !false ? str1.Replace("[EndedDate]", string.Format("{0} {1}", org.EndedMonth, org.EndedYear)) : str1.Replace("[EndedDate]", "Present");
+                string str2 = !(string.IsNullOrEmpty(org.EndedMonth) && string.IsNullOrEmpty(org.EndedYear)) ? str1.Replace("[EndedDate]", string.Format("{0} {1}", org.EndedMonth, org.EndedYear)) : str1.Replace("[EndedDate]", "Present");
                 stringBuilder.Append(str2);
                 stringBuilder.Append(GetOrgPositionContent(positions));
                 ++num;
@@ -2076,7 +2091,7 @@ namespace BRB.Controllers
                 if (num > 1 && num <= positions.Count)
                     stringBuilder.Append("<w:p><w:pPr><w:rPr><w:sz w:val='6'/><w:sz-cs w:val='6'/></w:rPr></w:pPr><w:r><w:t>  </w:t></w:r></w:p>");
                 string str1 = "<w:p><w:pPr><w:tabs><w:tab w:val='right' w:pos='10800'/></w:tabs><w:rPr><w:sz w:val='22'/><w:sz-cs w:val='22'/></w:rPr></w:pPr><w:r><w:rPr><w:i/><w:sz w:val='22'/><w:sz-cs w:val='22'/></w:rPr><w:t>[Title]</w:t></w:r><w:r><w:rPr><w:sz w:val='22'/><w:sz-cs w:val='22'/></w:rPr><w:tab/><w:t>[StartedMonth] [StartedYear] - [EndedDate]</w:t></w:r></w:p>".Replace("[Title]", position.Title).Replace("[StartedMonth]", position.StartedMonth).Replace("[StartedYear]", position.StartedYear);
-                string str2 = !false ? str1.Replace("[EndedDate]", string.Format("{0} {1}", position.EndedMonth, position.EndedYear)) : str1.Replace("[EndedDate]", "Present");
+                string str2 = !(string.IsNullOrEmpty(position.EndedMonth) && string.IsNullOrEmpty(position.EndedYear)) ? str1.Replace("[EndedDate]", string.Format("{0} {1}", position.EndedMonth, position.EndedYear)) : str1.Replace("[EndedDate]", "Present");
                 stringBuilder.Append(str2);
                 if (!string.IsNullOrEmpty(position.Responsibility1))
                     stringBuilder.Append("<w:p><w:pPr><w:listPr><w:ilvl w:val='0'/><w:ilfo w:val='5'/><wx:t wx:val='·' wx:wTabBefore='0' wx:wTabAfter='270'/><wx:font wx:val='Symbol'/></w:listPr><w:rPr><w:sz w:val='22'/><w:sz-cs w:val='22'/></w:rPr></w:pPr><w:r><w:rPr><w:sz w:val='22'/><w:sz-cs w:val='22'/></w:rPr><w:t>[Value].</w:t></w:r></w:p>".Replace("[Value]", position.Responsibility1));
@@ -2100,9 +2115,9 @@ namespace BRB.Controllers
             foreach (var org in orgs)
             {
                 if (num > 1 && num <= orgs.Count)
-                    stringBuilder.Append("<w:p><w:pPr><w:rPr><w:sz w:val='10'/><w:sz-cs w:val='10'/></w:rPr></w:pPr><w:r><w:t>  </w:t></w:r></w:p>");
+                    stringBuilder.Append("<w:p><w:pPr><w:rPr><w:sz w:val='10'/><w:sz-cs w:val='10'/></w:rPr></w:pPr><w:r><w:t>[Heading]</w:t></w:r></w:p>").Replace("[Heading]",org.VolunteerOrg1);
                 string str1 = "<w:p><w:pPr><w:tabs><w:tab w:val='center' w:pos='5400'/><w:tab w:val='right' w:pos='10800'/></w:tabs><w:rPr><w:sz w:val='22'/><w:sz-cs w:val='22'/></w:rPr></w:pPr><w:r><w:rPr><w:b/><w:sz w:val='22'/><w:sz-cs w:val='22'/></w:rPr><w:t>[OrgName]</w:t></w:r><w:r><w:rPr><w:sz w:val='22'/><w:sz-cs w:val='22'/></w:rPr><w:tab/><w:t>[City], [State]</w:t></w:r><w:r><w:rPr><w:sz w:val='22'/><w:sz-cs w:val='22'/></w:rPr><w:tab/><w:t>[StartedMonth] [StartedYear] - [EndedDate]</w:t></w:r></w:p>".Replace("[OrgName]", org.VolunteerOrg1).Replace("[City]", org.City).Replace("[State]", org.StateName).Replace("[StartedMonth]", org.StartedMonth).Replace("[StartedYear]", org.StartedYear);
-                string str2 = !false ? str1.Replace("[EndedDate]", string.Format("{0} {1}", org.EndedMonth, org.EndedYear)) : str1.Replace("[EndedDate]", "Present");
+                string str2 = !(string.IsNullOrEmpty(org.EndedMonth) && string.IsNullOrEmpty(org.EndedYear)) ? str1.Replace("[EndedDate]", string.Format("{0} {1}", org.EndedMonth, org.EndedYear)) : str1.Replace("[EndedDate]", "Present");
                 stringBuilder.Append(str2);
                 stringBuilder.Append(GetVolunteerPositionContent(positions));
                 ++num;
@@ -2121,7 +2136,7 @@ namespace BRB.Controllers
                 if (num > 1 && num <= positions.Count)
                     stringBuilder.Append("<w:p><w:pPr><w:rPr><w:sz w:val='6'/><w:sz-cs w:val='6'/></w:rPr></w:pPr><w:r><w:t>  </w:t></w:r></w:p>");
                 string str1 = "<w:p><w:pPr><w:tabs><w:tab w:val='right' w:pos='10800'/></w:tabs><w:rPr><w:sz w:val='22'/><w:sz-cs w:val='22'/></w:rPr></w:pPr><w:r><w:rPr><w:i/><w:sz w:val='22'/><w:sz-cs w:val='22'/></w:rPr><w:t>[Title]</w:t></w:r><w:r><w:rPr><w:sz w:val='22'/><w:sz-cs w:val='22'/></w:rPr><w:tab/><w:t>[StartedMonth] [StartedYear] - [EndedDate]</w:t></w:r></w:p>".Replace("[Title]", position.Title).Replace("[StartedMonth]", position.StartedMonth).Replace("[StartedYear]", position.StartedYear);
-                string str2 = !false ? str1.Replace("[EndedDate]", string.Format("{0} {1}", position.EndedMonth, position.EndedYear)) : str1.Replace("[EndedDate]", "Present");
+                string str2 = !(string.IsNullOrEmpty(position.EndedMonth) && string.IsNullOrEmpty(position.EndedYear)) ? str1.Replace("[EndedDate]", string.Format("{0} {1}", position.EndedMonth, position.EndedYear)) : str1.Replace("[EndedDate]", "Present");
                 stringBuilder.Append(str2);
                 if (!string.IsNullOrEmpty(position.Responsibility1))
                     stringBuilder.Append("<w:p><w:pPr><w:listPr><w:ilvl w:val='0'/><w:ilfo w:val='5'/><wx:t wx:val='·' wx:wTabBefore='0' wx:wTabAfter='270'/><wx:font wx:val='Symbol'/></w:listPr><w:rPr><w:sz w:val='22'/><w:sz-cs w:val='22'/></w:rPr></w:pPr><w:r><w:rPr><w:sz w:val='22'/><w:sz-cs w:val='22'/></w:rPr><w:t>[Value].</w:t></w:r></w:p>".Replace("[Value]", position.Responsibility1));
@@ -2209,7 +2224,7 @@ namespace BRB.Controllers
                 if (num > 1 && num <= orgs.Count)
                     stringBuilder.Append("<w:p><w:pPr><w:rPr><w:sz w:val='10'/><w:sz-cs w:val='10'/></w:rPr></w:pPr><w:r><w:t>  </w:t></w:r></w:p>");
                 string str1 = "<w:p><w:pPr><w:tabs><w:tab w:val='center' w:pos='5400'/><w:tab w:val='right' w:pos='10800'/></w:tabs><w:rPr><w:sz w:val='22'/><w:sz-cs w:val='22'/></w:rPr></w:pPr><w:r><w:rPr><w:b/><w:sz w:val='22'/><w:sz-cs w:val='22'/></w:rPr><w:t>[OrgName]</w:t></w:r><w:r><w:rPr><w:sz w:val='22'/><w:sz-cs w:val='22'/></w:rPr><w:tab/><w:t>[City], [State]</w:t></w:r><w:r><w:rPr><w:sz w:val='22'/><w:sz-cs w:val='22'/></w:rPr><w:tab/><w:t>[StartedMonth] [StartedYear] - [EndedDate]</w:t></w:r></w:p>".Replace("[OrgName]", org.AffiliationName).Replace("[City]", org.City).Replace("[State]", org.StateName).Replace("[StartedMonth]", org.StartedMonth).Replace("[StartedYear]", org.StartedYear);
-                string str2 = !false ? str1.Replace("[EndedDate]", string.Format("{0} {1}", org.EndedMonth, org.EndedYear)) : str1.Replace("[EndedDate]", "Present");
+                string str2 = !(string.IsNullOrEmpty(org.EndedMonth) && string.IsNullOrEmpty(org.EndedYear)) ? str1.Replace("[EndedDate]", string.Format("{0} {1}", org.EndedMonth, org.EndedYear)) : str1.Replace("[EndedDate]", "Present");
                 stringBuilder.Append(str2);
                 stringBuilder.Append(GetOrgPositionContent(org.AffiliationPositions));
                 ++num;
@@ -2228,7 +2243,7 @@ namespace BRB.Controllers
                 if (num > 1 && num <= positions.Count)
                     stringBuilder.Append("<w:p><w:pPr><w:rPr><w:sz w:val='6'/><w:sz-cs w:val='6'/></w:rPr></w:pPr><w:r><w:t>  </w:t></w:r></w:p>");
                 string str1 = "<w:p><w:pPr><w:tabs><w:tab w:val='right' w:pos='10800'/></w:tabs><w:rPr><w:sz w:val='22'/><w:sz-cs w:val='22'/></w:rPr></w:pPr><w:r><w:rPr><w:i/><w:sz w:val='22'/><w:sz-cs w:val='22'/></w:rPr><w:t>[Title]</w:t></w:r><w:r><w:rPr><w:sz w:val='22'/><w:sz-cs w:val='22'/></w:rPr><w:tab/><w:t>[StartedMonth] [StartedYear] - [EndedDate]</w:t></w:r></w:p>".Replace("[Title]", position.Title).Replace("[StartedMonth]", position.StartedMonth).Replace("[StartedYear]", position.StartedYear);
-                string str2 = !false ? str1.Replace("[EndedDate]", string.Format("{0} {1}",position.EndedMonth, position.EndedYear)) : str1.Replace("[EndedDate]", "Present");
+                string str2 = !(position.EndedMonth == "null" && position.EndedYear == "null") ? str1.Replace("[EndedDate]", string.Format("{0} {1}",position.EndedMonth, position.EndedYear)) : str1.Replace("[EndedDate]", "Present");
                 stringBuilder.Append(str2);
                 if (!string.IsNullOrEmpty(position.Responsibility1))
                     stringBuilder.Append("<w:p><w:pPr><w:listPr><w:ilvl w:val='0'/><w:ilfo w:val='5'/><wx:t wx:val='·' wx:wTabBefore='0' wx:wTabAfter='270'/><wx:font wx:val='Symbol'/></w:listPr><w:rPr><w:sz w:val='22'/><w:sz-cs w:val='22'/></w:rPr></w:pPr><w:r><w:rPr><w:sz w:val='22'/><w:sz-cs w:val='22'/></w:rPr><w:t>[Value].</w:t></w:r></w:p>".Replace("[Value]", position.Responsibility1));
@@ -2259,7 +2274,7 @@ namespace BRB.Controllers
             skills += resume.TechnicalSkill.AdobePhotoshop.Value ? "Adobe Photoshop, " : "";
             skills += resume.TechnicalSkill.GoogleSuite.Value ? "Google Suit, " : "";
             skills += resume.TechnicalSkill.GoogleDocs.Value ? "Google Docs" : "";
-            return "<w:p><w:pPr><w:ind w:left='1800' w:hanging='1800'/></w:pPr><w:r><w:rPr><w:b/><w:sz w:val='24'/><w:sz-cs w:val='24'/></w:rPr><w:t>Computer Skills:</w:t></w:r><w:r><w:rPr><w:b/></w:rPr><w:tab wx:wTab='225' wx:tlc='none' wx:cTlc='3'/></w:r><w:r><w:rPr><w:sz w:val='22'/></w:rPr><w:t>[Skills]</w:t></w:r></w:p>".Replace("[Skills]", skills.ToString()) + "<w:p><w:pPr><w:rPr><w:sz w:val='12'/><w:sz-cs w:val='12'/></w:rPr></w:pPr><w:r><w:t>  </w:t></w:r></w:p>";
+            return "<w:p><w:pPr><w:ind w:left='1800' w:hanging='1800'/></w:pPr><w:r><w:rPr><w:b/><w:sz w:val='24'/><w:sz-cs w:val='24'/></w:rPr><w:t>Computer Skills:</w:t></w:r><w:r><w:rPr><w:b/></w:rPr><w:tab wx:wTab='225' wx:tlc='none' wx:cTlc='3'/></w:r><w:r><w:rPr><w:sz w:val='22'/></w:rPr><w:t>[Skills][Other]</w:t></w:r></w:p>".Replace("[Skills]", skills.ToString()).Replace("[Other]", resume.TechnicalSkill.OtherPrograms) + "<w:p><w:pPr><w:rPr><w:sz w:val='12'/><w:sz-cs w:val='12'/></w:rPr></w:pPr><w:r><w:t>  </w:t></w:r></w:p>";
         }
 
         public static string GetLanguageContent(ResumeGenerateModel resume)

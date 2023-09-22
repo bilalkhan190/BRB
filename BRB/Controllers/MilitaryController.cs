@@ -4,6 +4,7 @@ using BusinessObjects.Models.DTOs;
 using BusinessObjects.Models.MetaData;
 using BusinessObjects.Services.interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json;
@@ -96,6 +97,7 @@ namespace BRB.Controllers
                             mp.LastModDate = DateTime.Today;
                             if (mp.MilitaryPositionId > 0)
                             {
+                                _dbContext.Entry<MilitaryPosition>(mp).State = EntityState.Detached;
                                 _dbContext.MilitaryPositions.Update(mp);
                                 _dbContext.SaveChanges();
                             }

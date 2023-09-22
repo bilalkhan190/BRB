@@ -12,6 +12,7 @@ public partial class VolunteerOrg
 
     public string? VolunteerOrg1 { get; set; }
 
+
     public string? City { get; set; }
 
     public string? StateAbbr { get; set; }

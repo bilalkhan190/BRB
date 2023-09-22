@@ -18,6 +18,15 @@ public partial class OverseasStudy
     [NotMapped]
     public string? CountryName { get; set; }
 
+    [NotMapped]
+    public string? StartedMonth { get; set; }
+    [NotMapped]
+    public string? StartedYear { get; set; }
+    [NotMapped]
+    public string? EndedMonth { get; set; }
+    [NotMapped]
+    public string? EndedYear { get; set; }
+
     public DateTime? StartedDate { get; set; }
 
     public DateTime? EndedDate { get; set; }

@@ -3,7 +3,11 @@ using BusinessObjects.Models;
 using BusinessObjects.Models.DTOs;
 using BusinessObjects.Models.MetaData;
 using BusinessObjects.Services.interfaces;
+using DocumentFormat.OpenXml.Spreadsheet;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
+using System.Globalization;
 using System.Text.Json;
 
 namespace BRB.Controllers
@@ -75,18 +79,32 @@ namespace BRB.Controllers
                         {
                             foreach (var overseas in overseasStudyViewModel.OverseasStudies)
                             {
-                                overseas.CreatedDate = DateTime.Today;
-                                overseas.LastModDate = DateTime.Today;
+
+                               
                                
                                 if (overseas.OverseasStudyId > 0)
                                 {
-                                    overseas.OverseasExperienceId = overseasExperience.OverseasExperienceId;
-                                    _dbContext.OverseasStudies.Update(overseas);
-                                    _dbContext.SaveChanges();
+                                    var record = _dbContext.OverseasStudies.FirstOrDefault(x => x.OverseasStudyId == overseas.OverseasStudyId);
+                                    if (record != null)
+                                    {
+                                        overseas.LastModDate = DateTime.Today;
+                                        overseas.CreatedDate = record.CreatedDate;
+                                        overseas.OverseasExperienceId = overseasExperience.OverseasExperienceId;
+                                        overseas.StartedDate = new DateTime(DateTime.ParseExact(overseas.StartedYear, "yyyy", CultureInfo.CurrentCulture).Year, DateTime.ParseExact(overseas.StartedMonth, "MMMM", CultureInfo.CurrentCulture).Month, 1);
+                                        overseas.EndedDate = !(string.IsNullOrEmpty(overseas.EndedYear) && string.IsNullOrEmpty(overseas.EndedMonth)) ? new DateTime(DateTime.ParseExact(overseas.EndedYear, "yyyy", CultureInfo.CurrentCulture).Year, DateTime.ParseExact(overseas.EndedMonth, "MMMM", CultureInfo.CurrentCulture).Month, 1) : null;
+                                        var checkTracking = _dbContext.Set<OverseasStudy>().Local.FirstOrDefault(x => x.OverseasStudyId == record.OverseasStudyId);
+                                        if (checkTracking != null) _dbContext.Entry<OverseasStudy>(record).State = EntityState.Detached;
+                                        _dbContext.OverseasStudies.Update(overseas);
+                                        _dbContext.SaveChanges();
+                                    }
                                 }
                                 else
                                 {
+                                    overseas.LastModDate = DateTime.Today;
+                                    overseas.CreatedDate = DateTime.Today;
                                     overseas.OverseasExperienceId = overseasExperience.OverseasExperienceId;
+                                    overseas.StartedDate = new DateTime(DateTime.ParseExact(overseas.StartedYear, "yyyy", CultureInfo.CurrentCulture).Year, DateTime.ParseExact(overseas.StartedMonth, "MMMM", CultureInfo.CurrentCulture).Month, 1);
+                                    overseas.EndedDate = !(string.IsNullOrEmpty(overseas.EndedYear) && string.IsNullOrEmpty(overseas.EndedMonth)) ? new DateTime(DateTime.ParseExact(overseas.EndedYear, "yyyy", CultureInfo.CurrentCulture).Year, DateTime.ParseExact(overseas.EndedMonth, "MMMM", CultureInfo.CurrentCulture).Month, 1):null;
                                     _dbContext.OverseasStudies.Add(overseas);
                                     _dbContext.SaveChanges();
                                 }
@@ -100,7 +118,7 @@ namespace BRB.Controllers
 
                     }
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
 
                     transection.Rollback();
@@ -128,9 +146,24 @@ namespace BRB.Controllers
         private List<OverseasStudy> GetOverseasStudies(int masterId)
         {
             List<OverseasStudy> list = new List<OverseasStudy>();
-            var data = _dbContext.OverseasStudies.Where(x => x.OverseasExperienceId == masterId).ToList();
+            var data = _dbContext.OverseasStudies.Where(x => x.OverseasExperienceId == masterId).OrderByDescending(x =>x.CreatedDate).ToList();
+           
             foreach (var item in data)
             {
+                item.CountryName = _dbContext.CountryLists.FirstOrDefault(x => x.CountryId == item.CountryId).CountryName;
+                    
+                if (!string.IsNullOrEmpty(item.StartedDate.ToString()))
+                {
+                    var startDate = Convert.ToDateTime(item.StartedDate);
+                           item.StartedMonth = startDate.ToString("MMMM");
+                    item.StartedYear = startDate.ToString("yyyy");
+                }
+                if (!string.IsNullOrEmpty(item.EndedDate.ToString()))
+                {
+                    var endDate = Convert.ToDateTime(item.EndedDate);
+                    item.EndedMonth = endDate.ToString("MMMM");
+                    item.EndedYear = endDate.ToString("yyyy");
+                }  
                 list.Add(item);
             }
             return list;
