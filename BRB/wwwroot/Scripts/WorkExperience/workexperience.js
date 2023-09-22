@@ -77,8 +77,23 @@ $(document).on("click", "#btnSavePosition", function () {
                 return false;
             }
         }
+
+
+        let respOpt = "";
+        $(".cbResp:checked").each(function (index, record) {
+            respOpt += `&responsibilityOptions[${index}].ResponsibilityOption=${$(this).val()}`;
+        })
+        console.log(respOpt);
+        console.log(encodeURI(respOpt));
+        console.log($('#WorkPositionForm').serialize());
+       
+        let data = objectifyForm($('#WorkPositionForm').serializeArray());
+        data.CompanyId = companyId;
+        data["responsibilityOptions[0].ResponsibilityOption"] = data;
+        console.log(data);
+       
         $.ajax({
-            url: '/WorkExperience/AddPosition?CompanyId=' + companyId + "&" + $('#WorkPositionForm').serialize(),
+            url: '/WorkExperience/AddPosition?CompanyId=' + companyId + "&" + $('#WorkPositionForm').serialize() + encodeURI(respOpt),
             type: 'get',
             success: function (response) {
                 console.log(response);
@@ -99,6 +114,15 @@ $(document).on("click", "#btnSavePosition", function () {
     }
    
 });
+
+function objectifyForm(formArray) {
+    //serialize data function
+    var returnArray = {};
+    for (var i = 0; i < formArray.length; i++) {
+        returnArray[formArray[i]['name']] = formArray[i]['value'];
+    }
+    return returnArray;
+}
     $('#btnAddCompany').click(function () {
         var sMonth = $("select[name='StartMonth']").val();
         var sYear = $("select[name='StartYear']").val();
@@ -250,7 +274,7 @@ $(document).on('change', '#ddlJobResponsibility', function () {
                 $('.otherRespDiv').show();
                 $.each(response.data.responsibilityOptions, function (index, value) {
                     let html = ` <div id="ooption-${index}" class="custom-checkbox custom-control mb-2">
-                    <input id="${index}-option" name="responsibilityOptions[${index}].ResponsibilityOption" value="${value.respOptionId}"
+                    <input id="${index}-option" data-n="responsibilityOptions[${index}].ResponsibilityOption" value="${value.respOptionId}"
                            type="checkbox" data-map='${value.caption}' class="custom-control-input cbResp"><label for="${index}-option"
                                                                            class="custom-control-label">${value.caption}</label>
                 </div>`;
@@ -277,7 +301,7 @@ $(document).on('change', '#ddlJobResponsibility', function () {
                 });
             }
           
-            if (id == "19") {
+            if (id == "19") { //other 
                 $(document).find("input[name='workRespQuestions[0].Answer']").attr("required", true);
                 $(document).find("input[name='workRespQuestions[0].Answer']").prev("label").append("<b class='text-danger' id='required-tag'>*</b>");
             }
@@ -336,6 +360,9 @@ $(document).on("click", "button.btnEditCompany", function () {
     $("select[name='StartYear']").val(json.startYear);
     $("select[name='EndMonth']").val(json.endMonth);
     $("select[name='EndYear']").val(json.endYear);
+    if (json.endMonth == null || json.endMonth == '' && json.endYear == null || json.endYear == '') {
+        $('#cbCurrentlyInCompany').prop('checked', true)
+    }
     if ($("#cbCurrentlyInCompany").is(":checked")) {
         $("#pnlEndDate").hide();
         $("select[name='EndMonth']").val('')
@@ -416,7 +443,7 @@ $(document).on("click", "button.btnEditPosition", function () {
                 if (json.responsibilityOptions) {
                     $.each(json.responsibilityOptions, function (index, value) {
 
-                        $(`input[name='responsibilityOptions[${index}].ResponsibilityOption'][value='${value.responsibilityOption}']`).prop("checked", true);
+                        $(`input[value='${value.responsibilityOption}']`).prop("checked", true);
                     })
 
                  
