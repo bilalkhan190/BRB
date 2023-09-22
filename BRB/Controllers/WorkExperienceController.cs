@@ -94,6 +94,7 @@ namespace BRB.Controllers
                 var companyList = _dbContext.WorkCompanies.Where(x => x.WorkExperienceId == master.WorkExperienceId).ToList();
                 companyList.ForEach(record =>
                 {
+                    record.StateName = _dbContext.StateLists.FirstOrDefault(x =>x.StateAbbr == record.State)?.StateName;
                     var positionList = _dbContext.WorkPositions.Where(x => record.CompanyId == x.CompanyId).ToList();
                     positionList.ForEach(f =>
                     {

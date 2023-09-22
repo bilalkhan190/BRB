@@ -71,11 +71,11 @@
                             <div class="form-group">
                                 <label for="validationCustom01">Organization<span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="txtOrgName"
-                                       name="OrgName" required>
+                                       name="OrgName" required maxlength="200">
                             </div>
                             <div class="form-group">
                                 <label for="City" class="">City<span class="text-danger">*</span></label>
-                                <input name="City" id="txtCity" type="text" class="form-control" required>
+                                <input name="City" id="txtCity" type="text" class="form-control" required maxlength="100">
                             </div>
                             <div class="form-group">
                                 <label for="t" class="">State<span class="text-danger">*</span></label>
@@ -547,7 +547,7 @@
                             <div class="form-group">
                                 <label for="validationCustom01">Title<span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="txtTitle"
-                                       name="Title" required>
+                                       name="Title" required maxlength="200">
                             </div>
                             <div class="form-group mb-0">
                                 <label for="received" class="">Date Started<span class="text-danger">*</span></label>
@@ -931,15 +931,15 @@
                                 <legend>Top three primary responsibilities</legend>
                                 <div class="form-group">
                                     <label for="t" class="">Responsibility #1<span class="text-danger">*</span></label>
-                                    <input name="Responsibility1" id="txtResponsibility1" type="text" class="form-control" value="" required>
+                                    <input name="Responsibility1" id="txtResponsibility1" type="text" class="form-control" value="" required maxlength="150">
                                 </div>
                                 <div class="form-group">
                                     <label for="t" class="">Responsibility #2</label>
-                                    <input name="Responsibility2" id="txtResponsibility2" type="text" class="form-control" value="">
+                                    <input name="Responsibility2" id="txtResponsibility2" type="text" class="form-control" value="" maxlength="150">
                                 </div>
                                 <div class="form-group">
                                     <label for="t" class="">Responsibility #3</label>
-                                    <input name="Responsibility3" id="txtResponsibility3" type="text" class="form-control" value="">
+                                    <input name="Responsibility3" id="txtResponsibility3" type="text" class="form-control" value="" maxlength="150">
                                 </div>
                             </div>
 
@@ -948,7 +948,7 @@
                                     Other information that makes this
                                     experience unique
                                 </label><input name="OtherInfo" id="txtOtherInfo" type="text" class="form-control"
-                                               value="">
+                                               value="" maxlength="150">
                             </div>
                         </div>
                     </div>

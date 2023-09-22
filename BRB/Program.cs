@@ -74,7 +74,13 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+app.UseStatusCodePages(ctx =>
+{
+    if (ctx.HttpContext.Response.StatusCode == 404)
+        ctx.HttpContext.Response.Redirect("/Resume/home");
 
+    return Task.CompletedTask;
+});
 app.UseAuthorization();
 //app.UseOutputCache();
 app.MapControllerRoute(

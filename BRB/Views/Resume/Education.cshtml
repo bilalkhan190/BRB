@@ -52,15 +52,15 @@
                         <div class="col-md-12 p-0">
                             <div class="form-group">
                                 <label for="validationCustom01">Institution  Name<span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" id="txtCollegeName" name="CollegeName"
-                                       required>
+                                <input type="text" class="form-control" id="txtCollegeName" name="CollegeName" maxlength="250"
+                                       required >
                                         <span asp-validation-for="CollegeName" class="text-danger"></span>
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="City" class="">City <span class="text-danger">*</span></label>
-                                        <input name="CollegeCity" id="CollegeCity" type="text" class="form-control" required>
+                                        <input name="CollegeCity" id="CollegeCity" type="text" class="form-control" required maxlength="100">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -261,7 +261,7 @@
                                         college
                                        
                                     </label><input name="SchoolName" id="txtSchoolName" type="text" class="form-control" value=""
-                                                   >
+                                                   maxlength="200">
                                 </div>
                                 <div class="form-group">
                                     <label for="t" class="">
@@ -322,7 +322,7 @@
 
                     <div class="form-group">
                         <label for="t" class="">Honors College Program</label><input name="HonorProgram"
-                                                                                     id="HonorProgram" type="text" class="form-control" value="">
+                                                                                     id="HonorProgram" type="text" class="form-control" value="" maxlength="200">
                     </div>
                 </form>
             </div>
@@ -383,7 +383,7 @@
                 <div class="form-group">
                       <input type="hidden" id="hdfAcademicScholarshipId"/>
                         <label for="t" class="">Academic Scholarship <span class="text-danger">*</span></label>
-                        <input class="form-control" name="ScholarshipName" id="txtScholarshipName" required />
+                        <input class="form-control" name="ScholarshipName" id="txtScholarshipName" required maxlength="200" />
                 </div>
                 <div class="form-group mb-0">
                         <label for="received" class="">Date Received <span class="text-danger">*</span></label>
@@ -570,7 +570,7 @@
                 </div>
                 <div class="form-group">
                         <label for="t" class="">Criteria <span class="text-danger">*</span></label><input name="ScholarshipCriteria" id="txtScholarshipCriteria" type="text"
-                                                                       class="form-control" value="" required>
+                                                                                                          class="form-control" value="" required maxlength="200">
                 </div>
                 </form>
             </div>
@@ -598,7 +598,7 @@
                         <input type="hidden" id="hdfAcademicHonorId"/>
                         <label for="t" class="">Academic Honor</label>
                         <input name="AcademicHonor" id="txtAcademicHonor"
-                               type="text" class=" form-control" value="" required>
+                               type="text" class=" form-control" value="" required maxlength="200">
                     </div>
                     <div class="form-group mb-0">
                         <label for="received" class="">Date Received <span class="text-danger">*</span></label>

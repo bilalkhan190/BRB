@@ -195,6 +195,7 @@ namespace BRB.Controllers
             resumeProfileData.LastSectionVisitedId = educationViewModel.LastSectionVisitedId;
             resumeProfileData.LastModDate = DateTime.Today;
             resumeProfileData.CreatedDate = DateTime.Today;
+            resumeProfileData.GeneratedFileName = null;
             resumeProfileData.LastSectionCompletedId = educationViewModel.IsComplete == true ? educationViewModel.LastSectionVisitedId : 0;
            
             try

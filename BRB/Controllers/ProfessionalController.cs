@@ -71,6 +71,7 @@ namespace BRB.Controllers
                 resumeProfileData.LastSectionVisitedId = professionalViewModel.LastSectionVisitedId;
                 resumeProfileData.LastModDate = DateTime.Today;
                 resumeProfileData.LastSectionCompletedId = professionalViewModel.IsComplete == true ? professionalViewModel.LastSectionVisitedId : 0;
+                resumeProfileData.GeneratedFileName = null;
                 bool isAbleToAdd = false;
                 var masterData = _dbContext.Professionals.FirstOrDefault(x => x.ResumeId == sessionData.ResumeId);
                 if (masterData == null)

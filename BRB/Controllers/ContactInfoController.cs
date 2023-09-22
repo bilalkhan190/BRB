@@ -65,7 +65,7 @@ namespace BRB.Controllers
             resumeProfileData.LastSectionCompletedId = contactInfoViewModel.IsComplete == true ? contactInfoViewModel.LastSectionVisitedId : 0;
             resumeProfileData.CreatedDate = DateTime.Today;
             resumeProfileData.LastModDate = DateTime.Today;
-            
+            resumeProfileData.GeneratedFileName = null;
           
 
             contactInfoViewModel.ResumeId = sessionData.ResumeId;

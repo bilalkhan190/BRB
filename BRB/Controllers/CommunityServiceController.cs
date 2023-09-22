@@ -91,6 +91,7 @@ namespace BRB.Controllers
             resumeProfileData.LastSectionVisitedId = communityViewModel.LastSectionVisitedId;
             resumeProfileData.LastModDate = DateTime.Today;
             resumeProfileData.CreatedDate = DateTime.Today;
+            resumeProfileData.GeneratedFileName = null;
             resumeProfileData.LastSectionCompletedId = communityViewModel.IsComplete == true ? communityViewModel.LastSectionVisitedId : 0;
             VolunteerExperience volunteerExperience = new VolunteerExperience();
 

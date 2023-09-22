@@ -20,7 +20,7 @@
                 <div class="col-sm-6">
                     <div class="form-group">
                         <label foclassr="t">Military Branch<span class="text-danger">*</span></label>
-                        <input name="Branch" id="txtBranch" type="text" class="form-control" value="" required>
+                        <input name="Branch" id="txtBranch" type="text" class="form-control" value="" required maxlength="150">
                     </div>
                     <div class="form-group">
                         <label for="t">
@@ -28,7 +28,7 @@
                             Stationed<span class="text-danger">*</span>
                         </label>
                         <input name="City" id="txtCity" type="text" class="form-control"
-                               value="" required>
+                               value="" required maxlength="100">
                     </div>
                     <div class="form-group">
                         <label for="t">Country<span class="text-danger">*</span></label>
@@ -414,7 +414,7 @@
                     </div>
                     <div class="form-group">
                         <label for="t" class="">Rank<span class="text-danger">*</span></label><input name="Rank" id="txtRank"
-                                                                                                     type="text" class="form-control" value="" required>
+                                                                                                     type="text" class="form-control" value="" required maxlength="100">
                     </div>
                 </div>
                 <div class="col-md-6">
@@ -856,21 +856,21 @@
                                     Specialized training relevant to the
                                     industry you are in or are going into
                                 </label><input name="MainTraining" id="txtMainTraining" type="text"
-                                               class="form-control" value="" required>
+                                               class="form-control" value="" required maxlength="150">
                             </div>
                             <div class="form-group">
                                 <legend>Top three primary responsibilities</legend>
                                 <div class="form-group">
                                     <label for="t" class="">Responsibility #1 <span class="text-danger">*</span></label>
-                                    <input name="Responsibility1" id="txtResponsibility1" type="text" class="form-control" value="" required>
+                                    <input name="Responsibility1" id="txtResponsibility1" type="text" class="form-control" value="" required maxlength="150">
                                 </div>
                                 <div class="form-group">
                                     <label for="t" class="">Responsibility #2</label>
-                                    <input name="Responsibility2" id="txtResponsibility2" type="text" class="form-control" value="">
+                                    <input name="Responsibility2" id="txtResponsibility2" type="text" class="form-control" value="" maxlength="150">
                                 </div>
                                 <div class="form-group">
                                     <label for="t" class="">Responsibility #3</label>
-                                    <input name="Responsibility3" id="txtResponsibility3" type="text" class="form-control" value="">
+                                    <input name="Responsibility3" id="txtResponsibility3" type="text" class="form-control" value="" maxlength="150">
                                 </div>
                             </div>
 
@@ -879,7 +879,7 @@
                                     Other information that makes this
                                     experience unique
                                 </label><input name="OtherInfo" id="txtOtherInfo" type="text" class="form-control"
-                                               value="">
+                                               value="" maxlength="150">
                             </div>
                         </div>
                     </div>

@@ -39,7 +39,7 @@ namespace BRB.Controllers
             resumeProfileData.LastModDate = DateTime.Today;
             resumeProfileData.LastSectionVisitedId = militaryViewModel.LastSectionVisitedId;
             resumeProfileData.LastSectionCompletedId = militaryViewModel.IsComplete == true ? militaryViewModel.LastSectionVisitedId : 0;
-         
+            resumeProfileData.GeneratedFileName = null;
               militaryViewModel.ResumeId = sessionData.ResumeId;
               militaryViewModel.CreatedDate = DateTime.Today;
               militaryViewModel.LastModDate = DateTime.Today;

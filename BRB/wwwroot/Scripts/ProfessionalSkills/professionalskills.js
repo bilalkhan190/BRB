@@ -287,7 +287,7 @@ function LoadaffCards() {
                                    </div>
                                 </div>
                                     <p class="HasEndDate" class="text-muted">${affilation.startedMonth} ${affilation.startedYear} - ${endMonth}</p>
-                                    <p  class="text-muted">${affilation.stateName}, ${affilation.city}</p>
+                                    <p class="_stateName" class="text-muted">${affilation.city} ,${affilation.stateName}</p>
                                 </span>
                                 <span>
                                 ${PositionHtml ? "" : `   <p class="noPosition" class="danger-text"><em>You currently have no positions listed. Either add a position to the organization or delete the organization.</em></p>`}
