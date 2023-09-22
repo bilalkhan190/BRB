@@ -40,6 +40,8 @@ function GenerateCheckboxes() {
         url: '/ObjectiveSummary/GetObjectives',
         type: 'get',
         success: function (response) {
+            console.log(response.data);
+            response.data = response.data.sort(dynamicSort("objectiveDesc"));
             $.each(response.data, function (index, value) {
                 let checkboxHtml = ` <div class="custom-checkbox custom-control">
                                         <input type="checkbox" id="${value.objectiveDesc}" ${value.checked ? 'checked' : ''}
@@ -57,6 +59,22 @@ function GenerateCheckboxes() {
             alert('checkbox generate error')
         }
     });
+}
+
+
+function dynamicSort(property) {
+    var sortOrder = 1;
+    if (property[0] === "-") {
+        sortOrder = -1;
+        property = property.substr(1);
+    }
+    return function (a, b) {
+        /* next line works with strings and numbers, 
+         * and you may want to customize it to your needs
+         */
+        var result = (a[property] < b[property]) ? -1 : (a[property] > b[property]) ? 1 : 0;
+        return result * sortOrder;
+    }
 }
 $(document).on('change', '.customcb', function (e) {
 
