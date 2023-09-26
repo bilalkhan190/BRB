@@ -7,6 +7,7 @@ using BusinessObjects.Models;
 using ContactInfo = BusinessObjects.Models.ContactInfo;
 using Microsoft.EntityFrameworkCore;
 using BusinessObjects.Models.MetaData;
+using System.Globalization;
 
 namespace BRB.Controllers
 {
@@ -41,7 +42,9 @@ namespace BRB.Controllers
                         ObjectiveSummary objectiveSummary = new ObjectiveSummary
                         {
                             ObjectiveType = data.objective.summaryChoice,
+                            ResumeId = ResumeData.ResumeId,
                             YearsOfExperienceDesc = data.objective.experience,
+                            YearsOfExperienceId = _dbContext.YearsOfExperienceLists.FirstOrDefault(x => x.YearsOfExperienceDesc == data.objective.experience).YearsOfExperienceId,
                             PositionTypeDesc = data.objective.positionType,
                             PositionTypeId = _dbContext.PositionTypeLists
                            .FirstOrDefault(x => x.PositionTypeDesc.Contains(data.objective.positionType)).PositionTypeId,
@@ -49,7 +52,8 @@ namespace BRB.Controllers
                             CurrentCompanyType = data.objective.companyOrIndustry,
                             ChangeTypeDesc = data.objective.positiveChange,
                             ChangeTypeId = _dbContext.ChangeTypeLists.FirstOrDefault(x => x.ChangeTypeDesc.Contains(data.objective.positiveChange)).ChangeTypeId,
-                            ChangeTypeOther = data.objective.otherPositiveChange
+                            ChangeTypeOther = data.objective.otherPositiveChange,
+                            
                         };
                         if (data.objective.skills.Count > 2)
                         {
@@ -105,31 +109,31 @@ namespace BRB.Controllers
                         List<AcademicScholarship> academicScholarships = new List<AcademicScholarship>();
                         foreach (var education in data.education.schools)
                         {
-                            College college = new College
-                            {
-                                CollegeName = education.name,
-                                CollegeCity = education.city,
-                                EducationId = educationMaster.EducationId,
-                                CollegeStateAbbr = _dbContext.StateLists.FirstOrDefault(x => x.StateName.Contains(education.state)).StateAbbr,
-                                Month = education.graduationMonth,
-                                Year = education.graduationYear,
-                                SchoolName = education.schoolOrProgramName,
-                                DegreeDesc = education.degreeType,
-                                DegreeId = _dbContext.DegreeLists.FirstOrDefault(x => x.DegreeDesc.Contains(education.degreeType)).DegreeId,
-                                MajorDesc = education.major,
-                                MajorId = _dbContext.MajorLists.FirstOrDefault(x => x.MajorDesc.Contains(education.major)).MajorId,
-                                MajorSpecialtyDesc = education.majorSpecialty,
-                                MajorSpecialtyId = _dbContext.MajorSpecialtyLists.FirstOrDefault(x => x.MajorSpecialtyDesc.Contains(education.majorSpecialty)).MajorSpecialtyId,
-                                MinorDesc = education.minor,
-                                MinorId = _dbContext.MinorLists.FirstOrDefault(x => x.MinorDesc.Contains(education.minor)).MinorId,
-                                CertificateDesc = education.eduCert,
-                                CertificateId = _dbContext.CertificateLists.FirstOrDefault(x => x.CertificateDesc.Contains(education.eduCert)).CertificateId,
-                                Gpa = education.gpa,
-                                IncludeGpa = education.includeGpa,
-                                CreatedDate = DateTime.Today
-                            };
-
-                              _dbContext.Colleges.Add(college);
+                            College college = new College();
+                            college.CollegeName = education.name;
+                            college.CollegeCity = education.city;
+                            college.EducationId = educationMaster.EducationId;
+                            college.CollegeStateAbbr = _dbContext.StateLists.FirstOrDefault(x => x.StateName.Contains(education.state)).StateAbbr;
+                            college.GradDate = new DateTime(DateTime.ParseExact(education.graduationYear, "yyyy", CultureInfo.CurrentCulture).Year, DateTime.ParseExact(education.graduationMonth, "MMMM", CultureInfo.CurrentCulture).Month, 1);
+                            college.Month = education.graduationMonth;
+                            college.Year = education.graduationYear;
+                            college.SchoolName = education.schoolOrProgramName;
+                            college.DegreeDesc = education.degreeType;
+                            college.DegreeId = _dbContext.DegreeLists.FirstOrDefault(x => x.DegreeDesc.Contains(education.degreeType)).DegreeId;
+                            college.MajorDesc = education.major;
+                            college.MajorId = _dbContext.MajorLists.FirstOrDefault(x => x.MajorDesc.Contains(education.major)).MajorId;
+                            college.MajorSpecialtyDesc = education.majorSpecialty;
+                            college.MajorSpecialtyId = _dbContext.MajorSpecialtyLists.FirstOrDefault(x => x.MajorSpecialtyDesc.Contains(education.majorSpecialty)).MajorSpecialtyId;
+                            college.MinorDesc = education.minor;
+                            college.MinorId = _dbContext.MinorLists.FirstOrDefault(x => x.MinorDesc.Contains(education.minor)).MinorId;
+                            college.CertificateDesc = education.eduCert;
+                            college.CertificateId = _dbContext.CertificateLists.FirstOrDefault(x => x.CertificateDesc.Contains(education.eduCert.Trim()))?.CertificateId;
+                            college.IncludeGpa = education.includeGpa;
+                            college.CreatedDate = DateTime.Today;
+                            college.LastModDate = DateTime.Today;
+                            college.HonorProgram = education.honorsCollegeProgram;
+                            college.Gpa = education.gpa;
+                            _dbContext.Colleges.Add(college);
                             _dbContext.SaveChanges();
                             foreach (var honor in education.honors)
                             {
@@ -160,9 +164,9 @@ namespace BRB.Controllers
                             }
 
                             //colleges.Add(college);
-                          
+
                         }
-                        
+
                         _dbContext.AcademicHonors.AddRange(academicHonors);
                         _dbContext.AcademicScholarships.AddRange(academicScholarships);
                         _dbContext.SaveChanges();
@@ -184,6 +188,8 @@ namespace BRB.Controllers
                                 CollegeName = data.overseasStudies.college,
                                 OverseasExperienceId = overseasExperience.OverseasExperienceId,
                                 City = data.overseasStudies.city,
+                                StartedDate = new DateTime(DateTime.ParseExact(ov.startYear, "yyyy", CultureInfo.CurrentCulture).Year, DateTime.ParseExact(ov.startMonth, "MMMM", CultureInfo.CurrentCulture).Month, 1),
+                                EndedDate = new DateTime(DateTime.ParseExact(ov.endYear, "yyyy", CultureInfo.CurrentCulture).Year, DateTime.ParseExact(ov.endMonth, "MMMM", CultureInfo.CurrentCulture).Month, 1),
                                 CountryName = data.overseasStudies.country,
                                 CountryId = data.overseasStudies.country != null ? _dbContext.CountryLists.FirstOrDefault(x => x.CountryName.Contains(data.overseasStudies.country)).CountryId : 0,
                                 ClassesCompleted = data.overseasStudies.mainClasses,
@@ -214,6 +220,7 @@ namespace BRB.Controllers
                         {
                             MilitaryPosition milPosition = new MilitaryPosition
                             {
+                                MilitaryExperienceId = militaryExperience.MilitaryExperienceId,
                                 Title = position.title,
                                 StartedMonth = position.startMonth,
                                 StartedYear = position.startYear,
@@ -245,7 +252,7 @@ namespace BRB.Controllers
                         {
                             Organization organization = new Organization
                             {
-                                OrgName = org.title,
+                                OrgName = org.name,
                                 City = org.city,
                                 StateAbbr = org.state != null ? _dbContext.StateLists.FirstOrDefault(x => x.StateName.Contains(org.state)).StateAbbr : "",
                                 StartedMonth = org.startMonth,
@@ -255,7 +262,7 @@ namespace BRB.Controllers
 
 
                             };
-                          
+
                             if (org.currentlyIn)
                             {
                                 organization.EndedMonth = "";
@@ -280,7 +287,7 @@ namespace BRB.Controllers
                                     Responsibility1 = pos.responsibilities.responsibility1,
                                     Responsibility2 = pos.responsibilities.responsibility2,
                                     Responsibility3 = pos.responsibilities.responsibility3,
-                                    OrganizationId  = organization.OrganizationId,
+                                    OrganizationId = organization.OrganizationId,
                                 };
                                 if (pos.currentlyIn)
                                 {
@@ -294,9 +301,9 @@ namespace BRB.Controllers
                                 }
                                 orgPositions.Add(orgPos);
                             }
-                            
+
                         }
-                       
+
 
                         _dbContext.OrgPositions.AddRange(orgPositions);
                         _dbContext.SaveChanges();
@@ -366,7 +373,7 @@ namespace BRB.Controllers
                             _dbContext.VolunteerOrgs.Add(Volorganization);
                             _dbContext.SaveChanges();
                         }
-                       
+
                         _dbContext.VolunteerPositions.AddRange(volunteerPositions);
                         _dbContext.SaveChanges();
                         LanguageSkill languageSkill = new LanguageSkill()
@@ -374,6 +381,7 @@ namespace BRB.Controllers
                             IsComplete = data.languages.sectionComplete,
                             IsOptOut = data.languages.doesNotApply,
                             CreatedDate = DateTime.Today,
+                            ResumeId = ResumeData.ResumeId
                         };
                         _dbContext.LanguageSkills.Add(languageSkill);
                         _dbContext.SaveChanges();
@@ -408,7 +416,7 @@ namespace BRB.Controllers
                             License lcs = new License
                             {
                                 Title = license.title,
-                                StateAbbr = license.state,
+                                StateAbbr = _dbContext.StateLists.FirstOrDefault(x => x.StateName.Contains(license.state)).StateAbbr,
                                 CreatedDate = DateTime.Now,
                                 ReceivedMonth = license.month,
                                 ReceivedYear = license.year,
@@ -417,6 +425,7 @@ namespace BRB.Controllers
                             licenses.Add(lcs);
                         }
                         _dbContext.Licenses.AddRange(licenses);
+                        _dbContext.SaveChanges();
                         List<Certificate> certificates = new List<Certificate>();
                         foreach (var c in data.lcas.certs)
                         {
@@ -432,23 +441,23 @@ namespace BRB.Controllers
                             certificates.Add(cert);
                         }
                         _dbContext.Certificates.AddRange(certificates);
-
+                        _dbContext.SaveChanges();
                         List<Affiliation> affiliations = new List<Affiliation>();
                         List<AffiliationPosition> affiliationPositions = new List<AffiliationPosition>();
                         foreach (var aff in data.lcas.orgs)
                         {
-                            Affiliation affiliation = new Affiliation
-                            {
-                                AffiliationName = aff.name,
-                                City = aff.city,
-                                StateAbbr = _dbContext.StateLists.FirstOrDefault(x => x.StateName.Contains(aff.state)).StateAbbr,
-                                CreatedDate = DateTime.Now,
-                                StartedMonth = aff.startMonth,
-                                StartedYear = aff.startYear,
-                                EndedMonth = aff.endMonth,
-                                EndedYear = aff.endYear,
-                                ProfessionalId = professional.ProfessionalId
-                            };
+                            Affiliation affiliation = new Affiliation();
+
+                            affiliation.AffiliationName = aff.title;
+                            affiliation.City = aff.city;
+                            affiliation.StateAbbr = _dbContext.StateLists.FirstOrDefault(x => x.StateName.Contains(aff.state)).StateAbbr;
+                            affiliation.CreatedDate = DateTime.Now;
+                            affiliation.LastModDate = DateTime.Now;
+                            affiliation.StartedMonth = aff.startMonth;
+                            affiliation.StartedYear = aff.startYear;
+                            affiliation.EndedMonth = aff.endMonth;
+                            affiliation.EndedYear = aff.endYear;
+                            affiliation.ProfessionalId = professional.ProfessionalId;
                             _dbContext.Affiliations.Add(affiliation);
                             _dbContext.SaveChanges();
                             //affiliations.Add(affiliation);
@@ -472,9 +481,10 @@ namespace BRB.Controllers
                                 //affiliationPositions.Add(affiliationPosition);
                                 _dbContext.AffiliationPositions.Add(affiliationPosition);
                             }
-                          
+                            _dbContext.SaveChanges();
+
                         }
-                        _dbContext.SaveChanges();
+                        
                         BusinessObjects.Models.WorkExperience workExperience = new BusinessObjects.Models.WorkExperience
                         {
                             ResumeId = ResumeData.ResumeId,
@@ -496,7 +506,7 @@ namespace BRB.Controllers
                             {
                                 CompanyName = c.name,
                                 StartMonth = c.startMonth,
-                                State = c.state != null ?_dbContext.StateLists.FirstOrDefault(x => x.StateName.Contains(c.state)).StateAbbr :"",
+                                State = c.state != null ? _dbContext.StateLists.FirstOrDefault(x => x.StateName.Contains(c.state)).StateAbbr : "",
                                 WorkExperienceId = workExperience.WorkExperienceId,
                                 StartYear = Convert.ToInt16(c.startYear),
                                 City = c.city,
@@ -570,12 +580,6 @@ namespace BRB.Controllers
 
                             }
                         }
-                        
-                      
-                       
-                      
-                       
-                      
 
                         ajaxResponse.Message = "record has been inserted";
                     }

@@ -35,7 +35,7 @@
         <div id="companiesPenal">
            @await Html.PartialAsync("_Companies",Model.Companies)
         </div>
-        <button type="button" class="btn btn-primary btn-sm custombtn w-auto mt-3" onclick="localStorage.clear();$(`input[name='CompanyId']`).val('');$('#companyForm').trigger('reset');$('#SummaryModal').modal('toggle')">
+        <button type="button" class="btn btn-primary btn-sm custombtn w-auto mt-3" id="btnAddComp" onclick="localStorage.clear();$(`input[name='CompanyId']`).val('');$('#companyForm').trigger('reset');$('#SummaryModal').modal('toggle')">
             Add a Company
         </button>
 

@@ -204,7 +204,7 @@ namespace BusinessObjects.APIModels
 
     public class OverseasStudies
     {
-        public List<OverseasStudy> overseasStudies { get; set; }
+        public List<OverseasStudies> overseasStudies { get; set; }
         public bool sectionComplete { get; set; }
         public bool doesNotApply { get; set; }
         public string id { get; set; }
