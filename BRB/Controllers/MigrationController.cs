@@ -559,7 +559,7 @@ namespace BRB.Controllers
                                     {
                                         PositionId = workPosition.PositionId,
                                         Question = faq.question.question != null ? _dbContext.ResponsibilityQuestions.FirstOrDefault(x => x.Caption.Contains(faq.question.question)).RespQuestionId.ToString() : "",
-                                        Answer = faq.answer.ToString(),
+                                        Answer = faq.answer == null ? "" : faq.answer.ToString(),
                                     };
                                     _dbContext.WorkRespQuestions.Add(workRespQuestion);
 
