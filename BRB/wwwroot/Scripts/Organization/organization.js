@@ -235,7 +235,7 @@ $('#btnSaveAndContinue').click(function () {
 
 function LoadDropdowns() {
     $('#ddlStateAbbr').html("");
-    $('#ddlStateAbbr').append('<option value="0" selected><b>Select State</b></option>')
+    $('#ddlStateAbbr').append('<option value="" selected><b>Select State</b></option>')
     $.ajax({
         url: '/Common/GetStateList',
         type: 'get',
@@ -350,7 +350,7 @@ function LoadCards() {
                     </div>
                 </span>
             </div>
-            ${ htmlPosition ? ``: `<p class="noPosition" class="danger-text"><em>You currently have no positions listed. Either add a position to the organization or delete the organization.</em></p>` }
+             ${ htmlPosition ? `` : `<p class="danger-text" class="noPosition" id="noList"><i>You currently have no positions listed for ${value.orgName}. Either add a position to the organization or delete the organization. </i>  </p>` }
              <div id="positionDiv">${htmlPosition}</div>
         <!--<button type="button" class="btn btn-primary btn-sm custombtn w-auto mt-2" onclick="$('#PositionModel').modal('toggle')">-->
         <button type="button" class="btn btn-primary btn-sm custombtn w-auto" onclick="OpenPositionModel('${value.organizationId}');">
@@ -365,6 +365,12 @@ function LoadCards() {
        
         $('#divEditSection').append(html)
     });
+    
+
+       
+
+  
+   
    // $('#positionDiv').before(`<p class="noPosition" class="danger-text"><em>You currently have no positions listed. Either add a position to the organization or delete the organization.</em></p>`)
     // #region junk
     //$('#positionDiv div.row').html("");

@@ -92,5 +92,21 @@ namespace BRB.Controllers
 
             return Json(ajaxResponse);
         }
+
+        public IActionResult getState()
+        {
+            AjaxResponse ajaxResponse = new AjaxResponse();
+            ajaxResponse.Success = false;
+            ajaxResponse.Message = "";
+            var sessionData = JsonConvert.DeserializeObject<UserSessionData>(HttpContext.Session.GetString("_userData"));
+            var state = _dbContext.UserProfiles.FirstOrDefault(x => x.UserId == sessionData.UserId).StateAbbr;
+            if (!string.IsNullOrEmpty(state))
+            {
+                ajaxResponse.Data = state; 
+                ajaxResponse.Success = true;
+                ajaxResponse.Message = "success";
+            }
+            return Json(ajaxResponse);
+        }
     }
 }

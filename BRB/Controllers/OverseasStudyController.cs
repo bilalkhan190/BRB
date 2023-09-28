@@ -150,7 +150,7 @@ namespace BRB.Controllers
            
             foreach (var item in data)
             {
-                item.CountryName = _dbContext.CountryLists.FirstOrDefault(x => x.CountryId == item.CountryId).CountryName;
+                item.CountryName = _dbContext.CountryLists.FirstOrDefault(x => x.CountryId == item.CountryId)?.CountryName;
                     
                 if (!string.IsNullOrEmpty(item.StartedDate.ToString()))
                 {

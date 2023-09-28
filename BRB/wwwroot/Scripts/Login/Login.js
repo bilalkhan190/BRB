@@ -49,19 +49,38 @@ $('#FormVoucherVerfication').on('submit', function (e) {
 
 })
 
-const togglePassword = document
-    .querySelector('#togglePassword');
-const password = document.querySelector('#pwd');
-togglePassword.addEventListener('click', () => {
-    // Toggle the type attribute using
-    // getAttribure() method
-    const type = password
-        .getAttribute('type') === 'password' ?
-        'text' : 'password';
-    password.setAttribute('type', type);
-    // Toggle the eye and bi-eye icon
-    this.classList.toggle('bi-eye');
+$(document).ready(function () {
+
+    $("#togglePassword").click(function () {
+
+        var className = $("#icon").attr('class');
+        className = className.indexOf('slash') !== -1 ? 'fa-regular fa-eye' : 'fa-regular fa-eye-slash';
+
+        $("#icon").attr('class', className);
+        var input = $("#pwd");
+
+        if (input.attr("type") == "text") {
+            input.attr("type", "password");
+        } else {
+            input.attr("type", "text");
+        }
+    });
+
 });
+
+//const togglePassword = document.querySelector('#togglePassword');
+//const password = document.querySelector('#pwd');
+//togglePassword.addEventListener('click', () => {
+//    // Toggle the type attribute using
+//    // getAttribure() method
+//    this.classList.toggle("fa-eye");
+//    const type = password
+//        .getAttribute('type') === 'password' ?
+//        'text' : 'password';
+//    password.setAttribute('type', type);
+//    // Toggle the eye and bi-eye icon
+
+//});
 
 $(document).on('keypress', function (e) {
     if (e.keyCode === 13 || e.which === 13) {

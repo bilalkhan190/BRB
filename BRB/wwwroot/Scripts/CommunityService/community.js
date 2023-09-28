@@ -117,29 +117,32 @@ function getFormData() {
         type: 'get',
         success: function (response) {
             console.log(response.data)
-            if (response.data.length > 0 && response.data != null) {
-           
-                $('#hdfVolunteerExperienceId').val(response.data[0].volunteerExperience.volunteerExperienceId);
-                $('#cbSectionNotApply').prop("checked", response.data[0].volunteerExperience.isOptOut).trigger('change');
-                $('#cbIsComplete').prop("checked", response.data[0].volunteerExperience.isComplete);
+            if (response.data != null) {
                 if (response.data.length > 0) {
-                    $.each(response.data, function (index, value) {
-                        organizationArr.push(response.data[index].volunteerOrg)
-                        if (response.data[index].volunteerPositions.length > 0) {
-                            for (var i = 0; i < response.data[index].volunteerPositions.length; i++) {
-                                positionArray.push(response.data[index].volunteerPositions[i]);
-                            }
-                        }
 
-                    });
+                    $('#hdfVolunteerExperienceId').val(response.data[0].volunteerExperience.volunteerExperienceId);
+                    $('#cbSectionNotApply').prop("checked", response.data[0].volunteerExperience.isOptOut).trigger('change');
+                    $('#cbIsComplete').prop("checked", response.data[0].volunteerExperience.isComplete);
+                    if (response.data.length > 0) {
+                        $.each(response.data, function (index, value) {
+                            organizationArr.push(response.data[index].volunteerOrg)
+                            if (response.data[index].volunteerPositions.length > 0) {
+                                for (var i = 0; i < response.data[index].volunteerPositions.length; i++) {
+                                    positionArray.push(response.data[index].volunteerPositions[i]);
+                                }
+                            }
+
+                        });
+                    }
+                    if (organizationArr.length > 0) {
+                        $('#hdfVolunteerExperienceId').val(organizationArr[0].volunteerExperienceId)
+                    } else {
+                        $('#hdfVolunteerExperienceId').val(response.data.volunteerExperienceId)
+                    }
+                    LoadCards()
                 }
-                if (organizationArr.length > 0) {
-                    $('#hdfVolunteerExperienceId').val(organizationArr[0].volunteerExperienceId)
-                } else {
-                    $('#hdfVolunteerExperienceId').val(response.data.volunteerExperienceId)
-                }
-                LoadCards()
             }
+           
 
         },
         error: function (err) {
@@ -342,7 +345,7 @@ function LoadCards() {
                             </div>
                         </span>
 
-                                ${positionHTML == "" ? `<p>You currently have no positions listed for ${value.volunteerOrg1},Either click a Add button to add position</p>` : positionHTML} 
+                                ${positionHTML == "" ? `<p class="danger-text" class="noPosition" id="noList"><i>You currently have no positions listed for ${value.volunteerOrg1}. Either add a position to the organization or delete the organization. </i>  </p>`  : positionHTML} 
                          <button type="button" class="btn btn-primary btn-sm custombtn w-auto" onclick="OpenPositionModel('${value.volunteerOrgId}');">
                                 Add a Position at ${value.volunteerOrg1}
                             </button>

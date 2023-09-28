@@ -366,85 +366,7 @@ function LoadCards() {
         $('#collegeErrMessage').hide();
     })
   
-    //$('#DivAcademicHonor').html("")
-    //acadmicHonorArray = covertArrayKeyIntoCamelCase(acadmicHonorArray)
-    //$.each(acadmicHonorArray, function (index, value) {
-    //    let html = ` <div class="card mb-3"> 
-    //                                                    <div class="card-body">
-    //                                                        <div class="row">
-    //                                                            <div class="col-md-10">
-    //                                                        <span class="card-text">
-    //                                                            <p>${value.honorName}</p>
-    //                                                            <p class="text-muted"> ${value.honorMonth} ${value.honorYear}</p>
-    //                                                        </span>
-    //                                                    </div>
-    //                                                    <div class="col-md-2">
-    //                                                    <div class="card-Btn">
-    //                                                        <button type="button" id="btnDeleteHonor" data-item='${value.academicHonorId}' acad-edit=${index} class="btn custombtn w-auto ms-2">
-    //                                                            <svg stroke="currentColor" fill="currentColor" stroke-width="0"
-    //                                                                 viewBox="0 0 24 24" height="1em" width="1em"
-    //                                                                 xmlns="http://www.w3.org/2000/svg">
-    //                                                                <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z">
-    //                                                                </path>
-    //                                                            </svg>
-    //                                                        </button><button type="button" id="btnEditHonor" data-item='${value.academicHonorId}' acad-edit=${index} class="btn custombtn customBtn-light w-auto ms-1">
-    //                                                            <svg stroke="currentColor" fill="currentColor" stroke-width="0"
-    //                                                                 viewBox="0 0 24 24" height="1em" width="1em"
-    //                                                                 xmlns="http://www.w3.org/2000/svg">
-    //                                                                <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z">
-    //                                                                </path>
-    //                                                            </svg>
-    //                                                        </button>
-    //                                                        </div>
-    //                                                    </div>
-    //                                                     </div>
-    //                                                 </div>
-    //                                             </div>`
-    //    $('#DivAcademicHonor').append(html)
-    //});
-    //if (acadmicHonorArray != null && acadmicHonorArray.length > 3) {
-    //    $("#DivAcademicHonor").addClass("BoxHeight");
-    //}
-    //$('#divAcademicScholarship').html("")
-    //acadmicScholarshipArray = covertArrayKeyIntoCamelCase(acadmicScholarshipArray)
-    //$.each(acadmicScholarshipArray, function (index, value) {
-
-    //    let html = ` <div class="card mb-3"> 
-    //                                                    <div class="card-body">
-    //                                                        <div class="row">
-    //                                                            <div class="col-md-10">
-    //                                                        <span class="card-text">
-    //                                                            <p>${value.scholarshipName}</p>
-    //                                                            <p class="text-muted"> ${value.scholarshipMonth} ${value.scholarshipYear}</p>
-    //                                                        </span>
-    //                                                    </div>
-    //                                                    <div class="col-md-2">
-    //                                                    <div class="card-Btn">
-    //                                                        <button type="button" id="btnDeleteAcademicScholarship"  data-item='${value.academicScholarshipId}' sch-edit=${index}  class="btn custombtn w-auto ms-2">
-    //                                                            <svg stroke="currentColor" fill="currentColor" stroke-width="0"
-    //                                                                 viewBox="0 0 24 24" height="1em" width="1em"
-    //                                                                 xmlns="http://www.w3.org/2000/svg">
-    //                                                                <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z">
-    //                                                                </path>
-    //                                                            </svg>
-    //                                                        </button><button type="button" id="btnEditAcademicScholarship" data-item='${value.academicScholarshipId}' sch-edit=${index} class="btn custombtn customBtn-light w-auto ms-1">
-    //                                                            <svg stroke="currentColor" fill="currentColor" stroke-width="0"
-    //                                                                 viewBox="0 0 24 24" height="1em" width="1em"
-    //                                                                 xmlns="http://www.w3.org/2000/svg">
-    //                                                                <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z">
-    //                                                                </path>
-    //                                                            </svg>
-    //                                                        </button>
-    //                                                         </div>
-    //                                                     </div>
-    //                                                 </div>
-    //                                             </div>`
-    //    $('#divAcademicScholarship').append(html)
-    //});  
-    //if (acadmicScholarshipArray != null && acadmicScholarshipArray.length > 3) {
-    //    $("#divAcademicScholarship").addClass("BoxHeight");
-    //}
-    
+  
 }
     
 
@@ -453,8 +375,6 @@ $(document).on("click", "button.btnEditHonor", function () {
     debugger;
     let index = $(this).attr("data-identity");
     let editRecord = JSON.parse($(this).attr("data-json"));
-    console.log(editRecord)
-
     $('#hdfAcademicHonorId').val(editRecord.academicHonorId);
     $('#txtAcademicHonor').val(editRecord.honorName);
     $('#txtStartedMonth').val(editRecord.honorMonth);
@@ -466,8 +386,6 @@ $(document).on("click", "button.btnEditHonor", function () {
 $(document).on("click", "button.btnEditAcademicScholarship", function () {
     let index = $(this).attr("data-identity");
     let editRecord = JSON.parse($(this).attr("data-json"));
-    console.log(editRecord)
-
     $('#hdfAcademicScholarshipId').val(editRecord.academicScholarshipId);
     $('#txtScholarshipName').val(editRecord.scholarshipName);
     $('#txtScholarshipStartedMonth').val(editRecord.scholarshipMonth);
@@ -490,8 +408,6 @@ $('#btnSaveHonor').click(function () {
             honorMonth: $('#txtStartedMonth').val(),
             honorYear: $('#txtStartedYear').val()
         };
-
-
         if (localStorage.getItem("edit-honor")) {
             let html = ` 
                                                         <div class="card-body">
@@ -792,7 +708,7 @@ function arrayLookup(array, prop, val) {
 
 $('#btnSaveAndContinue').click(function () {
    
-    debugger;
+
 
     if (collegeArray == 0) {
         
@@ -852,7 +768,7 @@ $('#btnSaveAndContinue').click(function () {
 
 function FillDropdowns() {
     $('#ddlDegree').html("");
-    $('#ddlDegree').append('<option value="0" selected><b>Select Degree</b></option>')
+    $('#ddlDegree').append('<option value="" selected><b>Select Degree</b></option>')
     $.ajax({
         url: '/Education/GetAllDegrees',
         type: 'get',
@@ -963,9 +879,12 @@ function hideModal(modalId) {
 
 function showModal(modalId) {
     $(modalId).modal('show');
+    
 }
 
-
+function triggerValidation(el) {
+    $('#CollageForm').validate();
+}
 
 //$(document).on('click', '#btnEditHonor', function () {
 //    $('#btnSaveHonor').prop('disabled', false)
@@ -1001,6 +920,8 @@ function ResetHonor() {
 
 function FormReset() {
     $('input[type="text"]').val("");
+    $('input[type="number"]').val("");
+    $('#customCheckboxInclude').prop('checked', false);
     $('#hdfCollegeId').val("");
     $('select').val("");
     $('input[type="date"]').val(new Date())
@@ -1050,7 +971,7 @@ $(document).on('click', '#btnDeleteHonor', function () {
     localStorage.setItem("acad-index", $(this).attr('acad-edit'));
     localStorage.setItem("acad-parent-index", $(this).attr('data-parent'));
     let id = $(this).attr('data-item')
-    debugger;
+    //debugger;
     $.ajax({
         url: '/Education/DeleteCollege?academicId=' + id,
         type: 'post',

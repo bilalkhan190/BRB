@@ -571,7 +571,7 @@ namespace BRB.Controllers
 
         public static string GetSummaryContent(ObjectiveSummary resume)
         {                                                                                                                               //tab 225
-            string str1 = $"<w:p><w:pPr> <w:jc w:val='left'/><w:ind w:left='1225' w:hanging='1260'/></w:pPr><w:r><w:rPr><w:b/><w:sz w:val='24'/><w:sz-cs w:val='24'/></w:rPr><w:t>{resume.ObjectiveType}:</w:t></w:r><w:r><w:rPr><w:b/></w:rPr><w:tab wx:wTab='50' wx:tlc='none' wx:cTlc='3'/></w:r><w:r><w:rPr><w:sz w:val='22'/></w:rPr><w:t>To utilize my {resume.ObjectiveDesc1}, {resume.ObjectiveDesc2} and {resume.ObjectiveDesc3} skills to secure a {resume.PositionTypeDesc} in a {resume.CurrentCompanyType} to increase revenue.</w:t></w:r></w:p>";
+            string str1 = $"<w:p><w:pPr> <w:jc w:val='left'/><w:ind w:left='1225' w:hanging='1260'/></w:pPr><w:r><w:rPr><w:b/><w:sz w:val='24'/><w:sz-cs w:val='24'/></w:rPr><w:t>{resume.ObjectiveType}:</w:t></w:r><w:r><w:rPr><w:b/></w:rPr><w:tab wx:wTab='50' wx:tlc='none' wx:cTlc='3'/></w:r><w:r><w:rPr><w:sz w:val='22'/></w:rPr><w:t>To utilize my {resume.ObjectiveDesc1}, {resume.ObjectiveDesc2} and {resume.ObjectiveDesc3} skills to secure a {resume.PositionTypeDesc} in a {resume.CurrentCompanyType} to {resume.ChangeTypeDesc}.</w:t></w:r></w:p>";
             return str1;
         }
 
@@ -736,7 +736,7 @@ namespace BRB.Controllers
                 if (num > 1 && num <= companies.Count)
                     stringBuilder.Append("<w:p><w:pPr><w:rPr><w:sz w:val='10'/><w:sz-cs w:val='10'/></w:rPr></w:pPr><w:r><w:t>  </w:t></w:r></w:p>");
                 string str1 = "<w:p><w:pPr><w:tabs><w:tab w:val='center' w:pos='5400'/><w:tab w:val='right' w:pos='10800'/></w:tabs><w:rPr><w:sz w:val='22'/><w:sz-cs w:val='22'/></w:rPr></w:pPr><w:r><w:rPr><w:b/><w:sz w:val='22'/><w:sz-cs w:val='22'/></w:rPr><w:t>[CompanyName]</w:t></w:r><w:r><w:rPr><w:sz w:val='22'/><w:sz-cs w:val='22'/></w:rPr><w:tab/><w:t>[City], [State]</w:t></w:r><w:r><w:rPr><w:sz w:val='22'/><w:sz-cs w:val='22'/></w:rPr><w:tab/><w:t>[StartedMonth] [StartedYear] - [EndedDate]</w:t></w:r></w:p>".Replace("[CompanyName]", company.CompanyName).Replace("[City]", company.City).Replace("[State]", company.StateName).Replace("[StartedMonth]", company.StartMonth).Replace("[StartedYear]", company.StartYear.ToString())
-                    .Replace("[EndedDate]",company.EndYear.ToString() == "" ? "Present" : company.EndYear.ToString());
+                    .Replace("[EndedDate]",company.EndYear.ToString() == "" || company.EndYear.ToString() == null ? "Present" : company.EndYear.ToString());
                 string str2 = !(String.IsNullOrEmpty(company.EndMonth) && company.EndYear == null) ?  str1.Replace("[EndedDate]", string.Format("{0} {1}", company.EndMonth, company.EndYear)) : str1.Replace("[EndedDate]", "Present");
                 stringBuilder.Append(str2);
                 stringBuilder.Append(GetCompanyJobContent(company.Positions));
@@ -2264,20 +2264,20 @@ namespace BRB.Controllers
         public static string GetTechnicalContent(ResumeGenerateModel resume)
         {
             string skills = "";
-            skills += resume.TechnicalSkill.Msword.Value ? "Microsoft Word, " : "";
-            skills += resume.TechnicalSkill.Msexcel.Value ? "Microsoft Excel, " : "";
-            skills += resume.TechnicalSkill.MspowerPoint.Value ? "Microsoft Powerpoint, " : "";
-            skills += resume.TechnicalSkill.Msoutlook.Value ? "Microsoft Outlook, " : "";
-            skills += resume.TechnicalSkill.MacPages.Value ? "Macintosh Pages, " : "";
-            skills += resume.TechnicalSkill.MacNumbers.Value ? "Macintosh Numbers, " : "";
-            skills += resume.TechnicalSkill.MacKeynote.Value ? "Macintosh Notes, " : "";
-            skills += resume.TechnicalSkill.AdobeAcrobat.Value ? "Adobe Acrobat, " : "";
-            skills += resume.TechnicalSkill.AdobePublisher.Value ? "Adobe Publisher, " : "";
-            skills += resume.TechnicalSkill.AdobeIllustrator.Value ? "Adobe Illustrator, " : "";
-            skills += resume.TechnicalSkill.AdobePhotoshop.Value ? "Adobe Photoshop, " : "";
-            skills += resume.TechnicalSkill.GoogleSuite.Value ? "Google Suit, " : "";
-            skills += resume.TechnicalSkill.GoogleDocs.Value ? "Google Docs" : "";
-            return "<w:p><w:pPr><w:ind w:left='1800' w:hanging='1800'/></w:pPr><w:r><w:rPr><w:b/><w:sz w:val='24'/><w:sz-cs w:val='24'/></w:rPr><w:t>Computer Skills:</w:t></w:r><w:r><w:rPr><w:b/></w:rPr><w:tab wx:wTab='225' wx:tlc='none' wx:cTlc='3'/></w:r><w:r><w:rPr><w:sz w:val='22'/></w:rPr><w:t>[Skills][Other]</w:t></w:r></w:p>".Replace("[Skills]", skills.ToString()).Replace("[Other]", resume.TechnicalSkill.OtherPrograms) + "<w:p><w:pPr><w:rPr><w:sz w:val='12'/><w:sz-cs w:val='12'/></w:rPr></w:pPr><w:r><w:t>  </w:t></w:r></w:p>";
+            skills += resume.TechnicalSkill.Msword == true  ? "Microsoft Word, " : "";
+            skills += resume.TechnicalSkill.Msexcel == true ? "Microsoft Excel, " : "";
+            skills += resume.TechnicalSkill.MspowerPoint == true ? "Microsoft Powerpoint, " : "";
+            skills += resume.TechnicalSkill.Msoutlook == true ? "Microsoft Outlook, " : "";
+            skills += resume.TechnicalSkill.MacPages == true ? "Macintosh Pages, " : "";
+            skills += resume.TechnicalSkill.MacNumbers == true ? "Macintosh Numbers, " : "";
+            skills += resume.TechnicalSkill.MacKeynote == true ? "Macintosh Notes, " : "";
+            skills += resume.TechnicalSkill.AdobeAcrobat == true ? "Adobe Acrobat, " : "";
+            skills += resume.TechnicalSkill.AdobePublisher == true ? "Adobe Publisher, " : "";
+            skills += resume.TechnicalSkill.AdobeIllustrator == true ? "Adobe Illustrator, " : "";
+            skills += resume.TechnicalSkill.AdobePhotoshop == true ? "Adobe Photoshop, " : "";
+            skills += resume.TechnicalSkill.GoogleSuite == true ? "Google Suit, " : "";
+            skills += resume.TechnicalSkill.GoogleDocs == true ? "Google Docs" : "";
+            return "<w:p><w:pPr><w:ind w:left='1800' w:hanging='1800'/></w:pPr><w:r><w:rPr><w:b/><w:sz w:val='24'/><w:sz-cs w:val='24'/></w:rPr><w:t>Computer Skills:</w:t></w:r><w:r><w:rPr><w:b/></w:rPr><w:tab wx:wTab='225' wx:tlc='none' wx:cTlc='3'/></w:r><w:r><w:rPr><w:sz w:val='22'/></w:rPr><w:t>[Skills] [Other]</w:t></w:r></w:p>".Replace("[Skills]", skills.ToString()).Replace("[Other]", resume.TechnicalSkill.OtherProgram) + "<w:p><w:pPr><w:rPr><w:sz w:val='12'/><w:sz-cs w:val='12'/></w:rPr></w:pPr><w:r><w:t>  </w:t></w:r></w:p>";
         }
 
         public static string GetLanguageContent(ResumeGenerateModel resume)

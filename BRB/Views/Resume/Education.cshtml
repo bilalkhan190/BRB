@@ -16,7 +16,7 @@
         <p class="danger-text m-0" id="collegeErrMessage">
             <i> You currently have no schools listed. Click the Add button below to add one.</i>
         </p>
-        <button type="button" class="btn btn-primary btn-sm custombtn w-auto py-2 mt-3" onclick="localStorage.clear();$('#SummaryModal').modal('show');">
+        <button type="button"  class="btn btn-primary btn-sm custombtn w-auto py-2 mt-3" onclick="localStorage.clear();$('#SummaryModal').modal('show');triggerValidation(this);">
             Add a School
         </button>
 
@@ -44,7 +44,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-body formWrapper">
-                <form id="CollageForm" class="needs-validation formSpace p-0" novalidate>
+                <form id="CollageForm" class="needs-validation formSpace p-0">
                     <input type="hidden" class="masterid" id="hdfEducationExperienceId"/>
                     <input type="hidden" name="CollegeId" id="hdfCollegeId" />
                     <input type="hidden" name="LastSectionVisitedId" id="hdfLastSectionVisitedId" value="25" />
@@ -309,7 +309,9 @@
                                     <label for="t" class="">
                                         What is your Cumulative
                                         GPA <span class="text-danger">*</span>
-                                    </label><input name="Gpa" id="Gpa" type="number" class="form-control" value="" pattern="^[0-4].[0-9]|[5].[0]$" min="0" max="5" maxlength="3" required>
+                                        @*pattern="^[0-4].[0-9]|[5].[0]$"*@
+                                    </label>
+                                    <input name="Gpa" id="Gpa" type="number" class="form-control" min="0" max="5" step="0.01" onkeyup=enforceMinMax(this) required>
                                 </div>
 
                             </div>

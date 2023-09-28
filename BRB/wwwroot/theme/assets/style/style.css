@@ -235,11 +235,11 @@ header {
     text-align: left;
 }
 
-.formWrapper form .form-group svg {
+.formWrapper form .form-group span i {
     position: absolute;
     right: 0;
     top: 50%;
-    transform: translate(-50%, 5px);
+    transform: translate(-50%, 7px);
     cursor: pointer;
 }
 
@@ -610,6 +610,15 @@ ul.navbar-nav .dropdown-menu {
     background-repeat: no-repeat;
     background-position: right 10px center;
 }
+
+.formWrapper form .form-group.borderWrap input {
+    border: 1px solid #dc3f51;
+}
+
+.formWrapper form .borderWrap select {
+    border: 1px solid #dc3f51;
+}
+
 
     .formWrapper form select:focus {
         border: 1px solid #727272;

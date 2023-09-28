@@ -8,6 +8,7 @@ using ContactInfo = BusinessObjects.Models.ContactInfo;
 using Microsoft.EntityFrameworkCore;
 using BusinessObjects.Models.MetaData;
 using System.Globalization;
+using DocumentFormat.OpenXml.Office.Word;
 
 namespace BRB.Controllers
 {
@@ -53,6 +54,7 @@ namespace BRB.Controllers
                             ChangeTypeDesc = data.objective.positiveChange,
                             ChangeTypeId = _dbContext.ChangeTypeLists.FirstOrDefault(x => x.ChangeTypeDesc.Contains(data.objective.positiveChange)).ChangeTypeId,
                             ChangeTypeOther = data.objective.otherPositiveChange,
+                            IsComplete = data.objective.sectionComplete
                             
                         };
                         if (data.objective.skills.Count > 2)
@@ -132,6 +134,7 @@ namespace BRB.Controllers
                             college.CreatedDate = DateTime.Today;
                             college.LastModDate = DateTime.Today;
                             college.HonorProgram = education.honorsCollegeProgram;
+                            college.IncludeGpa = education.includeGpa;
                             college.Gpa = education.gpa;
                             _dbContext.Colleges.Add(college);
                             _dbContext.SaveChanges();
@@ -185,16 +188,16 @@ namespace BRB.Controllers
                         {
                             OverseasStudy overseasStudy = new OverseasStudy
                             {
-                                CollegeName = data.overseasStudies.college,
+                                CollegeName = ov.college,
                                 OverseasExperienceId = overseasExperience.OverseasExperienceId,
-                                City = data.overseasStudies.city,
-                                StartedDate = new DateTime(DateTime.ParseExact(ov.startYear, "yyyy", CultureInfo.CurrentCulture).Year, DateTime.ParseExact(ov.startMonth, "MMMM", CultureInfo.CurrentCulture).Month, 1),
-                                EndedDate = new DateTime(DateTime.ParseExact(ov.endYear, "yyyy", CultureInfo.CurrentCulture).Year, DateTime.ParseExact(ov.endMonth, "MMMM", CultureInfo.CurrentCulture).Month, 1),
+                                City = ov.city,
+                                StartedDate = ov.startMonth != null && ov.startYear != null ? new DateTime(DateTime.ParseExact(ov.startYear, "yyyy", CultureInfo.CurrentCulture).Year, DateTime.ParseExact(ov.startMonth, "MMMM", CultureInfo.CurrentCulture).Month, 1):null,
+                                EndedDate = ov.endMonth != null && ov.endYear != null ?new DateTime(DateTime.ParseExact(ov.endYear, "yyyy", CultureInfo.CurrentCulture).Year, DateTime.ParseExact(ov.endMonth, "MMMM", CultureInfo.CurrentCulture).Month, 1):null,
                                 CountryName = data.overseasStudies.country,
-                                CountryId = data.overseasStudies.country != null ? _dbContext.CountryLists.FirstOrDefault(x => x.CountryName.Contains(data.overseasStudies.country)).CountryId : 0,
-                                ClassesCompleted = data.overseasStudies.mainClasses,
-                                LivingSituationId = data.overseasStudies.livingSit != null ? _dbContext.LivingSituationLists.FirstOrDefault(x => x.LivingSituationDesc.Contains(data.overseasStudies.livingSit)).LivingSituationId : 0,
-                                LivingSituationOther = data.overseasStudies.otherInfo,
+                                CountryId = ov.country != null ? _dbContext.CountryLists.FirstOrDefault(x => x.CountryName == ov.country)?.CountryId : 1,
+                                ClassesCompleted = ov.mainClasses,
+                                LivingSituationId = ov.otherLivingSit != null ? _dbContext.LivingSituationLists.FirstOrDefault(x => x.LivingSituationDesc.Contains(ov.livingSit))?.LivingSituationId : 1,
+                                OtherInfo = ov.otherInfo,
                             };
                             overseasStudies.Add(overseasStudy);
                         }
@@ -212,6 +215,7 @@ namespace BRB.Controllers
                             EndedMonth = data.militaryExperience.endMonth,
                             EndedYear = data.militaryExperience.endYear,
                             Rank = data.militaryExperience.rank,
+                            IsComplete = data.militaryExperience.sectionComplete
                         };
                         _dbContext.MilitaryExperiences.Add(militaryExperience);
                         _dbContext.SaveChanges();
@@ -334,8 +338,8 @@ namespace BRB.Controllers
                             };
                             if (org.currentlyIn)
                             {
-                                Volorganization.EndedMonth = "";
-                                Volorganization.EndedYear = "";
+                                Volorganization.EndedMonth = null;
+                                Volorganization.EndedYear = null;
                             }
                             else
                             {
@@ -344,6 +348,8 @@ namespace BRB.Controllers
                             }
                             //volunteerOrgs.Add(Volorganization);
 
+                            _dbContext.VolunteerOrgs.Add(Volorganization);
+                            _dbContext.SaveChanges();
                             foreach (var Orgpos in org.positions)
                             {
                                 VolunteerPosition volPos = new VolunteerPosition
@@ -359,8 +365,8 @@ namespace BRB.Controllers
                                 };
                                 if (Orgpos.currentlyIn)
                                 {
-                                    volPos.EndedMonth = "";
-                                    volPos.EndedYear = "";
+                                    volPos.EndedMonth = null;
+                                    volPos.EndedYear = null;
                                 }
                                 else
                                 {
@@ -370,8 +376,6 @@ namespace BRB.Controllers
                                 volunteerPositions.Add(volPos);
                             }
 
-                            _dbContext.VolunteerOrgs.Add(Volorganization);
-                            _dbContext.SaveChanges();
                         }
 
                         _dbContext.VolunteerPositions.AddRange(volunteerPositions);
@@ -505,16 +509,18 @@ namespace BRB.Controllers
                             WorkCompany workCompany = new WorkCompany
                             {
                                 CompanyName = c.name,
-                                StartMonth = c.startMonth,
                                 State = c.state != null ? _dbContext.StateLists.FirstOrDefault(x => x.StateName.Contains(c.state)).StateAbbr : "",
                                 WorkExperienceId = workExperience.WorkExperienceId,
-                                StartYear = Convert.ToInt16(c.startYear),
+                                StartMonth = c.startMonth != null ? c.startMonth : null,
+                                StartYear = c.startYear != null ? Convert.ToInt16(c.startYear):null,
+                                EndMonth = c.endMonth != null ? c.endMonth : null,
+                                EndYear = c.endYear != null? Convert.ToInt32(c.endYear) : null,
                                 City = c.city,
                             };
                             if (c.currentlyIn)
                             {
-                                workCompany.EndMonth = "";
-                                workCompany.EndYear = 0;
+                                workCompany.EndMonth = null;
+                                workCompany.EndYear = null;
                             }
                             else
                             {
@@ -532,8 +538,8 @@ namespace BRB.Controllers
                                     Title = j.title,
                                     StartMonth = j.startMonth,
                                     StartYear = Convert.ToInt16(j.startYear),
-                                    EndMonth = j.endMonth,
-                                    EndYear = Convert.ToInt16(j.endYear),
+                                    EndMonth = j.endMonth != null ? j.endMonth : null,
+                                    EndYear = j.endYear != null ? Convert.ToInt16(j.endYear) : null,
                                     Project1 = j.project1,
                                     Project2 = j.project2,
                                     ImproveProductivity = j.processImprovement,
@@ -548,17 +554,19 @@ namespace BRB.Controllers
                                     {
                                         Caption = opt,
                                         PositionId = workPosition.PositionId,
-                                        ResponsibilityOption = opt != null ? _dbContext.ResponsibilityOptions.FirstOrDefault(x => x.Caption.Contains(opt)).RespOptionId : 0,
+                                        ResponsibilityOption = opt != null ? _dbContext.ResponsibilityOptions.FirstOrDefault(x => x.Caption == opt).RespOptionId : 0,
                                     };
                                     _dbContext.ResponsibilityOptionsResponses.Add(responsibilityOptionsResponse);
+                                    _dbContext.SaveChanges();
                                 }
-                                _dbContext.SaveChanges();
+                               
                                 foreach (var faq in j.specificJobAnswers)
                                 {
                                     WorkRespQuestion workRespQuestion = new WorkRespQuestion
                                     {
                                         PositionId = workPosition.PositionId,
-                                        Question = faq.question.question != null ? _dbContext.ResponsibilityQuestions.FirstOrDefault(x => x.Caption.Contains(faq.question.question)).RespQuestionId.ToString() : "",
+                                        RespQuestionId = faq.question.question != null ? _dbContext.ResponsibilityQuestions.FirstOrDefault(x => x.Caption == faq.question.question).RespQuestionId : 0,
+                                        Question = faq.question.question != null ? faq.question.question : "",
                                         Answer = faq.answer == null ? "" : faq.answer.ToString(),
                                     };
                                     _dbContext.WorkRespQuestions.Add(workRespQuestion);
@@ -580,7 +588,52 @@ namespace BRB.Controllers
 
                             }
                         }
-
+                        TechnicalSkill technicalSkills = new TechnicalSkill();
+                        foreach (var mp in data.technicalSkills.microsoftPrograms)
+                        {
+                            switch (mp)
+                            {
+                                case "Microsoft Word": technicalSkills.Msword = true; break;
+                                case "Microsoft Power Point": technicalSkills.MspowerPoint = true; break;
+                                case "Microsoft Excel": technicalSkills.Msexcel = true; break;
+                                case "Microsoft Outlook Express": technicalSkills.Msoutlook = true; break;
+                                default:
+                                   // "Microsoft Word": technicalSkills.Msword = true; break;
+                                    break;
+                            }
+                        }
+                        foreach (var mt in data.technicalSkills.macintoshPrograms)
+                        {
+                            switch (mt)
+                            {
+                                case "Macintosh Pages": technicalSkills.MacPages = true; break;
+                                case "Macintosh Numbers": technicalSkills.MacNumbers = true; break;
+                                case "Macintosh Keynote": technicalSkills.MacKeynote = true; break;
+                                default:
+                                    //"Microsoft Word": technicalSkills.Msword = true; break;
+                                    break;
+                            }
+                        }
+                        foreach (var mt in data.technicalSkills.otherPrograms)
+                        {
+                            switch (mt)
+                            {
+                                case "Adobe Acrobat": technicalSkills.AdobeAcrobat = true; break;
+                                case "Adobe Publisher": technicalSkills.AdobePublisher = true; break;
+                                case "Adobe Illustrator": technicalSkills.AdobeIllustrator = true; break;
+                                case "Adobe Photoshop": technicalSkills.AdobePhotoshop = true; break;
+                                case "Google Suite": technicalSkills.GoogleSuite = true; break;
+                                case "Google Docs": technicalSkills.GoogleDocs = true; break;
+                                default:
+                                    //"Microsoft Word": technicalSkills.Msword = true; break;
+                                    break;
+                            }
+                        }
+                        technicalSkills.IsComplete = data.technicalSkills.sectionComplete;
+                        technicalSkills.OtherProgram = data.technicalSkills.otherProgramText;
+                        technicalSkills.ResumeId = ResumeData.ResumeId;
+                        _dbContext.TechnicalSkills.Add(technicalSkills);
+                        _dbContext.SaveChanges();
                         ajaxResponse.Message = "record has been inserted";
                     }
 

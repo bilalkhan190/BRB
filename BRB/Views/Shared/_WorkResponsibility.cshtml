@@ -15,16 +15,16 @@
                         valuable for receiving practical work experience where transferable skills can
                         be learned and developed.
                     </p>
-                    <div class="form-group">
+                    <div class="form-group borderWrap">
                         <label for="Title" class="">Job Title <span class="text-danger">*</span></label>
                             <input name="Title" id="t" type="text" class=" form-control" value="" required maxlength="150">
                     </div>
-                    <div class="form-group mb-0">
+                        <div class="form-group mb-0 borderWrap">
                         <label for="received" class="">Date Started <span class="text-danger">*</span></label>
                         <div class="row">
                             <div class="col-6">
                                 <div class="form-group">
-                                    <select name="StartMonth" id="selectform"
+                                    <select name="StartMonth" id="ddlStartMonth"
                                             class=" form-control" required>
                                         <option value="" selected=""></option>
                                         <option value="January">January</option>
@@ -44,7 +44,7 @@
                             </div>
                             <div class="col-6">
                                 <div class="form-group">
-                                    <select name="StartYear" id="selectform"
+                                    <select name="StartYear" id="ddlStartYear"
                                             class=" form-control" required>
                                         <option value="" selected=""></option>
                                         <option value="2073">2073</option>
@@ -222,11 +222,11 @@
                     <div class="row pnlEndDate">
                         <div class="col"><label for="received" class="">Date Ended  <span class="text-danger">*</span></label></div>
                     </div>
-                    <div class="row pnlEndDate">
+                        <div class="row pnlEndDate borderWrap">
                         <div class="col-6">
                             <div class="mt-2 form-group">
-                                <select name="EndMonth" id="selectform"
-                                        class=" form-control" required>
+                                <select name="EndMonth" id="ddlEndedMonth"
+                                        class="form-control" required>
                                     <option value="" selected=""></option>
                                     <option value=""></option>
                                     <option value="January">January</option>
@@ -247,7 +247,7 @@
                         </div>
                         <div class="col-6">
                             <div class="mt-2 form-group">
-                                <select name="EndYear" id="selectform"
+                                <select name="EndYear" id="ddlEndedYear"
                                         class=" form-control" required>
                                     <option value="" selected=""></option>
                                     <option value=""></option>
@@ -458,7 +458,7 @@
                         great one. Try to be SPECIFIC and MEASURABLE in describing what you actually
                         accomplished.
                     </p>
-                    <div class="form-group">
+                        <div class="form-group borderWrap">
                         <label for="resp" class="">Job Responsibility</label>
                         <p class="danger-text" id="respError"><em>You must select a responsibility.</em></p>
                         <select name="JobResponsibilityId" id="ddlJobResponsibility" class="form-control-sm form-control" required>

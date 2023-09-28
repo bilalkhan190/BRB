@@ -16,7 +16,7 @@
         AdobePublisher: $('input[name="AdobePublisher"]').is(":checked"),
         AdobeIllustrator: $('input[name="AdobeIllustrator"]').is(":checked"),
         AdobePhotoshop: $('input[name="AdobePhotoshop"]').is(":checked"),
-        otherPrograms: $('#otherSkill').val(),
+        otherProgram: $('#otherSkill').val(),
         //OtherDesc: $('input[name="OtherDesc"]').val(),
         //OtherPrograms: $('input[name="OtherPrograms"]').val(),
         IsComplete: $('input[name="IsComplete"]').is(":checked"),
@@ -48,7 +48,7 @@ function LoadData() {
         type: 'get',
         success: function (response) {
             if (response.data != null) {
-                console.log(response.data)
+                $('input[name="Msword"]').prop('checked', false)
                 $('#hdfTechnicalSkillId').val(response.data.technicalSkillId)
                 if (response.data.msword) {
                     $('input[name="Msword"]').prop('checked', true)
@@ -93,7 +93,7 @@ function LoadData() {
                 $('input[name="IsComplete"]').prop('checked', response.data.isComplete)
                 $('input[name="IsComplete"]').prop('disabled', response.data.isComplete)
                 
-                $('#otherSkill').val(response.data.otherPrograms);
+                $('#otherSkill').val(response.data.otherProgram);
             }
            
         },

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BusinessObjects.Models;
 
@@ -39,7 +40,7 @@ public partial class TechnicalSkill
 
     public string? OtherDesc { get; set; }
 
-    public string? OtherPrograms { get; set; }
+    public string? OtherProgram { get; set; }
 
     public bool IsComplete { get; set; }
 
@@ -48,4 +49,12 @@ public partial class TechnicalSkill
     public DateTime CreatedDate { get; set; }
 
     public DateTime LastModDate { get; set; }
+    [NotMapped]
+    public string[] microsoftPrograms { get; set; }
+    [NotMapped]
+    public string[] macintoshPrograms { get; set; }
+    [NotMapped]
+    public string[] otherPrograms { get; set; }
+   
+   
 }

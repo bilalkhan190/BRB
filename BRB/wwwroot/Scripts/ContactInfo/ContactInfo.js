@@ -1,6 +1,7 @@
 ﻿$(document).ready(function () {
+    let uri = '/ContactInfo/getState'
     $('#ddlStateAbbr').html("");
-    $('#ddlStateAbbr').append('<option value="" selected><b>Select State</b></option>')
+    $('#ddlStateAbbr').append('<option value=""><b>Select State</b></option>')
     $.ajax({
         url: '/Common/GetStateList',
         type: 'get',
@@ -12,9 +13,11 @@
         error: function (err) {
             alert(err)
         }
+        
+     
     });
-
-
+    
+   
     $.ajax({
         url: '/ContactInfo/GetAllContactInfo' ,
         type: 'GET',
@@ -30,7 +33,7 @@
                 $('input[name="Address1"]').val(response.data.address1);
                 $('input[name="Address2"]').val(response.data.address2);
                 $('input[name="City"]').val(response.data.city);
-                $('select[name="StateAbbr"]').val(response.data.stateAbbr);
+                //$('select[name="StateAbbr"]').val(response.data.stateAbbr);
                 $('input[name="ZipCode"]').val(response.data.zipCode);
                 $('input[name="IsComplete"]').prop('checked', response.data.isComplete);
                 $('input[name="IsComplete"]').prop('disabled', response.data.isComplete);
@@ -41,6 +44,9 @@
             alert('error')
         }
     });
+    $.get(uri, function (resp) {
+        $('#ddlStateAbbr').val(resp.data)
+    })
 });
 
 

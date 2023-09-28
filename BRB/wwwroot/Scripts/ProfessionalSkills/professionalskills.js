@@ -290,7 +290,7 @@ function LoadaffCards() {
                                     <p class="_stateName" class="text-muted">${affilation.city} ,${affilation.stateName}</p>
                                 </span>
                                 <span>
-                                ${PositionHtml ? "" : `   <p class="noPosition" class="danger-text"><em>You currently have no positions listed. Either add a position to the organization or delete the organization.</em></p>`}
+                                ${PositionHtml ? "" : `   <p class="danger-text" class="noPosition" id="noList"><i>You currently have no positions listed for ${affilation.affiliationName}. Either add a position to the organization or delete the organization. </i>  </p>`}
                               
                                ${PositionHtml}
                              <button type="button" id="btnAddPositions" class= "btn custombtn customBtn-light w-auto ms-1 " data - bs - toggle="modal" onclick = "clearStorage(this)" data-item='${guid()}'

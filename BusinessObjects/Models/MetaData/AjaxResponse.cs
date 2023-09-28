@@ -13,5 +13,6 @@ namespace BusinessObjects.Models.DTOs
         public object Data { get; set; }
         public bool Success { get; set; }
         public string Redirect { get; set; }
+       
     }
 }

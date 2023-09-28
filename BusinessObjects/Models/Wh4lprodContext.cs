@@ -1132,7 +1132,7 @@ public partial class Wh4lprodContext : DbContext
             entity.Property(e => e.OtherDesc)
                 .HasMaxLength(50)
                 .IsUnicode(false);
-            entity.Property(e => e.OtherPrograms)
+            entity.Property(e => e.OtherProgram)
                 .HasMaxLength(100)
                 .IsUnicode(false);
         });
