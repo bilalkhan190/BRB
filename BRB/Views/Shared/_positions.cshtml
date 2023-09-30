@@ -41,9 +41,7 @@
                         </div>
                         @if (item.JobAwards.Count == 0)
                         {
-                            <p class="text-muted m-0" id="awardErrMessage">
-                                <i> You currently have no awards listed for this company. Click the Add button below to add one.</i>
-                            </p>
+                            <p class="danger-text" id="awardErrMessage"><i>You currently have no awards listed for this company. Click the Add button below to add one. </i> </p>
                         }
                         <div class="col-md-12">
                         <button type="button" data-position-id="@item.PositionId" class="btnAddAward btn btn-secondary custombtn w-auto mt-2">Add Recognition/Award in @item.Title</button>

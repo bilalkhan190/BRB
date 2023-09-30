@@ -612,11 +612,11 @@ ul.navbar-nav .dropdown-menu {
 }
 
 .formWrapper form .form-group.borderWrap input {
-    border: 1px solid #dc3f51;
+    border: 1px solid #ff0000;
 }
 
 .formWrapper form .borderWrap select {
-    border: 1px solid #dc3f51;
+    border: 1px solid #ff0000;
 }
 
 
@@ -627,6 +627,10 @@ ul.navbar-nav .dropdown-menu {
 
 .formWrapper form.formSpace input {
     padding: 7px 10px;
+}
+
+#required-tag + input {
+    border: 1px solid #ff0000;
 }
 
 .formWrapper form .formbtn-Wrapper p a {

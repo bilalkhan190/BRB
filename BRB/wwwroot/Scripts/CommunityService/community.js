@@ -6,6 +6,7 @@
         $('#ddlEndedYear').hide();
         $('#labelEndedDate').hide();
       
+      
     } else {
         $('#ddlEndedMonth').show();
         $('#ddlEndedYear').show();
@@ -52,8 +53,21 @@ function LoadDropdowns() {
     });
 }
 
+function CheckOrgWithPositions() {
+    debugger;
+    let posExist = true;
+    $.each(organizationArr, function (index, value) {
+        if (value.volunteerPositions.length == 0) {
+            posExist = false;
+        }
+    });
+
+    return posExist;
+
+}
 
 $('#btnSaveOrganization').click(function () {
+   
     $('#orgForm').validate()
     if ($('#orgForm').valid()) {
 
@@ -95,6 +109,11 @@ $('#btnSaveOrganization').click(function () {
         $('#SummaryModal').modal('toggle')
         $('#btnSaveOrganization').prop('disabled', false)
         LoadCards();
+         if (CheckOrgWithPositions()) {
+            $('#btnSaveAndContinue').prop('disabled', false)
+        } else {
+            $('#btnSaveAndContinue').prop('disabled', true)
+        } 
 
     }
 
@@ -117,13 +136,18 @@ function getFormData() {
         type: 'get',
         success: function (response) {
             console.log(response.data)
+            $('#hdfVolunteerExperienceId').val(response.data.volunteerExperienceId);
+            $('#cbSectionNotApply').prop("checked", response.data.isOptOut).trigger('change');
+            $('#cbIsComplete').prop("checked", response.data.isComplete);
             if (response.data != null) {
+                
+               
                 if (response.data.length > 0) {
-
                     $('#hdfVolunteerExperienceId').val(response.data[0].volunteerExperience.volunteerExperienceId);
                     $('#cbSectionNotApply').prop("checked", response.data[0].volunteerExperience.isOptOut).trigger('change');
                     $('#cbIsComplete').prop("checked", response.data[0].volunteerExperience.isComplete);
-                    if (response.data.length > 0) {
+                   
+                 
                         $.each(response.data, function (index, value) {
                             organizationArr.push(response.data[index].volunteerOrg)
                             if (response.data[index].volunteerPositions.length > 0) {
@@ -133,13 +157,16 @@ function getFormData() {
                             }
 
                         });
-                    }
+                    
                     if (organizationArr.length > 0) {
                         $('#hdfVolunteerExperienceId').val(organizationArr[0].volunteerExperienceId)
                     } else {
                         $('#hdfVolunteerExperienceId').val(response.data.volunteerExperienceId)
                     }
                     LoadCards()
+                    if (!CheckOrgWithPositions()) {
+                        $("#btnSaveAndContinue").prop("disabled", true);
+                    }
                 }
             }
            
@@ -166,7 +193,7 @@ $(document).on('click', '#btnAddPosition', function () {
         }
 
         $('#btnAddPosition').prop('disabled', true)
-        debugger
+       
         let position = {
             volunteerPositionId: $('#hdfVolunteerPositionId').val(),
             volunteerOrgId: $('#hdfVolunteerOrgId').val(),
@@ -195,13 +222,24 @@ $(document).on('click', '#btnAddPosition', function () {
 
         $('#PositionModel').modal('toggle')
         $('#btnAddPosition').prop('disabled', false)
-       
+        
         LoadCards();
+        if (!CheckOrgWithPositions()) {
+            $('#btnSaveAndContinue').prop('disabled', true)
+        } else {
+            $('#btnSaveAndContinue').prop('disabled', false)
+        }
     }
 });
 
 $('#btnSaveAndContinue').click(function () {
-    debugger
+    if (!$('#cbSectionNotApply').is(':checked')) {
+        if (organizationArr.length == 0) {
+            swal('Error', "Please Enter Atleast One Organization And Position", 'error');
+            return;
+        }
+
+    } 
 
     //organizationArr.VolunteerPositions = []
     organizationArr.map((item, index) => {
@@ -252,9 +290,16 @@ $('#btnSaveAndContinue').click(function () {
 $('#cbSectionNotApply').change(function () {
     if (this.checked) {
         $('#isOptSection').hide();
+        $('#btnSaveAndContinue').prop('disabled', false)
+       
     }
     else {
         $('#isOptSection').show();
+        if (!CheckOrgWithPositions()) {
+            $('#btnSaveAndContinue').prop('disabled', true)
+        } else {
+            $('#btnSaveAndContinue').prop('disabled', false)
+        }
     }
 });
 function LoadCards() {
@@ -490,6 +535,11 @@ $(document).on('click', '#btnDeletePosition', function () {
             positionArray.splice(index, 1);
             localStorage.clear();
             LoadCards();
+            if (CheckOrgWithPositions()) {
+                $('#btnSaveAndContinue').prop('disabled', false)
+            } else {
+                $('#btnSaveAndContinue').prop('disabled', true)
+            } 
            
         },
         error: function (err) {

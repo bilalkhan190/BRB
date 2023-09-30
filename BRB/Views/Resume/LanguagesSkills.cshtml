@@ -108,7 +108,7 @@
                             What language have you studied or learned that
                             you can speak at least conversationally? <span class="text-danger">*</span>
                         </label>
-                        <input name="t" id="txtLanguageName" type="text"
+                        <input name="t" id="txtLanguageName" onkeypress="return onlyAlphabets(event,this);" type="text"
                                class="form-control" value="" required maxlength="100">
                     </div>
                     <div class="form-group">

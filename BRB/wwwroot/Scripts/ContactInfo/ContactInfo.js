@@ -16,6 +16,7 @@
         
      
     });
+
     
    
     $.ajax({
@@ -36,7 +37,7 @@
                 //$('select[name="StateAbbr"]').val(response.data.stateAbbr);
                 $('input[name="ZipCode"]').val(response.data.zipCode);
                 $('input[name="IsComplete"]').prop('checked', response.data.isComplete);
-                $('input[name="IsComplete"]').prop('disabled', response.data.isComplete);
+                $('input[name="IsComplete"]').prop('disabled', response.data.isComplete); 
             }
             
         },
@@ -44,9 +45,16 @@
             alert('error')
         }
     });
-    $.get(uri, function (resp) {
-        $('#ddlStateAbbr').val(resp.data)
-    })
+    function getState() {
+        $.get(uri, function (resp) {
+            $('#ddlStateAbbr').val(resp.data)
+        })
+    }
+    setTimeout(
+        getState
+    , 1000);
+
+ 
 });
 
 

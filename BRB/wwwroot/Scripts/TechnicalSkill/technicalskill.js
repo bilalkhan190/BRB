@@ -1,4 +1,8 @@
 ﻿$('#btnSaveAndContinue').click(function () {
+    if ($('._cb:checked').length == 0) {
+        swal("Error", "Please select any one skill to proceed", "error");
+        return;
+    }
     let data = {
         LastSectionVisitedId: $('#hdfLastSectionVisitedId').val(),
         TechnicalSkillId: $('#hdfTechnicalSkillId').val(),
@@ -89,10 +93,10 @@ function LoadData() {
                 if (response.data.googleSuite) {
                     $('input[name="GoogleSuite"]').prop('checked', true)
                 }
-                
+               
                 $('input[name="IsComplete"]').prop('checked', response.data.isComplete)
                 $('input[name="IsComplete"]').prop('disabled', response.data.isComplete)
-                
+
                 $('#otherSkill').val(response.data.otherProgram);
             }
            

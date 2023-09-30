@@ -48,11 +48,16 @@ namespace BRB.Controllers
                     }
                     ajaxResponse.Data = ListOfObjs;
                 }
+                else
+                {
+                    ajaxResponse.Data = masterRecord;
+                }
+
 
             }
             else
             {
-                ajaxResponse.Data = null;
+                ajaxResponse.Data = masterRecord;
             }
 
 

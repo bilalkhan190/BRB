@@ -5,7 +5,7 @@ var positionArray = []
 $(document).ready(function () {
     LoadDropdowns();
     getFormData();
-   
+  
 
 });
 
@@ -18,7 +18,7 @@ function getFormData() {
             $('#hdfOrgExperienceId').val(response.data[0].orgExperience.orgExperienceId);
             $('#cbSectionNotApply').prop("checked", response.data[0].orgExperience.isOptOut).trigger('change');
             $('#cbIsComplete').prop("checked", response.data[0].orgExperience.isComplete);
-            $('#cbIsComplete').prop("disabled", response.data[0].orgExperience.isComplete);
+            //$('#cbIsComplete').prop("disabled", response.data[0].orgExperience.isComplete);
             console.log(response.data)
             if (response.data != null) {
                 if (response.data.length > 0) {
@@ -30,11 +30,16 @@ function getFormData() {
                             for (var i = 0; i < value.orgPositions.length; i++) {
                                 positionArray.push(value.orgPositions[i]);
                             }
-                        }
+                        } 
 
                     });
                 }
+                
                 LoadCards()
+                if (!CheckOrgWithPositions()) {
+                    $("#btnSaveAndContinue").prop("disabled", true);
+                }
+               
             }
 
         },
@@ -124,7 +129,11 @@ $('#btnSaveOrganization').click(function () {
         }
         $('#orgForm').trigger('reset');
         $('#SummaryModal').modal('toggle')
-        $('#btnSaveOrganization').prop('disabled', false)
+        $('#btnSaveOrganization').prop('disabled', true)
+        //if (!CheckOrgWithPositions()) {
+           $('#btnSaveAndContinue').prop('disabled', true);
+        //}
+       
         LoadCards();
         console.log(organizationArr);
     }
@@ -178,11 +187,18 @@ $(document).on('click', '#btnAddPosition', function () {
             positionArray[parseInt(localStorage.getItem("pos-index"))] = position;
             localStorage.clear();
         }
-        $('#orgPositionForm').trigger('reset');
+      
        
         LoadCards();
         $('#PositionModel').modal('toggle')
-        $('#btnAddPosition').prop('disabled', false)
+        $('#btnAddPosition').prop('disabled', true)
+        if (!CheckOrgWithPositions()) {
+            $('#btnSaveAndContinue').prop('disabled', true)
+        } else {
+            $('#btnSaveAndContinue').prop('disabled', false)
+        }
+       
+        $('#orgPositionForm').trigger('reset');
 
     }
 
@@ -190,11 +206,11 @@ $(document).on('click', '#btnAddPosition', function () {
 
 
 $('#btnSaveAndContinue').click(function () {
-    debugger;
-    if (!(organizationArr.length > 0 && organizationArr[0].orgPositions.length > 0)) {
+    
+    //if (!(organizationArr.length > 0 && organizationArr[0].orgPositions.length > 0)) {
 
-        $("#cbIsComplete").prop("checked", false);
-    }
+    //    $("#btnSaveAndContinue").prop("disabled", true);
+    //}
     //organizationArr.map((item, index) => {
     //    let res = positionArray.filter((x) => x.organizationId == item.organizationId)
     //    if (res) {
@@ -202,6 +218,13 @@ $('#btnSaveAndContinue').click(function () {
     //    }
 
     //})
+    if (!$('#cbSectionNotApply').is(':checked')) {
+        if (organizationArr.length == 0) {
+            swal('Error',"Please Enter Atleast One Organization And Position", 'error');
+            return;
+        }
+
+    } 
 
     let obj = {
         OrgExperienceId: $('#hdfOrgExperienceId').val(),
@@ -214,9 +237,9 @@ $('#btnSaveAndContinue').click(function () {
 
     if (!obj.IsOptOut) {
         let positionsLength = organizationArr.filter(x => x.orgPositions.length > 0) ? organizationArr.filter(x => x.orgPositions.length > 0).length : 0;
-        if (organizationArr.length == 0 || positionsLength != organizationArr.length) {
-            $("#cbIsComplete").prop("checked", false);          
-        }
+        //if (organizationArr.length == 0 || positionsLength != organizationArr.length) {
+        //    $("#cbIsComplete").prop("checked", false);          
+        //}
     }
 
     $.ajax({
@@ -232,6 +255,21 @@ $('#btnSaveAndContinue').click(function () {
         }
     });
 });
+
+function CheckOrgWithPositions() {
+    debugger;
+    let posExist = true;
+    $.each(organizationArr, function (index, value) {
+        if (value.orgPositions.length == 0) {
+            posExist = false;
+        } 
+    });
+     
+    return posExist;
+   
+}
+
+
 
 function LoadDropdowns() {
     $('#ddlStateAbbr').html("");
@@ -353,7 +391,7 @@ function LoadCards() {
              ${ htmlPosition ? `` : `<p class="danger-text" class="noPosition" id="noList"><i>You currently have no positions listed for ${value.orgName}. Either add a position to the organization or delete the organization. </i>  </p>` }
              <div id="positionDiv">${htmlPosition}</div>
         <!--<button type="button" class="btn btn-primary btn-sm custombtn w-auto mt-2" onclick="$('#PositionModel').modal('toggle')">-->
-        <button type="button" class="btn btn-primary btn-sm custombtn w-auto" onclick="OpenPositionModel('${value.organizationId}');">
+        <button type="button" id="btnPosition" class="btn btn-primary btn-sm custombtn w-auto" onclick="OpenPositionModel('${value.organizationId}');">
 
             Add a Position at ${value.orgName}
         </button>
@@ -371,53 +409,6 @@ function LoadCards() {
 
   
    
-   // $('#positionDiv').before(`<p class="noPosition" class="danger-text"><em>You currently have no positions listed. Either add a position to the organization or delete the organization.</em></p>`)
-    // #region junk
-    //$('#positionDiv div.row').html("");
-    //positionArray = covertArrayKeyIntoCamelCase(positionArray)
-    //$.each(positionArray, function (index, value) {
-    //    let endMonth = "";
-    //    if (value.endedMonth && value.endedYear) { endMonth = value.endedMonth + " " + value.endedYear; } else { endMonth = "Present"; }
-    //    let htmlPosition = `<div class="card col-md-12 p-0 mb-3 cardWrapper mt-3">
-    //                <div class="card-body">
-    //                   <div class="row mx-auto">
-    //                    <div class="col-md-12 p-0">
-    //                            <span class="card-text">
-    //                            <div class="row">
-    //                            <div class="col-md-6">
-    //                            <h5 class="title-text">${value.title}</h5>
-    //                                <p class="text-muted">${value.startedMonth} ${value.endedMonth} - ${endMonth}</p>
-    //                            </div>
-    //                              <div class="col-md-6">
-    //                                <div class="card-Btn">
-    //                            <button type="button"  class="btn custombtn w-auto ms-2" id="btnDeletePosition" data-item='${value.orgPositionId}' pos-index='${index}'>
-    //                                <svg stroke="currentColor" fill="currentColor" stroke-width="0"
-    //                                     viewBox="0 0 24 24" height="1em" width="1em"
-    //                                     xmlns="http://www.w3.org/2000/svg">
-    //                                    <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z">
-    //                                    </path>
-    //                                </svg>
-    //                            </button>
-    //                            <button type="button" id="btnEditPosition" data-item='${value.orgPositionId}' pos-index='${index}' class="btn custombtn customBtn-light w-auto ms-1">
-    //                                <svg stroke="currentColor" fill="currentColor" stroke-width="0"
-    //                                     viewBox="0 0 24 24" height="1em" width="1em"
-    //                                     xmlns="http://www.w3.org/2000/svg">
-    //                                    <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z">
-    //                                    </path>
-    //                                </svg>
-
-    //                            </button>
-    //                            </div>
-    //                              </div>
-    //                            </div>
-
-    //                            </span>
-    //                        </div>
-    //                </div>
-    //            </div>`
-
-    //    //$('#positionDiv').append(html)
-    //});
 
     // #endregion
 
@@ -440,6 +431,7 @@ const OpenOrgModel = () => {
     $('#ddlEndedYear').show();
     $('#labelEndedDate').show();
     $('#orgForm').trigger('reset');
+    $('#btnSaveOrganization').prop('disabled',false)
 }
 
 const OpenPositionModel = (id) => {
@@ -525,6 +517,10 @@ $(document).on('click', '.btnEditPosition', function () {
 });
 
 
+$(document).on('click', '#btnPosition', function () {
+    $('#btnAddPosition').prop('disabled', false);
+})
+
 $(document).on('click', '#btnDeleteOrg', function () {
 
     localStorage.setItem("org-index", $(this).attr('org-index'));
@@ -536,8 +532,11 @@ $(document).on('click', '#btnDeleteOrg', function () {
         success: function (response) {
             let index = parseInt(localStorage.getItem("org-index"));
             organizationArr.splice(index, 1);
-          
             LoadCards();
+            if (CheckOrgWithPositions()) {
+                $('#btnSaveAndContinue').prop('disabled', false)
+            }
+           
         },
         error: function (err) {
 
@@ -558,6 +557,9 @@ $(document).on('click', '#btnDeletePosition', function () {
             organizationArr.filter(x => x.organizationId == Orgid)[0].orgPositions.splice(parseInt(index), 1);
            
             LoadCards();
+            if (!CheckOrgWithPositions()) {
+                $('#btnSaveAndContinue').prop('disabled', true);
+            };
         },
         error: function (err) {
 
